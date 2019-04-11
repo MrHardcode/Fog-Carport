@@ -8,7 +8,7 @@ The following web-app root element makes the use of JSTL Expression Language pos
 	 version="4.0">
     <servlet>
         <servlet-name>FrontController</servlet-name>
-        <servlet-class>Presentation.FrontController</servlet-class>
+        <servlet-class>presentation.FrontController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
