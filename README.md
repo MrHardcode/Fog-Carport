@@ -5,8 +5,11 @@
 Made by [4 students](https://github.com/HrBjarup/Fog-Carport/graphs/contributors) of Computer Science AP, CPHBusiness, Kgs. Lyngby, Denmark.  
 This is the repository for our third project of the second semester.  
 
+#### Project description  
+*"(Paraphrased) A local hardware store has an application from 1999 that handles their orders for DIY Carports. The system currently allows a salesman to handle orders based on customer wishes, but it is done manually. Develop a new application(...)"*
+
 ### Resources
-+ [Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/)  
++ [Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/) (Extended)  
 + [Project backlog (SCRUM)](https://tree.taiga.io/project/maltemagnussen-fog/)  
 + [Project wiki](https://github.com/HrBjarup/Fog-Carport/wiki) (Detailed documentation)  
 
