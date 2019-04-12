@@ -6,9 +6,9 @@ Made by [4 students](https://github.com/HrBjarup/Fog-Carport/graphs/contributors
 This is the repository for our third project of the second semester.  
 
 ### Resources
-[Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/)  
-[Project backlog (SCRUM)](https://tree.taiga.io/project/maltemagnussen-fog/)  
-[Project wiki](https://github.com/HrBjarup/Fog-Carport/wiki) (Detailed documentation)  
++ [Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/)  
++ [Project backlog (SCRUM)](https://tree.taiga.io/project/maltemagnussen-fog/)  
++ [Project wiki](https://github.com/HrBjarup/Fog-Carport/wiki) (Detailed documentation)  
 
 ### Results
 + [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
