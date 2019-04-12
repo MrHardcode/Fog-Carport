@@ -3,3 +3,12 @@
 # Fog-Carport
 
 This is a repository for the Fog-Carport Web project (second semester project)
+
+### Resources
+[Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/)  
+[Project backlog (SCRUM)](https://tree.taiga.io/project/maltemagnussen-fog/)  
+[Project wiki](https://github.com/HrBjarup/Fog-Carport/wiki) (Detailed documentation)  
+
+### Results
++ [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
++ ~~[Deployment]()~~
