@@ -2,7 +2,8 @@
 
 # Fog-Carport
 
-This is a repository for the Fog-Carport Web project (second semester project)
+Made by [4 students](https://github.com/HrBjarup/Fog-Carport/graphs/contributors) of Computer Science AP, CPHBusiness, Kgs. Lyngby, Denmark.  
+This is the repository for our third project of the second semester.  
 
 ### Resources
 [Project description](https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/)  
@@ -12,3 +13,4 @@ This is a repository for the Fog-Carport Web project (second semester project)
 ### Results
 + [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
 + ~~[Deployment]()~~
++ ~~[Project report]()~~
