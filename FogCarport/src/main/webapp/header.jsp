@@ -17,6 +17,7 @@
         <!-- Insert style maybe -->
         
         <!-- Insert CSS -->
+        <link type="text/css" rel="stylesheet" href="css/orderForm.css">
         
     </head>
     <body>
