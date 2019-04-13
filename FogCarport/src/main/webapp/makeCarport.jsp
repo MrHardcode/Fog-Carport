@@ -10,32 +10,32 @@
         <!-- Form start -->
         <form action="FrontController" method="post">
             
-            <!-- Hidden input: &command=Carport -->
-            <input type="hidden" name="command" value="Carport">
+            <!-- Hidden input: &command=simpleorder -->
+            <input type="hidden" name="command" value="simpleorder">
             
             <h1>Bestil Carport</h1>
 
             <!-- Height -->
             <div class="form-group">
                 <label for="InputHeight">Højde</label>
-                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde">
+                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height">
             </div>
 
             <!-- Length -->
             <div class="form-group">
                 <label for="InputLength">Længde</label>
-                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde">
+                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length">
             </div>
 
             <!-- Width -->
             <div class="form-group">
                 <label for="InputWidth">Bredde</label>
-                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde">
+                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width">
             </div>
 
             <!-- Checkbox -->
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="CheckSkur">
+                <input type="checkbox" class="form-check-input" id="CheckSkur" name="shed" value="y">
                 <label class="form-check-label" for="CheckSkur">Vælg Skur</label>
             </div>
 

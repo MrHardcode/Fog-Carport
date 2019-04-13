@@ -16,7 +16,7 @@ abstract class Command
     private static void initCommands()
     {
         commands = new HashMap<>();
-//        commands.put("order", new Order()); --- Template for adding a command.
+        commands.put("simpleorder", new makeCarportSimple());
     }
 
     static Command from(HttpServletRequest request)

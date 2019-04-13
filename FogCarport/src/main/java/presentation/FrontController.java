@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "FrontController", urlPatterns =
 {
@@ -21,7 +20,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request);
+//            validateSession(request);
             Command action = Command.from(request);
             String view = action.execute(request, response);
             response.sendRedirect(view + ".jsp");
@@ -32,19 +31,20 @@ public class FrontController extends HttpServlet
         } 
     }
 
-    private void validateSession(HttpServletRequest req) throws LoginException
-    {
-        HttpSession session = req.getSession();
-        if (!(req.getParameter("command").equals("Login")))
-        {
-            if (session == null || session.getAttribute("user") == null)
-            {
-                session.invalidate();
-                throw new LoginException("Logged out because of inactivity.");
-            }
-
-        }
-    }
+    // Add this in when/if we add in login functionality.
+//    private void validateSession(HttpServletRequest req) throws LoginException
+//    {
+//        HttpSession session = req.getSession();
+//        if (!(req.getParameter("command").equals("Login")))
+//        {
+//            if (session == null || session.getAttribute("user") == null)
+//            {
+//                session.invalidate();
+//                throw new LoginException("Logged out because of inactivity.");
+//            }
+//
+//        }
+//    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
