@@ -9,6 +9,10 @@
     <div class="d-flex justify-content-center" >
         <!-- Form start -->
         <form action="FrontController" method="post">
+            
+            <!-- Hidden input: &command=Carport -->
+            <input type="hidden" name="command" value="Carport">
+            
             <h1>Bestil Carport</h1>
 
             <!-- Height -->
@@ -37,6 +41,7 @@
 
             <!-- Button to submit -->
             <button type="submit" class="btn btn-primary">Bestil Skur</button>
+            
         </form>
         <!-- Form end -->
     </div>
