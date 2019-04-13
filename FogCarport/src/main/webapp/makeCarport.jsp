@@ -6,30 +6,38 @@
 
 <jsp:include page='/header.jsp'></jsp:include>
 
-    <!-- Form start -->
-    <form action=" TO BE DETERMINED " method="post" class="orderForm">
-        
-        <!-- Length -->
-        <div class="orderForm">
-        <label for="lengthinput">Length</label>
-        <input type="number" id="lengthinput" name="length" placeholder="Length">
-        </div>
-        
-        <!-- Width -->
-        <div class="orderForm">
-        <label for="widthinput">Width</label>
-        <input type="number" id="widthinput" name="width" placeholder="Width">
-        </div>
-        
-        <!-- Height -->
-        <div class="orderForm">
-        <label for="heightinput">Height</label>
-        <input type="number" id="heightinput" name="height" placeholder="Height">
-        </div>
-        
-        <!-- button -->
-        <button type="submit" name="submit" class="orderForm">Order</button>
+    <div class="d-flex justify-content-center" >
+        <!-- Form start -->
+        <form action="FrontController" method="post">
+
+            <!-- Height -->
+            <div class="form-group">
+                <label for="InputHeight">Højde</label>
+                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde">
+            </div>
+
+            <!-- Length -->
+            <div class="form-group">
+                <label for="InputLength">Længde</label>
+                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde">
+            </div>
+
+            <!-- Width -->
+            <div class="form-group">
+                <label for="InputWidth">Bredde</label>
+                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde">
+            </div>
+
+            <!-- Checkbox -->
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="CheckSkur">
+                <label class="form-check-label" for="CheckSkur">Vælg Skur</label>
+            </div>
+
+            <!-- Button to submit -->
+            <button type="submit" class="btn btn-primary">Bestil Skur</button>
+        </form>
         <!-- Form end -->
-    </form>
+    </div>
 
 <jsp:include page='/footer.jsp'></jsp:include>

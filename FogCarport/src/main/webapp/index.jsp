@@ -25,10 +25,12 @@
 %>
 
 <jsp:include page='/header.jsp'></jsp:include>
+
     <!-- Show errormessage to the User --> 
 <c:if test="${not empty message}">
     <H2>Message: ${message} </h2>
     </c:if>
+
 <h1>Hello my man!</h1>
 <c:forEach var="item" items="${items}">
     <p>
