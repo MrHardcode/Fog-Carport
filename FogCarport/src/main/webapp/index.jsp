@@ -24,17 +24,15 @@
     request.getSession().setAttribute("items", list);
 %>
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello my man!</h1>
-        <c:forEach var="item" items="${items}">
-            <p>
-                ${item}
-            </p>
-        </c:forEach>
-    </body>
-</html>
+<jsp:include page='/header.jsp'></jsp:include>
+    <!-- Show errormessage to the User --> 
+<c:if test="${not empty message}">
+    <H2>Message: ${message} </h2>
+    </c:if>
+<h1>Hello my man!</h1>
+<c:forEach var="item" items="${items}">
+    <p>
+        ${item}
+    </p>
+</c:forEach>
+<jsp:include page='/footer.jsp'></jsp:include>

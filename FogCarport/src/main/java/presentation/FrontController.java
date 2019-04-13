@@ -1,52 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation;
 
+import data.exceptions.LoginException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Asger
- */
+@WebServlet(name = "FrontController", urlPatterns =
+{
+    "/FrontController"
+})
 public class FrontController extends HttpServlet
 {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
+        try
         {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FrontController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FrontController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            validateSession(request);
+            Command action = Command.from(request);
+            String view = action.execute(request, response);
+            response.sendRedirect(view + ".jsp");
+        } catch (LoginException ex)
+        {
+            request.setAttribute("message", ex.getMessage());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } 
     }
 
+    private void validateSession(HttpServletRequest req) throws LoginException
+    {
+        HttpSession session = req.getSession();
+        if (!(req.getParameter("command").equals("Login")))
+        {
+            if (session == null || session.getAttribute("user") == null)
+            {
+                session.invalidate();
+                throw new LoginException("Logged out because of inactivity.");
+            }
+
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
