@@ -17,20 +17,20 @@
 
             <!-- Height -->
             <div class="form-group">
-                <label for="InputHeight">Højde</label>
-                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height">
+                <label for="InputHeight">Højde i cm</label>
+                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="1">
             </div>
 
             <!-- Length -->
             <div class="form-group">
-                <label for="InputLength">Længde</label>
-                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length">
+                <label for="InputLength">Længde i cm</label>
+                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length" min="1">
             </div>
 
             <!-- Width -->
             <div class="form-group">
-                <label for="InputWidth">Bredde</label>
-                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width">
+                <label for="InputWidth">Bredde i cm</label>
+                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width" min="1">
             </div>
 
             <!-- Checkbox -->
@@ -40,7 +40,7 @@
             </div>
 
             <!-- Button to submit -->
-            <button type="submit" class="btn btn-primary">Bestil Skur</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Bestil Skur</button>
             
         </form>
         <!-- Form end -->
