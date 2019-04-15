@@ -10,5 +10,5 @@ public interface DataFacade
     
     public OrderModel getOrder();
     
-    public PartslistModel getBOM(OrderModel order);
+    public PartslistModel getBOM();
 }

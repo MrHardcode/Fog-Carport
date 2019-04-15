@@ -27,12 +27,8 @@ public class DataFacadeImpl implements DataFacade{
         return new OrderModel();
     }
 
-    /*
-        Needs to return a proper partslist depending on what the order contains.
-        Currently called by LogicFacadeImpl.java called by makeCarportSimple.java called by makeCarport.jsp
-    */
     @Override
-    public PartslistModel getBOM(OrderModel order)
+    public PartslistModel getBOM()
     {
         return new PartslistModel();
     }

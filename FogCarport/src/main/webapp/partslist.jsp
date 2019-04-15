@@ -4,15 +4,14 @@
     Author     : Malte
 --%>
 
-<!--The following tag is the JSTL Expression Language tag-->
+<!--The following tag is the JSTL tag-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page='/header.jsp'></jsp:include>
 
     <!-- Styklisten - Bill of Materials (b.o.m.) -->
 
-    <!-- BOM table using Expression Language and Bootstrap --> 
-
+    <!-- BOM table using JSTL, Expression Language and Bootstrap --> 
     <table border="3" width="2" cellspacing="2" cellpadding="2" class="table table-bordered table-hover">
 
         <thead class="thead-dark">

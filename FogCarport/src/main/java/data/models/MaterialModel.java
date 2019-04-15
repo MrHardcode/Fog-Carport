@@ -15,9 +15,11 @@ public class MaterialModel
     private int ID;
     private String name;
     private String description;
+    private String helptext; //Not in constructor. Maybe add it to it.
     private int length;
     private int width;
     private int height;
+    private int quantity; //Not in constructor. Maybe add it to it.
 
     // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
     // i datamodellerne. 
@@ -63,6 +65,46 @@ public class MaterialModel
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    /**
+     * Get the value of helptext
+     *
+     * @return the value of helptext
+     */
+    public String getHelptext()
+    {
+        return helptext;
+    }
+
+    /**
+     * Set the value of helptext
+     *
+     * @param helptext new value of helptext
+     */
+    public void setHelptext(String helptext)
+    {
+        this.helptext = helptext;
+    }
+
+    /**
+     * Get the value of quantity
+     *
+     * @return the value of quantity
+     */
+    public int getQuantity()
+    {
+        return quantity;
+    }
+
+    /**
+     * Set the value of quantity
+     *
+     * @param quantity new value of quantity
+     */
+    public void setQuantity(int quantity)
+    {
+        this.quantity = quantity;
     }
 
     /**

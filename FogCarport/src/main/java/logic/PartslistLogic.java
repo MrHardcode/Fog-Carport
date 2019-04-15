@@ -42,7 +42,7 @@ class PartslistLogic
     }
 
     /*
-    Tilføj skur til PartsList.
+    Tilføj skur-materialerne til PartsList.
     Task #26.
     */
     private void addShed(OrderModel order, PartslistModel bom)
@@ -51,7 +51,7 @@ class PartslistLogic
     }
 
     /*
-    Tilføj tag til Partslist.
+    Tilføj tag-materialerne til Partslist.
     Task #28.
     */
     private void addRoof(OrderModel order, PartslistModel bom)
@@ -60,7 +60,7 @@ class PartslistLogic
     }
 
     /*
-    Tilføj underkonstruktion til Partslist.
+    Tilføj underkonstruktions-materialerne til Partslist.
     Task #31.
     */
     private void addBase(OrderModel order, PartslistModel bom)
