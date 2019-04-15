@@ -17,22 +17,26 @@
 
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Beskrivelse</th>
-                <th scope="col">Længde</th>
                 <th scope="col">Antal</th>
-                <th scope="col">Enhed</th>
-                <th scope="col">Beskrivelse</th>
+                <th scope="col">Vare Nummer</th>
+                <th scope="col">Vare Beskrivelse</th>
+                <th scope="col">Hjælpe Tekst</th>
+                <th scope="col">Længde</th>
+                <th scope="col">Bredde</th>
+                <th scope="col">Højde</th> 
             </tr>
         </thead>
 
         <tbody>
         <c:forEach var="material" items="${bom.billOfMaterials}">
             <tr>
-                <td>${material.name}</td>
-                <td>${material.length}</td>
                 <td>${material.quantity}</td>
-                <td>${material.unit}</td>
+                <td>${material.ID}</td>
                 <td>${material.description}</td>
+                <td>${material.helptext}</td>
+                <td>${material.length}</td>
+                <td>${material.width}</td>
+                <td>${material.height}</td>
             </tr>
         </c:forEach>
     </tbody>
