@@ -26,6 +26,11 @@ public class LogicFacadeImpl implements LogicFacade
         return instance;
     }
     
+    /*
+    Returns a simple partslist.
+    Made in first sprint.
+    Only takes into account height, width, length, and whether or not you want a shed.
+    */
     @Override
     public PartslistModel getSimpleBOM(String height, String width, String length, String shed)
     {

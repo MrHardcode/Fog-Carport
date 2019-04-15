@@ -9,6 +9,10 @@ import logic.LogicFacadeImpl;
 public class makeCarportSimple extends presentation.Command
 {
 
+    /*
+    Command used by .jsp to get the simple version of the PartsList. 
+    Made in first sprint.
+    */
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws LoginException
     {
