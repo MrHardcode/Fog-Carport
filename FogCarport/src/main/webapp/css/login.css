@@ -77,7 +77,7 @@
 }
 
 .form-label-group input:not(:placeholder-shown) {
-  padding-top: calc((0.75rem + 0.75rem) * (2 / 3));
+  padding-top: calc(1.5rem * 0.6667);
   padding-bottom: calc(0.75rem / 3);
 }
 
