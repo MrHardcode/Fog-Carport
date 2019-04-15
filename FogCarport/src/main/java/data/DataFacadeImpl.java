@@ -27,8 +27,12 @@ public class DataFacadeImpl implements DataFacade{
         return new OrderModel();
     }
 
+    /*
+        Needs to return a proper partslist depending on what the order contains.
+    */
     @Override
-    public PartslistModel getBOM() {
+    public PartslistModel getBOM(OrderModel order)
+    {
         return new PartslistModel();
     }
     

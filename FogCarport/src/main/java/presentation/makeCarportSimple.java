@@ -1,8 +1,10 @@
 package presentation;
 
 import data.exceptions.LoginException;
+import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.LogicFacadeImpl;
 
 public class makeCarportSimple extends presentation.Command
 {
@@ -15,18 +17,10 @@ public class makeCarportSimple extends presentation.Command
         String length = request.getParameter("length");
         String shed   = request.getParameter("shed");
         
-        // Below is just an idea of how it could work.
-//        BOM bom = new BOM();
-//        LogicFacade c = LogicFacadeImpl().getInstance();
-//        bom = c.getSimpleBOM(height, width, length);
-//        if ("y".equals(shed)){
-//            c.addShed(bom);
-//        }
-//        
-//        request.getSession().setAttribute("bom", bom);
-//        
-//        return "bom";
-        return "bom";
+        PartslistModel bom = LogicFacadeImpl.getInstance().getSimpleBOM(height, width, length, shed);
+        request.getSession().setAttribute("bom", bom);
+        
+        return "partslist";
     }
     
 }
