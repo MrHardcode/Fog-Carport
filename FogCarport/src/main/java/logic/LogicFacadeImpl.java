@@ -1,14 +1,8 @@
-/*
- *  Malte Hviid-Magnussen
- */
 package logic;
 
 import data.models.PartslistModel;
 
-/**
- *
- * @author Malte
- */
+
 public class LogicFacadeImpl implements LogicFacade
 {
 
@@ -25,7 +19,6 @@ public class LogicFacadeImpl implements LogicFacade
     
     /*
     Returns a simple partslist.
-    Made in first sprint.
     Only takes into account height, width, length, and whether or not you want a shed.
     */
     @Override
