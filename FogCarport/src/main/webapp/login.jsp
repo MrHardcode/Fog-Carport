@@ -17,10 +17,10 @@
                                 <!-- HEADLINE -->
                                 <h3 class="login-heading mb-4">Fog Carporte - Sælger Login</h3>
                                 <form action="FrontController">
-                                    
+
                                     <!-- COMMAND -->
                                     <input type="hidden" name="command" value="TBD">
-                                    
+
                                     <!-- EMAIL -->
                                     <div class="form-label-group">
                                         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
@@ -33,7 +33,11 @@
                                         <label for="inputPassword">Password</label>
                                     </div>
 
-                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Log ind</button>
+                                    <!-- BUTTON -->
+                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">
+                                        Log ind
+                                    </button>
+
                                     <!--<div class="text-center">
                                       <a class="small" href="#">Glemt password?</a></div>-->
                                 </form>
@@ -44,6 +48,5 @@
             </div>
         </div>
     </div>
-
 
 <jsp:include page='/footer.jsp'></jsp:include>
