@@ -9,6 +9,18 @@ package data.databaseAccessObjects.mappers;
  *
  * @author Camilla
  */
+
 public class UserMapper {
+    private static UserMapper userMapper;
     
+    private UserMapper() {
+
+    }
+
+    public static UserMapper getInstance() {
+        if (userMapper == null) {
+            userMapper = new UserMapper();
+        }
+        return userMapper;
+    }
 }

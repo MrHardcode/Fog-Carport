@@ -9,6 +9,18 @@ package data.databaseAccessObjects.mappers;
  *
  * @author Camilla
  */
+
 public class OrderMapper {
+    private static OrderMapper orderMapper;
     
+    private OrderMapper() {
+
+    }
+
+    public static OrderMapper getInstance() {
+        if (orderMapper == null) {
+            orderMapper = new OrderMapper();
+        }
+        return orderMapper;
+    }
 }

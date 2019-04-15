@@ -10,5 +10,18 @@ package data.databaseAccessObjects.mappers;
  * @author Camilla
  */
 public class MaterialMapper {
+    private static MaterialMapper materialMapper;
     
+    private MaterialMapper() {
+
+    }
+
+    public static MaterialMapper getInstance() {
+        if (materialMapper == null) {
+            materialMapper = new MaterialMapper();
+        }
+        return materialMapper;
+    }
 }
+
+
