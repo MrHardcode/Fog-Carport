@@ -7,6 +7,7 @@ package data;
 
 import data.models.MaterialModel;
 import data.models.OrderModel;
+import data.models.PartslistModel;
 
 /**
  *
@@ -24,6 +25,11 @@ public class DataFacadeImpl implements DataFacade{
     public OrderModel getOrder() {
         // skal udviddes 
         return new OrderModel();
+    }
+
+    @Override
+    public PartslistModel getBOM() {
+        return new PartslistModel();
     }
     
 }

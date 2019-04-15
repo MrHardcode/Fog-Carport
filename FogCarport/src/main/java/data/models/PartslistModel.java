@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class PartslistModel {
     ArrayList<MaterialModel> billOfMaterials;
 
-    public PartslistModel(ArrayList<MaterialModel> billOfMaterials) {
-        this.billOfMaterials = billOfMaterials;
+    public PartslistModel() {
+        billOfMaterials = new ArrayList();
     }
 
     public ArrayList<MaterialModel> getBillOfMaterials() {
