@@ -22,4 +22,8 @@ public class PartslistModel {
         return billOfMaterials;
     }
     
+    public void addMaterial(MaterialModel material){
+        this.billOfMaterials.add(material);
+    }
+    
 }

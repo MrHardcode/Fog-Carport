@@ -3,9 +3,6 @@
  */
 package logic;
 
-import data.DataFacade;
-import data.DataFacadeImpl;
-import data.models.OrderModel;
 import data.models.PartslistModel;
 
 /**
@@ -34,16 +31,7 @@ public class LogicFacadeImpl implements LogicFacade
     @Override
     public PartslistModel getSimpleBOM(String height, String width, String length, String shed)
     {
-        boolean s = false;
-        if ("y".equals(shed)){
-            s = true;
-        }
-        int h = Integer.parseInt(height);
-        int l = Integer.parseInt(length);
-        int w = Integer.parseInt(width);
-        OrderModel order = new OrderModel(h, l, w, s);
-        DataFacade db = new DataFacadeImpl();
-        return db.getBOM(order);
+        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
     }
     
 }
