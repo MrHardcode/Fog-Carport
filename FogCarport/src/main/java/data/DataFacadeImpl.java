@@ -13,16 +13,19 @@ import data.models.PartslistModel;
  *
  * @author Camilla
  */
-public class DataFacadeImpl implements DataFacade{
+public class DataFacadeImpl implements DataFacade
+{
 
     @Override
-    public MaterialModel getMaterial() {
+    public MaterialModel getMaterial()
+    {
         // skal udviddes 
         return new MaterialModel();
     }
 
     @Override
-    public OrderModel getOrder() {
+    public OrderModel getOrder()
+    {
         // skal udviddes 
         return new OrderModel();
     }
@@ -32,5 +35,5 @@ public class DataFacadeImpl implements DataFacade{
     {
         return new PartslistModel();
     }
-    
+
 }

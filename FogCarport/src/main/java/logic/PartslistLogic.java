@@ -37,7 +37,6 @@ class PartslistLogic
      */
     PartslistModel getSimpleBOM(String height, String length, String width, String shed)
     {
-        PartslistModel bom = new PartslistModel();
         boolean s = false;
         int h = Integer.parseInt(height);
         int l = Integer.parseInt(length);
@@ -46,7 +45,8 @@ class PartslistLogic
         {
             s = true;
         }
-
+        
+        PartslistModel bom = new PartslistModel();
         OrderModel order = new OrderModel(h, l, w, s);
         if (s == true)
         {
@@ -63,7 +63,7 @@ class PartslistLogic
     MaterialModel(int ID, String name, String description, int height, int length, int width)
     int quantity;
     private String helptext;
-     */
+    */
     private void addShed(OrderModel order, PartslistModel bom)
     {
         /* Beslag og skruer */
@@ -109,9 +109,6 @@ class PartslistLogic
         løsholt240.setQuantity(4);
         løsholt240.setUnit("Stk.");
         bom.addMaterial(løsholt240);
-        
-        
-
     }
 
     /*

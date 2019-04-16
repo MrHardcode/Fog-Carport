@@ -20,9 +20,9 @@
                 <th scope="col">Vare Nummer</th>
                 <th scope="col">Vare Beskrivelse</th>
                 <th scope="col">Hjælpe Tekst</th>
-                <th scope="col">Længde</th>
-                <th scope="col">Bredde</th>
-                <th scope="col">Højde</th> 
+                <th scope="col">Længde i mm.</th>
+                <th scope="col">Bredde i mm.</th>
+                <th scope="col">Højde i mm.</th> 
             </tr>
         </thead>
 

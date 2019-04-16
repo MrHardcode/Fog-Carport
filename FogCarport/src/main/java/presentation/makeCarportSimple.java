@@ -17,11 +17,11 @@ public class makeCarportSimple extends presentation.Command
     String execute(HttpServletRequest request, HttpServletResponse response) throws LoginException
     {
         String height = request.getParameter("height");
-        String width  = request.getParameter("width");
         String length = request.getParameter("length");
+        String width  = request.getParameter("width");
         String shed   = request.getParameter("shed");
         
-        PartslistModel bom = LogicFacadeImpl.getInstance().getSimpleBOM(height, width, length, shed);
+        PartslistModel bom = LogicFacadeImpl.getInstance().getSimpleBOM(height, length, width,  shed);
         request.getSession().setAttribute("bom", bom);
         
         return "partslist";
