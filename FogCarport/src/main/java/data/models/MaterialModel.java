@@ -20,6 +20,8 @@ public class MaterialModel
     private int width;
     private int height;
     private int quantity; //Not in constructor. Maybe add it to it.
+    private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
+
 
     // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
     // i datamodellerne. 
@@ -76,6 +78,27 @@ public class MaterialModel
     {
         return helptext;
     }
+    
+    /**
+     * Get the value of unit
+     *
+     * @return the value of unit
+     */
+    public String getUnit()
+    {
+        return unit;
+    }
+
+    /**
+     * Set the value of unit
+     *
+     * @param unit new value of unit
+     */
+    public void setUnit(String unit)
+    {
+        this.unit = unit;
+    }
+
 
     /**
      * Set the value of helptext

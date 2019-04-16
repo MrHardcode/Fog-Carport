@@ -1,5 +1,6 @@
 package logic;
 
+import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 
@@ -21,6 +22,10 @@ class PartslistLogic
         return instance;
     }
 
+    /*
+    https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
+    Malte har brugt denne som udgangspunkt for skurlisten.
+    */
     PartslistModel getSimpleBOM(String height, String length, String width, String shed)
     {
         PartslistModel bom = new PartslistModel();
@@ -44,10 +49,18 @@ class PartslistLogic
     /*
     Tilføj skur-materialerne til PartsList.
     Task #26.
+    MaterialModel(int ID, String name, String description, int height, int length, int width)
+    int quantity;
+    private String helptext;
     */
     private void addShed(OrderModel order, PartslistModel bom)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MaterialModel stalddørsgreb = new MaterialModel(1212, "Stalddørsgreb", " 50x75 til dør i skur", 1, 0, 0);
+        stalddørsgreb.setQuantity(1);
+        stalddørsgreb.setUnit("sæt");
+        bom.addMaterial(stalddørsgreb);
+        
+        
     }
 
     /*
@@ -56,7 +69,7 @@ class PartslistLogic
     */
     private void addRoof(OrderModel order, PartslistModel bom)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     /*
@@ -65,6 +78,6 @@ class PartslistLogic
     */
     private void addBase(OrderModel order, PartslistModel bom)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }

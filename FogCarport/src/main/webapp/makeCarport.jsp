@@ -18,7 +18,7 @@
             <!-- Height -->
             <div class="form-group">
                 <label for="InputHeight">Højde i cm</label>
-                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="1">
+                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="1" max="400">
             </div>
 
             <!-- Length -->
