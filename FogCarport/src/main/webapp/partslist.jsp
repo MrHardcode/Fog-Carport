@@ -48,13 +48,13 @@
         <tbody>
         <c:forEach var="material" items="${bom.billOfMaterials}">
             <tr>
-                <td>${material.quantity}</td>
-                <td>${material.ID}</td>
-                <td>${material.description}</td>
-                <td>${material.helptext}</td>
-                <td>${material.length}</td>
-                <td>${material.width}</td>
-                <td>${material.height}</td>
+                <td contenteditable='true'>${material.quantity}</td>
+                <td contenteditable='true'>${material.ID}</td>
+                <td contenteditable='true'>${material.description}</td>
+                <td contenteditable='true'>${material.helptext}</td>
+                <td contenteditable='true'>${material.length}</td>
+                <td contenteditable='true'>${material.width}</td>
+                <td contenteditable='true'>${material.height}</td>
             </tr>
         </c:forEach>
     </tbody>
