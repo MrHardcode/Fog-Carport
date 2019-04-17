@@ -20,6 +20,7 @@ public class MaterialModel
     private int width;
     private int height;
     private int quantity; //Not in constructor. Maybe add it to it.
+    private int price;    
     private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
 
     // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
@@ -68,6 +69,27 @@ public class MaterialModel
         this.description = description;
     }
 
+    /**
+     * Get the value of price
+     *
+     * @return the value of price
+     */
+    public int getPrice()
+    {
+        return price;
+    }
+
+    /**
+     * Set the value of price
+     *
+     * @param price new value of price
+     */
+    public void setPrice(int price)
+    {
+        this.price = price;
+    }
+
+    
     /**
      * Get the value of helptext
      *
