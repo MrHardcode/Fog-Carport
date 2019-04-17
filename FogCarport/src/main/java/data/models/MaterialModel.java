@@ -29,6 +29,17 @@ public class MaterialModel
     {
     }
 
+    /**
+     * 
+     * Constructor for a material to be used in construction of the carport.
+     * 
+     * @param ID Item ID
+     * @param name Item name
+     * @param description Item description
+     * @param height Item height
+     * @param length Item length
+     * @param width Item width
+     */
     public MaterialModel(int ID, String name, String description, int height, int length, int width)
     {
         this.ID = ID;
