@@ -21,7 +21,7 @@ public class makeCarportSimple extends presentation.Command
         String width  = request.getParameter("width");
         String shed   = request.getParameter("shed");
         
-        PartslistModel bom = LogicFacadeImpl.getInstance().getSimpleBOM(height, length, width,  shed);
+        PartslistModel bom = LogicFacadeImpl.getInstance().getSimpleBOM(height, length, width, shed);
         request.getSession().setAttribute("bom", bom);
         
         return "partslist";

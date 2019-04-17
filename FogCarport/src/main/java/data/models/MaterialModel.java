@@ -20,7 +20,7 @@ public class MaterialModel
     private int width;
     private int height;
     private int quantity; //Not in constructor. Maybe add it to it.
-    private int price;    
+    private int price; // Not in constructor. 
     private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
 
     // på nuværende tidspunkt kan jeg ikke se pointen med interfaces

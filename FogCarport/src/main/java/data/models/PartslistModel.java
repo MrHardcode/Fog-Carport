@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @author Camilla
  */
 public class PartslistModel {
-    ArrayList<MaterialModel> billOfMaterials;
+    private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice;
 
     public PartslistModel() {
-        billOfMaterials = new ArrayList();
+        billOfMaterials = new ArrayList<>();
     }
 
     public ArrayList<MaterialModel> getBillOfMaterials() {
@@ -24,7 +24,7 @@ public class PartslistModel {
     }
     
     public void addMaterial(MaterialModel material){
-        this.billOfMaterials.add(material);
+        this.getBillOfMaterials().add(material);
         this.totalprice += material.getPrice();
     }
 
@@ -37,7 +37,5 @@ public class PartslistModel {
     {
         this.totalprice = totalprice;
     }
-    
-    
-    
+
 }
