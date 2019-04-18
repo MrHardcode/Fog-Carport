@@ -5,8 +5,9 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 
 /**
- * Udregner Styklisten. Skal måske deles op i flere klasser? 1 til skur, 1 til
- * tag, 1 til underkonstruktionen.
+ * Calculates the partslist. Maybe some of this should be in seperate classes?
+ * Like, divide shed, roof and bottom into 3 classes once we reach the 
+ * advanced algorithm. 
  */
 class PartslistLogic
 {
@@ -24,7 +25,7 @@ class PartslistLogic
 
     /*
     https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
-    Malte har brugt denne som udgangspunkt for skurlisten.
+    Malte used this link as a springboard for the simple bill of materials.
     
     Beklædning - 16x100 - Trykimprægneret
     Vindskede - 25x150 - Trykimprægneret
@@ -58,7 +59,7 @@ class PartslistLogic
     }
 
     /*
-    Tilføj skur-materialerne til PartsList.
+    Add shed materials to bill of materials.
     Task #26.
     MaterialModel(int ID, String name, String description, int height, int length, int width)
     int quantity;
@@ -66,7 +67,7 @@ class PartslistLogic
      */
     private void addShed(OrderModel order, PartslistModel bom)
     {
-        /* Beslag og skruer */
+        /* Screws and misc. */
         MaterialModel stalddørsgreb = new MaterialModel(75, "Stalddørsgreb", "Stalddørsgreb 50x75", 1, 0, 0);
         stalddørsgreb.setHelptext("til dør i skur");
         stalddørsgreb.setQuantity(1);
@@ -95,7 +96,7 @@ class PartslistLogic
         skruer50.setPrice(10);
         bom.addMaterial(skruer50);
 
-        /* Træ */
+        /* Wood */
         MaterialModel bræt210 = new MaterialModel(210, "bræt", "19x100 mm. trykimp. Bræt", 100, 2100, 19);
         bræt210.setHelptext("Beklædning af skur 1 på 2");
         bræt210.setQuantity(148);
@@ -119,7 +120,7 @@ class PartslistLogic
     }
 
     /*
-    Tilføj tag-materialerne til Partslist.
+    Add roof materials to the partslist.
     Task #28.
      */
     private void addRoof(OrderModel order, PartslistModel bom)
@@ -242,7 +243,7 @@ class PartslistLogic
                 = ((postAmountLength * 2) + postAmountWidth); //there are two lengths, one width. (Because the last width needs to be open for car access)
 
         //we have to remove TWO posts, as there are two corner posts.
-        totalPostAmount = totalPostAmount - 2; // = 6 posts
+        totalPostAmount -= 2; // = 6 posts
 
         return totalPostAmount;
     }

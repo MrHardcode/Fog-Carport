@@ -30,9 +30,8 @@ public class MaterialModel
     }
 
     /**
-     * 
      * Constructor for a material to be used in construction of the carport.
-     * 
+     *
      * @param ID Item ID
      * @param name Item name
      * @param description Item description
@@ -100,7 +99,6 @@ public class MaterialModel
         this.price = price;
     }
 
-    
     /**
      * Get the value of helptext
      *
