@@ -39,32 +39,38 @@ class PartslistLogic
      */
     PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
     {
-        boolean s = false;
+        boolean hasShed = false;
         int _height = 0;
         int _length = 0;
         int _width = 0;
+        // If any of the inputs are null or empty, then throw an error.
         if (height == null || length == null || width == null || height.isEmpty() || length.isEmpty() || width.isEmpty())
         {
             // Should maybe be something like a ShopException. 
             throw new LoginException("Input fields can't be empty.");
-        } else
+        } else // If inputs are okay, we change string to int.
         {
             _height = Integer.parseInt(height);
             _length = Integer.parseInt(length);
             _width = Integer.parseInt(width);
         }
-        if ("y".equals(shed))
+        if ("y".equals(shed)) // The name of checkbox is shed, the value is "y" if selected. 
+            // If the checkbox wasn't selected, then shed == null.
+            // So we can check for null by doing it like this.
+            // If you do shed.equals("y") then it throws a nullpointerexception.
         {
-            s = true;
+            hasShed = true;
         }
+        // If input is out of bounds, then throw an error. 
         if (_height < 200 || _height > 300 || _length < 240 || _length > 720 || _width < 240 || _width > 720)
         {
+            // Should maybe be something like a ShopException.
             throw new LoginException("Fields have to be within bounds.");
-        } else
+        } else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
-            OrderModel order = new OrderModel(_height, _length, _width, s);
-            if (s == true)
+            OrderModel order = new OrderModel(_height, _length, _width, hasShed);
+            if (hasShed == true) // If they want a shed then add it to the partslist.
             {
                 addShed(order, bom);
             }
