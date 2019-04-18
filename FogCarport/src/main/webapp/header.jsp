@@ -23,7 +23,8 @@
               crossorigin="anonymous">
         <link href="css/login.css" 
               rel="stylesheet">
-        
+        <link href="css/validering.css" 
+              rel="stylesheet" type="text/css"/>
         
     </head>
     <body>

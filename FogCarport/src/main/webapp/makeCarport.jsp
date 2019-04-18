@@ -1,7 +1,6 @@
 <%-- 
     Document   : makeCarport
     Created on : 12-04-2019, 16:39:35
-    Author     : Malte
 --%>
 
 <jsp:include page='/header.jsp'></jsp:include>
@@ -27,7 +26,7 @@
 
     <div class="d-flex justify-content-center" >
         <!-- Form start -->
-        <form action="FrontController" method="post">
+        <form action="FrontController" method="post" id="carport-form">
             
             <!-- Hidden input: &command=simpleorder -->
             <input type="hidden" name="command" value="simpleorder">
@@ -37,29 +36,32 @@
             <!-- Height -->
             <div class="form-group">
                 <label for="InputHeight">Højde i cm</label>
-                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="200" max="300">
+                <input type="number"class="form-control" id="input-height" placeholder="Indtast højde" name="height">
+                <p hidden class="text-error-color text-error-size">Højde skal være mellem 200cm og 300cm</p>
             </div>
 
             <!-- Length -->
             <div class="form-group">
                 <label for="InputLength">Længde i cm</label>
-                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length" min="240" max="720">
+                <input type="number" class="form-control" id="input-length" placeholder="Indtast længde" name="length">
+                <p hidden class="text-error-color text-error-size">Længde skal være mellem 240cm og 720cm</p>
             </div>
 
             <!-- Width -->
             <div class="form-group">
                 <label for="InputWidth">Bredde i cm</label>
-                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width" min="240" max="720">
+                <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width">
+                <p hidden class="text-error-color text-error-size">Bredde skal være mellem 240cm og 720cm</p>
             </div>
 
             <!-- Checkbox -->
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="CheckSkur" name="shed" value="y">
+                <input type="checkbox" class="form-check-input" id="check-skur" name="shed" value="y">
                 <label class="form-check-label" for="CheckSkur">Vælg Skur</label>
             </div>
 
             <!-- Button to submit -->
-            <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Bestil Skur</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn" style="margin-top: 5px;">Bestil Carport</button>
             
         </form>
         <!-- Form end -->
