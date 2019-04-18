@@ -64,6 +64,59 @@ function ValidateSubmit(e){
         form.submit();
     }
     else{
-     swal ("Fejl", "Felter er udfyldt forkert eller mangelfuldt", "error" )
+     swal ("Fejl", "Felter er udfyldt forkert eller mangelfuldt", "error" );
     }        
 }
+
+// *****************************************************************************
+// FOR RÚNI - OUTCOMMENT ALL OF THE ABOVE (minus the variables defined by let at 
+// the top) AND INCOMMENT ALL OF THE BELOW. CHANGE THE BUTTON IN makeCarport.jsp
+// to this:
+// <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
+// 
+// THIS MAKES THE BUTTON UNCLICKABLE UNTIL ALL INPUTS ARE CORRET - AND NO MORE SWEET ALERTS :´(
+// *****************************************************************************
+
+//inputheight.addEventListener("keyup",function(){ValidateCarportInput(minHeight, maxHeight, inputheight); ValidateSubmitButton(); });
+//inputlength.addEventListener("keyup",function(){ValidateCarportInput(minSide, maxSide, inputlength); ValidateSubmitButton();});
+//inputwidth.addEventListener("keyup",function(){ValidateCarportInput(minSide, maxSide, inputwidth); ValidateSubmitButton();});
+//
+//function ValidateCarportInput(min, max, input){
+//    
+//    let errorMsg = input.nextElementSibling;
+//    let valid = false;
+//    
+//    if(input.value < min){
+//        errorMsg.removeAttribute("hidden");
+//        input.classList.add("is-invalid");
+//        valid = false;
+//    }
+//    else if(input.value > max){
+//        errorMsg.removeAttribute("hidden");
+//        input.classList.add("is-invalid");
+//        valid = false;
+//    }
+//    else{
+//        errorMsg.setAttribute("hidden", "hidden");
+//        input.classList.remove("is-invalid");
+//        valid = true;
+//    }
+//    return valid;
+//}
+//
+//
+//function ValidateSubmitButton(){
+//    let heightValid = ValidateCarportInput(minHeight, maxHeight, inputheight);
+//    let lengthValid = ValidateCarportInput(minSide, maxSide, inputlength);
+//    let widthValid = ValidateCarportInput(minSide, maxSide, inputwidth);
+//    
+//    if(heightValid && lengthValid && widthValid){
+//        submit.classList.remove("disabled");
+//        submit.removeAttribute("disabled");
+//    }
+//    else{
+//        submit.classList.add("disabled");
+//        submit.setAttribute("disabled", "disabled");
+//    }
+//}
+
