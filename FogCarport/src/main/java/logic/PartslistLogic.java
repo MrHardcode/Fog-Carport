@@ -48,16 +48,17 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException. 
             throw new LoginException("Input fields can't be empty.");
-        } else // If inputs are okay, we change string to int.
+        }
+        else // If inputs are okay, we change string to int.
         {
             _height = Integer.parseInt(height);
             _length = Integer.parseInt(length);
             _width = Integer.parseInt(width);
         }
         if ("y".equals(shed)) // The name of checkbox is shed, the value is "y" if selected. 
-            // If the checkbox wasn't selected, then shed == null.
-            // So we can check for null by doing it like this.
-            // If you do shed.equals("y") then it throws a nullpointerexception.
+        // If the checkbox wasn't selected, then shed == null.
+        // So we can check for null by doing it like this.
+        // If you do shed.equals("y") then it throws a nullpointerexception.
         {
             hasShed = true;
         }
@@ -66,7 +67,8 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException.
             throw new LoginException("Fields have to be within bounds.");
-        } else // Else create the partslist
+        }
+        else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
             OrderModel order = new OrderModel(_height, _length, _width, hasShed);
@@ -170,25 +172,21 @@ class PartslistLogic
     {
         /* Screws, miscellaneous*/
         MaterialModel strapScrews = new MaterialModel(999, "std. skrue", "4,5 x 60mm.", 0, 0, 0);
-        strapScrews.setHelptext("Til montering af rem og stolpe");
+        strapScrews.setHelptext("Skruer til montering af rem og stolpe");
         strapScrews.setUnit("stk.");
-        strapScrews.setPrice(1 * strapScrews.getQuantity());
 
         MaterialModel strapBolts = new MaterialModel(998, "bræddebolt", "10 x 120mm.", 0, 0, 0);
-        strapBolts.setHelptext("Til montering af rem og stolpe");
+        strapBolts.setHelptext("Bolte til montering af rem og stolpe");
         strapBolts.setUnit("stk.");
-        strapBolts.setPrice(5 * strapScrews.getQuantity());
 
         /*Wood*/
         MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 3000, 97, 97);
         post.setHelptext("nedgraves 90cm i jord");
         post.setUnit("stk.");
-        post.setPrice(175 * post.getQuantity());
 
         MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 1000, 195, 45);
         strap.setHelptext("remme, monteres på stolpe");
         strap.setUnit("stk.");
-        strap.setPrice(95 * strap.getQuantity());
 
         /*Walkthrough
         
@@ -225,7 +223,8 @@ class PartslistLogic
                 boltAmount = (totalStrapAmount*2) = (24*2) = 48.
             
          */
- /* Calculate quantities */
+        
+        /* Calculate quantities */
         int postAmount = calculatePosts(order);
         int strapAmount = calculateStraps(order, postAmount);
         int screwAmount = calculateScrews(strapAmount);
@@ -236,6 +235,12 @@ class PartslistLogic
         strap.setQuantity(strapAmount);
         strapScrews.setQuantity(screwAmount);
         strapBolts.setQuantity(boltAmount);
+
+        /* Update prices based on quantities */
+        strapScrews.setPrice(1 * strapScrews.getQuantity());
+        strapBolts.setPrice(5 * strapBolts.getQuantity());
+        post.setPrice(175 * post.getQuantity());
+        strap.setPrice(95 * strap.getQuantity());
 
         /* Add materials to master list */
         bom.addMaterial(strapScrews);
