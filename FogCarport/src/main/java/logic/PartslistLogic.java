@@ -62,7 +62,6 @@ class PartslistLogic
             throw new LoginException("Fields have to be within bounds.");
         } else
         {
-
             PartslistModel bom = new PartslistModel();
             OrderModel order = new OrderModel(_height, _length, _width, s);
             if (s == true)
