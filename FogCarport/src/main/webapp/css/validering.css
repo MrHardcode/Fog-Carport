@@ -35,6 +35,7 @@ and open the template in the editor.
     border-bottom-color: rgb(242, 116, 116);
     border-left-color: rgb(242, 116, 116);
     background-image: none;
+    padding-right: .75rem;
 }
 
 .form-control.is-invalid:focus{
@@ -44,4 +45,5 @@ and open the template in the editor.
     border-bottom-color: rgb(242, 116, 116);
     border-left-color: rgb(242, 116, 116);
     background-image: none;
+    padding-right: .75rem;
 }
