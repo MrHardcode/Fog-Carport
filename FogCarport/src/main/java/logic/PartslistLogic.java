@@ -82,7 +82,7 @@ class PartslistLogic
 
     /*
     Add shed materials to bill of materials.
-    Task #26.
+    Task #26. Malte.
     MaterialModel(int ID, String name, String description, int height, int length, int width)
     int quantity;
     private String helptext;
@@ -143,7 +143,7 @@ class PartslistLogic
 
     /*
     Add roof materials to the partslist.
-    Task #28.
+    Task #28. Asger.
      */
     private void addRoof(OrderModel order, PartslistModel bom)
     {
@@ -152,7 +152,7 @@ class PartslistLogic
 
     /*
     Add base parts to full list of parts
-    Task #31.
+    Task #31. Runi.
      */
     private void addBase(OrderModel order, PartslistModel bom)
     {
