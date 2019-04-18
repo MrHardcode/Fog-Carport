@@ -1,13 +1,14 @@
 package logic;
 
+import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 
 /**
  * Calculates the partslist. Maybe some of this should be in seperate classes?
- * Like, divide shed, roof and bottom into 3 classes once we reach the 
- * advanced algorithm. 
+ * Like, divide shed, roof and bottom into 3 classes once we reach the advanced
+ * algorithm.
  */
 class PartslistLogic
 {
@@ -36,26 +37,42 @@ class PartslistLogic
     Rem - 45 x 195 - Spærtræ
     Stolpe - 100x100 - Trykimprægneret
      */
-    PartslistModel getSimpleBOM(String height, String length, String width, String shed)
+    PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
     {
         boolean s = false;
-        int _height = Integer.parseInt(height);
-        int _length = Integer.parseInt(length);
-        int _width = Integer.parseInt(width);
+        int _height = 0;
+        int _length = 0;
+        int _width = 0;
+        if (height == null || length == null || width == null || height.isEmpty() || length.isEmpty() || width.isEmpty())
+        {
+            // Should maybe be something like a ShopException. 
+            throw new LoginException("Input fields can't be empty.");
+        } else
+        {
+            _height = Integer.parseInt(height);
+            _length = Integer.parseInt(length);
+            _width = Integer.parseInt(width);
+        }
         if ("y".equals(shed))
         {
             s = true;
         }
-
-        PartslistModel bom = new PartslistModel();
-        OrderModel order = new OrderModel(_height, _length, _width, s);
-        if (s == true)
+        if (_height < 200 || _height > 300 || _length < 240 || _length > 720 || _width < 240 || _width > 720)
         {
-            addShed(order, bom);
+            throw new LoginException("Fields have to be within bounds.");
+        } else
+        {
+
+            PartslistModel bom = new PartslistModel();
+            OrderModel order = new OrderModel(_height, _length, _width, s);
+            if (s == true)
+            {
+                addShed(order, bom);
+            }
+            addRoof(order, bom);
+            addBase(order, bom);
+            return bom;
         }
-        addRoof(order, bom);
-        addBase(order, bom);
-        return bom;
     }
 
     /*
@@ -150,23 +167,23 @@ class PartslistLogic
         MaterialModel strapScrews = new MaterialModel(999, "std. skrue", "4,5 x 60mm.", 0, 0, 0);
         strapScrews.setHelptext("Til montering af rem og stolpe");
         strapScrews.setUnit("stk.");
-        strapScrews.setPrice(1*strapScrews.getQuantity());
+        strapScrews.setPrice(1 * strapScrews.getQuantity());
 
         MaterialModel strapBolts = new MaterialModel(998, "bræddebolt", "10 x 120mm.", 0, 0, 0);
         strapBolts.setHelptext("Til montering af rem og stolpe");
         strapBolts.setUnit("stk.");
-        strapBolts.setPrice(5*strapScrews.getQuantity());
+        strapBolts.setPrice(5 * strapScrews.getQuantity());
 
         /*Wood*/
         MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 3000, 97, 97);
         post.setHelptext("nedgraves 90cm i jord");
         post.setUnit("stk.");
-        post.setPrice(175*post.getQuantity());
+        post.setPrice(175 * post.getQuantity());
 
         MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 1000, 195, 45);
         strap.setHelptext("remme, monteres på stolpe");
         strap.setUnit("stk.");
-        strap.setPrice(95*strap.getQuantity());
+        strap.setPrice(95 * strap.getQuantity());
 
         /*Walkthrough
         
@@ -203,8 +220,7 @@ class PartslistLogic
                 boltAmount = (totalStrapAmount*2) = (24*2) = 48.
             
          */
-        
-        /* Calculate quantities */
+ /* Calculate quantities */
         int postAmount = calculatePosts(order);
         int strapAmount = calculateStraps(order, postAmount);
         int screwAmount = calculateScrews(strapAmount);
@@ -258,11 +274,11 @@ class PartslistLogic
     private int calculateStraps(OrderModel order, int postAmount)
     {
         int height = order.getHeight();
-        
-        double strapAmount = (height/500); //amount of straps for one post-to-post length (100cm). One strap needed per 50cm of height.
+
+        double strapAmount = (height / 500); //amount of straps for one post-to-post length (100cm). One strap needed per 50cm of height.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
-        int totalStrapAmount = (strapAmountRoundedUp*postAmount); //Total amount of straps calculated for all posts, for the whole carport.
-        
+        int totalStrapAmount = (strapAmountRoundedUp * postAmount); //Total amount of straps calculated for all posts, for the whole carport.
+
         return totalStrapAmount;
     }
 
@@ -275,7 +291,7 @@ class PartslistLogic
      */
     private int calculateScrews(int strapAmount)
     {
-        int screwAmount = (strapAmount*4); //always 4 screws per strap.
+        int screwAmount = (strapAmount * 4); //always 4 screws per strap.
         return screwAmount;
     }
 
@@ -288,7 +304,7 @@ class PartslistLogic
      */
     private int calculateBolts(int strapAmount)
     {
-        int boltAmount = (strapAmount*2); //always 2 screws per strap
+        int boltAmount = (strapAmount * 2); //always 2 screws per strap
         return boltAmount;
     }
 

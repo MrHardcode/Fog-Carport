@@ -37,19 +37,19 @@
             <!-- Height -->
             <div class="form-group">
                 <label for="InputHeight">Højde i cm</label>
-                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="200" max="400">
+                <input type="number" required class="form-control" id="InputHeight" placeholder="Indtast højde" name="height" min="200" max="300">
             </div>
 
             <!-- Length -->
             <div class="form-group">
                 <label for="InputLength">Længde i cm</label>
-                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length" min="240">
+                <input type="number" required class="form-control" id="InputLength" placeholder="Indtast længde" name="length" min="240" max="720">
             </div>
 
             <!-- Width -->
             <div class="form-group">
                 <label for="InputWidth">Bredde i cm</label>
-                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width" min="240">
+                <input type="number" required class="form-control" id="InputWidth" placeholder="Indtast bredde" name="width" min="240" max="720">
             </div>
 
             <!-- Checkbox -->
