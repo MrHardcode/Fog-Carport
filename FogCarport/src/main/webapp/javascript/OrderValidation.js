@@ -60,7 +60,6 @@ function ValidateSubmit(e){
     let lengthValid = ValidateCarportInput(minSide, maxSide, inputlength);
     let widthValid = ValidateCarportInput(minSide, maxSide, inputwidth);
     
-    
     if(heightValid && lengthValid && widthValid){
         form.submit();
     }
