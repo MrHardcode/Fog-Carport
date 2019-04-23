@@ -222,6 +222,14 @@ public class MaterialModel
     }
 
     @Override
+    public String toString()
+    {
+        return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
+    }
+    
+    
+
+    @Override
     public int hashCode()
     {
         int hash = 7;

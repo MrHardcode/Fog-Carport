@@ -42,14 +42,12 @@ public class PartslistLogicTest
         strap.setUnit("stk.");
     }
 
-
     /**
      * Test of getSimpleBOM method, of class PartslistLogic.
      */
     @Test
     public void testGetSimpleBOM() throws Exception
     {
-        System.out.println("getSimpleBOM");
         String height = "210"; //cm
         String length = "320"; //cm
         String width = "240"; //cm -- i usually test at 2200mm but had to check at 2400mm due to restrictions. (partslistlogic line 65)
@@ -62,49 +60,50 @@ public class PartslistLogicTest
         1 strap per side of the carport (4x) AND per 6000cm (600cm/6m) 
         4 screws per strap
         2 bolts per strap
-        */
-        int postAmountLength = Integer.parseInt(length)*100 / 1000; //per meter
-        int postAmountWidth = Integer.parseInt(width)*100 / 1000; //per meter
+         */
+        int postAmountLength = Integer.parseInt(length) / 1000; //per meter
+        int postAmountWidth = Integer.parseInt(width) / 1000; //per meter
         int totalPostAmount = (postAmountLength * 2) + postAmountWidth; //3 of 4 sides needs to be covered
         totalPostAmount = totalPostAmount - 2; //due to corner posts we remove two posts from total count
-        for (int i = 0; i < totalPostAmount; i++)
-        {
-            expResult.addMaterial(post);
-        }
-        double strapAmount = (Integer.parseInt(length)*100 / 6000); //amount of straps. One strap needed per 600cm/6m of length.
+
+        double strapAmount = (Integer.parseInt(length) / 6000); //amount of straps. One strap needed per 600cm/6m of length.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
         int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
-        for (int i = 0; i < totalStrapAmount; i++)
-        {
-            expResult.addMaterial(strap);
-            expResult.addMaterial(strapScrews); //4 per strap
-            expResult.addMaterial(strapScrews);
-            expResult.addMaterial(strapScrews);
-            expResult.addMaterial(strapScrews);
-            expResult.addMaterial(strapBolts); //2 per strap
-            expResult.addMaterial(strapBolts);
-        }
-        
 
+        /* Update quantity */
+        post.setQuantity(totalStrapAmount);
+        strap.setQuantity(totalStrapAmount);
+        strapScrews.setQuantity(totalStrapAmount * 4); //4 per strap
+        strapBolts.setQuantity(totalStrapAmount * 2); //2 per strap
+
+        /* Update prices based on quantities */
+        strapScrews.setPrice(1 * strapScrews.getQuantity()); //1 screw is 1 DKK
+        strapBolts.setPrice(5 * strapBolts.getQuantity()); //1 bolt is 5 DKK
+        post.setPrice(175 * post.getQuantity()); //1 post is 175 DKK
+        strap.setPrice(95 * strap.getQuantity()); // 1 strap is 95 DKK
+        
+        expResult.addMaterial(post);
+        expResult.addMaterial(strap);
+        expResult.addMaterial(strapScrews);
+        expResult.addMaterial(strapBolts);
+        
+         
 
         PartslistModel result = instance.getSimpleBOM(height, length, width, shed);
-        assertEquals(expResult.getBillOfMaterials().get(1).getName(), result.getBillOfMaterials().get(1).getName());
         //assertEquals(expResult, result);
-    }
+        //assertTrue(expResult.getBillOfMaterials().containsAll(result.getBillOfMaterials()));
+        System.out.println("result: " + result.getBillOfMaterials().get(0).toString());
+        System.out.println("expected: " +expResult.getBillOfMaterials().get(0).toString());
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), expResult.getBillOfMaterials().get(0).getQuantity());
+        
+        assertEquals(result.getBillOfMaterials().get(0), strapScrews);
+        assertEquals(result.getBillOfMaterials().get(1), strapBolts);
+        assertEquals(result.getBillOfMaterials().get(2).getDescription(), post.getDescription());
+        assertEquals(result.getBillOfMaterials().get(3).getHelptext(), strap.getHelptext());
+        assertTrue(expResult.getBillOfMaterials().containsAll(result.getBillOfMaterials()));
+        //assertEquals(expResult.getBillOfMaterials().get(0).getName(), result.getBillOfMaterials().get(0).getName());
 
-    /**
-     * Test of addBase method, of class PartslistLogic.
-     */
-    @Test
-    public void testAddBase()
-    {
-        System.out.println("addBase");
-        OrderModel order = null;
-        PartslistModel bom = null;
-        PartslistLogic instance = new PartslistLogic();
-        instance.addBase(order, bom);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
 }

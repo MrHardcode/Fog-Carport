@@ -234,11 +234,11 @@ class PartslistLogic
         strap.setPrice(95 * strap.getQuantity()); // 1 strap is 95 DKK
 
         /* Add materials to master list */
-        bom.addMaterial(strapScrews);
-        bom.addMaterial(strapBolts);
         bom.addMaterial(post);
         bom.addMaterial(strap);
-
+        bom.addMaterial(strapScrews);
+        bom.addMaterial(strapBolts);
+        
     }
 
     /**
@@ -249,8 +249,8 @@ class PartslistLogic
      */
     private int calculatePosts(OrderModel order)
     {
-        int length = order.getLength();
-        int width = order.getWidth();
+        int length = order.getLength() * 10;
+        int width = order.getWidth() * 10;
 
         int postAmountLength = (length / 1000); //amount of posts for one length. one post per meter. 
 
@@ -273,7 +273,7 @@ class PartslistLogic
      */
     private int calculateStraps(OrderModel order)
     {
-        int length = order.getLength();
+        int length = order.getLength() * 10;
 
         double strapAmount = (length / 6000); //amount of straps. One strap needed per 600cm/6m of length.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
