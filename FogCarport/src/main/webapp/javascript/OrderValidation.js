@@ -64,6 +64,7 @@ function ValidateSubmit(e){
         form.submit();
     }
     else{
+    //swal is "SweetAlert". This is just a pretty version of the standard js alert (source: sweetalert.com)
      swal ("Fejl", "Felter er udfyldt forkert eller mangelfuldt", "error" );
     }        
 }
