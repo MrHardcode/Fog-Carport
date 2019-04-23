@@ -237,10 +237,10 @@ class PartslistLogic
         strapBolts.setQuantity(boltAmount);
 
         /* Update prices based on quantities */
-        strapScrews.setPrice(1 * strapScrews.getQuantity());
-        strapBolts.setPrice(5 * strapBolts.getQuantity());
-        post.setPrice(175 * post.getQuantity());
-        strap.setPrice(95 * strap.getQuantity());
+        strapScrews.setPrice(1 * strapScrews.getQuantity()); //1 screw is 1 DKK
+        strapBolts.setPrice(5 * strapBolts.getQuantity()); //1 bolt is 5 DKK
+        post.setPrice(175 * post.getQuantity()); //1 post is 175 DKK
+        strap.setPrice(95 * strap.getQuantity()); // 1 strap is 95 DKK
 
         /* Add materials to master list */
         bom.addMaterial(strapScrews);
