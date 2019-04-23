@@ -48,8 +48,7 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException. 
             throw new LoginException("Input fields can't be empty.");
-        }
-        else // If inputs are okay, we change string to int.
+        } else // If inputs are okay, we change string to int.
         {
             _height = Integer.parseInt(height);
             _length = Integer.parseInt(length);
@@ -67,8 +66,7 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException.
             throw new LoginException("Fields have to be within bounds.");
-        }
-        else // Else create the partslist
+        } else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
             OrderModel order = new OrderModel(_height, _length, _width, hasShed);
@@ -149,26 +147,18 @@ class PartslistLogic
      */
     private void addRoof(OrderModel order, PartslistModel bom)
     {
-        
-    }
 
-    /*
-    Add base parts to full list of parts
-    Task #31. Runi.
-     */
-    private void addBase(OrderModel order, PartslistModel bom)
-    {
-        calculateBaseParts(order, bom); //Calculate items always required for project.
     }
 
     /**
-     *
      * Calculates the parts needed to build the base-part of the carport
      *
-     * @param order
-     * @return
+     * Add base parts to full list of parts Task #31: Runi.
+     *
+     * @param order order dimensions for the carport base
+     * @param bom the bill of materials of which to add the parts
      */
-    private void calculateBaseParts(OrderModel order, PartslistModel bom)
+    private void addBase(OrderModel order, PartslistModel bom)
     {
         /* Screws, miscellaneous*/
         MaterialModel strapScrews = new MaterialModel(999, "std. skrue", "4,5 x 60mm.", 0, 0, 0);
@@ -184,7 +174,7 @@ class PartslistLogic
         post.setHelptext("nedgraves 90cm i jord");
         post.setUnit("stk.");
 
-        MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 1000, 195, 45);
+        MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 6000, 195, 45);
         strap.setHelptext("remme, monteres på stolpe");
         strap.setUnit("stk.");
 
@@ -192,13 +182,12 @@ class PartslistLogic
         
         Same rules apply to all orders: 
         
-        1 post per 1000mm (100cm) (length)
-        1 strap per 500mm (50cm) (height) AND per post (1000mm)
+        1 post per 1000mm (100cm/1m) (length)
+        1 strap per side of the carport (4x) AND per 6000cm (600cm/6m) 
         4 screws per strap
         2 bolts per strap
         
             EXAMPLE for generating a full carport base:
-            We only generate for 3 sides, as the 4th side should be open for the car to access.
         
             Carport height of 2100mm.
             Carport length of 3200mm.
@@ -215,15 +204,17 @@ class PartslistLogic
                         Due to the above rule we have to remove TWO posts, as there are two corner posts.
                     totalPostAmount = totalPostAmount - 2; // = 6 posts
         
-                strapAmount = (height/500) = (2100/500) = 4,2 = 4 straps. //amount of straps for one post-to-post length (100cm)
-                However, we want the extra .2 for the customer to adjust and apply themselves. We do this using Math.ceil(). Please refer to the calculateStraps() method.
-                    totalStrapAmount = (strapAmount*totalPostAmount) = (4*6) = 24 straps. //
+                strapAmount = (length/6000) = 0,53 = 0 straps.
+                        However, we will always use Math.ceil to round up for the customer to adjust and apply themselves. Please refer to the calculateStraps() method.
+                        If we have 0.5 we round up to 1.
+                        If we have 1.5 we round up to 2. (to take into account the extra length needed)
+                    totalStrapAmount = (strapAmount*4) = (1*4) = 4 straps. //carport has 4 sides.
         
-                screwAmount = (totalStrapAmount*4) = (24*4) = 96.
-                boltAmount = (totalStrapAmount*2) = (24*2) = 48.
+        
+                screwAmount = (totalStrapAmount*4) = (4*4) = 16.
+                boltAmount = (totalStrapAmount*2) = (4*2) = 8.
             
          */
-        
         /* Calculate quantities */
         int postAmount = calculatePosts(order);
         int strapAmount = calculateStraps(order, postAmount);
@@ -278,16 +269,15 @@ class PartslistLogic
      * Calculates amount of straps required for the carport.
      *
      * @param order order in question
-     * @param postAmount amount of posts
      * @return amount of straps
      */
-    private int calculateStraps(OrderModel order, int postAmount)
+    private int calculateStraps(OrderModel order)
     {
         int height = order.getHeight();
 
         double strapAmount = (height / 500); //amount of straps for one post-to-post length (100cm). One strap needed per 50cm of height.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
-        int totalStrapAmount = (strapAmountRoundedUp * postAmount); //Total amount of straps calculated for all posts, for the whole carport.
+        int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
 
         return totalStrapAmount;
     }
