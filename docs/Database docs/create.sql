@@ -87,7 +87,6 @@ CREATE TABLE `carportdb`.`orders` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 	
-
 CREATE TABLE `carportdb`.`order_details` (
   `id_order_detail` INT NOT NULL AUTO_INCREMENT,
   `id_material` INT NOT NULL,
