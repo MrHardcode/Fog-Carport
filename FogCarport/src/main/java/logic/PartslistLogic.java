@@ -250,6 +250,7 @@ class PartslistLogic
         //Fittings for the trusses
         int fittingAmount = calcFittings(mainTrussAmount);
         int fittingConnectorAmount = 0;
+        //If the roof is longer than the standard truss length, we need extra fittings to connect to trusses
         if (order.getLength() > trusses.getLength())
         {
             fittingConnectorAmount = calcFittingConnectors(order.getLength(), mainTrussAmount, trusses);
