@@ -164,13 +164,13 @@ class PartslistLogic
     private void calculateRoofParts(OrderModel order, PartslistModel bom)
     {
         //Screws, miscellaneous
-        MaterialModel raftScrews = new MaterialModel(620, "skrue", "4,5 x 40mm.", 0, 0, 0);
-        raftScrews.setHelptext("Skruer til montering af spær på rem");
-        raftScrews.setUnit("stk.");
+        MaterialModel trussScrews = new MaterialModel(620, "skrue", "4,5 x 40mm.", 0, 0, 0);
+        trussScrews.setHelptext("Skruer til montering af spær på rem");
+        trussScrews.setUnit("stk.");
         
-        MaterialModel raftBolts = new MaterialModel(620, "bolt", "4,5 x 65mm.", 0, 0, 0);
-        raftBolts.setHelptext("Bolt til montering af spær på rem");
-        raftBolts.setUnit("stk.");
+        MaterialModel trussBolts = new MaterialModel(620, "bolt", "4,5 x 65mm.", 0, 0, 0);
+        trussBolts.setHelptext("Bolt til montering af spær på rem");
+        trussBolts.setUnit("stk.");
         
         MaterialModel roofScrews = new MaterialModel(621, "skrue", "4,5 x 35mm.", 0, 0, 0);
         roofScrews.setHelptext("Skruer til montering af tagplast på spær");
@@ -189,9 +189,9 @@ class PartslistLogic
         fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel rafts = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
-        rafts.setHelptext("remme, monteres på stolpe");
-        rafts.setUnit("stk.");
+        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
+        trusses.setHelptext("remme, monteres på stolpe");
+        trusses.setUnit("stk.");
         
         //Roof
         MaterialModel plasticPanels = new MaterialModel(690, "plastic tagplade", "Standard plasttag", 1000, 800, 5);
@@ -201,90 +201,128 @@ class PartslistLogic
         /*
         Rules
         
-        1 raft pr 800mm (80 cm) width
-        1 raft pr 5000mm (500 cm) length
-        If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main raft,
-        +12 raft screws
-        2 fittings pr raft end (combined rafts for larger carports havde fitting connectors instead)
-        3 raft screws pr. raft end
-        3 raft bolts pr. raft end
-        1 roof panel pr 1m (1000mm) (matches the rafts in width)
+        1 truss pr 800mm (80 cm) width
+        1 truss pr 5000mm (500 cm) length
+        If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main truss,
+        +12 truss screws
+        2 fittings pr truss end (combined trusses for larger carports havde fitting connectors instead)
+        3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
+        3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
+        1 roof panel pr 1m (1000mm) (matches the trusses in width)
         6 roof-screw and 6 roof-screw ring pr. roof panel
         */
         
-        int mainRaftAmount = calcMainRafts(order);
-        int restRaftAmount = -1;
-        if (order.getLength() > 5000)
+        //Trusses
+        int mainTrussAmount = calcMainTrusses(order);
+        int restTrussAmount = -1;
+        if (order.getLength() > trusses.getLength())
         {
-            restRaftAmount = calcRest(order, mainRaftAmount, rafts);
+            restTrussAmount = calcRest(order, mainTrussAmount, trusses);
         }
+        
+        //Roof plastic panels
+        int mainRoofPanelAmount = calcRoofPanels(order);
+        int restRoofPanelAmount = -1;
+        if (order.getLength() > plasticPanels.getLength())
+        {
+            restRoofPanelAmount = calcRest(order, mainTrussAmount, plasticPanels);
+        }
+        
+        //Screws and bolts for the trusses
+        int trussScrewAmount = calcTrussScrews(mainTrussAmount);
+        int trussBoltAmount = calcTrussScrews(mainTrussAmount);
         
     }
     
     /**
-     * Used to calculate the amount of main rafts needed to support the roof of the carport.
+     * Used to calculate the amount of main trusses needed to support the roof of the carport.
      * This method is always used which means that if the carport is shorter than 5000mm 
-     * you still get one raft pr every 800mm of width in your carport
+     * you still get one truss pr every 800mm of width in your carport
      * @param order
-     * @return int - amount of main rafts
+     * @return int - amount of main trusses
      */
-    private int calcMainRafts(OrderModel order)
+    private int calcMainTrusses(OrderModel order)
     {
         int width = order.getWidth();
-        int rafts = width / 800; //One raft pr 80cm
-        return rafts;
+        int trusses = width / 800; //One truss pr 80cm
+        return trusses;
     }
     
     /**
      * Used to calculate the amount of extra items needed for the roof of the carport.
      * @param order
-     * @param mainRaftAmount
-     * @return int - amount of extra rafts
+     * @param mainTrussAmount
+     * @return int - amount of extra trusses
      */
-    private int calcRest(OrderModel order, int mainRaftAmount, MaterialModel item)
+    private int calcRest(OrderModel order, int mainTrussAmount, MaterialModel item)
     {
         int itemLength = item.getLength();
-        int restLength = order.getLength() - itemLength; //Length left after the first set of items (e.g. rafts)
+        int restLength = order.getLength() - itemLength; //Length left after the first set of items (e.g. trusses)
         
         int extraItem = 0;
         if (restLength > itemLength)
         {
-            extraItem += restLength / itemLength * mainRaftAmount;
+            extraItem += (restLength / itemLength) * mainTrussAmount;
         }
-        //Calculating the rest of the length where a raft would extend beyond the carport's total length
+        //Calculating the rest of the length where a truss would extend beyond the carport's total length
         restLength = order.getLength() % itemLength; 
         //If there is any extra length left, we calculate the amount of extra items for this length
         if (restLength > 0)
         {
-            extraItem += calcAbsoluteRest(restLength, mainRaftAmount, itemLength);
+            extraItem += calcAbsoluteRest(restLength, mainTrussAmount, itemLength);
         }
         return extraItem;
     }
     
-    private int calcAbsoluteRest(int restLength, int mainRaftAmount, int itemLength)
+    private int calcAbsoluteRest(int restLength, int mainTrussAmount, int itemLength)
     {
-        
         int extraItems = 0;
         //If the restLength is greater than half of the item's length, we give the customer 
-        //an extra item (e.g. an extra raft) pr. main raft in the roof construction
+        //an extra item (e.g. an extra truss) pr. main truss in the roof construction
         if (restLength > itemLength / 2)
         {
-            extraItems = mainRaftAmount;
+            extraItems = mainTrussAmount;
         } 
         else
         {
-            int remainingRafts = mainRaftAmount;
+            int remainingTrusses = mainTrussAmount;
             int count = 0;
             //Counting the amount of times a single item can be cut up to cover the full 
             //remaining length in the roof
             count = itemLength / restLength;
-            while (remainingRafts > 0)
+            while (remainingTrusses > 0)
             {
-                remainingRafts -= count;
+                remainingTrusses -= count;
                 ++extraItems;
             }
         }
         return extraItems;
+    }
+    
+    /**
+     * Used to calculate the amount of roof panels in the first row of the roof.
+     * If the customer somehow manages to order a carport that is shorter than 1000mm 
+     * they will still recieve one roof panel pr. 80cm width
+     * @param order
+     * @return amount
+     */
+    private int calcRoofPanels(OrderModel order)
+    {
+        int width = order.getWidth();
+        int panels = width / 800; //One roof panel pr 80cm
+        return panels;
+    }
+    
+    /**
+     * Used to calculate the amount of screws used to fasten the trusses on the strap.
+     * @param mainTrussAmount
+     * @return amount
+     */
+    private int calcTrussScrews(int mainTrussAmount)
+    {
+    //3 screws pr. truss (if truss has contact with the edge (hence the * 2 since there are two ends))
+        int screws = mainTrussAmount * 3 * 2;
+        return screws;
     }
     
     /*
