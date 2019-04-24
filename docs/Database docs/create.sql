@@ -1,4 +1,4 @@
-DROP SCHEMA if EXISTS`carportdb`;
+DROP SCHEMA if EXISTS `carportdb`;
 CREATE SCHEMA `carportdb` ;
 USE carportdb;
 
