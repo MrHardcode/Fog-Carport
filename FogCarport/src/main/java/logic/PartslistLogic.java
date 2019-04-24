@@ -149,7 +149,19 @@ class PartslistLogic
      */
     private void addRoof(OrderModel order, PartslistModel bom)
     {
+        //Screws, miscellaneous
+        MaterialModel raftScrews = new MaterialModel(620, "skrue", "4,5 x 60mm.", 0, 0, 0);
+        raftScrews.setHelptext("Skruer til montering af spær på rem");
+        raftScrews.setUnit("stk.");
         
+        MaterialModel fitting = new MaterialModel(600, "spærbeslag", "7cm brede beslag m. hul til 6 skruer", 0, 0, 0);
+        fitting.setHelptext("Beslag til montering af spær på rem");
+        fitting.setUnit("stk.");
+        
+        //Wood
+        MaterialModel raft = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
+        raft.setHelptext("remme, monteres på stolpe");
+        raft.setUnit("stk.");
     }
 
     /*
