@@ -62,8 +62,8 @@ public class PartslistLogicTest
         int postAmountWidth = Integer.parseInt(widthMM) / 1000; //per meter
         int totalPostAmount = (postAmountLength * 2) + postAmountWidth; //3 of 4 sides needs to be covered
         totalPostAmount = totalPostAmount - 2; //due to corner posts we remove two posts from total count
-
-        double strapAmount = (Integer.parseInt(lengthMM) / 6000); //amount of straps. One strap needed per 600cm/6m of length.
+        
+        double strapAmount = ((double)(Integer.parseInt(lengthMM)) / 6000); //amount of straps. One strap needed per 600cm/6m of length.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
         int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
 

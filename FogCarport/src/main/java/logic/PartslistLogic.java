@@ -48,7 +48,8 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException. 
             throw new LoginException("Input fields can't be empty.");
-        } else // If inputs are okay, we change string to int.
+        }
+        else // If inputs are okay, we change string to int.
         {
             _height = Integer.parseInt(height);
             _length = Integer.parseInt(length);
@@ -56,7 +57,7 @@ class PartslistLogic
             // Change the CM input from Customer to MM.
             _height = _height * 10;
             _length = _length * 10;
-            _width  = _width  * 10;
+            _width = _width * 10;
         }
         if ("y".equals(shed)) // The name of checkbox is shed, the value is "y" if selected. 
         // If the checkbox wasn't selected, then shed == null.
@@ -70,7 +71,8 @@ class PartslistLogic
         {
             // Should maybe be something like a ShopException.
             throw new LoginException("Fields have to be within bounds.");
-        } else // Else create the partslist
+        }
+        else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
             OrderModel order = new OrderModel(_height, _length, _width, hasShed);
@@ -219,7 +221,7 @@ class PartslistLogic
                 boltAmount = (totalStrapAmount*2) = (4*2) = 8.
             
          */
-        /* Calculate quantities */
+ /* Calculate quantities */
         int postAmount = calculatePosts(order);
         int strapAmount = calculateStraps(order);
         int screwAmount = calculateScrews(strapAmount);
@@ -242,7 +244,7 @@ class PartslistLogic
         bom.addMaterial(strap);
         bom.addMaterial(strapScrews);
         bom.addMaterial(strapBolts);
-        
+
     }
 
     /**
@@ -278,15 +280,9 @@ class PartslistLogic
     private int calculateStraps(OrderModel order)
     {
         int length = order.getLength();
-        System.out.println("Order length: " + length);
-        double strapAmount = (length / 6000); //amount of straps. One strap needed per 600cm/6m of length.
-        System.out.println("        STRAPAMOUNT#### :" + strapAmount);
-        Math.ceil(strapAmount);
-        System.out.println("strap:" + strapAmount);
+        double strapAmount = ((double) length / 6000); //amount of straps. One strap needed per 600cm/6m of length.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
-        System.out.println("        ROUNDEDSTRAPAMOUNT#### :" + strapAmountRoundedUp);
         int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
-        System.out.println("        TOTALSTRAPAMOUNT#### :" + totalStrapAmount);
         return totalStrapAmount;
     }
 
