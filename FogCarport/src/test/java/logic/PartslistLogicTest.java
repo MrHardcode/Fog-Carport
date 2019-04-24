@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic;
 
 import data.models.MaterialModel;
-import data.models.OrderModel;
 import data.models.PartslistModel;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -52,6 +46,9 @@ public class PartslistLogicTest
         String length = "320"; //cm
         String width = "240"; //cm -- i usually test at 2200mm but had to check at 2400mm due to restrictions. (partslistlogic line 65)
         String shed = "n";
+        //String heightmm = "2100"; //mm for testing
+        String lengthMM = "3200"; //mm for testing
+        String widthMM = "2400"; //mm for testing
         PartslistLogic instance = new PartslistLogic();
         PartslistModel expResult = new PartslistModel();
 
@@ -61,17 +58,17 @@ public class PartslistLogicTest
         4 screws per strap
         2 bolts per strap
          */
-        int postAmountLength = Integer.parseInt(length) / 1000; //per meter
-        int postAmountWidth = Integer.parseInt(width) / 1000; //per meter
+        int postAmountLength = Integer.parseInt(lengthMM) / 1000; //per meter
+        int postAmountWidth = Integer.parseInt(widthMM) / 1000; //per meter
         int totalPostAmount = (postAmountLength * 2) + postAmountWidth; //3 of 4 sides needs to be covered
         totalPostAmount = totalPostAmount - 2; //due to corner posts we remove two posts from total count
 
-        double strapAmount = (Integer.parseInt(length) / 6000); //amount of straps. One strap needed per 600cm/6m of length.
+        double strapAmount = (Integer.parseInt(lengthMM) / 6000); //amount of straps. One strap needed per 600cm/6m of length.
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
         int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
 
         /* Update quantity */
-        post.setQuantity(totalStrapAmount);
+        post.setQuantity(totalPostAmount);
         strap.setQuantity(totalStrapAmount);
         strapScrews.setQuantity(totalStrapAmount * 4); //4 per strap
         strapBolts.setQuantity(totalStrapAmount * 2); //2 per strap
@@ -81,29 +78,49 @@ public class PartslistLogicTest
         strapBolts.setPrice(5 * strapBolts.getQuantity()); //1 bolt is 5 DKK
         post.setPrice(175 * post.getQuantity()); //1 post is 175 DKK
         strap.setPrice(95 * strap.getQuantity()); // 1 strap is 95 DKK
-        
+
+        /* Add materials */
         expResult.addMaterial(post);
         expResult.addMaterial(strap);
         expResult.addMaterial(strapScrews);
         expResult.addMaterial(strapBolts);
-        
-         
 
         PartslistModel result = instance.getSimpleBOM(height, length, width, shed);
+
+        /* Testing */
         //assertEquals(expResult, result);
-        //assertTrue(expResult.getBillOfMaterials().containsAll(result.getBillOfMaterials()));
-        System.out.println("result: " + result.getBillOfMaterials().get(0).toString());
-        System.out.println("expected: " +expResult.getBillOfMaterials().get(0).toString());
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), expResult.getBillOfMaterials().get(0).getQuantity());
-        
-        assertEquals(result.getBillOfMaterials().get(0), strapScrews);
-        assertEquals(result.getBillOfMaterials().get(1), strapBolts);
-        assertEquals(result.getBillOfMaterials().get(2).getDescription(), post.getDescription());
-        assertEquals(result.getBillOfMaterials().get(3).getHelptext(), strap.getHelptext());
+        assertTrue(expResult.getBillOfMaterials().containsAll(result.getBillOfMaterials())); //did everything go as planned?
+
+        /* is algorithm and test case the same? (see output)*/
+        //expResult display
+        System.out.println("Expected (test):");
+        for (MaterialModel material : expResult.getBillOfMaterials())
+        {
+            System.out.println("\n      " + material.toString());
+        }
+        System.out.println("Expected total price: " + expResult.getTotalprice());
+        System.out.println("________\nResult (algorithm): ");
+        //result display
+        for (MaterialModel material : result.getBillOfMaterials())
+        {
+            System.out.println("\n      " + material.toString());
+        }
+        System.out.println("Result total price: " + result.getTotalprice());
+
+        /*Is size the same? */
+        assertEquals(expResult.getBillOfMaterials().size(), result.getBillOfMaterials().size()); //size is the same?
+        //if size (tested above) is the same, lets test and compare their quantities
+        for (int i = 0; i < result.getBillOfMaterials().size(); i++)
+        {
+            assertEquals(result.getBillOfMaterials().get(i).getQuantity(), expResult.getBillOfMaterials().get(i).getQuantity());
+        }
+
+        /*Is input order the same?*/
         assertTrue(expResult.getBillOfMaterials().containsAll(result.getBillOfMaterials()));
-        //assertEquals(expResult.getBillOfMaterials().get(0).getName(), result.getBillOfMaterials().get(0).getName());
+        assertEquals(result.getBillOfMaterials().get(0), expResult.getBillOfMaterials().get(0));
+        assertEquals(result.getBillOfMaterials().get(1), expResult.getBillOfMaterials().get(1));
+        assertEquals(result.getBillOfMaterials().get(2), expResult.getBillOfMaterials().get(2));
+        assertEquals(result.getBillOfMaterials().get(3), expResult.getBillOfMaterials().get(3));
 
-        
     }
-
 }

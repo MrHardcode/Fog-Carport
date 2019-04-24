@@ -253,8 +253,8 @@ class PartslistLogic
      */
     private int calculatePosts(OrderModel order)
     {
-        int length = order.getLength() * 10;
-        int width = order.getWidth() * 10;
+        int length = order.getLength();
+        int width = order.getWidth();
 
         int postAmountLength = (length / 1000); //amount of posts for one length. one post per meter. 
 
@@ -277,12 +277,16 @@ class PartslistLogic
      */
     private int calculateStraps(OrderModel order)
     {
-        int length = order.getLength() * 10;
-
+        int length = order.getLength();
+        System.out.println("Order length: " + length);
         double strapAmount = (length / 6000); //amount of straps. One strap needed per 600cm/6m of length.
+        System.out.println("        STRAPAMOUNT#### :" + strapAmount);
+        Math.ceil(strapAmount);
+        System.out.println("strap:" + strapAmount);
         int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)
+        System.out.println("        ROUNDEDSTRAPAMOUNT#### :" + strapAmountRoundedUp);
         int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.
-
+        System.out.println("        TOTALSTRAPAMOUNT#### :" + totalStrapAmount);
         return totalStrapAmount;
     }
 
