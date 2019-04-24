@@ -63,7 +63,6 @@ CREATE TABLE `carportdb`.`employees` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-
 CREATE TABLE `carportdb`.`orders` (
   `id_order` INT NOT NULL AUTO_INCREMENT,
   `status` VARCHAR(45) NOT NULL DEFAULT 'accepted',
