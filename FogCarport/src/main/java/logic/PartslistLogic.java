@@ -201,15 +201,15 @@ class PartslistLogic
         /*
         Rules
         
-        1 truss pr 800mm (80 cm) width
-        1 truss pr 5000mm (500 cm) length
+        - 1 truss pr 800mm (80 cm) width
+        - 1 truss pr 5000mm (500 cm) length
         If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main truss,
         +12 truss screws
         2 fittings pr truss end (combined trusses for larger carports havde fitting connectors instead)
-        3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
-        3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
-        1 roof panel pr 1m (1000mm) (matches the trusses in width)
-        6 roof-screw and 6 roof-screw ring pr. roof panel
+        - 3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
+        - 3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
+        - 1 roof panel pr 1m (1000mm) (matches the trusses in width)
+        - 6 roof-screw and 6 roof-screw ring pr. roof panel
         */
         
         //Trusses
@@ -219,6 +219,11 @@ class PartslistLogic
         {
             restTrussAmount = calcRest(order, mainTrussAmount, trusses);
         }
+        int finalTrussAmount = mainTrussAmount;
+        if (restTrussAmount != -1)
+        {
+            finalTrussAmount += restTrussAmount;
+        }
         
         //Roof plastic panels
         int mainRoofPanelAmount = calcRoofPanels(order);
@@ -227,10 +232,28 @@ class PartslistLogic
         {
             restRoofPanelAmount = calcRest(order, mainTrussAmount, plasticPanels);
         }
+        int finalRoofPanelAmount = mainRoofPanelAmount;
+        if (restRoofPanelAmount != -1)
+        {
+            finalRoofPanelAmount += restRoofPanelAmount;
+        }
         
         //Screws and bolts for the trusses
         int trussScrewAmount = calcTrussScrews(mainTrussAmount);
         int trussBoltAmount = calcTrussScrews(mainTrussAmount);
+        
+        //Screws and rings for the roof panels
+        int panelScrewAmount = calcRoofScrews(finalRoofPanelAmount);
+        int panelScrewRingAmount = calcRoofScrews(finalRoofPanelAmount);
+        
+        //Fittings for the trusses
+        int fittingAmount = calcFittings(mainTrussAmount);
+        int fittingConnectorAmount = 0;
+        if (order.getLength() > trusses.getLength())
+        {
+            fittingConnectorAmount = calcFittingConnectors(order.getLength(), mainTrussAmount, trusses);
+        }
+        
         
     }
     
@@ -324,6 +347,48 @@ class PartslistLogic
         int screws = mainTrussAmount * 3 * 2;
         return screws;
     }
+    
+    /**
+     * Used to calculate the amount of screws needed to fasten the plastic roof panels to the trusses.
+     * This method is also used for the calculation of the roof screw rings, since the screws and rings 
+     * are used in pairs
+     * @param finalRoofPanelAmount
+     * @return amount
+     */
+    private int calcRoofScrews(int finalRoofPanelAmount)
+    {
+        //6 screws pr roof panel
+        int screws = finalRoofPanelAmount * 6;
+        return screws;
+    }
+    
+    /**
+     * Used to calculate the amount of fittings needed to fasten the trusses on the strap.
+     * @param mainTrussAmount
+     * @return amount
+     */
+    private int calcFittings(int mainTrussAmount)
+    {
+        //2 fittings pr. truss end. The trusses have ends on both sides of the roof, hence * 4
+        int fittings = mainTrussAmount * 4;
+        return fittings;
+    }
+    
+    /**
+     * Used to calculate the amount of fitting connectors needed to combine the trusses in the roof.
+     * @param length
+     * @param mainTrussAmount
+     * @param trusses
+     * @return amount
+     */
+    private int calcFittingConnectors(int length, int mainTrussAmount, MaterialModel trusses)
+    {
+        int connections = length / trusses.getLength();
+        int fittingConnectors = connections * mainTrussAmount;
+        return fittingConnectors;
+    }
+    
+    
     
     /*
     Add base parts to full list of parts
