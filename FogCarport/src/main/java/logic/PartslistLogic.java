@@ -156,6 +156,11 @@ class PartslistLogic
         calculateRoofParts(order, bom);
     }
 
+    /**
+     * Used to calculate the amount of materials needed for the roof of a given carport.
+     * @param order
+     * @param bom 
+     */
     private void calculateRoofParts(OrderModel order, PartslistModel bom)
     {
         //Screws, miscellaneous
@@ -163,11 +168,15 @@ class PartslistLogic
         raftScrews.setHelptext("Skruer til montering af spær på rem");
         raftScrews.setUnit("stk.");
         
+        MaterialModel raftBolts = new MaterialModel(620, "bolt", "4,5 x 65mm.", 0, 0, 0);
+        raftBolts.setHelptext("Bolt til montering af spær på rem");
+        raftBolts.setUnit("stk.");
+        
         MaterialModel roofScrews = new MaterialModel(621, "skrue", "4,5 x 35mm.", 0, 0, 0);
         roofScrews.setHelptext("Skruer til montering af tagplast på spær");
         roofScrews.setUnit("stk.");
         
-        MaterialModel roofScrewRings = new MaterialModel(622, "Tætningsring", "Gummiring 5 cm diameter", 0, 0, 0);
+        MaterialModel roofScrewRings = new MaterialModel(622, "tætningsring", "Gummiring 5 cm diameter", 0, 0, 0);
         roofScrewRings.setHelptext("Gummiring til tætning omkring tagskure");
         roofScrewRings.setUnit("stk.");
         
@@ -185,7 +194,7 @@ class PartslistLogic
         rafts.setUnit("stk.");
         
         //Roof
-        MaterialModel plasticPanels = new MaterialModel(690, "Plastic tagplade", "Standard plasttag", 1000, 800, 5);
+        MaterialModel plasticPanels = new MaterialModel(690, "plastic tagplade", "Standard plasttag", 1000, 800, 5);
         plasticPanels.setHelptext("Monteres m. 4 skruer + ringe");
         plasticPanels.setUnit("stk.");
         
@@ -194,9 +203,88 @@ class PartslistLogic
         
         1 raft pr 800mm (80 cm) width
         1 raft pr 5000mm (500 cm) length
-        If the carport is longer than 5m (5000mm): +2 fitting connector pr. main raft,
-        +6 raft
+        If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main raft,
+        +12 raft screws
+        2 fittings pr raft end (combined rafts for larger carports havde fitting connectors instead)
+        3 raft screws pr. raft end
+        3 raft bolts pr. raft end
+        1 roof panel pr 1m (1000mm) (matches the rafts in width)
+        6 roof-screw and 6 roof-screw ring pr. roof panel
         */
+        
+        int mainRaftAmount = calcMainRafts(order);
+        int restRaftAmount = -1;
+        if (order.getLength() > 5000)
+        {
+            restRaftAmount = calcRest(order, mainRaftAmount, rafts);
+        }
+        
+    }
+    
+    /**
+     * Used to calculate the amount of main rafts needed to support the roof of the carport.
+     * This method is always used which means that if the carport is shorter than 5000mm 
+     * you still get one raft pr every 800mm of width in your carport
+     * @param order
+     * @return int - amount of main rafts
+     */
+    private int calcMainRafts(OrderModel order)
+    {
+        int width = order.getWidth();
+        int rafts = width / 800; //One raft pr 80cm
+        return rafts;
+    }
+    
+    /**
+     * Used to calculate the amount of extra items needed for the roof of the carport.
+     * @param order
+     * @param mainRaftAmount
+     * @return int - amount of extra rafts
+     */
+    private int calcRest(OrderModel order, int mainRaftAmount, MaterialModel item)
+    {
+        int itemLength = item.getLength();
+        int restLength = order.getLength() - itemLength; //Length left after the first set of items (e.g. rafts)
+        
+        int extraItem = 0;
+        if (restLength > itemLength)
+        {
+            extraItem += restLength / itemLength * mainRaftAmount;
+        }
+        //Calculating the rest of the length where a raft would extend beyond the carport's total length
+        restLength = order.getLength() % itemLength; 
+        //If there is any extra length left, we calculate the amount of extra items for this length
+        if (restLength > 0)
+        {
+            extraItem += calcAbsoluteRest(restLength, mainRaftAmount, itemLength);
+        }
+        return extraItem;
+    }
+    
+    private int calcAbsoluteRest(int restLength, int mainRaftAmount, int itemLength)
+    {
+        
+        int extraItems = 0;
+        //If the restLength is greater than half of the item's length, we give the customer 
+        //an extra item (e.g. an extra raft) pr. main raft in the roof construction
+        if (restLength > itemLength / 2)
+        {
+            extraItems = mainRaftAmount;
+        } 
+        else
+        {
+            int remainingRafts = mainRaftAmount;
+            int count = 0;
+            //Counting the amount of times a single item can be cut up to cover the full 
+            //remaining length in the roof
+            count = itemLength / restLength;
+            while (remainingRafts > 0)
+            {
+                remainingRafts -= count;
+                ++extraItems;
+            }
+        }
+        return extraItems;
     }
     
     /*
