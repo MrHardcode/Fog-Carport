@@ -18,8 +18,8 @@ public class PartslistLogicTest
 
 
     /*Wood*/
-    MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 3000, 97, 97);
-    MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 6000, 195, 45);
+    MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 97, 3000, 97);
+    MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 195, 6000, 45);
 
     public PartslistLogicTest()
     {

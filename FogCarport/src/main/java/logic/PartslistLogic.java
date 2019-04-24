@@ -176,11 +176,11 @@ class PartslistLogic
         strapBolts.setUnit("stk.");
 
         /*Wood*/
-        MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 3000, 97, 97);
+        MaterialModel post = new MaterialModel(997, "Stolpe", "97x97mm trykimp.", 97, 3000, 97);
         post.setHelptext("nedgraves 90cm i jord");
         post.setUnit("stk.");
 
-        MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 6000, 195, 45);
+        MaterialModel strap = new MaterialModel(996, "spærtræ ubh.", "45x195mm.", 195, 6000, 45);
         strap.setHelptext("remme, monteres på stolpe");
         strap.setUnit("stk.");
 
