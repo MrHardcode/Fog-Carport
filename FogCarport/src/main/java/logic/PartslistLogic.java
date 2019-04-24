@@ -201,15 +201,15 @@ class PartslistLogic
         /*
         Rules
         
-        - 1 truss pr 800mm (80 cm) width
-        - 1 truss pr 5000mm (500 cm) length
+        1 truss pr 800mm (80 cm) width
+        1 truss pr 5000mm (500 cm) length
         If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main truss,
         +12 truss screws
         2 fittings pr truss end (combined trusses for larger carports havde fitting connectors instead)
-        - 3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
-        - 3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
-        - 1 roof panel pr 1m (1000mm) (matches the trusses in width)
-        - 6 roof-screw and 6 roof-screw ring pr. roof panel
+        3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
+        3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
+        1 roof panel pr 1m (1000mm) (matches the trusses in width)
+        6 roof-screw and 6 roof-screw ring pr. roof panel
         */
         
         /*Calculate quantities*/
@@ -246,6 +246,12 @@ class PartslistLogic
         //Screws and rings for the roof panels
         int roofScrewAmount = calcRoofScrews(finalRoofPanelAmount);
         int roofScrewRingAmount = calcRoofScrews(finalRoofPanelAmount);
+        if (restRoofPanelAmount != -1)
+        {
+            //Adding some extra screws for the roof panels
+            roofScrewAmount += 2;
+            roofScrewRingAmount += 2;
+        }
         
         //Fittings for the trusses
         int fittingAmount = calcFittings(mainTrussAmount);
