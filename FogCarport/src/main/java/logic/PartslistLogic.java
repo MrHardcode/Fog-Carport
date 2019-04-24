@@ -242,7 +242,7 @@ class PartslistLogic
     }
 
     /**
-     * Calculates amount of posts required for the carport.
+     * Calculates amount of posts ("stolper") required for the carport.
      *
      * @param order order in question
      * @return amount of posts
@@ -266,7 +266,7 @@ class PartslistLogic
     }
 
     /**
-     * Calculates amount of straps required for the carport.
+     * Calculates amount of straps ("remme") required for the carport.
      *
      * @param order order in question
      * @return amount of straps
