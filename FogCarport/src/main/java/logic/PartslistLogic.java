@@ -149,21 +149,52 @@ class PartslistLogic
      */
     private void addRoof(OrderModel order, PartslistModel bom)
     {
+        calculateRoofParts(order, bom);
+    }
+
+    private void calculateRoofParts(OrderModel order, PartslistModel bom)
+    {
         //Screws, miscellaneous
-        MaterialModel raftScrews = new MaterialModel(620, "skrue", "4,5 x 60mm.", 0, 0, 0);
+        MaterialModel raftScrews = new MaterialModel(620, "skrue", "4,5 x 40mm.", 0, 0, 0);
         raftScrews.setHelptext("Skruer til montering af spær på rem");
         raftScrews.setUnit("stk.");
         
-        MaterialModel fitting = new MaterialModel(600, "spærbeslag", "7cm brede beslag m. hul til 6 skruer", 0, 0, 0);
-        fitting.setHelptext("Beslag til montering af spær på rem");
-        fitting.setUnit("stk.");
+        MaterialModel roofScrews = new MaterialModel(621, "skrue", "4,5 x 35mm.", 0, 0, 0);
+        roofScrews.setHelptext("Skruer til montering af tagplast på spær");
+        roofScrews.setUnit("stk.");
+        
+        MaterialModel roofScrewRings = new MaterialModel(622, "Tætningsring", "Gummiring 5 cm diameter", 0, 0, 0);
+        roofScrewRings.setHelptext("Gummiring til tætning omkring tagskure");
+        roofScrewRings.setUnit("stk.");
+        
+        MaterialModel fittings = new MaterialModel(600, "spærbeslag", "4cm brede beslag m. hul til 6 skruer", 0, 0, 0);
+        fittings.setHelptext("Beslag til montering af spær på rem");
+        fittings.setUnit("stk.");
+        
+        MaterialModel fittingConnectors = new MaterialModel(601, "spærbeslag - forlænger", "4cm brede beslag m. hul til 6 skruer", 0, 0, 0);
+        fittingConnectors.setHelptext("Beslag til samling af spær hvis taget er længere end en enkelt spær");
+        fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel raft = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
-        raft.setHelptext("remme, monteres på stolpe");
-        raft.setUnit("stk.");
+        MaterialModel rafts = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
+        rafts.setHelptext("remme, monteres på stolpe");
+        rafts.setUnit("stk.");
+        
+        //Roof
+        MaterialModel plasticPanels = new MaterialModel(690, "Plastic tagplade", "Standard plasttag", 1000, 800, 5);
+        plasticPanels.setHelptext("Monteres m. 4 skruer + ringe");
+        plasticPanels.setUnit("stk.");
+        
+        /*
+        Rules
+        
+        1 raft pr 800mm (80 cm) width
+        1 raft pr 5000mm (500 cm) length
+        If the carport is longer than 5m (5000mm): +2 fitting connector pr. main raft,
+        +6 raft
+        */
     }
-
+    
     /*
     Add base parts to full list of parts
     Task #31. Runi.
