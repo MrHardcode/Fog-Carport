@@ -29,4 +29,5 @@
     </head>
     <body>
 
-<!-- Maybe insert navbar here eventually. -->
+<!-- Navbar include. -->
+<jsp:include page='/navbar.jsp'></jsp:include>
