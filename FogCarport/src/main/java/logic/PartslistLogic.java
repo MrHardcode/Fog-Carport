@@ -168,7 +168,7 @@ class PartslistLogic
         trussScrews.setHelptext("Skruer til montering af spær på rem");
         trussScrews.setUnit("stk.");
         
-        MaterialModel trussBolts = new MaterialModel(620, "bolt", "4,5 x 65mm.", 0, 0, 0);
+        MaterialModel trussBolts = new MaterialModel(623, "bolt", "4,5 x 65mm.", 0, 0, 0);
         trussBolts.setHelptext("Bolt til montering af spær på rem");
         trussBolts.setUnit("stk.");
         
@@ -180,16 +180,16 @@ class PartslistLogic
         roofScrewRings.setHelptext("Gummiring til tætning omkring tagskure");
         roofScrewRings.setUnit("stk.");
         
-        MaterialModel fittings = new MaterialModel(600, "spærbeslag", "4cm brede beslag m. hul til 6 skruer", 0, 0, 0);
+        MaterialModel fittings = new MaterialModel(600, "spærbeslag", "Beslag m. hul til 6 skruer", 10, 6, 10);
         fittings.setHelptext("Beslag til montering af spær på rem");
         fittings.setUnit("stk.");
         
-        MaterialModel fittingConnectors = new MaterialModel(601, "spærbeslag - forlænger", "4cm brede beslag m. hul til 6 skruer", 0, 0, 0);
+        MaterialModel fittingConnectors = new MaterialModel(601, "spærbeslag - forlænger", "Beslag m. hul til 6 skruer", 25, 7, 0);
         fittingConnectors.setHelptext("Beslag til samling af spær hvis taget er længere end en enkelt spær");
         fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 5000, 195, 45);
+        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 3000, 195, 45);
         trusses.setHelptext("remme, monteres på stolpe");
         trusses.setUnit("stk.");
         
@@ -212,6 +212,7 @@ class PartslistLogic
         - 6 roof-screw and 6 roof-screw ring pr. roof panel
         */
         
+        /*Calculate quantities*/
         //Trusses
         int mainTrussAmount = calcMainTrusses(order);
         int restTrussAmount = -1;
@@ -243,8 +244,8 @@ class PartslistLogic
         int trussBoltAmount = calcTrussScrews(mainTrussAmount);
         
         //Screws and rings for the roof panels
-        int panelScrewAmount = calcRoofScrews(finalRoofPanelAmount);
-        int panelScrewRingAmount = calcRoofScrews(finalRoofPanelAmount);
+        int roofScrewAmount = calcRoofScrews(finalRoofPanelAmount);
+        int roofScrewRingAmount = calcRoofScrews(finalRoofPanelAmount);
         
         //Fittings for the trusses
         int fittingAmount = calcFittings(mainTrussAmount);
@@ -252,9 +253,47 @@ class PartslistLogic
         if (order.getLength() > trusses.getLength())
         {
             fittingConnectorAmount = calcFittingConnectors(order.getLength(), mainTrussAmount, trusses);
+            trussScrewAmount += 6 * fittingConnectorAmount;
         }
         
+        /*Update quantities*/
+        trusses.setQuantity(finalTrussAmount);
+        plasticPanels.setQuantity(finalRoofPanelAmount);
+        trussScrews.setQuantity(trussScrewAmount);
+        trussBolts.setQuantity(trussBoltAmount);
+        roofScrews.setQuantity(roofScrewAmount);
+        roofScrewRings.setQuantity(roofScrewRingAmount);
+        fittings.setQuantity(fittingAmount);
+        if (fittingConnectorAmount > 0)
+        {
+            fittingConnectors.setQuantity(fittingConnectorAmount);
+        }
         
+        /*Update prices based on calculated quantities*/
+        trusses.setPrice(finalTrussAmount * 95); // 95DKK pr truss
+        plasticPanels.setPrice(finalRoofPanelAmount * 21); // 21DKK pr plastic roof panel
+        trussScrews.setPrice(trussScrewAmount); // 1DKK pr truss screw
+        trussBolts.setPrice(trussBoltAmount * 2); // 2DKK pr truss bolt
+        roofScrews.setPrice(roofScrewAmount); // 1DKK pr roof screw
+        roofScrewRings.setPrice(roofScrewRingAmount); // 1DKK pr roof screw ring
+        fittings.setPrice(fittingAmount * 7); // 7DKK pr fitting
+        if (fittingConnectorAmount > 0)
+        {
+            fittingConnectors.setPrice(fittingConnectorAmount * 7); // 7DKK pr fitting connector
+        }
+        
+        /*Add materials to the BOM*/
+        bom.addMaterial(trusses);
+        bom.addMaterial(plasticPanels);
+        bom.addMaterial(trussScrews);
+        bom.addMaterial(trussBolts);
+        bom.addMaterial(roofScrews);
+        bom.addMaterial(roofScrewRings);
+        bom.addMaterial(fittings);
+        if (fittingConnectorAmount > 0)
+        {
+            bom.addMaterial(fittingConnectors);
+        }
     }
     
     /**
@@ -384,7 +423,7 @@ class PartslistLogic
     private int calcFittingConnectors(int length, int mainTrussAmount, MaterialModel trusses)
     {
         int connections = length / trusses.getLength();
-        int fittingConnectors = connections * mainTrussAmount;
+        int fittingConnectors = connections * mainTrussAmount * 2; //2 fitting connectors pr connection
         return fittingConnectors;
     }
     
