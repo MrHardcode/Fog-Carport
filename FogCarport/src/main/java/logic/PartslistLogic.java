@@ -176,25 +176,25 @@ class PartslistLogic
         roofScrews.setHelptext("Skruer til montering af tagplast på spær");
         roofScrews.setUnit("stk.");
         
-        MaterialModel roofScrewRings = new MaterialModel(622, "tætningsring", "Gummiring 5 cm diameter", 0, 0, 0);
+        MaterialModel roofScrewRings = new MaterialModel(622, "tætningsring", "Gummiring 2,2 cm diameter", 0, 0, 0);
         roofScrewRings.setHelptext("Gummiring til tætning omkring tagskure");
         roofScrewRings.setUnit("stk.");
         
-        MaterialModel fittings = new MaterialModel(600, "spærbeslag", "Beslag m. hul til 6 skruer", 10, 6, 10);
+        MaterialModel fittings = new MaterialModel(600, "spærbeslag", "Beslag m. hul til 6 skruer", 10, 10, 6);
         fittings.setHelptext("Beslag til montering af spær på rem");
         fittings.setUnit("stk.");
         
-        MaterialModel fittingConnectors = new MaterialModel(601, "spærbeslag - forlænger", "Beslag m. hul til 6 skruer", 25, 7, 0);
+        MaterialModel fittingConnectors = new MaterialModel(601, "spærbeslag - forlænger", "Beslag m. hul til 6 skruer", 25, 0, 7);
         fittingConnectors.setHelptext("Beslag til samling af spær hvis taget er længere end en enkelt spær");
         fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 3000, 195, 45);
+        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 45, 3000, 195);
         trusses.setHelptext("remme, monteres på stolpe");
         trusses.setUnit("stk.");
         
         //Roof
-        MaterialModel plasticPanels = new MaterialModel(690, "plastic tagplade", "Standard plasttag", 1000, 800, 5);
+        MaterialModel plasticPanels = new MaterialModel(690, "plastic tagplade", "Standard plasttag", 5, 1000, 800);
         plasticPanels.setHelptext("Monteres m. 4 skruer + ringe");
         plasticPanels.setUnit("stk.");
         
