@@ -54,6 +54,10 @@ class PartslistLogic
             _height = Integer.parseInt(height);
             _length = Integer.parseInt(length);
             _width = Integer.parseInt(width);
+            // Change the CM input from Customer to MM.
+            _height = _height * 10;
+            _length = _length * 10;
+            _width  = _width  * 10;
         }
         if ("y".equals(shed)) // The name of checkbox is shed, the value is "y" if selected. 
         // If the checkbox wasn't selected, then shed == null.
@@ -63,7 +67,7 @@ class PartslistLogic
             hasShed = true;
         }
         // If input is out of bounds, then throw an error. 
-        if (_height < 200 || _height > 300 || _length < 240 || _length > 720 || _width < 240 || _width > 720)
+        if (_height < 2000 || _height > 3000 || _length < 2400 || _length > 7200 || _width < 2400 || _width > 7200)
         {
             // Should maybe be something like a ShopException.
             throw new LoginException("Fields have to be within bounds.");
