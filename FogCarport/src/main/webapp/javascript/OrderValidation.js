@@ -68,9 +68,9 @@ function ValidateSubmit(e){
      swal ("Fejl", "Felter er udfyldt forkert eller mangelfuldt", "error" );
     }        
 }
-document.addEventListener("DOMContentLoaded", fillDropdownLength);
+document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
 
-function fillDropdownLength() { 
+function fillDropdownsDimensions() { 
     let lengthOption = document.getElementById('input-length');  
     let widthOption = document.getElementById('input-width'); 
     for (let i = 240; i < 750; i = i+30) { 
