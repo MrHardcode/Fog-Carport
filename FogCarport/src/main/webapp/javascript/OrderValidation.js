@@ -15,7 +15,7 @@ let maxSide = 720;
 
 // added listeners for inputfields and submit button
 // for inputfields, function is needed to run ValidateCarportInput with parameters
-inputheight.addEventListener("keyup",function(){ValidateCarportInput(minHeight, maxHeight, inputheight);});
+//inputheight.addEventListener("keyup",function(){ValidateCarportInput(minHeight, maxHeight, inputheight);});
 inputlength.addEventListener("keyup",function(){ValidateCarportInput(minSide, maxSide, inputlength);});
 inputwidth.addEventListener("keyup",function(){ValidateCarportInput(minSide, maxSide, inputwidth);});
 submit.addEventListener("click", ValidateSubmit);
@@ -68,6 +68,16 @@ function ValidateSubmit(e){
      swal ("Fejl", "Felter er udfyldt forkert eller mangelfuldt", "error" );
     }        
 }
+document.addEventListener("DOMContentLoaded", fillDropdownLength);
+
+function fillDropdownLength() { 
+    let lengthOption = document.getElementById('input-length');  
+    let widthOption = document.getElementById('input-width'); 
+    for (let i = 240; i < 750; i = i+30) { 
+        lengthOption.innerHTML += '<option value="'+i+'">'+i+' cm</option>';
+        widthOption.innerHTML += '<option value="'+i+'">'+i+' cm</option>';
+    }
+};
 
 // *****************************************************************************
 // FOR RÚNI - OUTCOMMENT ALL OF THE ABOVE (minus the variables defined by let at 

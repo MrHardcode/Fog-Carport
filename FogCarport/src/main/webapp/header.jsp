@@ -21,8 +21,8 @@
               rel="stylesheet" 
               
               crossorigin="anonymous">
-        <link href="css/login.css" 
-              rel="stylesheet">
+        <!-- <link href="css/login.css" 
+              rel="stylesheet"> -->
         <link href="css/validation.css" 
               rel="stylesheet" type="text/css"/>
         
