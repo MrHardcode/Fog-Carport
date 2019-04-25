@@ -35,7 +35,7 @@ CREATE TABLE `carportdb`.`materials` (
   `height` INT NULL,
   `width` INT NULL,
   `length` INT NULL,
-  `cost price` DOUBLE NOT NULL,
+  `cost_price` DOUBLE NOT NULL,
   `unit` VARCHAR(45) NOT NULL,
   `id_category` INT NOT NULL,
   PRIMARY KEY (`id_material`),
@@ -117,7 +117,7 @@ CREATE TABLE `carportdb`.`order_details` (
 CREATE TABLE `carportdb`.`bills` (
   `id_bill` INT NOT NULL AUTO_INCREMENT,
   `retail price` DOUBLE NOT NULL,
-  `final price` DOUBLE NOT NULL,
+  `final_price` DOUBLE NOT NULL,
   `id_order` INT NOT NULL,
   PRIMARY KEY (`id_bill`),
   UNIQUE INDEX `id_bill_UNIQUE` (`id_bill` ASC) VISIBLE,
