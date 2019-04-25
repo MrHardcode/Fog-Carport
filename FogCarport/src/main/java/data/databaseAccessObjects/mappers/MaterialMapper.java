@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -36,6 +38,7 @@ public class MaterialMapper
         return materialMapper;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Get Category of a Material">
     /**
      * Get Category.
      *
@@ -62,10 +65,13 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
+            // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Get a Material">
     /**
      * Get a Material.
      *
@@ -76,7 +82,7 @@ public class MaterialMapper
     MaterialModel getMaterial(int id) throws LoginException
     {
         MaterialModel material = new MaterialModel();
-        
+
         String SQL = "SELECT * FROM `carportdb`.`materials`"
                 + " WHERE `materials`.`id_material` = ?";
         // Using try-with resources, so they automatically close afterwards.
@@ -115,12 +121,15 @@ public class MaterialMapper
 
         } catch (SQLException ex)
         {
+            // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
         return material;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Get Order Details Category">
     /**
      * Get Order Details Category.
      *
@@ -147,7 +156,43 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
+            // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Get all Materials for an order">
+    /**
+     * Get a List of Materials.
+     * @param id of the Order Details.
+     * @return List of MaterialModel.
+     * @throws LoginException Should most likely throw something else.
+     */
+    List<MaterialModel> getMaterials(int id) throws LoginException
+    { 
+        List<MaterialModel> materials = new ArrayList<>();
+        String SQL = "SELECT `order_details`.`id_material`\n"
+                + "FROM `carportdb`.`order_details`\n"
+                + "WHERE `order_details`.`id_order_details` = ?;";
+
+        // Using try-with resources, so they automatically close afterwards.
+        try (Connection con = DBConnector.connection();
+                PreparedStatement ps = con.prepareStatement(SQL);)
+        {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                MaterialModel material = getMaterial(rs.getInt("id_material"));
+                materials.add(material);
+            }
+        } catch (SQLException ex)
+        {
+            // Should most likely be another exception.
+            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        }
+        return materials;
+    }
+    // </editor-fold>
 }
