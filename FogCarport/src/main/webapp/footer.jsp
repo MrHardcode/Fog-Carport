@@ -15,7 +15,7 @@ crossorigin="anonymous"></script>
 <div class="footer">
     <div id="gitLinkText"class="hover">Project Site</div>
     <a href="https://github.com/HrBjarup/Fog-Carport" target="_blank"><img src="resources/GitHubLogo.png" alt="github logo"/></a>
-    
+
 </div>
 </body>
 </html>
