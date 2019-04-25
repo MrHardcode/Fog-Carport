@@ -7,6 +7,7 @@ package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.LoginException;
+import data.models.MaterialModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +49,7 @@ public class MaterialMapper
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
         // Using try-with resources, so they automatically close afterwards.
-        try (Connection con = new DBConnector().connection();
+        try (Connection con = DBConnector.connection();
                 PreparedStatement ps = con.prepareStatement(SQL);)
         {
             String category = "";
@@ -61,7 +62,63 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
-            throw new LoginException(ex.getMessage());
+            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
     }
+
+    /**
+     * Get a Material.
+     *
+     * @param id of the Material.
+     * @return MaterialModel
+     * @throws LoginException Should probably be something else later on.
+     */
+    MaterialModel getMaterial(int id) throws LoginException
+    {
+        MaterialModel material = new MaterialModel();
+        
+        String SQL = "SELECT * FROM `carportdb`.`materials`"
+                + " WHERE `materials`.`id_material` = ?";
+        // Using try-with resources, so they automatically close afterwards.
+        try (Connection con = DBConnector.connection();
+                PreparedStatement ps = con.prepareStatement(SQL);)
+        {
+            material.setID(id);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next())
+            {
+                String description = rs.getString("description");
+                material.setDescription(description);
+
+                int height = rs.getInt("height");
+                material.setHeight(height);
+
+                int width = rs.getInt("width");
+                material.setWidth(width);
+
+                int length = rs.getInt("length");
+                material.setLength(length);
+
+                double price = rs.getDouble("cost price");
+                material.setPrice(price);
+
+                String unit = rs.getString("unit");
+                material.setUnit(unit);
+
+                int categoryid = rs.getInt("id_category");
+                material.setCategory(getCategory(categoryid)); // Using another Method
+
+            }
+
+        } catch (SQLException ex)
+        {
+            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        }
+
+        return material;
+    }
+
 }
