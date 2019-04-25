@@ -5,8 +5,6 @@
  */
 package data.models;
 
-import java.util.Objects;
-
 /**
  *
  * @author Camilla
@@ -221,89 +219,4 @@ public class MaterialModel
         this.length = length;
     }
 
-    @Override
-    public String toString()
-    {
-        return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
-    }
-    
-    
-
-    @Override
-    public int hashCode()
-    {
-        int hash = 7;
-        hash = 83 * hash + this.ID;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.description);
-        hash = 83 * hash + Objects.hashCode(this.helptext);
-        hash = 83 * hash + this.length;
-        hash = 83 * hash + this.width;
-        hash = 83 * hash + this.height;
-        hash = 83 * hash + this.quantity;
-        hash = 83 * hash + this.price;
-        hash = 83 * hash + Objects.hashCode(this.unit);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        final MaterialModel other = (MaterialModel) obj;
-        if (this.ID != other.ID)
-        {
-            return false;
-        }
-        if (this.length != other.length)
-        {
-            return false;
-        }
-        if (this.width != other.width)
-        {
-            return false;
-        }
-        if (this.height != other.height)
-        {
-            return false;
-        }
-        if (this.quantity != other.quantity)
-        {
-            return false;
-        }
-        if (this.price != other.price)
-        {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.description, other.description))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.helptext, other.helptext))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.unit, other.unit))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    
 }
