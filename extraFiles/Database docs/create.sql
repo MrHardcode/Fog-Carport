@@ -116,7 +116,7 @@ CREATE TABLE `carportdb`.`order_details` (
 	
 CREATE TABLE `carportdb`.`bills` (
   `id_bill` INT NOT NULL AUTO_INCREMENT,
-  `retail price` DOUBLE NOT NULL,
+  `retail_price` DOUBLE NOT NULL,
   `final_price` DOUBLE NOT NULL,
   `id_order` INT NOT NULL,
   PRIMARY KEY (`id_bill`),
