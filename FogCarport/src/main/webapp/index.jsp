@@ -5,31 +5,12 @@
 --%>
 
 <%@page import="java.util.ArrayList"%>
-<!--The following tag is the JSTL Expression Language tag-->
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-
-<%
-    ArrayList list = new ArrayList();
-    String one = "one";
-    String two = "two";
-    String three = "three";
-    String four = "four";
-    list.add(one);
-    list.add(two);
-    list.add(three);
-    list.add(four);
-    request.getSession().setAttribute("items", list);
-%>
 
 <jsp:include page='/header.jsp'></jsp:include>
 
-    <!-- Show errormessage to the User --> 
-<c:if test="${not empty message}">
-    <H2>Message: ${message} </h2>
-    </c:if>
+
 
 <h1>Hello my man!</h1>
 <c:forEach var="item" items="${items}">
