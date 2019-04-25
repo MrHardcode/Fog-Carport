@@ -1,4 +1,4 @@
-DROP SCHEMA if EXISTS `carportdb`;
+DROP SCHEMA if EXISTS`carportdb`;
 CREATE SCHEMA `carportdb` ;
 USE carportdb;
 
@@ -17,8 +17,6 @@ CREATE TABLE `carportdb`.`category` (
 CREATE TABLE `carportdb`.`customers` (
   `id_customer` INT NOT NULL AUTO_INCREMENT,
   `customer_name` VARCHAR(45) NOT NULL,
-  `adress` VARCHAR(200) NOT NULL,
-  `zipcode` INT NOT NULL,
   `phone` VARCHAR(20) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_customer`),
@@ -34,7 +32,6 @@ CREATE TABLE `carportdb`.`order_details_category` (
 CREATE TABLE `carportdb`.`materials` (
   `id_material` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(200) NOT NULL,
-  `helptext` MEDIUMTEXT NULL,
   `height` INT NULL,
   `width` INT NULL,
   `length` INT NULL,
@@ -63,12 +60,15 @@ CREATE TABLE `carportdb`.`employees` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
+
 CREATE TABLE `carportdb`.`orders` (
   `id_order` INT NOT NULL AUTO_INCREMENT,
   `status` VARCHAR(45) NOT NULL DEFAULT 'accepted',
   `order_width` INT NOT NULL,
   `order_length` INT NOT NULL,
   `incline` INT NOT NULL DEFAULT 0,
+  `build_adress` VARCHAR(200) NOT NULL,
+  `build_zipcode` INT NOT NULL,
   `id_customer` INT NOT NULL,
   `id_employee` INT NOT NULL,
   PRIMARY KEY (`id_order`),
@@ -86,6 +86,7 @@ CREATE TABLE `carportdb`.`orders` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 	
+
 CREATE TABLE `carportdb`.`order_details` (
   `id_order_detail` INT NOT NULL AUTO_INCREMENT,
   `id_material` INT NOT NULL,
@@ -112,6 +113,7 @@ CREATE TABLE `carportdb`.`order_details` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 		
+	
 CREATE TABLE `carportdb`.`bills` (
   `id_bill` INT NOT NULL AUTO_INCREMENT,
   `retail price` DOUBLE NOT NULL,
