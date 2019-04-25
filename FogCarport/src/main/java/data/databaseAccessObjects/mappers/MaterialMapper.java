@@ -121,4 +121,33 @@ public class MaterialMapper
         return material;
     }
 
+    /**
+     * Get Order Details Category.
+     *
+     * @param id of the category.
+     * @return name of the category.
+     * @throws LoginException Should most likely throw something else.
+     */
+    String getOrderDetailsCategory(int id) throws LoginException
+    {
+        String SQL = "SELECT `order_details_category`.`details_category_name`\n"
+                + "FROM `carportdb`.`order_details_category`\n"
+                + "WHERE `order_details_category`.`id_order_details_category` = ?;";
+        // Using try-with resources, so they automatically close afterwards.
+        try (Connection con = DBConnector.connection();
+                PreparedStatement ps = con.prepareStatement(SQL);)
+        {
+            String category = "";
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                category = rs.getString("details_category_name");
+            }
+            return category;
+        } catch (SQLException ex)
+        {
+            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        }
+    }
 }
