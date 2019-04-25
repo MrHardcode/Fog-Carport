@@ -22,11 +22,11 @@
     display: block;
     left:0px;
     visibility:hidden;
-    transition: ease-in-out all .4s;
+    /*transition: ease-in-out all .4s;*/
 
 }
 
 .footer:hover #gitLinkText {
     visibility:visible;
-    transition: ease-in-out all 4s;
+    /*transition: ease-in-out all 4s;*/
 }
