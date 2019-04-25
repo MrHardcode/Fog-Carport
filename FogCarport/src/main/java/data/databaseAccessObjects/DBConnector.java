@@ -30,7 +30,7 @@ public class DBConnector
         singleton = con;
     }
 
-    public static Connection connection() throws ClassNotFoundException, SQLException
+    public static Connection connection() throws SQLException
     {
         if (singleton == null)
         {
@@ -50,11 +50,11 @@ public class DBConnector
                 props.put("serverTimezone", "CET");
                 singleton = DriverManager.getConnection(url, props);
                 System.out.println("Connection correctly established to the database: " + DATABASE);
-            } catch (InstantiationException | IllegalAccessException ex)
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex)
             {
                 ex.printStackTrace();
                 throw new SQLException(ex.getMessage());
-            }
+            } 
         }
         return singleton;
     }
