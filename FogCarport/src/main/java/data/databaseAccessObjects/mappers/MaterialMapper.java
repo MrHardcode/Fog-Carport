@@ -16,24 +16,38 @@ import java.sql.SQLException;
  *
  * @author Camilla
  */
-public class MaterialMapper {
+public class MaterialMapper
+{
+
     private static MaterialMapper materialMapper;
-    
-    private MaterialMapper() {
+
+    private MaterialMapper()
+    {
 
     }
 
-    public static MaterialMapper getInstance() {
-        if (materialMapper == null) {
+    public static MaterialMapper getInstance()
+    {
+        if (materialMapper == null)
+        {
             materialMapper = new MaterialMapper();
         }
         return materialMapper;
     }
-    
-    String getCategory(int id) throws LoginException{
+
+    /**
+     * Get Category.
+     *
+     * @param id of the category.
+     * @return name of the category.
+     * @throws LoginException Should most likely throw something else.
+     */
+    String getCategory(int id) throws LoginException
+    {
         String SQL = "SELECT `category`.`category_name`\n"
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
+        // Using try-with resources, so they automatically close afterwards.
         try (Connection con = new DBConnector().connection();
                 PreparedStatement ps = con.prepareStatement(SQL);)
         {
@@ -42,7 +56,7 @@ public class MaterialMapper {
             ResultSet rs = ps.executeQuery();
             while (rs.next())
             {
-                category = rs.getString("category");
+                category = rs.getString("category_name");
             }
             return category;
         } catch (SQLException ex)
@@ -51,5 +65,3 @@ public class MaterialMapper {
         }
     }
 }
-
-
