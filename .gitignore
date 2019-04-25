@@ -33,3 +33,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/FogCarport/nbproject/
