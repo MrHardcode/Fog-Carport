@@ -189,8 +189,8 @@ class PartslistLogic
         fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 45, 3000, 195);
-        trusses.setHelptext("remme, monteres på stolpe");
+        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm. spær", 45, 3000, 195);
+        trusses.setHelptext("spær, monteres på remmen");
         trusses.setUnit("stk.");
         
         //Roof
@@ -314,6 +314,10 @@ class PartslistLogic
     {
         int width = order.getWidth();
         int trusses = width / 800; //One truss pr 80cm
+        if (width % 800 > 0)
+        {
+            ++trusses;
+        }
         return trusses;
     }
     
