@@ -63,6 +63,7 @@ class PartslistLogic
         // If the checkbox wasn't selected, then shed == null.
         // So we can check for null by doing it like this.
         // If you do shed.equals("y") then it throws a nullpointerexception.
+            // delete this
         {
             hasShed = true;
         }
