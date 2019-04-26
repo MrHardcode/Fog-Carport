@@ -10,7 +10,7 @@ public interface DataFacade
 {
     public MaterialModel getMaterial();
     
-    public OrderModel getOrder();
+    public OrderModel getOrder(int id) throws LoginException;
     
     public PartslistModel getBOM();
     

@@ -6,6 +6,7 @@
 package data;
 
 import data.databaseAccessObjects.mappers.MaterialMapper;
+import data.databaseAccessObjects.mappers.OrderMapper;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -27,10 +28,9 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public OrderModel getOrder()
+    public OrderModel getOrder(int id) throws LoginException
     {
-        // skal udviddes 
-        return new OrderModel();
+        return OrderMapper.getInstance().getOrder(id);
     }
 
     @Override
