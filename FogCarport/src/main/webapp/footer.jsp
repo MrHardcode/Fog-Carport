@@ -10,7 +10,7 @@ crossorigin="anonymous"></script>
 crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="javascript/OrderValidation.js" type="text/javascript"></script>
-<script src="javascript/navbar.js" type="text/javascript"></script>
+<script src="javascript/Navbar.js" type="text/javascript"></script>
 
 <div class="footer">
     <div id="gitLinkText"class="hover">Project Site</div>
