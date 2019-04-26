@@ -15,10 +15,19 @@ package data.models;
 public class OrderModel
 {
 
+    /*
+    Fields
+    */
     private int height;
     private int length;
     private int width;
     private boolean shed;
+    private int id;
+    private int id_customer;
+    private int id_employee;
+    private String build_adress;
+    private int build_zipcode;
+    private int incline;
 
     public OrderModel()
     {
@@ -32,6 +41,7 @@ public class OrderModel
         this.shed = shed;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Get the value of height
      *
@@ -112,4 +122,124 @@ public class OrderModel
         this.shed = shed;
     }
 
+    /**
+     * Get the value of id
+     *
+     * @return the value of id
+     */
+    public int getId()
+    {
+        return id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param id new value of id
+     */
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * Get the value of incline
+     *
+     * @return the value of incline
+     */
+    public int getIncline()
+    {
+        return incline;
+    }
+
+    /**
+     * Set the value of incline
+     *
+     * @param incline new value of incline
+     */
+    public void setIncline(int incline)
+    {
+        this.incline = incline;
+    }
+
+    /**
+     * Get the value of build_zipcode
+     *
+     * @return the value of build_zipcode
+     */
+    public int getBuild_zipcode()
+    {
+        return build_zipcode;
+    }
+
+    /**
+     * Set the value of build_zipcode
+     *
+     * @param build_zipcode new value of build_zipcode
+     */
+    public void setBuild_zipcode(int build_zipcode)
+    {
+        this.build_zipcode = build_zipcode;
+    }
+
+    /**
+     * Get the value of build_adress
+     *
+     * @return the value of build_adress
+     */
+    public String getBuild_adress()
+    {
+        return build_adress;
+    }
+
+    /**
+     * Set the value of build_adress
+     *
+     * @param build_adress new value of build_adress
+     */
+    public void setBuild_adress(String build_adress)
+    {
+        this.build_adress = build_adress;
+    }
+
+    /**
+     * Get the value of id_employee
+     *
+     * @return the value of id_employee
+     */
+    public int getId_employee()
+    {
+        return id_employee;
+    }
+
+    /**
+     * Set the value of id_employee
+     *
+     * @param id_employee new value of id_employee
+     */
+    public void setId_employee(int id_employee)
+    {
+        this.id_employee = id_employee;
+    }
+
+    /**
+     * Get the value of id_customer
+     *
+     * @return the value of id_customer
+     */
+    public int getId_customer()
+    {
+        return id_customer;
+    }
+
+    /**
+     * Set the value of id_customer
+     *
+     * @param id_customer new value of id_customer
+     */
+    public void setId_customer(int id_customer)
+    {
+        this.id_customer = id_customer;
+    }
+    // </editor-fold>
 }
