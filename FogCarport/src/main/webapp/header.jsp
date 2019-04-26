@@ -34,6 +34,7 @@
 
         <!-- Navbar include. -->
         <jsp:include page='/navbar.jsp'></jsp:include>
+
             <!-- Show errormessage to the User --> 
         <c:if test="${not empty message}">
             <H2>Message: ${message} </h2>
