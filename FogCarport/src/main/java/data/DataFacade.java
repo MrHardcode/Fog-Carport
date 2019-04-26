@@ -15,4 +15,6 @@ public interface DataFacade
     public PartslistModel getBOM();
     
     public List<MaterialModel> getOrderDetails(int id) throws LoginException;
+    
+    public void createOrder(OrderModel order) throws LoginException;
 }

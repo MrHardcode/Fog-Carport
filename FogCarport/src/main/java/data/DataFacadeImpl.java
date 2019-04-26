@@ -45,4 +45,10 @@ public class DataFacadeImpl implements DataFacade
         return MaterialMapper.getInstance().getMaterials(id);
     }
 
+    @Override
+    public void createOrder(OrderModel order) throws LoginException
+    {
+        OrderMapper.getInstance().createOrder(order);
+    }
+
 }
