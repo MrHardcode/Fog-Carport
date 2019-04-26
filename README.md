@@ -18,3 +18,4 @@ This is the repository for our third project of the second semester.
 + [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
 + ~~[Deployment]()~~
 + ~~[Report]()~~
++ [Milestones](https://github.com/HrBjarup/Fog-Carport/milestones) - Markers for Issues and Pull Requests done in each sprint.
