@@ -67,7 +67,6 @@ class PartslistLogic
             hasShed = true;
         }
         // If input is out of bounds, then throw an error. 
-        // Units in mm
         if (_height < 2000 || _height > 3000 || _length < 2400 || _length > 7200 || _width < 2400 || _width > 7200)
         {
             // Should maybe be something like a ShopException.
