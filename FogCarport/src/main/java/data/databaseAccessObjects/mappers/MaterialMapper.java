@@ -46,7 +46,7 @@ public class MaterialMapper
      * @return name of the category.
      * @throws LoginException Should most likely throw something else.
      */
-    String getCategory(int id) throws LoginException
+    public String getCategory(int id) throws LoginException
     {
         String SQL = "SELECT `category`.`category_name`\n"
                 + "FROM `carportdb`.`category`\n"
@@ -79,7 +79,7 @@ public class MaterialMapper
      * @return MaterialModel
      * @throws LoginException Should probably be something else later on.
      */
-    MaterialModel getMaterial(int id) throws LoginException
+    public MaterialModel getMaterial(int id) throws LoginException
     {
         MaterialModel material = new MaterialModel();
 
@@ -137,7 +137,7 @@ public class MaterialMapper
      * @return name of the category.
      * @throws LoginException Should most likely throw something else.
      */
-    String getOrderDetailsCategory(int id) throws LoginException
+    public String getOrderDetailsCategory(int id) throws LoginException
     {
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
@@ -162,14 +162,14 @@ public class MaterialMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get all Materials for an order">
+    // <editor-fold defaultstate="collapsed" desc="Get all Materials for an Order Details">
     /**
      * Get a List of Materials.
      * @param id of the Order Details.
      * @return List of MaterialModel.
      * @throws LoginException Should most likely throw something else.
      */
-    List<MaterialModel> getMaterials(int id) throws LoginException
+    public List<MaterialModel> getMaterials(int id) throws LoginException
     { 
         List<MaterialModel> materials = new ArrayList<>();
         String SQL = "SELECT `order_details`.`id_material`\n"
