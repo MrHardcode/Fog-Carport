@@ -108,7 +108,7 @@ public class MaterialMapper
                 int length = rs.getInt("length");
                 material.setLength(length);
 
-                double price = rs.getDouble("cost price");
+                double price = rs.getDouble("cost_price");
                 material.setPrice(price);
 
                 String unit = rs.getString("unit");
