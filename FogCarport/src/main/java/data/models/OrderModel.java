@@ -17,7 +17,8 @@ public class OrderModel
 
     /*
     Fields
-    */
+     */
+    private int height;
     private int length;
     private int width;
     private boolean shed;
@@ -26,14 +27,14 @@ public class OrderModel
     private int id_employee;
     private String build_adress;
     private int build_zipcode;
-    private int incline;    
+    private int incline;
     private String status;
 
     public OrderModel()
     {
     }
 
-    public OrderModel(int length, int width, boolean shed)
+    public OrderModel(int height, int length, int width, boolean shed)
     {
         this.length = length;
         this.width = width;
@@ -41,6 +42,26 @@ public class OrderModel
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    /**
+     * Get the value of height
+     *
+     * @return the value of height
+     */
+    public int getHeight()
+    {
+        return height;
+    }
+
+    /**
+     * Set the value of height
+     *
+     * @param height new value of height
+     */
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
     /**
      * Get the value of status
      *
