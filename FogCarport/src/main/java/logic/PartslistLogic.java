@@ -67,6 +67,7 @@ class PartslistLogic
             hasShed = true;
         }
         // If input is out of bounds, then throw an error. 
+        // Units in mm
         if (_height < 2000 || _height > 3000 || _length < 2400 || _length > 7200 || _width < 2400 || _width > 7200)
         {
             // Should maybe be something like a ShopException.
@@ -189,8 +190,8 @@ class PartslistLogic
         fittingConnectors.setUnit("stk.");
         
         //Wood
-        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm.", 45, 3000, 195);
-        trusses.setHelptext("remme, monteres på stolpe");
+        MaterialModel trusses = new MaterialModel(680, "spærtræ ubh.", "45x195mm. spær", 45, 3000, 195);
+        trusses.setHelptext("spær, monteres på remmen");
         trusses.setUnit("stk.");
         
         //Roof
@@ -314,6 +315,10 @@ class PartslistLogic
     {
         int width = order.getWidth();
         int trusses = width / 800; //One truss pr 80cm
+        if (width % 800 > 0)
+        {
+            ++trusses;
+        }
         return trusses;
     }
     
