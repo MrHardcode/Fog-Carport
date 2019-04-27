@@ -46,7 +46,7 @@
             </div>
 
             <!-- Button to submit -->
-            <button type="submit" class="btn btn-primary" id="submit-btn" style="margin-top: 5px;">Bestil Carport</button>
+            <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
 
         </form>
         <!-- Form end -->
