@@ -5,9 +5,13 @@
  */
 package data;
 
+import data.databaseAccessObjects.mappers.MaterialMapper;
+import data.databaseAccessObjects.mappers.OrderMapper;
+import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
+import java.util.List;
 
 /**
  *
@@ -24,16 +28,27 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public OrderModel getOrder()
+    public OrderModel getOrder(int id) throws LoginException
     {
-        // skal udviddes 
-        return new OrderModel();
+        return OrderMapper.getInstance().getOrder(id);
     }
 
     @Override
     public PartslistModel getBOM()
     {
         return new PartslistModel();
+    }
+
+    @Override
+    public List<MaterialModel> getOrderDetails(int id) throws LoginException
+    {
+        return MaterialMapper.getInstance().getMaterials(id);
+    }
+
+    @Override
+    public void createOrder(OrderModel order) throws LoginException
+    {
+        OrderMapper.getInstance().createOrder(order);
     }
 
 }
