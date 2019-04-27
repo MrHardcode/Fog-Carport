@@ -32,9 +32,9 @@ CREATE TABLE `carportdb`.`order_details_category` (
 CREATE TABLE `carportdb`.`materials` (
   `id_material` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(200) NOT NULL,
-  `height` INT NULL,
-  `width` INT NULL,
-  `length` INT NULL,
+  `height` INT NOT NULL DEFAULT 0,
+  `width` INT NOT NULL DEFAULT 0,
+  `length` INT NOT NULL DEFAULT 0,
   `cost_price` DOUBLE NOT NULL,
   `unit` VARCHAR(45) NOT NULL,
   `id_category` INT NOT NULL,
