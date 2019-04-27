@@ -35,8 +35,11 @@ public class ShedLogic
     */
     PartslistModel addShed(PartslistModel bom, OrderModel order)
     {
-        
-        // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
+        boolean standard = false;
+        if (standard == true) {
+        // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM 
+        // KEEP THIS FOR THE BUTTON NAMED "Standard Redskabsrum" AS SHOWN IN VIDEO
+        //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
         /* Screws and misc. */
         MaterialModel stalddørsgreb = new MaterialModel(75, "Stalddørsgreb", "Stalddørsgreb 50x75", 1, 0, 0);
         stalddørsgreb.setHelptext("til dør i skur");
@@ -87,6 +90,22 @@ public class ShedLogic
         løsholt240.setUnit("Stk.");
         løsholt240.setPrice(112);
         bom.addMaterial(løsholt240);
+        //</editor-fold>
+        } else {
+        // width and length in mm currently. 
+        // In video the steps are 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.3, 3.6 in meters
+        // VARIABLES IF NOT STANDARD SHED:
+        // Should be replaced with variables based on user input.
+        int width = 2400;
+        int length = 2400; 
+        MaterialModel wood = new MaterialModel(); // replace with something like order.getShedWood();
+        // IF FLOOR IS CHOSEN:
+        /* if (order.getShedFloor() != null){
+            MaterialModel floor = new MaterialModel(); // replace with something like order.getShedFloor();
+            // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH HERE TO BOM
+        } */
+        
+        }
         
         return bom;
     }
