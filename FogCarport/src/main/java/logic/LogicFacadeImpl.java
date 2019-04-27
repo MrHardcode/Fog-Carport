@@ -1,7 +1,10 @@
 package logic;
 
 import data.exceptions.LoginException;
+import data.models.MaterialModel;
+import data.models.OrderModel;
 import data.models.PartslistModel;
+import java.util.List;
 
 public class LogicFacadeImpl implements LogicFacade {
 
@@ -21,6 +24,12 @@ public class LogicFacadeImpl implements LogicFacade {
     @Override
     public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException {
         return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
+    }
+
+    @Override
+    public List<MaterialModel> addShed(List<MaterialModel> bom, OrderModel order) throws LoginException
+    {
+        return ShedLogic.getInstance().addShed(bom, order);
     }
 
 }
