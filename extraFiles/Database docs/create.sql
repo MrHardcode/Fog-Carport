@@ -23,11 +23,6 @@ CREATE TABLE `carportdb`.`customers` (
   UNIQUE INDEX `id_customer_UNIQUE` (`id_customer` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
 
-CREATE TABLE `carportdb`.`order_details_category` (
-  `id_order_details_category` INT NOT NULL AUTO_INCREMENT,
-  `details_category_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_order_details_category`),
-  UNIQUE INDEX `id_order_details_category_UNIQUE` (`id_order_details_category`));
 
 CREATE TABLE `carportdb`.`materials` (
   `id_material` INT NOT NULL AUTO_INCREMENT,
@@ -60,58 +55,54 @@ CREATE TABLE `carportdb`.`employees` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-
 CREATE TABLE `carportdb`.`orders` (
   `id_order` INT NOT NULL AUTO_INCREMENT,
-  `status` VARCHAR(45) NOT NULL DEFAULT 'accepted',
-  `order_width` INT NOT NULL,
-  `order_length` INT NOT NULL,
-  `incline` INT NOT NULL DEFAULT 0,
-  `build_adress` VARCHAR(200) NOT NULL,
+  `build_adress` VARCHAR(45) NOT NULL,
   `build_zipcode` INT NOT NULL,
-  `id_customer` INT NOT NULL,
-  `id_employee` INT NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  `width` INT NOT NULL,
+  `length` INT NOT NULL,
+  `incline` INT NOT NULL,
+  `roof_tiles_id` INT NULL,
+  `shed_width` INT NULL,
+  `shed_length` INT NULL,
+  `shed_walls_id` INT NULL,
+  `shed_floor_id` INT NULL,
+  `customer_id` INT NOT NULL,
+  `employee_id` INT NOT NULL,
   PRIMARY KEY (`id_order`),
   UNIQUE INDEX `id_order_UNIQUE` (`id_order` ASC) VISIBLE,
-  INDEX `id_customer_idx` (`id_customer` ASC) VISIBLE,
-  INDEX `id_employee_idx` (`id_employee` ASC) VISIBLE,
-  CONSTRAINT `id_customer`
-    FOREIGN KEY (`id_customer`)
-    REFERENCES `carportdb`.`customers` (`id_customer`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `id_employee`
-    FOREIGN KEY (`id_employee`)
-    REFERENCES `carportdb`.`employees` (`id_employee`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
-	
-
-CREATE TABLE `carportdb`.`order_details` (
-  `id_order_detail` INT NOT NULL AUTO_INCREMENT,
-  `id_material` INT NOT NULL,
-  `id_order` INT NOT NULL,
-  `id_order_detail_category` INT NOT NULL,
-  PRIMARY KEY (`id_order_detail`),
-  UNIQUE INDEX `id_order_detail_UNIQUE` (`id_order_detail` ASC) VISIBLE,
-  INDEX `id_material_idx` (`id_material` ASC) VISIBLE,
-  INDEX `id_order_idx` (`id_order` ASC) VISIBLE,
-  INDEX `id_order_detail_category_idx` (`id_order_detail_category` ASC) VISIBLE,
-  CONSTRAINT `id_material`
-    FOREIGN KEY (`id_material`)
+  INDEX `roof_tiles_id_idx` (`roof_tiles_id` ASC) VISIBLE,
+  INDEX `shed_walls_id_idx` (`shed_walls_id` ASC) VISIBLE,
+  INDEX `shed_floor_id_idx` (`shed_floor_id` ASC) VISIBLE,
+  INDEX `customer_id_idx` (`customer_id` ASC) VISIBLE,
+  INDEX `employee_id_idx` (`employee_id` ASC) VISIBLE,
+  CONSTRAINT `roof_tiles_id`
+    FOREIGN KEY (`roof_tiles_id`)
     REFERENCES `carportdb`.`materials` (`id_material`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `id_order`
-    FOREIGN KEY (`id_order`)
-    REFERENCES `carportdb`.`orders` (`id_order`)
+  CONSTRAINT `shed_walls_id`
+    FOREIGN KEY (`shed_walls_id`)
+    REFERENCES `carportdb`.`materials` (`id_material`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `id_order_detail_category`
-    FOREIGN KEY (`id_order_detail_category`)
-    REFERENCES `carportdb`.`order_details_category` (`id_order_details_category`)
+  CONSTRAINT `shed_floor_id`
+    FOREIGN KEY (`shed_floor_id`)
+    REFERENCES `carportdb`.`materials` (`id_material`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `customer_id`
+    FOREIGN KEY (`customer_id`)
+    REFERENCES `carportdb`.`customers` (`id_customer`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `employee_id`
+    FOREIGN KEY (`employee_id`)
+    REFERENCES `carportdb`.`employees` (`id_employee`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+
 		
 	
 CREATE TABLE `carportdb`.`bills` (
