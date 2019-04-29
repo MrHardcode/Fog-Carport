@@ -51,5 +51,21 @@
         </form>
         <!-- Form end -->
     </div>
+<div id="shed-menu" class="d-flex justify-content-center">
+        <form hidden id="carport-shed-form" action="FrontController" method="post">
+            <br>
+            <h1>Byg skur</h1>
+            <div>
+                <select class="form-control" id="shed-length"><option selected="selected" value="">Vælg længde</option>
+                </select>
+            </div>
+            <div>
+                <select class="form-control" id="shed-width"><option selected="selected" value="">Vælg bredde</option>
+                </select>
+            </div>
+        </form>
+    </div> 
 
+<script src="javascript/OrderValidation.js" type="text/javascript"></script>
+<script src="javascript/OrderValidationShed.js" type="text/javascript"></script>
 <jsp:include page='/footer.jsp'></jsp:include>
