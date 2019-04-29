@@ -27,6 +27,11 @@ public class PartslistModel {
         this.getBillOfMaterials().add(material);
         this.totalprice += material.getPrice();
     }
+    
+    public void addPartslist (PartslistModel partslist){
+        billOfMaterials.addAll(partslist.getBillOfMaterials());
+        this.totalprice += partslist.getTotalprice();
+    }
 
     public int getTotalprice()
     {
