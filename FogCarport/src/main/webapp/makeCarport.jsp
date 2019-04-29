@@ -12,7 +12,7 @@
             <!-- Hidden input: &command=simpleorder -->
             <input type="hidden" name="command" value="simpleorder">
 
-            <h1>Bestil Carport</h1>
+            <h1 class="h1">Bestil Carport</h1>
 
             <!-- Height 
             <div class="form-group">
@@ -54,12 +54,14 @@
 <div id="shed-menu" class="d-flex justify-content-center">
         <form hidden id="carport-shed-form" action="FrontController" method="post">
             <br>
-            <h1>Byg skur</h1>
-            <div>
+            <h1 class="h1">Byg skur</h1>
+            <div class="form-group">
+                <label for="ShedInputLength">Længde i cm</label>
                 <select class="form-control" id="shed-length"><option selected="selected" value="">Vælg længde</option>
                 </select>
             </div>
-            <div>
+            <div class="form-group">
+                <label for="ShedInputWidth">Bredde i cm</label>
                 <select class="form-control" id="shed-width"><option selected="selected" value="">Vælg bredde</option>
                 </select>
             </div>

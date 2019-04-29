@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : Camilla
 */
 
+.h1{
+    padding: 10px;
+}
+
 .text-error-color{
     color: rgb(242, 116, 116);
 }
