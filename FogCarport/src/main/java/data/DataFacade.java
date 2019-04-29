@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DataFacade
 {
-    public MaterialModel getMaterial();
+    public MaterialModel getMaterial(int id) throws LoginException;
     
     public OrderModel getOrder(int id) throws LoginException;
     

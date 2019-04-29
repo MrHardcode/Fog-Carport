@@ -21,10 +21,9 @@ public class DataFacadeImpl implements DataFacade
 {
 
     @Override
-    public MaterialModel getMaterial()
+    public MaterialModel getMaterial(int id) throws LoginException
     {
-        // skal udviddes 
-        return new MaterialModel();
+        return MaterialMapper.getInstance().getMaterial(id);
     }
 
     @Override
