@@ -8,12 +8,11 @@ package data.databaseAccessObjects.mappers;
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
+import data.models.PartslistModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -169,9 +168,9 @@ public class MaterialMapper
      * @return List of MaterialModel.
      * @throws LoginException Should most likely throw something else.
      */
-    public List<MaterialModel> getMaterials(int id) throws LoginException
+    public PartslistModel getMaterials(int id) throws LoginException
     { 
-        List<MaterialModel> materials = new ArrayList<>();
+        PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
@@ -185,7 +184,7 @@ public class MaterialMapper
             while (rs.next())
             {
                 MaterialModel material = getMaterial(rs.getInt("id_material"));
-                materials.add(material);
+                materials.addMaterial(material);
             }
         } catch (SQLException ex)
         {
