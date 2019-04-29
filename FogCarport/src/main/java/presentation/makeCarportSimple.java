@@ -16,7 +16,7 @@ public class makeCarportSimple extends presentation.Command
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws LoginException
     {
-        String height = request.getParameter("height");
+        String height = "210";
         String length = request.getParameter("length");
         String width  = request.getParameter("width");
         String shed   = request.getParameter("shed");
