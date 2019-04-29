@@ -47,6 +47,10 @@ function prepareShedMenu() {
             sValues[i] = e - 30 * ([i]);
             if (sValues[i] <= 100)
             {
+                if (sValues[i] === -30)
+                {
+                    sValues = [];
+                }
                 break;
             }
             i++;
