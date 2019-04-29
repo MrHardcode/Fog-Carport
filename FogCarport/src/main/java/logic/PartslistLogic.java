@@ -76,7 +76,7 @@ class PartslistLogic
         else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
-            OrderModel order = new OrderModel(_height, _length, _width, hasShed);
+            OrderModel order = new OrderModel(_height, _length, _width);
             if (hasShed == true) // If they want a shed then add it to the partslist.
             {
                 addShed(order, bom);
