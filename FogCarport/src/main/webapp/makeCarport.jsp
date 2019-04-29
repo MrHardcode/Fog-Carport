@@ -57,17 +57,18 @@
             <h1 class="h1">Byg skur</h1>
             <div class="form-group">
                 <label for="ShedInputLength">Længde i cm</label>
-                <select class="form-control" id="shed-length"><option selected="selected" value="">Vælg længde</option>
+                <select class="form-control" id="shed-length" name="shed-length"><option selected="selected" value="">Vælg længde</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="ShedInputWidth">Bredde i cm</label>
-                <select class="form-control" id="shed-width"><option selected="selected" value="">Vælg bredde</option>
+                <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
                 </select>
             </div>
         </form>
     </div> 
 
+<!-- The order of script imports is important -->
 <script src="javascript/OrderValidation.js" type="text/javascript"></script>
 <script src="javascript/OrderValidationShed.js" type="text/javascript"></script>
 <jsp:include page='/footer.jsp'></jsp:include>
