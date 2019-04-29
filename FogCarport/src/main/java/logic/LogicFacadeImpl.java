@@ -23,4 +23,9 @@ public class LogicFacadeImpl implements LogicFacade {
         return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
     }
 
+    @Override
+    public PartslistModel getBOM() throws LoginException {
+        return PartslistLogic.getInstance().getBOM();
+    }
+
 }

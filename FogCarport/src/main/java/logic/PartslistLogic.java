@@ -23,7 +23,14 @@ class PartslistLogic
         }
         return instance;
     }
-
+    
+    PartslistModel getBOM() {
+        PartslistModel bom = new PartslistModel();
+        
+        
+        
+        return bom;
+    }
     /*
     https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
     Malte used this link as a springboard for the simple bill of materials.
@@ -595,5 +602,6 @@ class PartslistLogic
         int boltAmount = (strapAmount * 2); //always 2 screws per strap
         return boltAmount;
     }
+
 
 }
