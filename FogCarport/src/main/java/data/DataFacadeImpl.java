@@ -11,7 +11,6 @@ import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
-import java.util.List;
 
 /**
  *
@@ -39,7 +38,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public List<MaterialModel> getOrderDetails(int id) throws LoginException
+    public PartslistModel getOrderDetails(int id) throws LoginException
     {
         return MaterialMapper.getInstance().getMaterials(id);
     }
