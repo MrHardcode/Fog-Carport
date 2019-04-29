@@ -55,37 +55,26 @@ public class OrderMapper
         try (Connection con = DBConnector.connection();
                 PreparedStatement ps = con.prepareStatement(SQL);)
         {
-            order.setId(id);
+            order.setId(id); // id_order
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next())
             {
-                String status = rs.getString("status");
-                order.setStatus(status);
-
-                int width = rs.getInt("order_width");
-                order.setWidth(width);
-
-                int length = rs.getInt("order_length");
-                order.setLength(length);
-
-                int incline = rs.getInt("incline");
-                order.setIncline(incline);
-
-                String adress = rs.getString("build_adress");
-                order.setBuild_adress(adress);
-
-                int zipcode = rs.getInt("build_zipcode");
-                order.setBuild_zipcode(zipcode);
-
-                int id_customer = rs.getInt("id_customer");
-                order.setId_customer(id_customer);
-
-                int id_employee = rs.getInt("id_employee");
-                order.setId_employee(id_employee);
-
+                order.setStatus(rs.getString("status"));
+                order.setWidth(rs.getInt("width"));
+                order.setLength(rs.getInt("length"));
+                order.setIncline(rs.getInt("incline"));
+                order.setRoof_tiles_id(rs.getInt("roof_tiles_id"));
+                order.setBuild_adress(rs.getString("build_adress"));
+                order.setBuild_zipcode(rs.getInt("build_zipcode"));
+                order.setId_customer(rs.getInt("customer_id"));
+                order.setId_employee(rs.getInt("employee_id"));
+                order.setShed_floor_id(rs.getInt("shed_floor_id"));
+                order.setShed_walls_id(rs.getInt("shed_walls_id"));
+                order.setShed_length(rs.getInt("shed_length"));
+                order.setShed_width(rs.getInt("shed_width"));
             }
 
         } catch (SQLException ex)

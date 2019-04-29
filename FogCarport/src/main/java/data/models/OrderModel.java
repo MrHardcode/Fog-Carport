@@ -21,7 +21,6 @@ public class OrderModel
     private int height;
     private int length;
     private int width;
-    private boolean shed;
     private int id;
     private int id_customer;
     private int id_employee;
@@ -29,19 +28,129 @@ public class OrderModel
     private int build_zipcode;
     private int incline;
     private String status;
-
+    private int roof_tiles_id;
+    private int shed_width;    
+    private int shed_length;
+    private int shed_walls_id;
+    private int shed_floor_id;
+    
     public OrderModel()
     {
     }
 
-    public OrderModel(int height, int length, int width, boolean shed)
+    public OrderModel(int height, int length, int width)
     {
         this.length = length;
         this.width = width;
-        this.shed = shed;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    /**
+     * Get the value of shed_floor_id
+     *
+     * @return the value of shed_floor_id
+     */
+    public int getShed_floor_id()
+    {
+        return shed_floor_id;
+    }
+
+    /**
+     * Set the value of shed_floor_id
+     *
+     * @param shed_floor_id new value of shed_floor_id
+     */
+    public void setShed_floor_id(int shed_floor_id)
+    {
+        this.shed_floor_id = shed_floor_id;
+    }
+
+    
+
+    /**
+     * Get the value of shed_walls_id
+     *
+     * @return the value of shed_walls_id
+     */
+    public int getShed_walls_id()
+    {
+        return shed_walls_id;
+    }
+
+    /**
+     * Set the value of shed_walls_id
+     *
+     * @param shed_walls_id new value of shed_walls_id
+     */
+    public void setShed_walls_id(int shed_walls_id)
+    {
+        this.shed_walls_id = shed_walls_id;
+    }
+
+
+    /**
+     * Get the value of shed_length
+     *
+     * @return the value of shed_length
+     */
+    public int getShed_length()
+    {
+        return shed_length;
+    }
+
+    /**
+     * Set the value of shed_length
+     *
+     * @param shed_length new value of shed_length
+     */
+    public void setShed_length(int shed_length)
+    {
+        this.shed_length = shed_length;
+    }
+
+
+    /**
+     * Get the value of shed_width
+     *
+     * @return the value of shed_width
+     */
+    public int getShed_width()
+    {
+        return shed_width;
+    }
+
+    /**
+     * Set the value of shed_width
+     *
+     * @param shed_width new value of shed_width
+     */
+    public void setShed_width(int shed_width)
+    {
+        this.shed_width = shed_width;
+    }
+
+    
+    /**
+     * Get the value of roof_tiles_id
+     *
+     * @return the value of roof_tiles_id
+     */
+    public int getRoof_tiles_id()
+    {
+        return roof_tiles_id;
+    }
+
+    /**
+     * Set the value of roof_tiles_id
+     *
+     * @param roof_tiles_id new value of roof_tiles_id
+     */
+    public void setRoof_tiles_id(int roof_tiles_id)
+    {
+        this.roof_tiles_id = roof_tiles_id;
+    }
+
+    
     /**
      * Get the value of height
      *
@@ -120,26 +229,6 @@ public class OrderModel
     public void setWidth(int width)
     {
         this.width = width;
-    }
-
-    /**
-     * Get the value of shed
-     *
-     * @return the value of shed
-     */
-    public boolean isShed()
-    {
-        return shed;
-    }
-
-    /**
-     * Set the value of shed
-     *
-     * @param shed new value of shed
-     */
-    public void setShed(boolean shed)
-    {
-        this.shed = shed;
     }
 
     /**
