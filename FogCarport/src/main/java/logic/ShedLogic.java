@@ -156,7 +156,17 @@ public class ShedLogic
      */
     private void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
     {
-        bom.addMaterial(db.getMaterial(17)); // Stalddørsgreb for the door.
+        MaterialModel stalddørsgreb = db.getMaterial(17); 
+        stalddørsgreb.setQuantity(1);
+        bom.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.
+        
+        MaterialModel laegte = db.getMaterial(12); // 38x73mm taglægte.
+        laegte.setQuantity(1);
+        bom.addMaterial(laegte); // for the backside of the door.
+        
+        MaterialModel hængsel = db.getMaterial(18);
+        hængsel.setQuantity(2);
+        bom.addMaterial(hængsel); // T-hængsel for the door.
     }
 
     /**
@@ -192,8 +202,17 @@ public class ShedLogic
         
         // Beslagsskruer #21 4 per beslag
         MaterialModel beslagsskruer = db.getMaterial(21);
-        beslagsskruer.setQuantity(vinkelbeslagamount*4);
+        int amountofskruer = 4 * vinkelbeslagamount;
+        int restskruer = amountofskruer % 100; // 100 in one pack
+        int amountofpacks = amountofskruer / 100;
+        if (restskruer > 0) // If customer needs another pack.
+        {
+            amountofpacks++;
+        }
+        beslagsskruer.setQuantity(amountofpacks);
         bom.addMaterial(beslagsskruer);
+        
+        
     }
 
     private void skruer(int amountofwood, DataFacade db, PartslistModel bom) throws LoginException
