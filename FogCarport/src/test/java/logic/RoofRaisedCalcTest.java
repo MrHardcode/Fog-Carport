@@ -53,19 +53,15 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGetRoofStructure() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        bomExp.addMaterial(DAO.getMaterial(6));
+        order.setWidth(1800);
+        order.setIncline(20);
         
-        DAO = DataFacadeImpl.getInstance();
-        MaterialModel model = DAO.getMaterial(1);
-        model.getCategory();
-//        RoofRaisedCalc raised = new RoofRaisedCalc();
-//        OrderModel order = new OrderModel();
-//        PartslistModel bomExp = new PartslistModel();
-//        bomExp.addMaterial(DAO.getMaterial(6));
-//        order.setWidth(1800);
-//        order.setIncline(20);
-//        
-//        PartslistModel bomRes = raised.getRoofStructure(order);
-//        assertEquals(bomExp, bomRes);
+        PartslistModel bomRes = raised.getRoofStructure(order);
+        assertEquals(bomExp, bomRes);
     }
     
 }

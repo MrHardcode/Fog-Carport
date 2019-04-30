@@ -108,8 +108,8 @@ public class MaterialMapper
                 String unit = rs.getString("unit");
                 material.setUnit(unit);
 
-                int categoryid = rs.getInt("id_category");
-                material.setCategory(getCategory(categoryid)); // Using another Method
+//                int categoryid = rs.getInt("id_category");
+//                material.setCategory(getCategory(categoryid)); // Using another Method
 
                
             }
