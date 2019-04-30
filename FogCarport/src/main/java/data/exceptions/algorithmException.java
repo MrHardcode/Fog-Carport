@@ -1,11 +1,11 @@
 package data.exceptions;
 
-public class LoginException extends Exception
+public class algorithmException extends Exception
 {
 
     private static final long serialVersionUID = 1L;
 
-    public LoginException(String msg)
+    public algorithmException(String msg)
     {
         super(msg);
     }

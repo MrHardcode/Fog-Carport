@@ -2,6 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.algorithmException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -46,11 +47,11 @@ import java.util.HashMap;
  *
  *
  */
-public class RoofFlatCalc
+public class RoofFlatCalc 
 {
 
     private int amountOfScrews; //total amount of screws needed
-    private DataFacade dataF; //data accessor
+    private DataFacade DAO; //data accessor
     private PartslistModel roofMaterials; //items to be returned to master list
 
     private HashMap<String, Integer> rules;
@@ -70,7 +71,6 @@ public class RoofFlatCalc
 //        }
 //        return instance;
 //    }
-    
 //    /**
 //     * Testing constructor
 //     * @param dataF
@@ -84,11 +84,10 @@ public class RoofFlatCalc
 //        this.roofMaterials = roofMaterials;
 //        this.rules = rules;
 //    }
-
     public RoofFlatCalc()
     {
         amountOfScrews = 0;
-        this.dataF = DataFacadeImpl.getInstance();
+        this.DAO = DataFacadeImpl.getInstance();
         this.roofMaterials = new PartslistModel();
         this.rules = new HashMap<>();
         rules.put("rafterFittings", 2); //2 fittings per rafter
@@ -102,20 +101,55 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    PartslistModel calculateRoof(OrderModel order)
+    PartslistModel calculateFlatRoofStructure(OrderModel order) throws algorithmException
     {
-        roofMaterials.addPartslist(calculateWood(order));
+
+        roofMaterials.addPartslist(calculateMainParts(order, order.getRoof_tiles_id()));
+        roofMaterials.addPartslist(calculateDependantParts(order));
         roofMaterials.addPartslist(calculateMiscellaneous(order));
 
         return roofMaterials;
     }
 
-    protected PartslistModel calculateWood(OrderModel order)
+    /**
+     *
+     * Calculates main parts that are generally always needed for the flat roof
+     * part of the construction.
+     *
+     * @param order order in question
+     * @param roofSelection the ID selected for roof tiles. 0 = no roof. || 28,
+     * 29 = plastic. Other = felt ("tagpap").
+     * @return
+     * @throws data.exceptions.algorithmException
+     */
+    protected PartslistModel calculateMainParts(OrderModel order, int roofSelection) throws algorithmException 
     {
         PartslistModel woodMaterials = new PartslistModel();
 
+        switch (roofSelection) //could also be done with multiple if-statements
+        {
+        //plastic roof
+            case 28:
+            case 29:
+                
+                break;
+        //felt roof
+            case 46:
+            case 47:
+                break;
+            default:
+                throw new algorithmException("");
+        }
+
         return woodMaterials;
 
+    }
+
+    protected PartslistModel calculateDependantParts(OrderModel order)
+    {
+        PartslistModel dependantParts = new PartslistModel();
+
+        return dependantParts;
     }
 
     protected PartslistModel calculateMiscellaneous(OrderModel order)
@@ -125,7 +159,79 @@ public class RoofFlatCalc
         return miscMaterials;
     }
 
+    /**
+     * calculates rafter ("spær") for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculateRafters(OrderModel order)
+    {
+
+    }
+
+    /**
+     * calculates fascia ("stern") for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculateFascias(OrderModel order)
+    {
+
+    }
+
+    /**
+     * calculates bargeboard ("vandbrædt") for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculateBargeboard(OrderModel order)
+    {
+
+    }
+
+    /**
+     * calculate universalbeslag for carport roof
+     *
+     * @param rafterAmount
+     * @return
+     */
     private int calculateFittings(int rafterAmount)
+    {
+
+    }
+
+    /**
+     * calculate hulbånd for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculateBand(OrderModel order)
+    {
+
+    }
+
+    /**
+     * Calculates roof tiles (plastic) for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculatePlasticTiles(OrderModel order)
+    {
+
+    }
+
+    /**
+     * Calculates roof tiles (felt) ("tagpap") for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private int calculateFeltTiles(OrderModel order)
     {
 
     }
