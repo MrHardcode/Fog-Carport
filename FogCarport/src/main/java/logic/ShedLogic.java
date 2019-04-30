@@ -54,8 +54,8 @@ public class ShedLogic
             int length = order.getShed_length();
             MaterialModel wood = db.getMaterial(order.getShed_walls_id());
 
-            // MATERIALS NEEDED NO MATTER WHAT ( DOOR ETC )
-            addBaseMaterials(bom, wood);
+            // MATERIALS NEEDED NO MATTER WHAT - DOOR
+            addDoorMaterials(bom, wood);
 
             // IF FLOOR IS CHOSEN:
             if (order.getShed_floor_id() != 0)
@@ -148,15 +148,34 @@ public class ShedLogic
     /**
      * Adds always needed materials to the Partslist. Materials for the door,
      * etc.
+     * 2 vandrette stivere 38x73 
+     * 2 lag beklædningsbrædder 
+     * skråstiver
+     * lægte
+     * dørgreb
+     * hængsler
+     * skruer til alt dette
      *
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    private void addBaseMaterials(PartslistModel bom, MaterialModel wood)
+    private void addDoorMaterials(PartslistModel bom, MaterialModel wood)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Materials for the rest.
+     * 12 brædder per 30cm.
+     * 9 skruer per bræt.
+     * 1 løsholt 20 cm over jorden. 1 løsholt 110 cm over jorden.
+     * 1 ekstra løsholt i enderne, fordi den øverste i sidderne er remmene
+     * løsholter monteres i vinkelbeslag 4 beslagsskruer per beslagsflade.
+     * @param bom
+     * @param wood
+     * @param length
+     * @param width 
+     */
     private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
