@@ -9,14 +9,12 @@ public class AlgorithmException extends Exception
 
     public AlgorithmException(int errorNumber, String message)
     {
-
         super(message);
         this.errorNumber = errorNumber;
     }
 
     public AlgorithmException(int errorNumber, String message, Throwable throwable)
     {
-
         super(message, throwable);
         this.errorNumber = errorNumber;
     }

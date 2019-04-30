@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.models;
 
 import java.util.Objects;
@@ -49,8 +44,7 @@ public class MaterialModel
         this.length = length;
         this.width = width;
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
     /**
      * Updated constructor to fit database model.
      *
@@ -61,6 +55,7 @@ public class MaterialModel
      * @param length
      * @param width
      * @param height
+     * @param price
      * @param unit
      * @param category
      */
@@ -75,6 +70,9 @@ public class MaterialModel
         this.unit = unit;
         this.category = category;
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
 
     /**
      * Get the value of category
