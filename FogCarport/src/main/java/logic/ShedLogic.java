@@ -178,16 +178,37 @@ public class ShedLogic
         wood.setQuantity(amountofwood);
         bom.addMaterial(wood);
 
+        // Adding skruer for the beklædning.
+        skruer(amountofwood, db, bom);
+        
+        // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
+        int vinkelbeslagamount = reglar(width, db, bom, 3);
+        vinkelbeslagamount = vinkelbeslagamount + reglar(length, db, bom, 2);
+        
+        // Vinkelbeslag #19 2 per reglar
+        MaterialModel vinkelbeslag = db.getMaterial(19);
+        vinkelbeslag.setQuantity(vinkelbeslagamount);
+        bom.addMaterial(vinkelbeslag);
+        
+        // Beslagsskruer #21 4 per beslag
+        MaterialModel beslagsskruer = db.getMaterial(21);
+        beslagsskruer.setQuantity(vinkelbeslagamount*4);
+        bom.addMaterial(beslagsskruer);
+    }
+
+    private void skruer(int amountofwood, DataFacade db, PartslistModel bom) throws LoginException
+    {
         // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
         int amountofskruer50 = 3 * amountofwood;
         MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
         int restskruer = amountofskruer50 % 300;
         int amountofpacks = amountofskruer50 / 300;
-        if (restskruer > 0)
+        if (restskruer > 0) // If customer needs another pack.
         {
             amountofpacks++;
         }
         skruer50.setQuantity(amountofpacks);
+        bom.addMaterial(skruer50);
 
         // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
         int amountofskruer70 = 6 * amountofwood;
@@ -199,8 +220,21 @@ public class ShedLogic
             amountofpacks++;
         }
         skruer70.setQuantity(amountofpacks);
-        
-        
-        
+        bom.addMaterial(skruer70);
+    }
+
+    private int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
+    {
+        // 2400 reglar #6
+        int amountofreglar = side * (width/2000); // One is 2400 long. One pole each 2m. You can cover two poles with one 2400mm regel.
+        MaterialModel reglar = db.getMaterial(6);
+        int restreglar = width % 2000;
+        if (restreglar > 0) // If customer needs ekstra.
+        {
+            amountofreglar = side + amountofreglar;
+        }
+        reglar.setQuantity(amountofreglar);
+        bom.addMaterial(reglar);
+        return amountofreglar * 2; // used for vinkelbeslag. Need 2 per reglar.
     }
 }
