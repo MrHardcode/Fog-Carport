@@ -33,22 +33,6 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
-     */
-    @Test
-    public void testGetRoofRaisedMaterials() throws Exception {
-//        System.out.println("getRoofRaisedMaterials");
-//        OrderModel order = null;
-//        RoofRaisedCalc instance = new RoofRaisedCalc();
-//        PartslistModel expResult = null;
-//        PartslistModel result = instance.getRoofRaisedMaterials(order);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
-
-
-    /**
      * Test of getRoofStructure method, of class RoofRaisedCalc.
      */
     @Test
