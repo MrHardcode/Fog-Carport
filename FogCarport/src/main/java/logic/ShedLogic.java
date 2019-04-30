@@ -3,6 +3,8 @@
  */
 package logic;
 
+import data.DataFacade;
+import data.DataFacadeImpl;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
@@ -40,7 +42,7 @@ public class ShedLogic
      */
     PartslistModel addShed(PartslistModel bom, OrderModel order) throws LoginException
     {
-        MaterialMapper db = MaterialMapper.getInstance();
+        DataFacade db = DataFacadeImpl.getInstance();
 
         boolean standard = false;
         if (standard == true)
@@ -55,7 +57,7 @@ public class ShedLogic
             MaterialModel wood = db.getMaterial(order.getShed_walls_id());
 
             // MATERIALS NEEDED NO MATTER WHAT - DOOR
-            addDoorMaterials(bom, wood);
+            addDoorMaterials(bom, wood, db);
 
             // IF FLOOR IS CHOSEN:
             if (order.getShed_floor_id() != 0)
@@ -152,23 +154,23 @@ public class ShedLogic
      * 2 lag beklædningsbrædder 
      * skråstiver
      * lægte
-     * dørgreb
+     * dørgreb - stalddørsgreb - #17 material
      * hængsler
      * skruer til alt dette
      *
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    private void addDoorMaterials(PartslistModel bom, MaterialModel wood)
+    private void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        bom.addMaterial(db.getMaterial(17));
     }
 
     /**
      * Materials for the rest.
-     * 12 brædder per 30cm.
-     * 9 skruer per bræt.
-     * 1 løsholt 20 cm over jorden. 1 løsholt 110 cm over jorden.
+     * 12 brædder per 30cm. 
+     * 9 skruer per bræt. 3x 4,5x50mm og 6x 4,5x70mm.
+     * 1 løsholt 20 cm over jorden. 1 løsholt 110 cm over jorden. 1 for hver anden stolpe. 45x95
      * 1 ekstra løsholt i enderne, fordi den øverste i sidderne er remmene
      * løsholter monteres i vinkelbeslag 4 beslagsskruer per beslagsflade.
      * @param bom
