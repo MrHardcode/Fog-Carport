@@ -19,7 +19,7 @@ public class DBConnector
 
     private static final String IP = "207.154.233.238";
     private static final String PORT = "3306";
-    public static final String DATABASE = "NAME"; // CHANGE to name
+    public static final String DATABASE = "carportdb"; // CHANGE to name
     private static final String USERNAME = "admin"; // CHANGE if wrong
     private static final String PASSWORD = "1234"; // CHANGE if wrong
 

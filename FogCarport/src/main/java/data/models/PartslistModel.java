@@ -6,6 +6,7 @@
 package data.models;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -42,5 +43,36 @@ public class PartslistModel {
     {
         this.totalprice = totalprice;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.billOfMaterials);
+        hash = 79 * hash + this.totalprice;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PartslistModel other = (PartslistModel) obj;
+        if (this.totalprice != other.totalprice) {
+            return false;
+        }
+        if (!Objects.equals(this.billOfMaterials, other.billOfMaterials)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

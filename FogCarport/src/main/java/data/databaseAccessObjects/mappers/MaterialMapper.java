@@ -111,8 +111,8 @@ public class MaterialMapper
                 int categoryid = rs.getInt("id_category");
                 material.setCategory(getCategory(categoryid)); // Using another Method
 
+               
             }
-
         } catch (SQLException ex)
         {
             // Should most likely be another exception.
