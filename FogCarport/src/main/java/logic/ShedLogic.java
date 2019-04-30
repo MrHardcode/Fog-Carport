@@ -13,7 +13,7 @@ import data.models.PartslistModel;
 /**
  * Contains logic regarding the Bill of Materials for a shed in the carport.
  *
- * @author
+ * @author Malte
  */
 public class ShedLogic
 {
@@ -63,7 +63,7 @@ public class ShedLogic
             {
                 MaterialModel floor = db.getMaterial(order.getShed_floor_id());
                 // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH HERE TO BOM
-                addFloor(bom, floor, length, width);
+                addFloor(bom, floor, length, width, db);
             }
 
             // AND THE REST
@@ -141,15 +141,42 @@ public class ShedLogic
      * @param width of the Shed.
      * @return PartslistModel
      */
-    private void addFloor(PartslistModel bom, MaterialModel floor, int length, int width)
+    private void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int floorwidth = floor.getWidth();
+        int floorlength = floor.getLength();
+        
+        int woodwidthamount = width/floorwidth; // Get amount of boards needed for width of shed
+        if (width % floorwidth > 0){
+            woodwidthamount++;
+        }
+        
+        int woodlengthamount = length/floorlength; // Get amount of boards needed for length of shed
+        if (length % floorwidth > 0){
+            woodlengthamount++;
+        }
+        
+        int amountofwood = woodlengthamount*woodwidthamount; // Length * Width = amount of boards needed in total for shed floor.
+        floor.setQuantity(amountofwood);
+        bom.addMaterial(floor);
+        
+        // 4 screws per board #27 - 300 in a pack
+        int screwamount = amountofwood * 4;
+        MaterialModel screws = db.getMaterial(27); // 300 in one pack.
+        addScrews(bom, db, screws, 300, screwamount);
     }
-
+   
     /**
-     * Adds always needed materials to the Partslist. Materials for the door,
-     * etc. 2 vandrette stivere 38x73 2 lag beklædningsbrædder skråstiver lægte
-     * dørgreb - stalddørsgreb - #17 material hængsler skruer til alt dette
+     * Adds always needed materials to the Partslist. 
+     * Materials for the door, etc.
+     * 2 vandrette stivere 38x73 
+     * 2 lag beklædningsbrædder 
+     * skråstiver 
+     * lægte
+     * dørgreb - 
+     * stalddørsgreb - 
+     * #17 material hængsler 
+     * skruer til alt dette
      *
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
@@ -170,10 +197,15 @@ public class ShedLogic
     }
 
     /**
-     * Materials for the rest. 12 brædder per 30cm. 9 skruer per bræt. 3x
-     * 4,5x50mm og 6x 4,5x70mm. 1 løsholt 20 cm over jorden. 1 løsholt 110 cm
-     * over jorden. 1 for hver anden stolpe. 45x95 1 ekstra løsholt i enderne,
-     * fordi den øverste i sidderne er remmene løsholter monteres i vinkelbeslag
+     * Materials for the rest. 
+     * 12 brædder per 30cm. 
+     * 9 skruer per bræt. 
+     * 3x 4,5x50mm og 6x 4,5x70mm. 
+     * 1 løsholt 20 cm over jorden. 
+     * 1 løsholt 110 cm over jorden. 
+     * 1 for hver anden stolpe. 45x95 
+     * 1 ekstra løsholt i enderne, fordi den øverste i siderne er remmene 
+     * løsholter monteres i vinkelbeslag
      * 4 beslagsskruer per beslagsflade.
      *
      * @param bom
@@ -189,7 +221,14 @@ public class ShedLogic
         bom.addMaterial(wood);
 
         // Adding skruer for the beklædning.
-        skruer(amountofwood, db, bom);
+        // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
+        int amountofskruer50 = 3 * amountofwood;
+        MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
+        addScrews(bom, db, skruer50, 300, amountofskruer50);
+        // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
+        int amountofskruer70 = 6 * amountofwood;
+        MaterialModel skruer70 = db.getMaterial(26); // 400 in one pack.
+        addScrews(bom, db, skruer70, 400, amountofskruer70);
         
         // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
         int vinkelbeslagamount = reglar(width, db, bom, 3);
@@ -215,33 +254,6 @@ public class ShedLogic
         
     }
 
-    private void skruer(int amountofwood, DataFacade db, PartslistModel bom) throws LoginException
-    {
-        // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
-        int amountofskruer50 = 3 * amountofwood;
-        MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
-        int restskruer = amountofskruer50 % 300;
-        int amountofpacks = amountofskruer50 / 300;
-        if (restskruer > 0) // If customer needs another pack.
-        {
-            amountofpacks++;
-        }
-        skruer50.setQuantity(amountofpacks);
-        bom.addMaterial(skruer50);
-
-        // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
-        int amountofskruer70 = 6 * amountofwood;
-        MaterialModel skruer70 = db.getMaterial(26); // 300 in one pack.
-        restskruer = amountofskruer70 % 400;
-        amountofpacks = amountofskruer70 / 400;
-        if (restskruer > 0)
-        {
-            amountofpacks++;
-        }
-        skruer70.setQuantity(amountofpacks);
-        bom.addMaterial(skruer70);
-    }
-
     private int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
     {
         // 2400 reglar #6
@@ -255,5 +267,24 @@ public class ShedLogic
         reglar.setQuantity(amountofreglar);
         bom.addMaterial(reglar);
         return amountofreglar * 2; // used for vinkelbeslag. Need 2 per reglar.
+    }    
+    
+    /**
+     * add screws to the partslist. 
+     * @param bom
+     * @param db
+     * @param screws type of screw
+     * @param packamount amount of screws in a pack.
+     * @param screwamount amount of screws needed in total.
+     */
+    private void addScrews(PartslistModel bom, DataFacade db, MaterialModel screws, int packamount, int screwamount){
+        int restskruer = screwamount % packamount;
+        int amountofpacks = screwamount / packamount;
+        if (restskruer > 0)
+        {
+            amountofpacks++;
+        }
+        screws.setQuantity(amountofpacks);
+        bom.addMaterial(screws);
     }
 }
