@@ -2,7 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.algorithmException;
+import data.exceptions.AlgorithmException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -41,13 +41,13 @@ import java.util.HashMap;
  *
  * !Roof parts have a 2 'wave' overlay (10cm?) 12 screws per cm^2.
  *
- * Tagpap roofing: To be determined
+ * Tagpap roofing: Size dependant calculation
  *
  * Lægter: To be determined
  *
  *
  */
-public class RoofFlatCalc 
+public class RoofFlatCalc
 {
 
     private int amountOfScrews; //total amount of screws needed
@@ -100,12 +100,13 @@ public class RoofFlatCalc
      *
      * @param order
      * @return
+     * @throws data.exceptions.AlgorithmException
      */
-    PartslistModel calculateFlatRoofStructure(OrderModel order) throws algorithmException
+    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException
     {
 
-        roofMaterials.addPartslist(calculateMainParts(order, order.getRoof_tiles_id()));
-        roofMaterials.addPartslist(calculateDependantParts(order));
+        roofMaterials.addPartslist(calculateMainParts(order));
+        roofMaterials.addPartslist(calculateDependantParts(order, order.getRoof_tiles_id()));
         roofMaterials.addPartslist(calculateMiscellaneous(order));
 
         return roofMaterials;
@@ -117,38 +118,42 @@ public class RoofFlatCalc
      * part of the construction.
      *
      * @param order order in question
-     * @param roofSelection the ID selected for roof tiles. 0 = no roof. || 28,
-     * 29 = plastic. Other = felt ("tagpap").
+     *
      * @return
-     * @throws data.exceptions.algorithmException
      */
-    protected PartslistModel calculateMainParts(OrderModel order, int roofSelection) throws algorithmException 
+    protected PartslistModel calculateMainParts(OrderModel order)
     {
         PartslistModel woodMaterials = new PartslistModel();
-
-        switch (roofSelection) //could also be done with multiple if-statements
-        {
-        //plastic roof
-            case 28:
-            case 29:
-                
-                break;
-        //felt roof
-            case 46:
-            case 47:
-                break;
-            default:
-                throw new algorithmException("");
-        }
-
+        
         return woodMaterials;
 
     }
 
-    protected PartslistModel calculateDependantParts(OrderModel order)
+    /**
+     * Adds parts that depends on the roof of choice
+     *
+     * @param order
+     * @param roofSelection the ID selected for roof tiles. 0 = no roof. || 28,
+     * 29 = plastic. Other = felt ("tagpap").
+     * @return
+     */
+    protected PartslistModel calculateDependantParts(OrderModel order, int roofSelection) throws AlgorithmException
     {
         PartslistModel dependantParts = new PartslistModel();
+        switch (roofSelection) //could also be done with multiple if-statements
+        {
+            //plastic roof
+            case 28:
+            case 29:
 
+                break;
+            //felt roof
+            case 47:
+            case 48:
+                break;
+            default:
+                throw new AlgorithmException(1, "Error #1: No suitable roof ID selected");
+        }
         return dependantParts;
     }
 
