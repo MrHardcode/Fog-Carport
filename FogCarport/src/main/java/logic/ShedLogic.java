@@ -147,12 +147,14 @@ public class ShedLogic
         int floorlength = floor.getLength();
         
         int woodwidthamount = width/floorwidth; // Get amount of boards needed for width of shed
-        if (width % floorwidth > 0){
+        if (width % floorwidth > 0)
+        {
             woodwidthamount++;
         }
         
         int woodlengthamount = length/floorlength; // Get amount of boards needed for length of shed
-        if (length % floorwidth > 0){
+        if (length % floorwidth > 0)
+        {
             woodlengthamount++;
         }
         
@@ -216,19 +218,19 @@ public class ShedLogic
     private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db) throws LoginException
     {
         // Trykimp brædder til beklædning:
-        int amountofwood = (12 * ((length / 300) + (width / 300))) * 2; // Two length sides and two width sides.
+        int amountofwood = (((length+width)*2)/wood.getWidth())+1; // Two length sides and two width sides and one spare board.
         wood.setQuantity(amountofwood);
         bom.addMaterial(wood);
 
         // Adding skruer for the beklædning.
         // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
-        int amountofskruer50 = 3 * amountofwood;
+        int amountofscrews50 = 3 * amountofwood;
         MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
-        addScrews(bom, db, skruer50, 300, amountofskruer50);
+        addScrews(bom, db, skruer50, 300, amountofscrews50);
         // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
-        int amountofskruer70 = 6 * amountofwood;
+        int amountofscrews70 = 6 * amountofwood;
         MaterialModel skruer70 = db.getMaterial(26); // 400 in one pack.
-        addScrews(bom, db, skruer70, 400, amountofskruer70);
+        addScrews(bom, db, skruer70, 400, amountofscrews70);
         
         // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
         int vinkelbeslagamount = reglar(width, db, bom, 3);
@@ -241,16 +243,8 @@ public class ShedLogic
         
         // Beslagsskruer #21 4 per beslag
         MaterialModel beslagsskruer = db.getMaterial(21);
-        int amountofskruer = 4 * vinkelbeslagamount;
-        int restskruer = amountofskruer % 100; // 100 in one pack
-        int amountofpacks = amountofskruer / 100;
-        if (restskruer > 0) // If customer needs another pack.
-        {
-            amountofpacks++;
-        }
-        beslagsskruer.setQuantity(amountofpacks);
-        bom.addMaterial(beslagsskruer);
-        
+        int screwamount = 4 * vinkelbeslagamount;
+        addScrews(bom, db, beslagsskruer, 100, screwamount);
         
     }
 
