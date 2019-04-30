@@ -27,7 +27,7 @@ public class DBConnector
 
     public static Connection connection() throws SQLException
     {
-        if (singleton == null)
+        if (singleton == null || singleton.isClosed())
         {
             try
             {
