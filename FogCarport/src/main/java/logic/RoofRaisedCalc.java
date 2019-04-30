@@ -15,8 +15,11 @@ import java.util.ArrayList;
  * @author Camilla
  */
 public class RoofRaisedCalc {
-    
-    DataFacade DAO = DataFacadeImpl.getInstance();
+    DataFacade DAO;
+            
+    public RoofRaisedCalc() {
+       DAO = DataFacadeImpl.getInstance(); 
+    }
     
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws LoginException {
         PartslistModel roofRaisedBOM = new PartslistModel();
@@ -52,10 +55,8 @@ public class RoofRaisedCalc {
         for(MaterialModel material : materials){
             if((material.getLength()/totalWidth) > 0){
                 roofStructureBOM.addMaterial(material);
+                return roofStructureBOM;
             }
-            
-            
-            
         }
         
         

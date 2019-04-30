@@ -29,7 +29,7 @@ public class RoofRaisedCalcTest {
 
     @Before
     public void setUp() {
-        
+        DAO = DataFacadeImpl.getInstance();
     }
 
     /**

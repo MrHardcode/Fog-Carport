@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class PartslistModel {
     private ArrayList<MaterialModel> billOfMaterials;
-    private int totalprice;
+    private int totalprice = 0;
 
     public PartslistModel() {
         billOfMaterials = new ArrayList<>();
