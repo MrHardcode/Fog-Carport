@@ -5,7 +5,6 @@ package logic;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -182,14 +181,26 @@ public class ShedLogic
         // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
         int amountofskruer50 = 3 * amountofwood;
         MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
-        int restskruer = amountofskruer50%300;
-        int amountofpacks = amountofskruer50/300;
-        if (restskruer > 0){
+        int restskruer = amountofskruer50 % 300;
+        int amountofpacks = amountofskruer50 / 300;
+        if (restskruer > 0)
+        {
             amountofpacks++;
         }
         skruer50.setQuantity(amountofpacks);
-       
-        int amountofskruer70 = 6 * amountofwood;
 
+        // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
+        int amountofskruer70 = 6 * amountofwood;
+        MaterialModel skruer70 = db.getMaterial(26); // 300 in one pack.
+        restskruer = amountofskruer70 % 400;
+        amountofpacks = amountofskruer70 / 400;
+        if (restskruer > 0)
+        {
+            amountofpacks++;
+        }
+        skruer70.setQuantity(amountofpacks);
+        
+        
+        
     }
 }
