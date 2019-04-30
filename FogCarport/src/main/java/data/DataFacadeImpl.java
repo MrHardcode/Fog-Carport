@@ -19,6 +19,17 @@ import data.models.PartslistModel;
 public class DataFacadeImpl implements DataFacade
 {
 
+    private static DataFacadeImpl instance = null;
+
+    public synchronized static DataFacadeImpl getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new DataFacadeImpl();
+        }
+        return instance;
+    }
+
     @Override
     public MaterialModel getMaterial(int id) throws LoginException
     {
