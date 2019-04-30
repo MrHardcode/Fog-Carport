@@ -26,8 +26,6 @@ public class MaterialModel
     private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
     private String category;
 
-    // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
-    // i datamodellerne. 
     public MaterialModel()
     {
     }
@@ -50,6 +48,31 @@ public class MaterialModel
         this.height = height;
         this.length = length;
         this.width = width;
+    }
+
+    /**
+     * Updated constructor to fit database model.
+     *
+     * use setters for: helptext, quantity
+     *
+     * @param ID
+     * @param description
+     * @param length
+     * @param width
+     * @param height
+     * @param unit
+     * @param category
+     */
+    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category)
+    {
+        this.ID = ID;
+        this.description = description;
+        this.height = height;
+        this.width = width;
+        this.length = length;
+        this.price = price;
+        this.unit = unit;
+        this.category = category;
     }
 
     /**

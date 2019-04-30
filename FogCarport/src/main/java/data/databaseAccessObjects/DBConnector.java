@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.databaseAccessObjects;
 
 import java.sql.Connection;
@@ -12,16 +7,16 @@ import java.util.Properties;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class DBConnector
 {
 
     private static final String IP = "207.154.233.238";
     private static final String PORT = "3306";
-    public static final String DATABASE = "NAME"; // CHANGE to name
-    private static final String USERNAME = "admin"; // CHANGE if wrong
-    private static final String PASSWORD = "1234"; // CHANGE if wrong
+    public static final String DATABASE = "carportdb"; 
+    private static final String USERNAME = "admin"; 
+    private static final String PASSWORD = "1234"; 
 
     private static Connection singleton;
 
