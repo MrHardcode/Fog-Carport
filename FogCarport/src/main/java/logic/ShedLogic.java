@@ -68,7 +68,7 @@ public class ShedLogic
             }
 
             // AND THE REST
-            addMaterials(bom, wood, length, width);
+            addMaterials(bom, wood, length, width, db);
 
         }
 
@@ -172,11 +172,24 @@ public class ShedLogic
      * @param length
      * @param width
      */
-    private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width)
+    private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db) throws LoginException
     {
         // Trykimp brædder til beklædning:
-        int amountofwood = (12 * ( (length / 300) + (width / 300) ) ) * 2; // Two length sides and two width sides.
+        int amountofwood = (12 * ((length / 300) + (width / 300))) * 2; // Two length sides and two width sides.
         wood.setQuantity(amountofwood);
         bom.addMaterial(wood);
+
+        // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
+        int amountofskruer50 = 3 * amountofwood;
+        MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
+        int restskruer = amountofskruer50%300;
+        int amountofpacks = amountofskruer50/300;
+        if (restskruer > 0){
+            amountofpacks++;
+        }
+        skruer50.setQuantity(amountofpacks);
+       
+        int amountofskruer70 = 6 * amountofwood;
+
     }
 }
