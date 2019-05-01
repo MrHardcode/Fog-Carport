@@ -52,6 +52,7 @@ public class MaterialModel
         this.width = width;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Get the value of category
      *
@@ -241,6 +242,7 @@ public class MaterialModel
     {
         this.length = length;
     }
+    //</editor-fold>
 
     @Override
     public String toString()
@@ -248,6 +250,7 @@ public class MaterialModel
         return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode and equals">
     @Override
     public int hashCode()
     {
@@ -323,5 +326,5 @@ public class MaterialModel
         }
         return true;
     }
-
+    // </editor-fold>
 }

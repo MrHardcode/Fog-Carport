@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
@@ -16,7 +11,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class MaterialMapper
 {
@@ -113,11 +108,11 @@ public class MaterialMapper
                 String unit = rs.getString("unit");
                 material.setUnit(unit);
 
-                int categoryid = rs.getInt("id_category");
-                material.setCategory(getCategory(categoryid)); // Using another Method
+//                int categoryid = rs.getInt("id_category");
+//                material.setCategory(getCategory(categoryid)); // Using another Method
 
+               
             }
-
         } catch (SQLException ex)
         {
             // Should most likely be another exception.
