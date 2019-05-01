@@ -53,11 +53,11 @@ public class BaseCalc
         int postAmount = 0;
         if (heavyRoof)
         {
-            postAmount = calcPostsRaisedRoof(cLength, cWidth, sLength, sWidth);
+            postAmount = calcPosts(cLength, cWidth, sLength, sWidth, postDistanceRaisedRoof);
         }
         else
         {
-            //postAmount = calcPostsFlatRoof(cLength, cWidth, sLength, sWidth);
+            postAmount = calcPosts(cLength, cWidth, sLength, sWidth, postDistanceStandard);
         }
         post.setQuantity(postAmount);
         //45x195mm rafter wood
@@ -71,7 +71,7 @@ public class BaseCalc
         bolts.setQuantity(boltAmount);
     }
 
-    protected int calcPostsRaisedRoof(int cLength, int cWidth, int sLength, int sWidth)
+    protected int calcPosts(int cLength, int cWidth, int sLength, int sWidth, int postDistance)
     {
         //Total post amount
         int postAmount = 0;
@@ -79,17 +79,17 @@ public class BaseCalc
         //If the shed is as wide as the carport:
         if (sWidth == cWidth)
         {
-            postAmount = calcPostsFullWidthShed(cLength, cWidth, sLength, sWidth);
+            postAmount = calcPostsFullWidthShed(cLength, cWidth, sLength, postDistance);
         }
         //If the shed's width is shorter than the carport's width:
         else
         {
-            postAmount = calcPostsOddShed(cLength, cWidth, sLength, sWidth);
+            postAmount = calcPostsOddShed(cLength, cWidth, sLength, sWidth, postDistance);
         }
         return postAmount;
     }
     
-    private int calcPostsFullWidthShed(int cLength, int cWidth, int sLength, int sWidth)
+    private int calcPostsFullWidthShed(int cLength, int cWidth, int sLength, int postDistance)
     {
         //The first posts are always places 800mm from the entrance-end of the carport
         int length = cLength - 800;
@@ -101,7 +101,7 @@ public class BaseCalc
         //between the front post and the first shed post
         int count = 0;
         //Adding post amount to the counter plus 1 (to include the front post)
-        count = ((length - sLength) / postDistanceRaisedRoof) + 1;
+        count = ((length - sLength) / postDistance) + 1;
         //Another counter
         int temp = 0;
         //Adding the count to temp
@@ -110,7 +110,7 @@ public class BaseCalc
         //two posts inside each other because the shed has corners placed on a point 
         //where another post has already been placed (not counting the corners of the carport). 
         //Yeah... it's hard to explain 
-        if (cLength - (800 + postDistanceRaisedRoof * (temp - 1)) == sLength)
+        if (cLength - (800 + postDistance * (temp - 1)) == sLength)
         {
             postAmount -= 2;
         }
@@ -122,23 +122,23 @@ public class BaseCalc
         //because the shed has the same width as the carport
         postAmount += temp * 2;
         //If the shed is very long we need one or more extra posts
-        if ((sLength / postDistanceRaisedRoof) > 0)
+        if ((sLength / postDistance) > 0)
         {
             //We add the amount twice since the sides of the carport are equal
-            postAmount += (sLength / postDistanceRaisedRoof) * 2;
+            postAmount += (sLength / postDistance) * 2;
         }
         /*   The rear of the carport   */
         //Calculating width. We don't have to think about extra posts for the shed 
         //since the shed has the same width as the carport
         //The corner posts have already been calculated
-        if ((cWidth / postDistanceRaisedRoof) > 0)
+        if ((cWidth / postDistance) > 0)
         {
-            postAmount += (cWidth / postDistanceRaisedRoof);
+            postAmount += (cWidth / postDistance);
         }
         return postAmount;
     }
     
-    private int calcPostsOddShed(int cLength, int cWidth, int sLength, int sWidth)
+    private int calcPostsOddShed(int cLength, int cWidth, int sLength, int sWidth, int postDistance)
     {
         //The first posts are always places 800mm from the entrance-end of the carport
         int length = cLength - 800;
@@ -150,13 +150,13 @@ public class BaseCalc
         //between the front post and the first shed post
         int count = 0;
         //Adding post amount to the counter plus 1 (to include the front post)
-        count = ((length - sLength) / postDistanceRaisedRoof) + 1;
+        count = ((length - sLength) / postDistance) + 1;
         //Another counter
         int temp = 0;
         //Adding the count to temp
         temp += count;
         //Another one of those hard to explain if-statements
-        if (cLength - (800 + postDistanceRaisedRoof * (temp - 1)) == sLength)
+        if (cLength - (800 + postDistance * (temp - 1)) == sLength)
         {
             postAmount -= 1;
         }
@@ -167,16 +167,16 @@ public class BaseCalc
         //Adding temp to the postAmount
         postAmount += temp;
         //If the shed is very long we need one or more extra posts
-        if ((sLength / postDistanceRaisedRoof) > 0 && (sLength % postDistanceRaisedRoof != 0))
+        if ((sLength / postDistance) > 0 && (sLength % postDistance != 0))
         {
-            postAmount += (sLength / postDistanceRaisedRoof);
+            postAmount += (sLength / postDistance);
         }
 
         /*   Second side of the carport   */
         //Adding the amount of posts for the second side. The + 1 is the front post
-        postAmount += (length / postDistanceRaisedRoof) + 1;
+        postAmount += (length / postDistance) + 1;
         //Adding an extra post if the previous division didn't go up
-        if (length % postDistanceRaisedRoof > 0)
+        if (length % postDistance > 0)
         {
             ++postAmount;
         }
@@ -185,22 +185,17 @@ public class BaseCalc
         //Adding one for the corner of the shed
         ++postAmount;
         //Adding extra posts for the part that the shed is covering if the shed is wide enough
-        if (sWidth / postDistanceRaisedRoof > 0 && (sWidth % postDistanceRaisedRoof != 0))
+        if (sWidth / postDistance > 0 && (sWidth % postDistance != 0))
         {
-            postAmount += (sWidth / postDistanceRaisedRoof);
+            postAmount += (sWidth / postDistance);
         }
         int restWidth = cWidth - sWidth;
         //Adding extra posts for the part that the shed doesn't cover if needed
-        if (restWidth / postDistanceRaisedRoof > 0 && (restWidth % postDistanceRaisedRoof != 0))
+        if (restWidth / postDistance > 0 && (restWidth % postDistance != 0))
         {
-            postAmount += (restWidth / postDistanceRaisedRoof);
+            postAmount += (restWidth / postDistance);
         }
         return postAmount;
-    }
-
-    protected int calcPostsFlatRoof(int cLength, int cWidth, boolean shedContact, int sLength)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     protected int calcStraps(int cLength, int cWidth)

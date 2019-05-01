@@ -21,23 +21,25 @@ public class BaseCalcTest
 {
     private BaseCalc bc = new BaseCalc();
 
-    private int expected, cLength, cWidth, sLength, sWidth;
+    private int expected, cLength, cWidth, sLength, sWidth, postDistance;
 
     @Parameterized.Parameters
     public static Collection getTestParameters() {
         return Arrays.asList(new Object[][]{
-            {10, 7500, 3000, 200, 2000}, {10, 7500, 2000, 200, 1200}, 
-            {11, 7500, 3000, 200, 3000}, {10, 7500, 2000, 200, 2000},
-            {7, 5500, 4000, 1950, 4000}, {8, 5500, 5000, 1950, 1500}});
+            {10, 7500, 3000, 200, 2000, 2750}, {10, 7500, 2000, 200, 1200, 2750}, 
+            {11, 7500, 3000, 200, 3000, 2750}, {10, 7500, 2000, 200, 2000, 2750},
+            {7, 5500, 4000, 1950, 4000, 2750}, {8, 5500, 5000, 1950, 1500, 2750},
+            {10, 7500, 3000, 200, 3000, 3100}, {10, 7500, 3000, 200, 1500, 3100}});
     }
 
     //constructor uses @Parameters
-    public BaseCalcTest(int n1, int n2, int n3, int n4, int n5) {
+    public BaseCalcTest(int n1, int n2, int n3, int n4, int n5, int n6) {
         expected = n1;
         cLength = n2;
         cWidth = n3;
         sLength = n4;
         sWidth = n5;
+        postDistance = n6;
     }
     
     /**
@@ -46,7 +48,7 @@ public class BaseCalcTest
     @Test
     public void testCalcPostsRaisedRoof()
     {
-        int result = bc.calcPostsRaisedRoof(cLength, cWidth, sLength, sWidth);
+        int result = bc.calcPosts(cLength, cWidth, sLength, sWidth, postDistance);
         assertEquals(expected, result);
     }
     
