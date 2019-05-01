@@ -50,7 +50,7 @@ import java.util.HashMap;
  */
 public class RoofFlatCalc
 {
-    
+
     private int amountOfScrews; //total amount of screws needed
     private DataFacade DAO; //data accessor
     private PartslistModel roofMaterials; //items to be returned to master list
@@ -96,7 +96,7 @@ public class RoofFlatCalc
         roofMaterials.addPartslist(calculateDependantParts(order, order.getRoof_tiles_id()));
         /* calculate other */
         roofMaterials.addPartslist(calculateMiscellaneous(order));
-        
+
         return roofMaterials;
     }
 
@@ -137,9 +137,9 @@ public class RoofFlatCalc
         woodMaterials.addPartslist(bargeboards);
         woodMaterials.addPartslist(bands);
         woodMaterials.addPartslist(fittings);
-        
+
         return woodMaterials;
-        
+
     }
 
     /**
@@ -160,7 +160,7 @@ public class RoofFlatCalc
             case 28:
             case 29:
                 dependantParts.addPartslist(calculatePlasticRoof(order));
-                
+
                 break;
             //felt roof
             case 47:
@@ -193,11 +193,11 @@ public class RoofFlatCalc
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     protected PartslistModel calculateMiscellaneous(OrderModel order)
     {
         PartslistModel miscMaterials = new PartslistModel();
-        
+
         return miscMaterials;
     }
 
@@ -210,7 +210,7 @@ public class RoofFlatCalc
     private PartslistModel calculateRafters(OrderModel order) throws LoginException
     {
         MaterialModel rafters = DAO.getMaterial(54);
-        
+
     }
 
     /**
@@ -234,7 +234,19 @@ public class RoofFlatCalc
 
         /* Begin calculation */
         fasciaLength = fascia6000.getLength();
-        
+        int fasciaAmount = FasciaHelper(length, fasciaLength);
+
+    }
+
+    private int FasciaHelper(int remainingLength, int fasciaLength)
+    {
+        int amountOfFascia = 0;
+        while (remainingLength > fasciaLength)
+        {
+            amountOfFascia++;
+            remainingLength -= fasciaLength;
+        }
+        return amountOfFascia;
     }
 
     /**
@@ -245,13 +257,14 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateBargeboard(OrderModel order)
     {
-        
+
     }
 
     /**
      * calculate universalbeslag & screws for carport roof
      *
-     * @param rafterAmount amount of rafters needed. calculated in earlier method.
+     * @param rafterAmount amount of rafters needed. calculated in earlier
+     * method.
      * @return returns a list of materials (to later add to bill of materials)
      */
     private PartslistModel calculateFittings(int rafterAmount) throws LoginException
@@ -311,24 +324,40 @@ public class RoofFlatCalc
     private PartslistModel calculateBand(OrderModel order) throws LoginException
     {
         PartslistModel bandParts = new PartslistModel();
+        int bandAmount = 0; //used to determine band quantity.
 
         /*get MaterialModel to return */
         MaterialModel band = DAO.getMaterial(23);
+        MaterialModel bandScrews = DAO.getMaterial(21);
 
         /* Calculation begin */
         int bandLength = band.getLength(); //10000mm (10m)
         int shedLength = order.getShed_length(); //band runs from shed to front
         int carportLength = order.getLength();
-        
-        int bandCoverLength = (carportLength - shedLength);
 
+        int bandCoverLength = (carportLength - shedLength); //band does not cover shed
+
+        int bandEffectiveLength = bandCoverLength * 2; //we need to cover diagonally (two lengths)
+
+        while (bandEffectiveLength - bandLength >= 0)
+        {
+            ++bandAmount;
+            bandEffectiveLength -= bandLength;
+        }
+        
         /* update quantities */
+        band.setQuantity(bandAmount);
+        bandScrews.setQuantity(1); // 250 a package
         //screws too (2 pr. spær)
 
         /* update price */
- /* Update helptext */
- /* add to PartslistModel */
+        band.setPrice(band.getQuantity() * band.getPrice());
+        /* Update helptext */
+        band.setHelptext("Til vindkryds på spær");
+        bandScrews.setHelptext("Til montering af universalbeslag + hulbånd");
+        /* add to PartslistModel */
         bandParts.addMaterial(band);
+        bandParts.addMaterial(bandScrews);
 
         /* Return materialModel */
         return bandParts;
@@ -342,7 +371,7 @@ public class RoofFlatCalc
      */
     private PartslistModel calculatePlasticTiles(OrderModel order)
     {
-        
+
     }
 
     /**
@@ -353,12 +382,12 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateFeltTiles(OrderModel order)
     {
-        
+
     }
-    
+
     private static class Rules extends HashMap<String, Integer>
     {
-        
+
         public Rules()
         {
             this.put("rafterLength", 500); //1 rafter per 500mm (50cm)
@@ -374,15 +403,15 @@ public class RoofFlatCalc
             /*this.put("band", 10); */ //hulbånd not necessary
         }
     }
-    
+
     private class Helptext extends HashMap<MaterialModel, String>
     {
-        
+
         public Helptext() throws LoginException
         {
             this.put(DAO.getMaterial(15), "whatup");
         }
-        
+
     }
-    
+
 }
