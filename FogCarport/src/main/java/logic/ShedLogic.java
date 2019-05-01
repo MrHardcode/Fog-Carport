@@ -18,7 +18,7 @@ import data.models.PartslistModel;
 public class ShedLogic
 {
 
-    private final int postdistance = 2000; // Distance between posts.
+    private final int postdistance = 3100; // Distance between posts.
     private final int postid = 4; // id of posts in DB.
     
     private static ShedLogic instance = null;
