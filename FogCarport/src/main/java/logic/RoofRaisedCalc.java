@@ -40,10 +40,9 @@ public class RoofRaisedCalc {
 
     protected PartslistModel getRoofStructure(OrderModel order) throws LoginException {
         PartslistModel roofStructureBOM = new PartslistModel();
-
         int totalWidth = order.getWidth() + 600;
         
-        generateRafter(totalWidth, order.getIncline());
+        roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
 
         return roofStructureBOM;
     }
@@ -63,13 +62,19 @@ public class RoofRaisedCalc {
         });
 
         for (MaterialModel material : materials) {
-            int amountLongest = material.getLength() / length;
-            int remainder = material.getLength() % length;
-            if (remainder > 0) {
-                length = remainder;
+            if(length < 1){
+                break;
             }
+                        
+            int amountLongest = (int) Math.ceil(((double)length / (double)material.getLength()));
+            int remainder = length - material.getLength()*amountLongest;
+            
             for (int i = 0; i < amountLongest; i++) {
                 calcParts.addMaterial(material);
+                length = length - material.getLength();
+            }
+            if (remainder > 0) {
+                length = remainder;
             }
         }
         return calcParts;
@@ -87,7 +92,9 @@ public class RoofRaisedCalc {
         materials.add(DAO.getMaterial(6)); // length 2400 mm
         materials.add(DAO.getMaterial(7)); // length 3600 mm
         
+        
         rafterBOM.addPartslist(getMaterialsFromlength(materials, totalWidth));
+        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
         rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
         rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(oppositeCath)));
         

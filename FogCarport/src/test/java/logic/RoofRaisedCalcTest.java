@@ -36,8 +36,11 @@ public class RoofRaisedCalcTest {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         PartslistModel bomExp = new PartslistModel();
-        bomExp.addMaterial(DAO.getMaterial(6));
-        order.setWidth(1800);
+        bomExp.addMaterial(DAO.getMaterial(7));
+        bomExp.addMaterial(DAO.getMaterial(7));
+        bomExp.addMaterial(DAO.getMaterial(7));
+        bomExp.addMaterial(DAO.getMaterial(7));
+        order.setWidth(3000);
         order.setIncline(20);
         
         PartslistModel bomRes = raised.getRoofStructure(order);
