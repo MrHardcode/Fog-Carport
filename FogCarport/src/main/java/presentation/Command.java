@@ -3,7 +3,7 @@ package presentation;
 import data.exceptions.LoginException;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import logic.LogicFacade;
 
 abstract class Command
 {
@@ -29,7 +29,7 @@ abstract class Command
         return commands.getOrDefault(commandName, new UnknownCommand());
     }
 
-    abstract String execute(HttpServletRequest request, HttpServletResponse response)
+    abstract String execute(HttpServletRequest request, LogicFacade logic)
             throws LoginException;
 
 }
