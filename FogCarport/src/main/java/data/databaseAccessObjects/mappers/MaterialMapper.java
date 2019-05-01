@@ -77,8 +77,8 @@ public class MaterialMapper
     {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT * FROM `carportdb`.`materials`"
-                + " WHERE `materials`.`id_material` = ?";
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name "
+                + "FROM materials INNER JOIN `category` ON `materials`.`id_category` = `category`.`id_category`;";
         // Using try-with resources, so they automatically close afterwards.
         try (Connection con = DBConnector.connection();
                 PreparedStatement ps = con.prepareStatement(SQL);)
@@ -108,8 +108,8 @@ public class MaterialMapper
                 String unit = rs.getString("unit");
                 material.setUnit(unit);
 
-//                int categoryid = rs.getInt("id_category");
-//                material.setCategory(getCategory(categoryid)); // Using another Method
+                String categoryname = rs.getString("category_name");
+                material.setCategory(categoryname); 
 
                
             }
