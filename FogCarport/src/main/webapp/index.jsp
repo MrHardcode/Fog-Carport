@@ -4,11 +4,9 @@
     Author     : Asger
 --%>
 
-<%@page import="java.util.ArrayList"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<jsp:include page='/header.jsp'></jsp:include>
+<jsp:include page='/header.jsp'/>
 
     <!--Main text area, "welcome", centered -->
     <div id="mainText">
@@ -34,6 +32,5 @@
 
         </form>
     </div>
-
 
 <jsp:include page='/footer.jsp'></jsp:include>
