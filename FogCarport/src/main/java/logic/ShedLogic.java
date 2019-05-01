@@ -78,7 +78,7 @@ public class ShedLogic
     }
     
     //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
-    private void simpleShed(PartslistModel bom)
+    void simpleShed(PartslistModel bom)
     {
         // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
         // KEEP THIS FOR THE BUTTON NAMED "Standard Redskabsrum" AS SHOWN IN VIDEO
@@ -145,7 +145,7 @@ public class ShedLogic
      * @param width of the Shed.
      * @return PartslistModel
      */
-    private void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
+    void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
     {
         int floorwidth = floor.getWidth();
         int floorlength = floor.getLength();
@@ -189,7 +189,7 @@ public class ShedLogic
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    private void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
+    void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
     {
         MaterialModel stalddørsgreb = db.getMaterial(17); 
         stalddørsgreb.setQuantity(1);
@@ -222,7 +222,8 @@ public class ShedLogic
      * @param length
      * @param width
      */
-    private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws LoginException
+    
+    void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws LoginException
     {
         // Trykimp brædder til beklædning:
         int amountofwood = (((length + width) * 2) / wood.getWidth()) + 1; // Two length sides and two width sides and one spare board.
@@ -258,7 +259,7 @@ public class ShedLogic
         
     }
 
-    private void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws LoginException
+    void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws LoginException
     {
         int postquantity = 0;
         if (length == order.getLength() && width == order.getWidth())
@@ -299,7 +300,7 @@ public class ShedLogic
         bom.addMaterial(post);
     }
 
-    private int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
+    int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
     {
         MaterialModel reglar;
         if (postdistance < 2400 || width < 2400){
@@ -327,7 +328,7 @@ public class ShedLogic
      * @param packamount amount of screws in a pack.
      * @param screwamount amount of screws needed in total.
      */
-    private void addScrews(PartslistModel bom, DataFacade db, MaterialModel screws, int packamount, int screwamount){
+    void addScrews(PartslistModel bom, DataFacade db, MaterialModel screws, int packamount, int screwamount){
         int restskruer = screwamount % packamount;
         int amountofpacks = screwamount / packamount;
         if (restskruer > 0)
