@@ -7,13 +7,9 @@ package logic;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
