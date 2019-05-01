@@ -59,7 +59,7 @@ public class ShedLogic
             MaterialModel wood = db.getMaterial(order.getShed_walls_id());
 
             // MATERIALS NEEDED NO MATTER WHAT - DOOR
-            addDoorMaterials(bom, wood, db);
+            addDoorMaterials(bom, db);
 
             // IF FLOOR IS CHOSEN:
             if (order.getShed_floor_id() != 0)
@@ -189,7 +189,7 @@ public class ShedLogic
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
+    void addDoorMaterials(PartslistModel bom, DataFacade db) throws LoginException
     {
         MaterialModel stalddørsgreb = db.getMaterial(17); 
         stalddørsgreb.setQuantity(1);
