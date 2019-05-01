@@ -105,15 +105,40 @@ public class ShedLogicTest
         
         // <editor-fold defaultstate="collapsed" desc="Materials for test.">
         PartslistModel test = new PartslistModel();
-        MaterialModel stalddørsgreb = db.getMaterial(17); 
+        MaterialModel stalddørsgreb = new MaterialModel();
+        stalddørsgreb.setID(17);
+        stalddørsgreb.setDescription("Stalddørsgreb 50x75");
+        stalddørsgreb.setHeight(500);
+        stalddørsgreb.setWidth(750);
+        stalddørsgreb.setLength(0);
+        stalddørsgreb.setPrice(85);
+        stalddørsgreb.setUnit("Sæt");
+        stalddørsgreb.setCategory("miscellaneous");
         stalddørsgreb.setQuantity(1);
         test.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.
         
-        MaterialModel laegte = db.getMaterial(12); // 38x73mm taglægte.
+        MaterialModel laegte = new MaterialModel(); // 38x73mm taglægte.
+        laegte.setID(12);
+        laegte.setDescription("38x73 mm. taglægte T1");
+        laegte.setHeight(38);
+        laegte.setWidth(73);
+        laegte.setLength(5400);
+        laegte.setPrice(39);
+        laegte.setUnit("Stk");
+        laegte.setCategory("wood");
         laegte.setQuantity(1);
         test.addMaterial(laegte); // for the backside of the door.
         
-        MaterialModel hængsel = db.getMaterial(18);
+        
+        MaterialModel hængsel = new MaterialModel();
+        hængsel.setID(18);
+        hængsel.setDescription("T-hængsel 390mm");
+        hængsel.setHeight(0);
+        hængsel.setWidth(390);
+        hængsel.setLength(0);
+        hængsel.setPrice(55.85);
+        hængsel.setUnit("Stk");
+        hængsel.setCategory("miscellaneous");
         hængsel.setQuantity(2);
         test.addMaterial(hængsel); // T-hængsel for the door.
         // </editor-fold>
