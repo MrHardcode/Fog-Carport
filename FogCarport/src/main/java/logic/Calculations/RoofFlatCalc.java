@@ -58,12 +58,6 @@ public class RoofFlatCalc
     Rules rules;
     Helptext helptext;
 
-//    /**
-//     * Testing constructor
-//     * @param dataF
-//     * @param roofMaterials
-//     * @param rules 
-//     */
 //    public RoofFlatCalc(DataFacade dataF, PartslistModel roofMaterials, HashMap<String, Integer> rules)
 //    {
 //        this.amountOfScrews = 0;
@@ -94,7 +88,7 @@ public class RoofFlatCalc
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
-        roofMaterials.addPartslist(calculateDependantParts(order);
+        roofMaterials.addPartslist(calculateDependantParts(order));
         /* calculate other */
         roofMaterials.addPartslist(calculateMiscellaneous(order));
 
@@ -184,7 +178,23 @@ public class RoofFlatCalc
      */
     private PartslistModel calculatePlasticRoof(OrderModel order)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /* Set up return <model>*/
+        PartslistModel plasticRoof = new PartslistModel();
+
+        /* Get MaterialModel to return */
+
+ /* Calculation begin */
+
+ /* Update quantities */
+
+ /* Update price */
+
+ /* Update helptext */
+
+ /* Add to <model> */
+
+ /* Return <model>*/
+        return plasticRoof;
     }
 
     /**
@@ -198,11 +208,17 @@ public class RoofFlatCalc
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     */
     protected PartslistModel calculateMiscellaneous(OrderModel order)
     {
         PartslistModel miscMaterials = new PartslistModel();
 
-        return miscMaterials;
+        //return miscMaterials;
+        //return new UnsupportedOperationException("wtf");
     }
 
     /**
@@ -230,7 +246,7 @@ public class RoofFlatCalc
         /* set up variables */
         int width = order.getWidth();
         int length = order.getLength();
-        
+
         /* get materials from DB */
         MaterialModel fascia4800 = DAO.getMaterial(1); //length 4800mm
         MaterialModel fascia5400 = DAO.getMaterial(2); //length 5400mm
@@ -276,7 +292,7 @@ public class RoofFlatCalc
             {
                 int qty = materialCalculateAmount(fascia, remainingLength);
                 int fasciaStandard = rules.get("fasciaStandard"); //2 fascia per side of the house
-                qty = (qty)*(fasciaStandard)*(2); //qty * 2 boards * 2 sides per carport
+                qty = (qty) * (fasciaStandard) * (2); //qty * 2 boards * 2 sides per carport
                 fascia.setQuantity(qty);
                 int lengthDifference = (remainingLength) - (fascia.getLength() * qty);
                 remainingLength -= lengthDifference;
@@ -311,21 +327,23 @@ public class RoofFlatCalc
         while (remainingLength > 0 || remainingLength >= itemLength)
         {
             itemQty++;
-            //fascia.setQuantity(++currentValue); //tricky
-
-            //item.setQuantity(currentValue);
+            remainingLength -= itemLength;
         }
-        return itemQty;
-    }
-}
 
-/**
- * calculates bargeboard ("vandbrædt") for carport roof
- *
- * @param order
- * @return
- */
-private PartslistModel calculateBargeboard(OrderModel order)
+        if (remainingLength > 0 && remainingLength < 4800) //smallest value
+
+        {
+            return itemQty;
+        }
+    }
+
+    /**
+     * calculates bargeboard ("vandbrædt") for carport roof
+     *
+     * @param order
+     * @return
+     */
+    private PartslistModel calculateBargeboard(OrderModel order)
     {
 
     }
@@ -434,23 +452,10 @@ private PartslistModel calculateBargeboard(OrderModel order)
         bandParts.addMaterial(band);
         bandParts.addMaterial(bandScrews);
 
-        /* Return materialModel */
+        /* Return PartslistModel */
         return bandParts;
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-}
+    }
 
     /**
      * Calculates roof tiles (plastic) for carport roof
@@ -475,32 +480,32 @@ private PartslistModel calculateBargeboard(OrderModel order)
     }
 
     private static class Rules extends HashMap<String, Integer>
-{
-
-    public Rules()
     {
-        this.put("rafterLength", 500); //1 rafter per 500mm (50cm)
-        this.put("fasciaStandard", 2); //2 boards per side (one lower, one upper) = 8 boards total.
-        this.put("bargeStandard", 3); //1 board for every side except back. (due to carport tilt)
-        this.put("rafterFittings", 2); //2 fittings per rafter
-        this.put("fittingScrews", 9); // 9 screws per fitting
 
-        this.put("PlasticTileExtend", 50); //plastic tiles extend 50mm (5cm) beyond the roof edge
-        this.put("PlasticTileOverlap", 100); //Plastic tiles overlap eachother approximately 100mm (10cm)
-        this.put("PlasticTileScrews", 12); //12 screws per cm^2
+        public Rules()
+        {
+            this.put("rafterLength", 500); //1 rafter per 500mm (50cm)
+            this.put("fasciaStandard", 2); //2 boards per side (one lower, one upper) = 8 boards total.
+            this.put("bargeStandard", 3); //1 board for every side except back. (due to carport tilt)
+            this.put("rafterFittings", 2); //2 fittings per rafter
+            this.put("fittingScrews", 9); // 9 screws per fitting
 
-        /*this.put("band", -1); */ //hulbånd not needed
-    }
-}
+            this.put("PlasticTileExtend", 50); //plastic tiles extend 50mm (5cm) beyond the roof edge
+            this.put("PlasticTileOverlap", 100); //Plastic tiles overlap eachother approximately 100mm (10cm)
+            this.put("PlasticTileScrews", 12); //12 screws per cm^2
 
-private class Helptext extends HashMap<MaterialModel, String>
-{
-
-    public Helptext() throws LoginException
-    {
-        this.put(DAO.getMaterial(15), "whatup");
+            /*this.put("band", -1); */ //hulbånd not needed
+        }
     }
 
-}
+    private class Helptext extends HashMap<MaterialModel, String>
+    {
+
+        public Helptext() throws LoginException
+        {
+            this.put(DAO.getMaterial(15), "whatup");
+        }
+
+    }
 
 }
