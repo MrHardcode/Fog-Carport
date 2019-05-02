@@ -5,6 +5,7 @@ package logic;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.PartslistModel;
 import org.junit.After;
@@ -20,6 +21,7 @@ import org.junit.Test;
  */
 public class ShedLogicTest
 {
+    private DataFacade db; 
     
     public ShedLogicTest()
     {
@@ -38,6 +40,7 @@ public class ShedLogicTest
     @Before
     public void setUp()
     {
+        db = new DataFacadeImpl();
     }
     
     @After
@@ -69,6 +72,7 @@ public class ShedLogicTest
     public void testSimpleShed()
     {
         PartslistModel test = new PartslistModel();
+        
         // <editor-fold defaultstate="collapsed" desc="Materials for test.">
         /* Screws and misc. */
         MaterialModel stalddørsgreb = new MaterialModel(75, "Stalddørsgreb", "Stalddørsgreb 50x75", 1, 0, 0);
@@ -154,7 +158,6 @@ public class ShedLogicTest
     public void testAddDoorMaterials() throws Exception
     {
         System.out.println("addDoorMaterials");
-        DataFacade db = DataFacadeImpl.getInstance();
         
         // <editor-fold defaultstate="collapsed" desc="Materials for test.">
         PartslistModel test = new PartslistModel();
@@ -258,23 +261,31 @@ public class ShedLogicTest
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of addScrews method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testAddScrews()
-//    {
-//        System.out.println("addScrews");
-//        PartslistModel bom = null;
-//        DataFacade db = null;
-//        MaterialModel screws = null;
-//        int packamount = 0;
-//        int screwamount = 0;
-//        ShedLogic instance = new ShedLogic();
-//        instance.addScrews(bom, db, screws, packamount, screwamount);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of addScrews method, of class ShedLogic.
+     */
+    @Test
+    public void testAddScrews() throws LoginException
+    {
+        PartslistModel test = new PartslistModel();
+        MaterialModel tscrews = new MaterialModel();
+        tscrews.setID(26);
+        tscrews.setDescription("4,5x70mm. skruer (400 stk)");
+        tscrews.setPrice(185);
+        tscrews.setUnit("Pakke");
+        tscrews.setCategory("miscellaneous");
+        tscrews.setQuantity(2);
+        test.addMaterial(tscrews);
+        
+        System.out.println("addScrews");
+        PartslistModel bom = new PartslistModel();
+        MaterialModel screws = db.getMaterial(26);
+        int packamount = 400;
+        int screwamount = 401;
+        ShedLogic instance = new ShedLogic();
+        instance.addScrews(bom, screws, packamount, screwamount);
+        assertEquals(test, bom);
+    }
 
     
     
