@@ -21,7 +21,8 @@
     </head>
     <body>
         <svg width="720" height="720">
-        <rect x="50" y="20" width="${order.shed_width/10}" height="${order.shed_length/10}" style="fill:blue;stroke:pink;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />
+            <rect x="0" y="0" width="${order.shed_width/10}" height="${order.shed_length/10}" style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:" />
+            Sorry, your browser does not support inline SVG.  
         </svg>
     </body>
 </html>
