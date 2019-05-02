@@ -7,6 +7,7 @@ import data.DataFacade;
 import data.DataFacadeImpl;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
+import data.models.OrderModel;
 import data.models.PartslistModel;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,24 +48,7 @@ public class ShedLogicTest
     public void tearDown()
     {
     }
-//
-//    /**
-//     * Test of addShed method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testAddShed() throws Exception
-//    {
-//        System.out.println("addShed");
-//        PartslistModel bom = null;
-//        OrderModel order = null;
-//        ShedLogic instance = new ShedLogic();
-//        PartslistModel expResult = null;
-//        PartslistModel result = instance.addShed(bom, order);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
     /**
      * Test of simpleShed method, of class ShedLogic.
      */
@@ -224,43 +208,37 @@ public class ShedLogicTest
         instance.addDoorMaterials(bom, db);
         assertEquals(test, bom);
     }
-//
-//    /**
-//     * Test of addMaterials method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testAddMaterials() throws Exception
-//    {
-//        System.out.println("addMaterials");
-//        PartslistModel bom = null;
-//        MaterialModel wood = null;
-//        int length = 0;
-//        int width = 0;
-//        DataFacade db = null;
-//        OrderModel order = null;
-//        ShedLogic instance = new ShedLogic();
-//        instance.addMaterials(bom, wood, length, width, db, order);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of posts method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testPosts() throws Exception
-//    {
-//        System.out.println("posts");
-//        int length = 0;
-//        OrderModel order = null;
-//        int width = 0;
-//        DataFacade db = null;
-//        PartslistModel bom = null;
-//        ShedLogic instance = new ShedLogic();
-//        instance.posts(length, order, width, db, bom);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    /**
+     * Test of posts method, of class ShedLogic.
+     */
+    @Test
+    public void testPosts() throws Exception
+    {
+        PartslistModel test = new PartslistModel();
+        MaterialModel post = new MaterialModel();
+        post.setID(4);
+        post.setDescription("97x97 mm. trykimp. Stolpe");
+        post.setHeight(97);
+        post.setWidth(97);
+        post.setLength(3000);
+        post.setPrice(65);
+        post.setUnit("Stk");
+        post.setCategory("wood");
+        post.setQuantity(3);
+        test.addMaterial(post);
+        
+        System.out.println("posts");
+        int length = 3600;
+        int width = 3600;
+        OrderModel order = new OrderModel();
+        order.setLength(7200);
+        order.setWidth(7200);
+        PartslistModel bom = new PartslistModel();
+        ShedLogic instance = new ShedLogic();
+        instance.posts(length, order, width, db, bom);
+        assertEquals(test, bom);
+    }
 
     /**
      * Test of reglar method, of class ShedLogic.
