@@ -18,8 +18,9 @@ import static org.junit.Assert.*;
  * @author Camilla
  */
 public class RoofRaisedCalcTest {
+
     DataFacade DAO;
-    
+
     public RoofRaisedCalcTest() {
     }
 
@@ -36,15 +37,18 @@ public class RoofRaisedCalcTest {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         PartslistModel bomExp = new PartslistModel();
-        bomExp.addMaterial(DAO.getMaterial(7));
-        bomExp.addMaterial(DAO.getMaterial(7));
-        bomExp.addMaterial(DAO.getMaterial(7));
-        bomExp.addMaterial(DAO.getMaterial(7));
+        for (int i = 0; i < 6; i++) {
+            bomExp.addMaterial(DAO.getMaterial(7));
+            bomExp.addMaterial(DAO.getMaterial(7));
+            bomExp.addMaterial(DAO.getMaterial(7));
+            bomExp.addMaterial(DAO.getMaterial(7));
+        }
         order.setWidth(3000);
         order.setIncline(20);
-        
+        order.setLength(4000);
+
         PartslistModel bomRes = raised.getRoofStructure(order);
         assertEquals(bomExp, bomRes);
     }
-    
+
 }
