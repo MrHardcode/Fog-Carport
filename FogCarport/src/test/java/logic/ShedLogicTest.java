@@ -241,26 +241,36 @@ public class ShedLogicTest
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of reglar method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testReglar() throws Exception
-//    {
-//        System.out.println("reglar");
-//        int width = 0;
-//        DataFacade db = null;
-//        PartslistModel bom = null;
-//        int side = 0;
-//        ShedLogic instance = new ShedLogic();
-//        int expResult = 0;
-//        int result = instance.reglar(width, db, bom, side);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
+    /**
+     * Test of reglar method, of class ShedLogic.
+     */
+    @Test
+    public void testReglar() throws Exception
+    {
+        PartslistModel test = new PartslistModel();
+        MaterialModel reglar = new MaterialModel();
+        reglar.setID(7);
+        reglar.setDescription("45x95 Reglar ubh.");
+        reglar.setHeight(45);
+        reglar.setWidth(95);
+        reglar.setLength(3600);
+        reglar.setPrice(27.5);
+        reglar.setUnit("Stk");
+        reglar.setCategory("wood");
+        reglar.setQuantity(3);
+        test.addMaterial(reglar);
+        
+        System.out.println("reglar");
+        int width = 3100;
+        PartslistModel bom = new PartslistModel();
+        int side = 3;
+        ShedLogic instance = new ShedLogic();
+        instance.reglar(width, db, bom, side);
+        assertEquals(test, bom);
+        
+    }
+
     /**
      * Test of addScrews method, of class ShedLogic.
      */
