@@ -324,7 +324,7 @@ public class RoofFlatCalc
     private PartslistModel calculateBand(OrderModel order) throws LoginException
     {
         PartslistModel bandParts = new PartslistModel();
-        int bandAmount = 0; //used to determine band quantity.
+        int bandAmount = 1; //used to determine band quantity. we always want one.
 
         /*get MaterialModel to return */
         MaterialModel band = DAO.getMaterial(23);
@@ -332,13 +332,15 @@ public class RoofFlatCalc
 
         /* Calculation begin */
         int bandLength = band.getLength(); //10000mm (10m)
-        int shedLength = order.getShed_length(); //band runs from shed to front
+        int shedLength = order.getShed_length(); 
         int carportLength = order.getLength();
 
+        //band runs from shed to front
         int bandCoverLength = (carportLength - shedLength); //band does not cover shed
 
         int bandEffectiveLength = bandCoverLength * 2; //we need to cover diagonally (two lengths)
 
+        bandEffectiveLength -= bandLength; //we start at one, so lets remove bandLength from calculation.
         while (bandEffectiveLength - bandLength >= 0)
         {
             ++bandAmount;
@@ -348,7 +350,7 @@ public class RoofFlatCalc
         /* update quantities */
         band.setQuantity(bandAmount);
         bandScrews.setQuantity(1); // 250 a package
-        //screws too (2 pr. spær)
+        //screws too (2 pr. spær crossed)
 
         /* update price */
         band.setPrice(band.getQuantity() * band.getPrice());
