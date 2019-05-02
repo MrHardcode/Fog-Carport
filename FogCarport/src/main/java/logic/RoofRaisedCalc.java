@@ -51,21 +51,18 @@ public class RoofRaisedCalc {
         int rafterCount = 2;
         int remainderLength = order.getLength() - (2 * 45);
         
-        System.out.println("START remainder length = " + remainderLength);
-
         for (int i = 0; i < remainderLength; i++) {
             if (remainderLength > 900) {
                 rafterCount = rafterCount + 1;
                 remainderLength = remainderLength - (900 + 45);
-                System.out.println("remainder length = " + remainderLength);
-                System.out.println("rafter counter = " + rafterCount);
             }
         }
         
         for (int i = 0; i < rafterCount; i++) {
             roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
         }
-        System.out.println("beslag counter = " + bracketCount);
+        
+        roofStructureBOM.addPartslist(generateLaths(order.getLength(), totalWidth, order.getIncline()));
 
         return roofStructureBOM;
     }
@@ -122,6 +119,41 @@ public class RoofRaisedCalc {
         bracketCount = bracketCount + 6;
 
         return rafterBOM;
+    }
+    
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException{
+        PartslistModel lathsBOM = new PartslistModel();
+        
+        // til hypotenuseberegning (hypotenuse = tagvidde)
+        double angleRad = Math.toRadians(incline);
+        double adjacentCath = totalWidth * 0.5;
+        double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        
+        // der er altid mindts 3 rækker af lægter
+        int amountLathRows = 3;
+        int lathsLength;
+        
+        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
+        int roofSideWidth = (int) Math.ceil(hypotenuse) - (30 + 350);
+        
+        // beregn antal af rækker af lægter
+        for (int i = 0; i < roofSideWidth; i++) {
+            if (roofSideWidth > 307) {
+                amountLathRows = amountLathRows + 1;
+                roofSideWidth = roofSideWidth - 307;
+            }
+        }
+        // total længde af alle lægter lagt sammen
+        lathsLength = (orderLength * amountLathRows) * 2;
+
+        // lægte materialer
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(12)); // length 5400 mm
+        materials.add(DAO.getMaterial(13)); // length 4200 mm
+        
+        lathsBOM.addPartslist(getMaterialsFromlength(materials, lathsLength));
+        
+        return lathsBOM;
     }
 
 }
