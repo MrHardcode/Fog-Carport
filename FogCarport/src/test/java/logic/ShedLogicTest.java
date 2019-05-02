@@ -132,24 +132,44 @@ public class ShedLogicTest
         instance.simpleShed(bom);
         assertEquals(test, bom);
     }
-//
-//    /**
-//     * Test of addFloor method, of class ShedLogic.
-//     */
-//    @Test
-//    public void testAddFloor() throws Exception
-//    {
-//        System.out.println("addFloor");
-//        PartslistModel bom = null;
-//        MaterialModel floor = null;
-//        int length = 0;
-//        int width = 0;
-//        DataFacade db = null;
-//        ShedLogic instance = new ShedLogic();
-//        instance.addFloor(bom, floor, length, width, db);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    /**
+     * Test of addFloor method, of class ShedLogic.
+     */
+    @Test
+    public void testAddFloor() throws Exception
+    {
+        PartslistModel test = new PartslistModel();
+        MaterialModel eg = new MaterialModel();
+        eg.setID(50);
+        eg.setDescription("30x200mm alm. planke (Eg)");
+        eg.setHeight(30);
+        eg.setWidth(200);
+        eg.setLength(3600);
+        eg.setPrice(55);
+        eg.setUnit("Stk");
+        eg.setCategory("wood");
+        eg.setQuantity(10); // TBD
+        test.addMaterial(eg);
+        
+        MaterialModel tscrews = new MaterialModel();
+        tscrews.setID(27);
+        tscrews.setDescription("4,5x50mm Skruer (300 stk)");
+        tscrews.setPrice(167.75);
+        tscrews.setUnit("Pakke");
+        tscrews.setCategory("miscellaneous");
+        tscrews.setQuantity(1);
+        test.addMaterial(tscrews);
+        
+        System.out.println("addFloor");
+        PartslistModel bom = new PartslistModel();
+        MaterialModel floor = db.getMaterial(50);
+        int length = 3500;
+        int width = 2000;
+        ShedLogic instance = new ShedLogic();
+        instance.addFloor(bom, floor, length, width, db);
+        assertEquals(test, bom);
+    }
 
     /**
      * Test of addDoorMaterials method, of class ShedLogic.
