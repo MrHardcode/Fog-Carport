@@ -310,7 +310,7 @@ public class ShedLogic
         }
         int amountofreglar = side * (width/postdistance);
         int restreglar = width % postdistance;
-        if (restreglar > 0) // If customer needs ekstra.
+        if (restreglar > 0) // If customer needs ekstra. // Maybe check for if it should be a 2400 or a 3600.
         {
             amountofreglar = side + amountofreglar;
         }
