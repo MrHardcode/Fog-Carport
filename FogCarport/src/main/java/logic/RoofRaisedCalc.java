@@ -38,7 +38,7 @@ public class RoofRaisedCalc {
 
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws LoginException {
         PartslistModel roofRaisedBOM = new PartslistModel();
-        
+
         roofRaisedBOM.addPartslist(getRoofTiles(order));
         roofRaisedBOM.addPartslist(getRoofStructure(order));
 
@@ -61,27 +61,24 @@ public class RoofRaisedCalc {
 
         // tagvidde når afstanden fra tagtoppen øverste lægte
         int roofWidth = (int) Math.ceil(hypotenuse) - (30);
-
         // beregn antal rækker tagsten
-        for (int i = 0; i < roofWidth; i++) {
-            if (roofWidth > 0) {
-                tileRowCount = tileRowCount + 1;
-                roofWidth = roofWidth - tileLength;
-            }
+        while (roofWidth > 0) {
+            tileRowCount = tileRowCount + 1;
+            roofWidth = roofWidth - tileLength;
         }
+
         // total længde af alle tagsten lagt sammen
-        tileRowLength = (totalWidth * tileRowCount) * 2;
-        tileCount = (int) Math.ceil(tileRowLength / tileWidth);
+        tileRowLength = (order.getLength() * tileRowCount) * 2;
+        tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
 
         for (int i = 0; i < tileCount; i++) {
             roofTilesBOM.addMaterial(DAO.getMaterial(order.getRoof_tiles_id()));
 
         }
-        topTileCount = (int) Math.ceil(order.getLength()/DAO.getMaterial(getTopRoofTileID(order)).getLength());
+        topTileCount = (int) Math.ceil((double) order.getLength() / (double) DAO.getMaterial(getTopRoofTileID(order)).getLength());
         for (int i = 0; i < topTileCount; i++) {
             roofTilesBOM.addMaterial(DAO.getMaterial(getTopRoofTileID(order)));
         }
-        
         roofTilesBOM.addMaterial(DAO.getMaterial(32));
         return roofTilesBOM;
     }
@@ -111,7 +108,7 @@ public class RoofRaisedCalc {
             case 39:
                 roofTopID = 46;
                 break;
-            default: 
+            default:
                 roofTopID = 40;
                 break;
         }

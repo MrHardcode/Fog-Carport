@@ -7,6 +7,7 @@ package logic;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import org.junit.Before;
@@ -39,14 +40,18 @@ public class RoofRaisedCalcTest {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         PartslistModel bomExp = new PartslistModel();
+        MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material30 = DAO.getMaterial(30);
         for (int i = 0; i < 6; i++) {
-            bomExp.addMaterial(DAO.getMaterial(7));
-            bomExp.addMaterial(DAO.getMaterial(7));
-            bomExp.addMaterial(DAO.getMaterial(7));
-            bomExp.addMaterial(DAO.getMaterial(7));
+            bomExp.addMaterial(material7);
+            bomExp.addMaterial(material7);
+            bomExp.addMaterial(material7);
+            bomExp.addMaterial(material7);
+            bomExp.addMaterial(material30);
         }
-        for (int i = 0; i < 12; i++) {
-            bomExp.addMaterial(DAO.getMaterial(12));
+        for (int i = 0; i < 14; i++) {
+            bomExp.addMaterial(material12);
         }
         order.setWidth(3000);
         order.setIncline(20);
@@ -72,20 +77,34 @@ public class RoofRaisedCalcTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of getRoofTiles method, of class RoofRaisedCalc.
-//     */
-//    @Test
-//    public void testGetRoofTiles() {
-//        System.out.println("getRoofTiles");
-//        OrderModel order = null;
-//        RoofRaisedCalc instance = new RoofRaisedCalc();
-//        PartslistModel expResult = null;
-//        PartslistModel result = instance.getRoofTiles(order);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getRoofTiles method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetRoofTiles() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material33 = DAO.getMaterial(33);
+        MaterialModel material40 = DAO.getMaterial(40);
+
+        for (int i = 0; i < 134; i++) {
+            bomExp.addMaterial(material33);
+        }
+        for (int i = 0; i < 5; i++) {
+            bomExp.addMaterial(material40);
+        }
+        bomExp.addMaterial(DAO.getMaterial(32));
+
+        order.setWidth(3000);
+        order.setIncline(20);
+        order.setLength(4000);
+        order.setRoof_tiles_id(33);
+
+        PartslistModel bomRes = raised.getRoofTiles(order);
+        assertEquals(bomExp, bomRes);
+    }
 //
 //    /**
 //     * Test of getMaterialsFromlength method, of class RoofRaisedCalc.
