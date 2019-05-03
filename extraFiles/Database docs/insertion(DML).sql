@@ -102,10 +102,10 @@ ALTER TABLE `carportdb`.`materials` AUTO_INCREMENT = 1; /* Ensuring we start fro
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm trykimp. Bræt', '25', '150', '4800', '35', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '5400', '40', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '6000', '45', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('97x97 mm. trykimp. Stolpe', '970', '970', '3000', '65', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtre ubh.', '450', '1950', '4800', '32.75', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '450', '950', '2400', '22', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '450', '950', '3600', '27.5', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('97x97 mm. trykimp. Stolpe', '97', '97', '3000', '65', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '4800', '32.75', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '45', '95', '2400', '22', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '45', '95', '3600', '27.5', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '4800', '33', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2400', '24', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2100', '21', 'Stk', '1');
@@ -215,3 +215,10 @@ INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`,
 /* More options for beklædning & gavl */
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200mm alm. Bræt', '25', '200', '2400', '35', 'Stk', '3');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200mm alm. Bræt', '25', '200', '3200', '47.5', 'Stk', '3');
+
+/* More options for remme & spær */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '6000', '45', 'Stk', '1'); /*forgotten in initial push, adding here to avoid ID increment */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200 mm. trykimp. Brædt', '25', '200', '3600', '37.25', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200 mm. trykimp. Brædt', '25', '200', '5400', '42.75', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '3600', '36', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '5400', '39.95', 'Stk', '1');
