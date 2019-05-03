@@ -244,7 +244,7 @@ public class ShedLogic
 
         // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
         int vinkelbeslagamount = reglar(width, db, bom, 3);
-        vinkelbeslagamount = vinkelbeslagamount + reglar(length, db, bom, 2);
+        vinkelbeslagamount += reglar(length, db, bom, 2);
 
         // Vinkelbeslag #19 2 per reglar
         MaterialModel vinkelbeslag = db.getMaterial(19);
@@ -277,7 +277,7 @@ public class ShedLogic
                 while (templength > 0)
                 {
                     postquantity++;
-                    templength = templength - postdistance;
+                    templength -= postdistance;
                 }
             }
             
@@ -288,7 +288,7 @@ public class ShedLogic
                 while (tempwidth > 0)
                 {
                     postquantity++;
-                    tempwidth = tempwidth - postdistance;
+                    tempwidth -= postdistance;
                 }
             }
         } else {
