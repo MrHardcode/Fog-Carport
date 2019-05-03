@@ -34,9 +34,9 @@ public class SVGDrawingShed
 "                  width=\""+(order.getShed_width()/10)+"\" \n" +
 "                  height=\""+(order.getShed_length()/10)+"\" \n" +
 "                  style=\"stroke:black;stroke-width:5;fill-opacity:0.1;stroke-opacity:1\" />\n" +
-"            \n" + getPole(order, 0) +
+"            \n" + getPole(order, 0) + getPole(order, 90) +
                 "<rect x=\"" + ((order.getLength() / 10) - (order.getShed_length() / 10)) + "\" \n"
-                    + "y=\"" + (((order.getWidth() / 10) - (order.getShed_width() / 10))+postdistance) + "\" \n"
+                    + "y=\"" + (((order.getWidth() / 10) - (order.getShed_width() / 10))) + "\" \n"
                     + "width=\"15\" height=\"15\" \n"
                     + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n"+
 "            Sorry, your browser does not support inline SVG.  \n" +
@@ -66,3 +66,20 @@ public class SVGDrawingShed
     }
     
 }
+
+
+/*
+<svg width="${(order.length/10)}" height="${(order.width/10)}">
+            <rect x="${(order.length/10)-(order.shed_length/10)}" 
+                  y="${(order.width/10)-(order.shed_width/10)}" 
+                  width="${order.shed_width/10}" 
+                  height="${order.shed_length/10}" 
+                  style="stroke:black;stroke-width:5;fill-opacity:0.1;stroke-opacity:1" />
+            
+            <rect x="${(order.length/10)-(order.shed_length/10)}" 
+                  y="${(order.width/10)-(order.shed_width/10)}" 
+                  width="15" height="15" 
+                  style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1" />
+            Sorry, your browser does not support inline SVG.  
+        </svg>
+*/
