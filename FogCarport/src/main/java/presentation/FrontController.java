@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.LogicFacade;
+import logic.LogicFacadeImpl;
 
 /**
  *
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 })
 public class FrontController extends HttpServlet
 {
-
+    private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -28,8 +30,8 @@ public class FrontController extends HttpServlet
         {
 //            validateSession(request);
             Command action = Command.from(request);
-            String view = action.execute(request, response);
-            response.sendRedirect(view + ".jsp");
+            String view = action.execute(request, logic);
+            request.getRequestDispatcher(view + ".jsp").forward(request, response);
         } catch (LoginException ex)
         {
             request.setAttribute("message", ex.getMessage());
