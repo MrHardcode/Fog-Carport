@@ -219,6 +219,7 @@ public class RoofFlatCalc
 
         //return miscMaterials;
         //return new UnsupportedOperationException("wtf");
+        return null;
     }
 
     /**
@@ -230,7 +231,7 @@ public class RoofFlatCalc
     private PartslistModel calculateRafters(OrderModel order) throws LoginException
     {
         MaterialModel rafters = DAO.getMaterial(54);
-
+        return null;
     }
 
     /**
@@ -335,6 +336,7 @@ public class RoofFlatCalc
         {
             return itemQty;
         }
+        return 0;
     }
 
     /**
@@ -345,7 +347,7 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateBargeboard(OrderModel order)
     {
-
+        return null;
     }
 
     /**
@@ -465,7 +467,7 @@ public class RoofFlatCalc
      */
     private PartslistModel calculatePlasticTiles(OrderModel order)
     {
-
+        return null;
     }
 
     /**
@@ -476,7 +478,7 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateFeltTiles(OrderModel order)
     {
-
+        return null;
     }
 
     private static class Rules extends HashMap<String, Integer>

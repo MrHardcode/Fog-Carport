@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic;
+package logic.Calculations;
 
+import logic.Calculations.BaseCalc;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;

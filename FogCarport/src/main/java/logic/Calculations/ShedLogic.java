@@ -1,7 +1,7 @@
 /*
  *  
  */
-package logic;
+package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
