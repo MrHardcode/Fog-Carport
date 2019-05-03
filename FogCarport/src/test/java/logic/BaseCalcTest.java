@@ -46,7 +46,7 @@ public class BaseCalcTest
      * Test of calcPostsRaisedRoof method, of class BaseCalc.
      */
     @Test
-    public void testCalcPostsRaisedRoof()
+    public void testCalcPosts()
     {
         int result = bc.calcPosts(cLength, cWidth, sLength, sWidth, postDistance);
         assertEquals(expected, result);
