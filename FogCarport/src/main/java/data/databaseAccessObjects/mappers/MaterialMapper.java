@@ -77,8 +77,11 @@ public class MaterialMapper
     {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name "
-                + "FROM materials INNER JOIN `category` ON `materials`.`id_category` = `category`.`id_category`;";
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n" +
+                        "FROM materials \n" +
+                        "INNER JOIN `category` \n" +
+                        "ON `materials`.`id_category` = `category`.`id_category` \n" +
+                        "WHERE `materials`.`id_material` = ?;";
         // Using try-with resources, so they automatically close afterwards.
         try (Connection con = DBConnector.connection();
                 PreparedStatement ps = con.prepareStatement(SQL);)
