@@ -8,30 +8,34 @@
     <div class="d-flex justify-content-center" >
         <!-- Form start -->
         <form action="FrontController" method="post" id="carport-form">
-            
+
             <!-- Hidden input: &command=simpleorder -->
             <input type="hidden" name="command" value="simpleorder">
-            
+
             <h1>Bestil Carport</h1>
 
-            <!-- Height -->
+            <!-- Height 
             <div class="form-group">
                 <label for="InputHeight">Højde i cm</label>
                 <input type="number"class="form-control" id="input-height" placeholder="Indtast højde" name="height">
                 <p hidden class="text-error-color text-error-size">Højde skal være mellem 200cm og 300cm</p>
-            </div>
+            </div> -->
 
-            <!-- Length -->
+            <!-- Length 
+            <input type="number" class="form-control" id="input-length" placeholder="Indtast længde" name="length"> -->
             <div class="form-group">
                 <label for="InputLength">Længde i cm</label>
-                <input type="number" class="form-control" id="input-length" placeholder="Indtast længde" name="length">
+                <select class="form-control" id="input-length" name="length"><option selected="selected" value="">Vælg længde</option>              
+                </select>
                 <p hidden class="text-error-color text-error-size">Længde skal være mellem 240cm og 720cm</p>
             </div>
 
-            <!-- Width -->
+            <!-- Width 
+            <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width"> -->
             <div class="form-group">
                 <label for="InputWidth">Bredde i cm</label>
-                <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width">
+                <select class="form-control" id="input-width" name="width"><option selected="selected" value="">Vælg bredde</option>
+                </select>
                 <p hidden class="text-error-color text-error-size">Bredde skal være mellem 240cm og 720cm</p>
             </div>
 
@@ -42,8 +46,8 @@
             </div>
 
             <!-- Button to submit -->
-            <button type="submit" class="btn btn-primary" id="submit-btn" style="margin-top: 5px;">Bestil Carport</button>
-            
+            <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
+
         </form>
         <!-- Form end -->
     </div>
