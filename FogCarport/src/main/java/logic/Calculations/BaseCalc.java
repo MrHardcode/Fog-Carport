@@ -76,8 +76,13 @@ public class BaseCalc
         //Total post amount
         int postAmount = 0;
         
+        //If the shed length is 0 because there is no shed:
+        if (sLength == 0)
+        {
+            postAmount = calcPostsNoShed(cLength, cWidth, postDistance);
+        }
         //If the shed is as wide as the carport:
-        if (sWidth == cWidth)
+        else if (sWidth == cWidth)
         {
             postAmount = calcPostsFullWidthShed(cLength, cWidth, sLength, postDistance);
         }
@@ -197,7 +202,19 @@ public class BaseCalc
         }
         return postAmount;
     }
-
+    
+    private int calcPostsNoShed(int cLength, int cWidth, int postDistance)
+    {
+        int postAmount = 0;
+        postAmount += (((cLength - 800) / postDistance) + 2) * 2;
+        postAmount += cWidth / postDistance;
+        if (cWidth % postDistance == 0)
+        {
+            --postAmount;
+        }
+        return postAmount;
+    }
+    
     protected int calcStraps(int cLength, int cWidth)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
