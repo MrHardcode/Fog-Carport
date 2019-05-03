@@ -14,13 +14,16 @@ import data.models.PartslistModel;
 public class BaseCalc
 {
     //Post-rules
-    private int postDistanceStandard = 3100;
-    private int postDistanceRaisedRoof = 2750;
+    private final int postDistanceStandard = 3100;
+    private final int postDistanceRaisedRoof = 2750;
     
     //IDs of materials from DB
-    private int postID = 4;
-    private int strapID = 54;
-    private int boltID = 24;
+    private final int postID = 4;
+    private final int strapID = 54;
+    private final int boltID = 24;
+    
+    //Variables used to keep track of things in the algorithm
+    private int separations = 0;
     
     protected PartslistModel addBase(PartslistModel bom, OrderModel order) throws LoginException
     {
@@ -31,6 +34,7 @@ public class BaseCalc
         int shedLength = order.getShed_length();
         int shedWidth = order.getShed_width();
         boolean hasRaisedRoof = false;
+        separations = 0;
         if (order.getIncline() > 0)
         {
             hasRaisedRoof = true;
@@ -62,7 +66,7 @@ public class BaseCalc
         post.setQuantity(postAmount);
         //45x195mm rafter wood
         MaterialModel strap = db.getMaterial(strapID);
-        int strapAmount = calcStraps(cLength, cWidth);
+        int strapAmount = calcStraps(cLength, cWidth, sLength, sWidth, strap);
         strap.setQuantity(strapAmount);
         
         //10x120mm bolts
@@ -111,10 +115,8 @@ public class BaseCalc
         int temp = 0;
         //Adding the count to temp
         temp += count;
-        //This if-statement makes sure to remove posts where there would have been placed 
-        //two posts inside each other because the shed has corners placed on a point 
-        //where another post has already been placed (not counting the corners of the carport). 
-        //Yeah... it's hard to explain 
+        //If two posts are placed on the same spot, we remove one of them
+        //We remove two, since this counts for boths sides (because shed width == carport width)
         if (cLength - (800 + postDistance * (temp - 1)) == sLength)
         {
             postAmount -= 2;
@@ -160,7 +162,7 @@ public class BaseCalc
         int temp = 0;
         //Adding the count to temp
         temp += count;
-        //Another one of those hard to explain if-statements
+        //If two posts are placed on the same spot, we remove one of them
         if (cLength - (800 + postDistance * (temp - 1)) == sLength)
         {
             postAmount -= 1;
@@ -205,9 +207,15 @@ public class BaseCalc
     
     private int calcPostsNoShed(int cLength, int cWidth, int postDistance)
     {
+        //Amount of posts
         int postAmount = 0;
+        //Calculating the amount of posts between the corner posts in the side. 
+        //+2 for the two corners. *2 since the sides are equal.
         postAmount += (((cLength - 800) / postDistance) + 2) * 2;
+        //Calculating the amount of posts between the corner posts in the rear.
         postAmount += cWidth / postDistance;
+        //If cWidth % postDistance == 0 then the algorithm adds a post for a corner
+        //where a post has already been places so we must remove that one extra post
         if (cWidth % postDistance == 0)
         {
             --postAmount;
@@ -215,9 +223,92 @@ public class BaseCalc
         return postAmount;
     }
     
-    protected int calcStraps(int cLength, int cWidth)
+    protected int calcStraps(int cLength, int cWidth, int sLength, int sWidth, MaterialModel strap)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Amount of straps
+        int strapAmount = 0;
+        boolean skipWidthCalc = false;
+        //Calculating the amount of straps for the sides if the carport is shorter 
+        //than a strap
+        if (cLength <= strap.getLength())
+        {
+            //If one strap can cover the whole length of both sides of the carport 
+            //then we only need one strap for the sides
+            if (cLength * 2 <= strap.getLength())
+            {
+                ++strapAmount;
+            }
+            //If not then we obviously need two
+            else
+            {
+                strapAmount += 2;
+            }
+        }
+        else
+        {
+            strapAmount += 2;
+            int restLength = cLength - strap.getLength();
+            while (true)
+            {
+                if (restLength < strap.getLength())
+                {
+                    break;
+                }
+                strapAmount += 2;
+                restLength -= strap.getLength();
+            }
+            //If one strap can cover the rest of the length in both sides:
+            if (restLength * 2 <= strap.getLength())
+            {
+                ++separations;
+                ++strapAmount;
+                //If the excess part of the extra strap can cover the carport width 
+                //then we just skip the width calculation
+                if ((strap.getLength() - restLength * 2) > cWidth)
+                {
+                    skipWidthCalc = true;
+                    ++separations;
+                }
+            }
+            //If the rest of the length is longer than half of the length of one strap:
+            else
+            {
+                strapAmount += 2;
+                //If the excess part of one extra strap can cover the carport width 
+                //then we just skip the width calculation
+                if ((strap.getLength() - restLength) > cWidth)
+                {
+                    skipWidthCalc = true;
+                    ++separations;
+                }
+            }
+        }
+        /*   Calculating amount of straps for the rear of the carport */
+        if (!skipWidthCalc)
+        {
+            //Adding an extra strap for the rear of the carport
+            ++strapAmount;
+
+            //If the width is longer than one strap we add extra straps using integer division
+            if (cWidth / strap.getLength() > 0)
+            {
+                strapAmount += cWidth / strap.getLength();
+                //Checking for remainders using modulus. If there is no remainder 
+                //we remove one strap
+                if (cWidth % strap.getLength() == 0)
+                {
+                    --strapAmount;
+                }
+            }
+            //If one strap is enough to cover the whole carport we set strapAmount to 1
+            //This if-statement is necessary for the calculation of the bolts
+            if ((cLength * 2 + cWidth) <= strap.getLength())
+            {
+                strapAmount = 1;
+                separations = 2;
+            }
+        }
+        return strapAmount;
     }
 
     protected int calcBolts(int postAmount, int strapAmount)
