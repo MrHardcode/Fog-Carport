@@ -11,7 +11,7 @@ import data.models.OrderModel;
  */
 public class SVGDrawingShed
 {
-    private final int postdistance = 3100/10;
+    private final int postdistance = 310; // in cm.
     
     /*
         Width / poledistance  = amount of posts (Dont remember modulo. Asger takes care of it.
@@ -68,30 +68,36 @@ public class SVGDrawingShed
         int sl = order.getShed_length() / 10;
         String SVG = "";
 
-        if (angle == 0)
-        {
-            int postamount = sw / postdistance; // 6400/3100 = 2 som int 
-            for (int i = 0; i < postamount; i++)
+        if (angle == 0) // Horizontally
+        { // Using example where shed is 640cm wide and postdistance is 310cm.
+            int postamount = sw / postdistance; // 640/310 = 2 as int 
+            for (double i = 0; i < postamount; i += 1)
             {                           
                 double postplacement = ((1 + i) / (1 + postamount)); // (1+0)/(1+2) = 0.333333
-                double tempint = (sw * postplacement); // 0.333333 * 6400 = 2133
+                double tempint = (double) (sw * postplacement); // 0.333333 * 640 = 213
                 int postwidth = (int) tempint;
 
-                SVG += " <rect x=\"" + ((cw - sw) + postwidth) + "\" \n"
+                SVG += " <rect x=\"" + ((cw - sw) + postwidth) + "\" \n" // Places posts 213cm instead of 310cm. Now they are spread even and nice.
                         + "y=\"" + (cl - sl) + "\" \n"
                         + "width=\"15\" height=\"15\" \n"
                         + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
 
-        int postlength = postdistance; // 3100
-        while (angle == 90 && (cl + sl > postlength))
+        if (angle == 90) // Vertically 
         {
-            SVG += " <rect x=\"" + (cw - sw) + "\" \n"
-                    + "y=\"" + ((cl - sl) + postlength) + "\" \n"
-                    + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
-            postlength += postdistance;
+            int postamount = sl / postdistance; 
+            for (double i = 0; i < postamount; i += 1)
+            {                           
+                double postplacement = ((1 + i) / (1 + postamount));
+                double tempint = (double) (sl * postplacement); 
+                int postlength = (int) tempint;
+
+                SVG += " <rect x=\"" + (cw - sw)  + "\" \n"
+                        + "y=\"" + ((cl - sl) + postlength) + "\" \n"
+                        + "width=\"15\" height=\"15\" \n"
+                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+            }
         }
         return SVG;
     }
