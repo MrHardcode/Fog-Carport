@@ -1,7 +1,7 @@
 /*
  *  
  */
-package logic;
+package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
@@ -18,6 +18,9 @@ import data.models.PartslistModel;
 public class ShedLogic
 {
 
+    private final int postdistance = 3100; // Distance between posts.
+    private final int postid = 4; // id of posts in DB.
+    
     private static ShedLogic instance = null;
 
     public synchronized static ShedLogic getInstance()
@@ -56,7 +59,7 @@ public class ShedLogic
             MaterialModel wood = db.getMaterial(order.getShed_walls_id());
 
             // MATERIALS NEEDED NO MATTER WHAT - DOOR
-            addDoorMaterials(bom, wood, db);
+            addDoorMaterials(bom, db);
 
             // IF FLOOR IS CHOSEN:
             if (order.getShed_floor_id() != 0)
@@ -67,16 +70,16 @@ public class ShedLogic
             }
 
             // AND THE REST
-            addMaterials(bom, wood, length, width, db);
+            addMaterials(bom, wood, length, width, db, order);
 
         }
 
         return bom;
     }
-
-    private void simpleShed(PartslistModel bom)
+    
+    //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
+    void simpleShed(PartslistModel bom)
     {
-        //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
         // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
         // KEEP THIS FOR THE BUTTON NAMED "Standard Redskabsrum" AS SHOWN IN VIDEO
         // So if you check the box called "standard redskabsrum" simply use this list of materials.
@@ -130,9 +133,10 @@ public class ShedLogic
         løsholt240.setUnit("Stk.");
         løsholt240.setPrice(112);
         bom.addMaterial(løsholt240);
-        //</editor-fold>
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR THE FLOOR">
     /**
      * Adds materials to the Partslist for the floor, if selected.
      *
@@ -141,21 +145,21 @@ public class ShedLogic
      * @param width of the Shed.
      * @return PartslistModel
      */
-    private void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
+    void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
     {
-        int floorwidth = floor.getWidth();
-        int floorlength = floor.getLength();
+        int floorwidth = floor.getWidth(); // Width of the boards used for the floor
+        int floorlength = floor.getLength(); // Length of the boards used for the floor
         
         int woodwidthamount = width/floorwidth; // Get amount of boards needed for width of shed
         if (width % floorwidth > 0)
         {
-            woodwidthamount++;
+            woodwidthamount++; // If we need an extra to get 100% coverage.
         }
         
         int woodlengthamount = length/floorlength; // Get amount of boards needed for length of shed
         if (length % floorwidth > 0)
         {
-            woodlengthamount++;
+            woodlengthamount++; // If we need an extra to get 100% coverage.
         }
         
         int amountofwood = woodlengthamount*woodwidthamount; // Length * Width = amount of boards needed in total for shed floor.
@@ -165,9 +169,11 @@ public class ShedLogic
         // 4 screws per board #27 - 300 in a pack
         int screwamount = amountofwood * 4;
         MaterialModel screws = db.getMaterial(27); // 300 in one pack.
-        addScrews(bom, db, screws, 300, screwamount);
+        addScrews(bom, screws, 300, screwamount);
     }
+    // </editor-fold>
    
+    //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR THE DOOR">
     /**
      * Adds always needed materials to the Partslist. 
      * Materials for the door, etc.
@@ -183,7 +189,7 @@ public class ShedLogic
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    private void addDoorMaterials(PartslistModel bom, MaterialModel wood, DataFacade db) throws LoginException
+    void addDoorMaterials(PartslistModel bom, DataFacade db) throws LoginException
     {
         MaterialModel stalddørsgreb = db.getMaterial(17); 
         stalddørsgreb.setQuantity(1);
@@ -197,6 +203,7 @@ public class ShedLogic
         hængsel.setQuantity(2);
         bom.addMaterial(hængsel); // T-hængsel for the door.
     }
+    //</editor-fold>
 
     /**
      * Materials for the rest. 
@@ -215,10 +222,10 @@ public class ShedLogic
      * @param length
      * @param width
      */
-    private void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db) throws LoginException
+    void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws LoginException
     {
         // Trykimp brædder til beklædning:
-        int amountofwood = (((length+width)*2)/wood.getWidth())+1; // Two length sides and two width sides and one spare board.
+        int amountofwood = (((length + width) * 2) / wood.getWidth()) + 1; // Two length sides and two width sides and one spare board.
         wood.setQuantity(amountofwood);
         bom.addMaterial(wood);
 
@@ -226,16 +233,19 @@ public class ShedLogic
         // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
         int amountofscrews50 = 3 * amountofwood;
         MaterialModel skruer50 = db.getMaterial(27); // 300 in one pack.
-        addScrews(bom, db, skruer50, 300, amountofscrews50);
+        addScrews(bom, skruer50, 300, amountofscrews50);
         // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
         int amountofscrews70 = 6 * amountofwood;
         MaterialModel skruer70 = db.getMaterial(26); // 400 in one pack.
-        addScrews(bom, db, skruer70, 400, amountofscrews70);
-        
+        addScrews(bom, skruer70, 400, amountofscrews70);
+
+        // Adding additional posts if needed
+        posts(length, order, width, db, bom);
+
         // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
         int vinkelbeslagamount = reglar(width, db, bom, 3);
-        vinkelbeslagamount = vinkelbeslagamount + reglar(length, db, bom, 2);
-        
+        vinkelbeslagamount += reglar(length, db, bom, 2);
+
         // Vinkelbeslag #19 2 per reglar
         MaterialModel vinkelbeslag = db.getMaterial(19);
         vinkelbeslag.setQuantity(vinkelbeslagamount);
@@ -244,17 +254,62 @@ public class ShedLogic
         // Beslagsskruer #21 4 per beslag
         MaterialModel beslagsskruer = db.getMaterial(21);
         int screwamount = 4 * vinkelbeslagamount;
-        addScrews(bom, db, beslagsskruer, 100, screwamount);
+        addScrews(bom, beslagsskruer, 100, screwamount);
         
     }
 
-    private int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
+    void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws LoginException
     {
-        // 2400 reglar #6
-        int amountofreglar = side * (width/2000); // One is 2400 long. One pole each 2m. You can cover two poles with one 2400mm regel.
-        MaterialModel reglar = db.getMaterial(6);
-        int restreglar = width % 2000;
-        if (restreglar > 0) // If customer needs ekstra.
+        int postquantity = 0;
+        if (length == order.getLength() && width == order.getWidth())
+        {
+            // If the shed covers the entire carport, then add no additional posts.
+        } else if (width == order.getWidth() && order.getLength() == length)
+        {
+            // If the shed matches the width of the carport, and the length matches the carport posts, then no need for more posts.
+        } else if ((width < order.getWidth() && length > postdistance) || (length < order.getLength() && width > postdistance)) // if carport is absurdly long and shed is aswell...
+        {
+            postquantity++; //one for the corner
+            if (length > postdistance)
+            {
+                int templength = length;
+                postquantity--; //one removed for the one at the rem.
+                while (templength > 0)
+                {
+                    postquantity++;
+                    templength -= postdistance;
+                }
+            }
+            
+            if (width > postdistance)
+            {
+                int tempwidth = width;
+                postquantity--; //one removed for the one at the rem.
+                while (tempwidth > 0)
+                {
+                    postquantity++;
+                    tempwidth -= postdistance;
+                }
+            }
+        } else {
+            postquantity++; // the one at the corner
+        }
+        MaterialModel post = db.getMaterial(postid);
+        post.setQuantity(postquantity);
+        bom.addMaterial(post);
+    }
+
+    int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
+    {
+        MaterialModel reglar;
+        if (postdistance < 2400 || width < 2400){
+            reglar = db.getMaterial(6); // 2400 reglar
+        } else {
+            reglar = db.getMaterial(7); // 3600 reglar
+        }
+        int amountofreglar = side * (width/postdistance);
+        int restreglar = width % postdistance;
+        if (restreglar > 0) // If customer needs ekstra. // Maybe check for if it should be a 2400 or a 3600.
         {
             amountofreglar = side + amountofreglar;
         }
@@ -263,15 +318,15 @@ public class ShedLogic
         return amountofreglar * 2; // used for vinkelbeslag. Need 2 per reglar.
     }    
     
+    //<editor-fold defaultstate="collapsed" desc="CALCULATOR FOR THE SCREWS">
     /**
      * add screws to the partslist. 
      * @param bom
-     * @param db
      * @param screws type of screw
      * @param packamount amount of screws in a pack.
      * @param screwamount amount of screws needed in total.
      */
-    private void addScrews(PartslistModel bom, DataFacade db, MaterialModel screws, int packamount, int screwamount){
+    void addScrews(PartslistModel bom, MaterialModel screws, int packamount, int screwamount){
         int restskruer = screwamount % packamount;
         int amountofpacks = screwamount / packamount;
         if (restskruer > 0)
@@ -281,4 +336,5 @@ public class ShedLogic
         screws.setQuantity(amountofpacks);
         bom.addMaterial(screws);
     }
+    //</editor-fold>
 }

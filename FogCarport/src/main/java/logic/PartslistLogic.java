@@ -27,7 +27,7 @@ class PartslistLogic
     
     PartslistModel getBOM() throws LoginException {
         PartslistModel bom = new PartslistModel();
-        OrderModel order = OrderMapper.getInstance().getOrder(0);
+        OrderModel order = OrderMapper.getInstance().getOrder(2);
         
         
         
