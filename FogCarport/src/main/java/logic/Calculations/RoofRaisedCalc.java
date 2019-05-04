@@ -176,6 +176,27 @@ public class RoofRaisedCalc {
         }
         return calcParts;
     }
+    
+    //                                  height  width   length    
+//      8	19x100mm. trykimp. Bræt  19	100	4800
+//      9	19x100mm. trykimp. Bræt	 19	100	2400
+//      10	19x100mm. trykimp. Bræt	 19	100	2100
+    
+    protected PartslistModel generateCladding(int totalWidth, int incline) throws LoginException{
+        PartslistModel claddingBOM = new PartslistModel();
+        MaterialModel material = DAO.getMaterial(8);
+        
+        double angleRad = Math.toRadians(incline);
+        double adjacentCath = totalWidth * 0.5;
+        double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        double oppositeCath = (Math.sin(angleRad) * hypotenuse);
+        
+        
+        
+        
+        
+        return claddingBOM;
+    }
 
     protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
         PartslistModel rafterBOM = new PartslistModel();
