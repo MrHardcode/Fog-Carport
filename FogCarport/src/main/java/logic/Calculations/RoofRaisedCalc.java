@@ -132,7 +132,7 @@ public class RoofRaisedCalc {
                 remainderLength = remainderLength - (900 + 45);
             }
         }
-        
+
         MaterialModel material = DAO.getMaterial(30);
         for (int i = 0; i < rafterCount; i++) {
             roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
@@ -176,26 +176,51 @@ public class RoofRaisedCalc {
         }
         return calcParts;
     }
-    
-    //                                  height  width   length    
+
+    protected PartslistModel generateCladding(int totalWidth, int incline) throws LoginException {
+
+        PartslistModel claddingBOM = new PartslistModel();
+
+        int amountMaterial = getCladdingMaterialCount(totalWidth, incline, 0)
+                           + getCladdingMaterialCount(totalWidth, incline, 8);
+
+        for (int i = 0; i < amountMaterial; i++) {
+            claddingBOM.addMaterial(DAO.getMaterial(8));
+            screwCount = screwCount + 6;
+        }
+
+        return claddingBOM;
+    }
+
+//                                      height  width   length    
 //      8	19x100mm. trykimp. Bræt  19	100	4800
 //      9	19x100mm. trykimp. Bræt	 19	100	2400
 //      10	19x100mm. trykimp. Bræt	 19	100	2100
-    
-    protected PartslistModel generateCladding(int totalWidth, int incline) throws LoginException{
-        PartslistModel claddingBOM = new PartslistModel();
+    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset) throws LoginException {
         MaterialModel material = DAO.getMaterial(8);
-        
+
+        int materialWidth = material.getWidth();
+        int materialHeight = material.getHeight();
+        int spaceWidth = 60;
+        int cladWidth = offset;
         double angleRad = Math.toRadians(incline);
-        double adjacentCath = totalWidth * 0.5;
-        double hypotenuse = (adjacentCath / Math.cos(angleRad));
-        double oppositeCath = (Math.sin(angleRad) * hypotenuse);
-        
-        
-        
-        
-        
-        return claddingBOM;
+        double startAdjacentCath = totalWidth * 0.5;
+        int amountMaterial = 0;
+
+        for (int i = cladWidth; i < startAdjacentCath; i = cladWidth) {
+            cladWidth = cladWidth + materialWidth;
+
+            double hypotenuse = (cladWidth / Math.cos(angleRad));
+            double oppositeCath = (Math.sin(angleRad) * hypotenuse);
+
+            if (oppositeCath > materialHeight) {
+                amountMaterial = amountMaterial + 1;
+                materialHeight = material.getHeight();
+            }
+            materialHeight = materialHeight - (int) Math.ceil(oppositeCath);
+            cladWidth = cladWidth + spaceWidth;
+        }
+        return amountMaterial;
     }
 
     protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
