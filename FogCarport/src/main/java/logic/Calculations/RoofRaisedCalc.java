@@ -180,12 +180,13 @@ public class RoofRaisedCalc {
     protected PartslistModel generateCladding(int totalWidth, int incline) throws LoginException {
 
         PartslistModel claddingBOM = new PartslistModel();
+        MaterialModel material = DAO.getMaterial(8);
 
-        int amountMaterial = getCladdingMaterialCount(totalWidth, incline, 0)
-                           + getCladdingMaterialCount(totalWidth, incline, 8);
+        int amountMaterial = getCladdingMaterialCount(totalWidth, incline, 0, material.getWidth(), material.getLength())
+                           + getCladdingMaterialCount(totalWidth, incline, 8, material.getWidth(), material.getLength());
 
         for (int i = 0; i < amountMaterial; i++) {
-            claddingBOM.addMaterial(DAO.getMaterial(8));
+            claddingBOM.addMaterial(material);
             screwCount = screwCount + 6;
         }
 
@@ -196,11 +197,8 @@ public class RoofRaisedCalc {
 //      8	19x100mm. trykimp. Bræt  19	100	4800
 //      9	19x100mm. trykimp. Bræt	 19	100	2400
 //      10	19x100mm. trykimp. Bræt	 19	100	2100
-    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset) throws LoginException {
-        MaterialModel material = DAO.getMaterial(8);
-
-        int materialWidth = material.getWidth();
-        int materialHeight = material.getHeight();
+    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws LoginException {
+        int materialLengthStart = materialLength;
         int spaceWidth = 60;
         int cladWidth = offset;
         double angleRad = Math.toRadians(incline);
@@ -213,11 +211,11 @@ public class RoofRaisedCalc {
             double hypotenuse = (cladWidth / Math.cos(angleRad));
             double oppositeCath = (Math.sin(angleRad) * hypotenuse);
 
-            if (oppositeCath > materialHeight) {
+            if (oppositeCath > materialLength) {
                 amountMaterial = amountMaterial + 1;
-                materialHeight = material.getHeight();
+                materialLength = materialLengthStart;
             }
-            materialHeight = materialHeight - (int) Math.ceil(oppositeCath);
+            materialLength = materialLength - (int) Math.ceil(oppositeCath);
             cladWidth = cladWidth + spaceWidth;
         }
         return amountMaterial;
