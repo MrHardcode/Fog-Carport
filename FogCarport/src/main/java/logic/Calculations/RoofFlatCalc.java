@@ -7,8 +7,9 @@ import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import javafx.scene.paint.Material;
 
 /**
  * This class handles materials needed for a flat roof on the carport.
@@ -310,6 +311,58 @@ public class RoofFlatCalc
 //        }
 //
 //        return amountOfFascia;
+    }
+
+    private PartslistModel itemHelper(PartslistModel items, int remainingLength) throws LoginException
+    {
+        /* Initialize item for later user */
+        MaterialModel item = null;
+
+        /* sort collection of MaterialModels */
+        ArrayList<MaterialModel> bom = items.getBillOfMaterials();
+        bom.sort((m1, m2) ->
+        {
+            return m1.getLength() - m2.getLength(); //sort ascending
+        });
+        Collections.reverse(bom); //reverse to descending
+
+        while (remainingLength > 0) //while the remaining length is bigger than 0
+        {
+            items.addPartslist(calculateMaterialAmount(items, remainingLength));
+            remainingLength -= items.getTotalLength();
+        }
+        return items;
+    }
+
+    private PartslistModel calculateMaterialAmount(PartslistModel items, int remainingLength)
+    {
+        ArrayList<MaterialModel> bom = items.getBillOfMaterials();
+
+        while (remainingLength > 0)
+        {
+            /* The idea is here that we run through the materials from largest to smallest and add as needed */
+            for (MaterialModel material : bom)
+            {
+                //if the remaining length is smaller than the smallest item
+                //add one of smallest item
+                if (remainingLength < bom.get(bom.size() - 1).getLength())
+                {
+                    MaterialModel smallestItem = (bom.get(bom.size() - 1));
+                    smallestItem.setQuantity(smallestItem.getQuantity() + 1);
+                }
+                if (remainingLength >= material.getLength())
+                {
+                    /* Continuously add item qty until remainingLength is lower than item length  */
+                    while (remainingLength >= material.getLength())
+                    {
+                        int qty = material.getQuantity();
+                        qty++;
+                        material.setQuantity(qty);
+                        remainingLength -= material.getLength();
+                    }
+                }
+            }
+        }
     }
 
     /**
