@@ -12,26 +12,35 @@ import java.util.Objects;
  *
  * @author Camilla
  */
-public class PartslistModel {
+public class PartslistModel
+{
+
     private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice = 0;
+    private int totalLength = 0;
 
-    public PartslistModel() {
+    public PartslistModel()
+    {
         billOfMaterials = new ArrayList<>();
     }
 
-    public ArrayList<MaterialModel> getBillOfMaterials() {
+    public ArrayList<MaterialModel> getBillOfMaterials()
+    {
         return billOfMaterials;
     }
-    
-    public void addMaterial(MaterialModel material){
+
+    public void addMaterial(MaterialModel material)
+    {
         this.getBillOfMaterials().add(material);
         this.totalprice += material.getPrice();
+        this.totalLength += material.getLength();
     }
-    
-    public void addPartslist (PartslistModel partslist){
+
+    public void addPartslist(PartslistModel partslist)
+    {
         billOfMaterials.addAll(partslist.getBillOfMaterials());
         this.totalprice += partslist.getTotalprice();
+        this.totalLength += partslist.getTotalLength();
     }
 
     public int getTotalprice()
@@ -44,8 +53,19 @@ public class PartslistModel {
         this.totalprice = totalprice;
     }
 
+    public int getTotalLength()
+    {
+        return totalLength;
+    }
+
+    public void setTotalLength(int totalLength)
+    {
+        this.totalLength = totalLength;
+    }
+
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.billOfMaterials);
         hash = 79 * hash + this.totalprice;
@@ -53,26 +73,30 @@ public class PartslistModel {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
+        {
             return false;
         }
         final PartslistModel other = (PartslistModel) obj;
-        if (this.totalprice != other.totalprice) {
+        if (this.totalprice != other.totalprice)
+        {
             return false;
         }
-        if (!Objects.equals(this.billOfMaterials, other.billOfMaterials)) {
+        if (!Objects.equals(this.billOfMaterials, other.billOfMaterials))
+        {
             return false;
         }
         return true;
     }
-    
-    
 
 }
