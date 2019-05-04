@@ -71,13 +71,15 @@ public class RoofRaisedCalc {
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
 
+        MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id());
         for (int i = 0; i < tileCount; i++) {
-            roofTilesBOM.addMaterial(DAO.getMaterial(order.getRoof_tiles_id()));
+            roofTilesBOM.addMaterial(materialTiles);
 
         }
+        MaterialModel material = DAO.getMaterial(getTopRoofTileID(order));
         topTileCount = (int) Math.ceil((double) order.getLength() / (double) DAO.getMaterial(getTopRoofTileID(order)).getLength());
         for (int i = 0; i < topTileCount; i++) {
-            roofTilesBOM.addMaterial(DAO.getMaterial(getTopRoofTileID(order)));
+            roofTilesBOM.addMaterial(material);
         }
         roofTilesBOM.addMaterial(DAO.getMaterial(32));
         return roofTilesBOM;
@@ -130,10 +132,11 @@ public class RoofRaisedCalc {
                 remainderLength = remainderLength - (900 + 45);
             }
         }
-
+        
+        MaterialModel material = DAO.getMaterial(30);
         for (int i = 0; i < rafterCount; i++) {
             roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
-            roofStructureBOM.addMaterial(DAO.getMaterial(30));
+            roofStructureBOM.addMaterial(material);
         }
 
         roofStructureBOM.addPartslist(generateLaths(order.getLength(), totalWidth, order.getIncline()));
