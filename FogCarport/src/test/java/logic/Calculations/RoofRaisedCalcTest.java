@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic;
+package logic.Calculations;
 
+import logic.Calculations.RoofRaisedCalc;
 import data.DataFacade;
 import data.DataFacadeImpl;
 import data.models.MaterialModel;
@@ -30,7 +31,6 @@ public class RoofRaisedCalcTest {
     public void setUp() {
         DAO = DataFacadeImpl.getInstance();
     }
-
     /**
      * Test of getRoofStructure method, of class RoofRaisedCalc.
      * @throws java.lang.Exception
