@@ -10,6 +10,7 @@ import data.models.PartslistModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.function.UnaryOperator;
 
 /**
  * This class handles materials needed for a flat roof on the carport.
@@ -219,7 +220,6 @@ public class RoofFlatCalc
         PartslistModel miscMaterials = new PartslistModel();
 
         //return miscMaterials;
-        //return new UnsupportedOperationException("wtf");
         return null;
     }
 
@@ -243,23 +243,35 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateFascias(OrderModel order) throws LoginException
     {
-        PartslistModel fascias = new PartslistModel();
+        /* Initialize partslists needed */
+        PartslistModel fasciasLengthTop = new PartslistModel(); //carport length top board
+        //PartslistModel fasciasLengthBottom = new PartslistModel(); //carport length bottom board
+        PartslistModel fasciasWidthTop = new PartslistModel(); //carport width top board
+        //PartslistModel fasciasWidthBottom = new PartslistModel(); //carport width bottom board
 
-        /* set up variables */
-        int width = order.getWidth();
-        int length = order.getLength();
+        /* Add needed materials */
+        fasciasLengthTop.addMaterial(DAO.getMaterial(56));
+        fasciasLengthTop.addMaterial(DAO.getMaterial(58));
+        fasciasWidthTop.addMaterial(DAO.getMaterial(55)); //25x200x3600
+        fasciasWidthTop.addMaterial(DAO.getMaterial(57)); //25x125x3600
+        
+        /* Begin calculation */
+        itemHelper(fasciasLengthTop, order.getWidth());
+        itemHelper(fasciasWidthTop, order.getLength());
 
-        /* get materials from DB */
-        MaterialModel fascia4800 = DAO.getMaterial(1); //length 4800mm
-        MaterialModel fascia5400 = DAO.getMaterial(2); //length 5400mm
-        MaterialModel fascia6000 = DAO.getMaterial(3); //length 6000mm
+//////        /* set up variables */
+//////        int width = order.getWidth();
+//////        int length = order.getLength();
+//////
+//////        /* Begin calculation, add to partslist */
+//////        fasciaHelper(fascias, length);
+//////        fasciaHelper(fascias, width);
 
-        /* Begin calculation, add to partslist */
-        fasciaHelper(fascias, length);
-        fasciaHelper(fascias, width);
+        /* Add parts together */
+        fasciasWidthTop.addPartslist(fasciasLengthTop);
 
         /* return partslist */
-        return fascias;
+        return fasciasWidthTop;
     }
 
     /**
@@ -315,9 +327,6 @@ public class RoofFlatCalc
 
     private PartslistModel itemHelper(PartslistModel items, int remainingLength) throws LoginException
     {
-        /* Initialize item for later user */
-        MaterialModel item = null;
-
         /* sort collection of MaterialModels */
         ArrayList<MaterialModel> bom = items.getBillOfMaterials();
         bom.sort((m1, m2) ->
@@ -329,6 +338,7 @@ public class RoofFlatCalc
         while (remainingLength > 0) //while the remaining length is bigger than 0
         {
             items.addPartslist(calculateMaterialAmount(items, remainingLength));
+            //items.getBillOfMaterials().replaceAll((UnaryOperator<MaterialModel>) items.getBillOfMaterials());
             remainingLength -= items.getTotalLength();
         }
         return items;
@@ -345,10 +355,12 @@ public class RoofFlatCalc
             {
                 //if the remaining length is smaller than the smallest item
                 //add one of smallest item
+                //This is to avoid an endless loop and to end both this and 
                 if (remainingLength < bom.get(bom.size() - 1).getLength())
                 {
                     MaterialModel smallestItem = (bom.get(bom.size() - 1));
                     smallestItem.setQuantity(smallestItem.getQuantity() + 1);
+                    remainingLength -= material.getLength();
                 }
                 if (remainingLength >= material.getLength())
                 {
@@ -363,6 +375,7 @@ public class RoofFlatCalc
                 }
             }
         }
+        return items;
     }
 
     /**
