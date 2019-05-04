@@ -25,18 +25,32 @@ public class SVGDrawingShed
     
     // Update with a forloop for the amount of poles.
     public String getShedDrawing(OrderModel order){
-        String SVG = "<svg "
-                + "width=\""+(order.getLength()/10)+"\" "
-                + "height=\""+(order.getWidth()/10)+"\">\n" +
+        int cw = order.getWidth()/10;
+        int cl = order.getLength()/10;
+        int sw = order.getShed_width()/10;
+        int sl = order.getShed_length()/10;
+        
+        
+        String SVG = 
+                // Container that matches the entire carport in size.
+                "<svg "
+                + "width=\""+(cw)+"\" "
+                + "height=\""+(cl)+"\">\n" +
+                
+                // The shed itself.
 "            <rect "
-                + "x=\""+((order.getLength()/10)-(order.getShed_length()/10))+"\" \n" +
-"                  y=\""+((order.getWidth()/10)-(order.getShed_width()/10))+"\" \n" +
-"                  width=\""+(order.getShed_width()/10)+"\" \n" +
-"                  height=\""+(order.getShed_length()/10)+"\" \n" +
-"                  style=\"stroke:black;stroke-width:5;fill-opacity:0.1;stroke-opacity:1\" />\n" +
+                + "x=\""+((cw)-(sw))+"\" \n" +
+"                  y=\""+((cl)-(sl))+"\" \n" +
+"                  width=\""+(sw)+"\" \n" +
+"                  height=\""+(sl)+"\" \n" +
+"                  style=\"stroke:black;stroke-dasharray:10,5;stroke-width:5;fill-opacity:0.1;stroke-opacity:1\" />\n" +
+                
+                // Posts from corner to the edge.
 "            \n" + getPole(order, 0) + getPole(order, 90) +
-                "<rect x=\"" + ((order.getLength() / 10) - (order.getShed_length() / 10)) + "\" \n"
-                    + "y=\"" + (((order.getWidth() / 10) - (order.getShed_width() / 10))) + "\" \n"
+                
+                //Post at the corner
+                "<rect x=\"" + (((cw) - (sw))) + "\" \n"
+                    + "y=\"" + ((cl) - (sl)) + "\" \n"
                     + "width=\"15\" height=\"15\" \n"
                     + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n"+
 "            Sorry, your browser does not support inline SVG.  \n" +
@@ -48,38 +62,38 @@ public class SVGDrawingShed
     // 90 in angle if its the width. 0 if the length.
     String getPole(OrderModel order, int angle)
     {
+        int cw = order.getWidth() / 10;
+        int cl = order.getLength() / 10;
+        int sw = order.getShed_width() / 10;
+        int sl = order.getShed_length() / 10;
         String SVG = "";
+
         if (angle == 0)
         {
-            SVG = "<rect x=\"" + (((order.getLength() / 10) - (order.getShed_length() / 10))+postdistance) + "\" \n"
-                    + "y=\"" + ((order.getWidth() / 10) - (order.getShed_width() / 10)) + "\" \n"
-                    + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
-        } else if (angle == 90)
+            int postamount = sw / postdistance; // 6400/3100 = 2 som int 
+            for (int i = 0; i < postamount; i++)
+            {                           
+                double postplacement = ((1 + i) / (1 + postamount)); // (1+0)/(1+2) = 0.333333
+                double tempint = (sw * postplacement); // 0.333333 * 6400 = 2133
+                int postwidth = (int) tempint;
+
+                SVG += " <rect x=\"" + ((cw - sw) + postwidth) + "\" \n"
+                        + "y=\"" + (cl - sl) + "\" \n"
+                        + "width=\"15\" height=\"15\" \n"
+                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+            }
+        }
+
+        int postlength = postdistance; // 3100
+        while (angle == 90 && (cl + sl > postlength))
         {
-            SVG = "<rect x=\"" + ((order.getLength() / 10) - (order.getShed_length() / 10)) + "\" \n"
-                    + "y=\"" + (((order.getWidth() / 10) - (order.getShed_width() / 10))+postdistance) + "\" \n"
+            SVG += " <rect x=\"" + (cw - sw) + "\" \n"
+                    + "y=\"" + ((cl - sl) + postlength) + "\" \n"
                     + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
+                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+            postlength += postdistance;
         }
         return SVG;
     }
     
 }
-
-
-/*
-<svg width="${(order.length/10)}" height="${(order.width/10)}">
-            <rect x="${(order.length/10)-(order.shed_length/10)}" 
-                  y="${(order.width/10)-(order.shed_width/10)}" 
-                  width="${order.shed_width/10}" 
-                  height="${order.shed_length/10}" 
-                  style="stroke:black;stroke-width:5;fill-opacity:0.1;stroke-opacity:1" />
-            
-            <rect x="${(order.length/10)-(order.shed_length/10)}" 
-                  y="${(order.width/10)-(order.shed_width/10)}" 
-                  width="15" height="15" 
-                  style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1" />
-            Sorry, your browser does not support inline SVG.  
-        </svg>
-*/

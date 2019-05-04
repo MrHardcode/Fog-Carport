@@ -10,8 +10,8 @@
     OrderModel order = new OrderModel();
     order.setLength(7200);
     order.setWidth(7200);
-    order.setShed_width(3600);
-    order.setShed_length(3600);
+    order.setShed_width(6400);
+    order.setShed_length(6400);
     SVGDrawingShed draw = new SVGDrawingShed();
     String drawing = draw.getShedDrawing(order);
     request.getSession().setAttribute("drawing", drawing);
