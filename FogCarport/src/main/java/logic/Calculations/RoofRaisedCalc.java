@@ -41,9 +41,14 @@ public class RoofRaisedCalc {
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
         roofRaisedBOM.addPartslist(getRoofStructure(order));
-
+        roofRaisedBOM.addPartslist(getCladding(order));
+        
+        int screwPacks = (int) Math.ceil(screwCount/200);
+        MaterialModel material = DAO.getMaterial(20);
+        for (int i = 0; i < screwPacks; i++) {
+            roofRaisedBOM.addMaterial(material);
+        }
         return roofRaisedBOM;
-
     }
 
     protected PartslistModel getRoofTiles(OrderModel order) throws LoginException {
@@ -229,13 +234,14 @@ public class RoofRaisedCalc {
         return lathsBOM;
     }
 
-    protected PartslistModel getCladding(int totalWidth, int incline) throws LoginException {
+    protected PartslistModel getCladding(OrderModel order) throws LoginException {
 
         PartslistModel claddingBOM = new PartslistModel();
         MaterialModel material = DAO.getMaterial(8);
+        int totalWidth = order.getWidth() + 600;
 
-        int amountMaterial = getCladdingMaterialCount(totalWidth, incline, 0, material.getWidth(), material.getLength())
-                           + getCladdingMaterialCount(totalWidth, incline, 8, material.getWidth(), material.getLength());
+        int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
+                           + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
         amountMaterial = amountMaterial * 2;
 
         for (int i = 0; i < amountMaterial; i++) {

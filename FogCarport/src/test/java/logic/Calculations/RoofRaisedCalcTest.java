@@ -109,24 +109,30 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
-     * getMaterialsFromlength(ArrayList<MaterialModel> materials, int length)
      */
     @Test
     public void testGetRoofRaisedMaterials() throws Exception {
-//        RoofRaisedCalc raised = new RoofRaisedCalc();
-//        PartslistModel bomExp = new PartslistModel();
-//        ArrayList<MaterialModel> materials = new ArrayList();
-//        MaterialModel material7 = DAO.getMaterial(7);
-//        materials.add(DAO.getMaterial(6)); // length 2400 mm
-//        materials.add(DAO.getMaterial(7)); // length 3600 mm
-//        
-//        
-//        for (int i = 0; i < 3; i++) {
-//            bomExp.addMaterial(material7);
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material33 = DAO.getMaterial(33);
+        MaterialModel material40 = DAO.getMaterial(40);
+
+//        for (int i = 0; i < 134; i++) {
+//            bomExp.addMaterial(material33);
 //        }
-//        
-//        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
-//        assertEquals(bomExp, bomRes);
+        for (int i = 0; i < 5; i++) {
+            bomExp.addMaterial(material40);
+        }
+        bomExp.addMaterial(DAO.getMaterial(32));
+
+        order.setWidth(3000);
+        order.setIncline(20);
+        order.setLength(4000);
+        order.setRoof_tiles_id(33);
+
+        PartslistModel bomRes = raised.getRoofRaisedMaterials(order);
+        assertEquals(bomExp, bomRes);
 
     }
 
@@ -190,13 +196,15 @@ public class RoofRaisedCalcTest {
     public void testGetCladding() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
+        order.setWidth(7400);
+        order.setIncline(20);
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material8 = DAO.getMaterial(8);
 
         for (int i = 0; i < 20; i++) {
             bomExp.addMaterial(material8);
         }
-        PartslistModel bomRes = raised.getCladding(8000, 20);
+        PartslistModel bomRes = raised.getCladding(order);
         assertEquals(bomExp, bomRes);
     }
 
