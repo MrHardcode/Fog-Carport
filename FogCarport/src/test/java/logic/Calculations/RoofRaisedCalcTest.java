@@ -190,15 +190,16 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGetCladding() throws Exception {
-        System.out.println("getCladding");
-        int totalWidth = 0;
-        int incline = 0;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.getCladding(totalWidth, incline);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material8 = DAO.getMaterial(8);
+
+        for (int i = 0; i < 20; i++) {
+            bomExp.addMaterial(material8);
+        }
+        PartslistModel bomRes = raised.getCladding(8000, 20);
+        assertEquals(bomExp, bomRes);
     }
 
     /**
