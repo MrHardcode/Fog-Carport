@@ -8,6 +8,7 @@ package logic.Calculations;
 import logic.Calculations.RoofRaisedCalc;
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -108,48 +109,44 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
+     * getMaterialsFromlength(ArrayList<MaterialModel> materials, int length)
      */
     @Test
     public void testGetRoofRaisedMaterials() throws Exception {
-        System.out.println("getRoofRaisedMaterials");
-        OrderModel order = null;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.getRoofRaisedMaterials(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//        RoofRaisedCalc raised = new RoofRaisedCalc();
+//        PartslistModel bomExp = new PartslistModel();
+//        ArrayList<MaterialModel> materials = new ArrayList();
+//        MaterialModel material7 = DAO.getMaterial(7);
+//        materials.add(DAO.getMaterial(6)); // length 2400 mm
+//        materials.add(DAO.getMaterial(7)); // length 3600 mm
+//        
+//        
+//        for (int i = 0; i < 3; i++) {
+//            bomExp.addMaterial(material7);
+//        }
+//        
+//        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
+//        assertEquals(bomExp, bomRes);
 
-    /**
-     * Test of getTopRoofTileID method, of class RoofRaisedCalc.
-     */
-    @Test
-    public void testGetTopRoofTileID() throws Exception {
-        System.out.println("getTopRoofTileID");
-        OrderModel order = null;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        int expResult = 0;
-        int result = instance.getTopRoofTileID(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getMaterialsFromlength method, of class RoofRaisedCalc.
      */
     @Test
-    public void testGetMaterialsFromlength() {
-        System.out.println("getMaterialsFromlength");
-        ArrayList<MaterialModel> materials = null;
-        int length = 0;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.getMaterialsFromlength(materials, length);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetMaterialsFromlength() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        ArrayList<MaterialModel> materials = new ArrayList();
+        MaterialModel material7 = DAO.getMaterial(7);
+        materials.add(DAO.getMaterial(6)); // length 2400 mm
+        materials.add(DAO.getMaterial(7)); // length 3600 mm
+        
+        for (int i = 0; i < 3; i++) {
+            bomExp.addMaterial(material7);
+        }
+        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
+        assertEquals(bomExp, bomRes);
     }
 
     /**
