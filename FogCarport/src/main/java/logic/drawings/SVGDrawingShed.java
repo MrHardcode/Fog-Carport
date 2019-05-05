@@ -71,12 +71,20 @@ public class SVGDrawingShed
         if (angle == 0) // Horizontally
         { // Using example where shed is 640cm wide and postdistance is 310cm.
             int postamount = sw / postdistance; // 640/310 = 2 as int 
-            for (double i = 0; i < postamount; i += 1)
+            for (double i = 0; i <= postamount; i += 1)
             {                           
                 double postplacement = ((1 + i) / (1 + postamount)); // (1+0)/(1+2) = 0.333333
                 double tempint = (double) (sw * postplacement); // 0.333333 * 640 = 213
                 int postwidth = (int) tempint;
-
+                
+                // The Arrow.
+                if (i == 0)
+                {                   // beginX     beginY         endX                     endY 
+                    SVG += getArrow(((cw - sw)), (cl - sl)-15, ((cw - sw) + postwidth), (cl - sl)-15);
+                    SVG += getLabel((cw - sw)+(postwidth/2)-10, (cl - sl)-20, postwidth);
+                }
+                
+                // The post
                 SVG += " <rect x=\"" + ((cw - sw) + postwidth) + "\" \n" // Places posts 213cm instead of 310cm. Now they are spread even and nice.
                         + "y=\"" + (cl - sl) + "\" \n"
                         + "width=\"15\" height=\"15\" \n"
@@ -87,11 +95,18 @@ public class SVGDrawingShed
         if (angle == 90) // Vertically 
         {
             int postamount = sl / postdistance; 
-            for (double i = 0; i < postamount; i += 1)
+            for (double i = 0; i <= postamount; i += 1)
             {                           
                 double postplacement = ((1 + i) / (1 + postamount));
                 double tempint = (double) (sl * postplacement); 
                 int postlength = (int) tempint;
+                
+                // The Arrow.
+                if (i == 0)
+                {                   // beginX       beginY                  endX            endY                                
+                    SVG += getArrow((cw - sw)-15, ((cl - sl)), (cw - sw)-15, ((cl - sl) + postlength));
+                    SVG += getLabel((cw - sw)-60, (cl - sl)+(postlength/2), postlength);
+                }
 
                 SVG += " <rect x=\"" + (cw - sw)  + "\" \n"
                         + "y=\"" + ((cl - sl) + postlength) + "\" \n"
@@ -99,6 +114,41 @@ public class SVGDrawingShed
                         + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
+        return SVG;
+    }
+    
+    String getArrow(int beginX, int beginY, int endX, int endY){
+        // The Arrow.
+        String SVG = " "
+                + "<defs>\n"
+                + "    <marker id=\"beginArrow\" \n"
+                + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
+                + "    	refX=\"0\" refY=\"4\" \n"
+                + "    	orient=\"auto\">\n"
+                + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
+                + "    </marker>\n"
+                + "    <marker id=\"endArrow\" \n"
+                + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
+                + "    	refX=\"8\" refY=\"4\" \n"
+                + "    	orient=\"auto\">\n"
+                + "        <path d=\"M0,0 L8,4 L0,8 L0,0\" style=\"fill: #000000;\" />\n"
+                + "    </marker>\n"
+                + "</defs>\n"
+                + "<line x1=\""+beginX+"\"  y1=\""+beginY+"\" x2=\""+endX+"\"   y2=\""+endY+"\" \n"
+                + "	style=\"stroke:#006600;\n"
+                + "	marker-start: url(#beginArrow);\n"
+                + "   marker-end: url(#endArrow);\"/>"
+                + " ";
+        
+        return SVG;
+    }
+    
+    String getLabel(int x, int y, int distance)
+    {
+        String SVG = "";
+        // The text
+        SVG += " <text x=\""+x+"\" y=\""+y+"\" fill=\"black\"\">"+distance+"cm"+"</text> "; 
+        
         return SVG;
     }
     

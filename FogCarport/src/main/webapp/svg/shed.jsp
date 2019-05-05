@@ -8,10 +8,10 @@
 <%@page import="data.models.OrderModel"%>
 <%
     OrderModel order = new OrderModel();
-    order.setLength(7200);
-    order.setWidth(7200);
-    order.setShed_width(6400);
-    order.setShed_length(6400);
+    order.setLength(3600);
+    order.setWidth(3600);
+    order.setShed_width(1200);
+    order.setShed_length(1600);
     SVGDrawingShed draw = new SVGDrawingShed();
     String drawing = draw.getShedDrawing(order);
     request.getSession().setAttribute("drawing", drawing);
