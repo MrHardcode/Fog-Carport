@@ -157,15 +157,16 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGenerateRafter() throws Exception {
-        System.out.println("generateRafter");
-        int totalWidth = 0;
-        int incline = 0;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.generateRafter(totalWidth, incline);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material7 = DAO.getMaterial(7);
+
+        for (int i = 0; i < 4; i++) {
+            bomExp.addMaterial(material7);
+
+        }
+        PartslistModel bomRes = raised.generateRafter(3600, 20);
+        assertEquals(bomExp, bomRes);
     }
 
     /**
