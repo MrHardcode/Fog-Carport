@@ -173,16 +173,16 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGenerateLaths() throws Exception {
-        System.out.println("generateLaths");
-        int orderLength = 0;
-        int totalWidth = 0;
-        int incline = 0;
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.generateLaths(orderLength, totalWidth, incline);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material12 = DAO.getMaterial(12);
+
+        for (int i = 0; i < 13; i++) {
+            bomExp.addMaterial(material12);
+        }
+
+        PartslistModel bomRes = raised.generateLaths(4000, 3600, 20);
+        assertEquals(bomExp, bomRes);
     }
 
     /**
