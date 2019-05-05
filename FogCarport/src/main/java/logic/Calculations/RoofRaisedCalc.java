@@ -25,6 +25,9 @@ public class RoofRaisedCalc {
     int tileCount;
     int topTileCount;
 
+    /**
+     *
+     */
     public RoofRaisedCalc() {
         DAO = DataFacadeImpl.getInstance();
         bracketCount = 0;
@@ -36,6 +39,12 @@ public class RoofRaisedCalc {
         topTileCount = 0;
     }
 
+    /**
+     *
+     * @param order
+     * @return PartslistModel 
+     * @throws LoginException
+     */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws LoginException {
         PartslistModel roofRaisedBOM = new PartslistModel();
 
@@ -51,6 +60,12 @@ public class RoofRaisedCalc {
         return roofRaisedBOM;
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     * @throws LoginException
+     */
     protected PartslistModel getRoofTiles(OrderModel order) throws LoginException {
         PartslistModel roofTilesBOM = new PartslistModel();
 
@@ -90,6 +105,12 @@ public class RoofRaisedCalc {
         return roofTilesBOM;
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     * @throws LoginException
+     */
     protected int getTopRoofTileID(OrderModel order) throws LoginException {
         int roofTopID = 40;
         int notmalTileID = DAO.getMaterial(order.getRoof_tiles_id()).getID();
@@ -122,6 +143,12 @@ public class RoofRaisedCalc {
         return roofTopID;
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     * @throws LoginException
+     */
     protected PartslistModel getRoofStructure(OrderModel order) throws LoginException {
         PartslistModel roofStructureBOM = new PartslistModel();
         int totalWidth = order.getWidth() + 600;
@@ -144,6 +171,12 @@ public class RoofRaisedCalc {
         return roofStructureBOM;
     }
 
+    /**
+     *
+     * @param materials
+     * @param length
+     * @return
+     */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) {
         PartslistModel calcParts = new PartslistModel();
         Collections.sort(materials, new Comparator<MaterialModel>() {
@@ -177,6 +210,13 @@ public class RoofRaisedCalc {
         return calcParts;
     }
 
+    /**
+     *
+     * @param totalWidth
+     * @param incline
+     * @return
+     * @throws LoginException
+     */
     protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
         PartslistModel rafterBOM = new PartslistModel();
 
@@ -199,6 +239,14 @@ public class RoofRaisedCalc {
         return rafterBOM;
     }
 
+    /**
+     *
+     * @param orderLength
+     * @param totalWidth
+     * @param incline
+     * @return
+     * @throws LoginException
+     */
     protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException {
         PartslistModel lathsBOM = new PartslistModel();
 
@@ -234,6 +282,12 @@ public class RoofRaisedCalc {
         return lathsBOM;
     }
 
+    /**
+     *
+     * @param order
+     * @return
+     * @throws LoginException
+     */
     protected PartslistModel getCladding(OrderModel order) throws LoginException {
 
         PartslistModel claddingBOM = new PartslistModel();
@@ -256,6 +310,17 @@ public class RoofRaisedCalc {
 //      8	19x100mm. trykimp. Bræt  19	100	4800
 //      9	19x100mm. trykimp. Bræt	 19	100	2400
 //      10	19x100mm. trykimp. Bræt	 19	100	2100
+
+    /**
+     *
+     * @param totalWidth
+     * @param incline
+     * @param offset
+     * @param materialWidth
+     * @param materialLength
+     * @return
+     * @throws LoginException
+     */
     protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws LoginException {
         int materialLengthStart = materialLength;
         int spaceWidth = 60;
