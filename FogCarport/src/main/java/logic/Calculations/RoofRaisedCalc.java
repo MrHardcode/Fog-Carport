@@ -60,11 +60,11 @@ public class RoofRaisedCalc {
         int tileRowLength = 0;
 
         // tagvidde når afstanden fra tagtoppen øverste lægte
-        int roofWidth = (int) Math.ceil(hypotenuse) - (30);
+        int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (30);
         // beregn antal rækker tagsten
-        while (roofWidth > 0) {
+        while (remaningRoofWidth > 0) {
             tileRowCount = tileRowCount + 1;
-            roofWidth = roofWidth - tileLength;
+            remaningRoofWidth = remaningRoofWidth - tileLength;
         }
 
         // total længde af alle tagsten lagt sammen
@@ -77,11 +77,11 @@ public class RoofRaisedCalc {
 
         }
         MaterialModel material = DAO.getMaterial(getTopRoofTileID(order));
-        topTileCount = (int) Math.ceil((double) order.getLength() / (double) DAO.getMaterial(getTopRoofTileID(order)).getLength());
+        topTileCount = (int) Math.ceil((double) order.getLength() / (double) material.getLength());
         for (int i = 0; i < topTileCount; i++) {
             roofTilesBOM.addMaterial(material);
         }
-        roofTilesBOM.addMaterial(DAO.getMaterial(32));
+        roofTilesBOM.addMaterial(DAO.getMaterial(32)); // tagstenbinder/nakkekrog
         return roofTilesBOM;
     }
 
@@ -126,17 +126,12 @@ public class RoofRaisedCalc {
         rafterCount = 2;
         int remainderLength = order.getLength() - (2 * 45);
 
-        for (int i = 0; i < remainderLength; i++) {
-            if (remainderLength > 900) {
-                rafterCount = rafterCount + 1;
-                remainderLength = remainderLength - (900 + 45);
-            }
-        }
-
+        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (900 + 45)); // 90 cm mellemrum mellem rafter
+        
         MaterialModel material = DAO.getMaterial(30);
         for (int i = 0; i < rafterCount; i++) {
             roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
-            roofStructureBOM.addMaterial(material);
+            roofStructureBOM.addMaterial(material); // toplægteholdere
         }
 
         roofStructureBOM.addPartslist(generateLaths(order.getLength(), totalWidth, order.getIncline()));
@@ -177,13 +172,71 @@ public class RoofRaisedCalc {
         return calcParts;
     }
 
-    protected PartslistModel generateCladding(int totalWidth, int incline) throws LoginException {
+    protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
+        PartslistModel rafterBOM = new PartslistModel();
+
+        double angleRad = Math.toRadians(incline);
+        double adjacentCath = totalWidth * 0.5;
+        double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        double oppositeCath = (Math.sin(angleRad) * hypotenuse);
+
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(6)); // length 2400 mm
+        materials.add(DAO.getMaterial(7)); // length 3600 mm
+
+        rafterBOM.addPartslist(getMaterialsFromlength(materials, totalWidth));
+        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
+        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
+        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(oppositeCath)));
+        bracketCount = bracketCount + 6;
+        screwCount = screwCount + (4*6);
+
+        return rafterBOM;
+    }
+
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException {
+        PartslistModel lathsBOM = new PartslistModel();
+
+        // til hypotenuseberegning (hypotenuse = tagvidde)
+        double angleRad = Math.toRadians(incline);
+        double adjacentCath = totalWidth * 0.5;
+        double hypotenuse = (adjacentCath / Math.cos(angleRad));
+
+        // der er altid mindts 3 rækker af lægter 
+        lathRowCount = 3;
+        int lathsLength;
+
+        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
+        int roofSideWidth = (int) Math.ceil(hypotenuse) - (30 + 350);
+
+        // beregn antal af rækker af lægter
+        lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) 307);
+        
+        // total længde af alle lægter lagt sammen + 1 toplægte
+        lathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
+
+        intersectionCount = lathRowCount * rafterCount;
+        screwCount = screwCount + (intersectionCount * 2);
+
+        // lægte materialer
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(12)); // length 5400 mm
+        materials.add(DAO.getMaterial(13)); // length 4200 mm
+
+        lathsBOM.addPartslist(getMaterialsFromlength(materials, lathsLength));
+        // tilføj Toplægteholder (metal, kommer i hel længde)
+
+        return lathsBOM;
+    }
+
+    protected PartslistModel getCladding(int totalWidth, int incline) throws LoginException {
 
         PartslistModel claddingBOM = new PartslistModel();
         MaterialModel material = DAO.getMaterial(8);
 
         int amountMaterial = getCladdingMaterialCount(totalWidth, incline, 0, material.getWidth(), material.getLength())
                            + getCladdingMaterialCount(totalWidth, incline, 8, material.getWidth(), material.getLength());
+        amountMaterial = amountMaterial * 2;
 
         for (int i = 0; i < amountMaterial; i++) {
             claddingBOM.addMaterial(material);
@@ -203,7 +256,7 @@ public class RoofRaisedCalc {
         int cladWidth = offset;
         double angleRad = Math.toRadians(incline);
         double startAdjacentCath = totalWidth * 0.5;
-        int amountMaterial = 0;
+        int amountMaterial = 1;
 
         for (int i = cladWidth; i < startAdjacentCath; i = cladWidth) {
             cladWidth = cladWidth + materialWidth;
@@ -220,66 +273,4 @@ public class RoofRaisedCalc {
         }
         return amountMaterial;
     }
-
-    protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
-        PartslistModel rafterBOM = new PartslistModel();
-
-        double angleRad = Math.toRadians(incline);
-        double adjacentCath = totalWidth * 0.5;
-        double hypotenuse = (adjacentCath / Math.cos(angleRad));
-        double oppositeCath = (Math.sin(angleRad) * hypotenuse);
-
-        ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(6)); // length 2400 mm
-        materials.add(DAO.getMaterial(7)); // length 3600 mm
-
-        rafterBOM.addPartslist(getMaterialsFromlength(materials, totalWidth));
-        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
-        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
-        rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(oppositeCath)));
-        bracketCount = bracketCount + 6;
-
-        return rafterBOM;
-    }
-
-    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException {
-        PartslistModel lathsBOM = new PartslistModel();
-
-        // til hypotenuseberegning (hypotenuse = tagvidde)
-        double angleRad = Math.toRadians(incline);
-        double adjacentCath = totalWidth * 0.5;
-        double hypotenuse = (adjacentCath / Math.cos(angleRad));
-
-        // der er altid mindts 3 rækker af lægter + 1 toplægte
-        lathRowCount = 4;
-        int lathsLength;
-
-        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
-        int roofSideWidth = (int) Math.ceil(hypotenuse) - (30 + 350);
-
-        // beregn antal af rækker af lægter
-        for (int i = 0; i < roofSideWidth; i++) {
-            if (roofSideWidth > 307) {
-                lathRowCount = lathRowCount + 1;
-                roofSideWidth = roofSideWidth - 307;
-
-            }
-        }
-        // total længde af alle lægter lagt sammen
-        lathsLength = (orderLength * lathRowCount) * 2;
-
-        intersectionCount = lathRowCount * rafterCount;
-        screwCount = screwCount + (intersectionCount * 2);
-
-        // lægte materialer
-        ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(12)); // length 5400 mm
-        materials.add(DAO.getMaterial(13)); // length 4200 mm
-
-        lathsBOM.addPartslist(getMaterialsFromlength(materials, lathsLength));
-        // tilføj Toplægteholder (metal, kommer i hel længde)
-
-        return lathsBOM;
-    }
-
 }
