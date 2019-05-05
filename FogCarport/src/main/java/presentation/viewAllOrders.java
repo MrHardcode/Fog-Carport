@@ -1,5 +1,5 @@
 /*
- *  Malte Hviid-Magnussen
+ * 
  */
 package presentation;
 
@@ -10,8 +10,8 @@ import logic.LogicFacade;
 import logic.LogicFacadeImpl;
 
 /**
- *
- * @author Malte
+ * View a list of all orders.
+ * @author 
  */
 public class viewAllOrders extends Command
 {

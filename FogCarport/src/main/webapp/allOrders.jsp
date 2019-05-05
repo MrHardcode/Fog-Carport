@@ -18,7 +18,9 @@
         <tbody>
         <c:forEach var="id" items="${ids}">
             <tr>
-                <td>${id}</td>
+                <td> <!-- This is pretty fugly imo - Please improve if you wish -->
+                    <a type="button" class="btn btn-secondary btn-lg btn-block" href="FrontController?command=viewOrder&orderid=${id}">ID#: ${id}</a>
+                </td>
             </tr>
         </c:forEach>
     </tbody>
