@@ -54,6 +54,8 @@ import java.util.function.UnaryOperator;
 public class RoofFlatCalc
 {
 
+    private int plasticRoofExtension = 50; //5cm extension beyond carport length
+    private int plasticRoofOverlap = 20; //2cm overlap between two tiles
     private int amountOfScrews; //total amount of screws needed
     private DataFacade DAO; //data accessor
     private PartslistModel roofMaterials; //items to be returned to master list
@@ -254,7 +256,7 @@ public class RoofFlatCalc
         fasciasLengthTop.addMaterial(DAO.getMaterial(58));
         fasciasWidthTop.addMaterial(DAO.getMaterial(55)); //25x200x3600
         fasciasWidthTop.addMaterial(DAO.getMaterial(57)); //25x125x3600
-        
+
         /* Begin calculation */
         itemHelper(fasciasLengthTop, order.getWidth());
         itemHelper(fasciasWidthTop, order.getLength());
@@ -531,8 +533,67 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculatePlasticTiles(OrderModel order)
+    private PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
     {
+        /* Set up return <model>*/
+        PartslistModel tiles = new PartslistModel();
+
+        /* Get MaterialModel to return */
+        MaterialModel tileLarge = DAO.getMaterial(28); //109x6000
+        MaterialModel tileSmall = DAO.getMaterial(29); //109x3600
+        
+        /* Set up variables */
+        int remainingLength = order.getLength();
+        int remainingWidth = order.getWidth();
+        int largeQty = 0;
+        int smallQty = 0;
+        
+        /* Calculation begin */
+        
+        //take into account that we need a 5cm extension per tile
+        int estimatedTiles = (remainingLength / tileLarge.getLength())+1;
+        //take into account that we need a 2cm overlap between two tiles
+        
+        while (remainingLength > 0 || remainingWidth > 0)
+        {
+            /* Add large tiles */
+            while (remainingLength > tileLarge.getLength())
+            {
+                largeQty++;
+                remainingLength-= tileLarge.getLength();
+                remainingWidth-= tileLarge.getWidth();
+            }
+            /* Add small tiles */
+            while (remainingLength > tileSmall.getLength())
+            {
+                smallQty++;
+                remainingLength-= tileSmall.getLength();
+                remainingWidth-= tileSmall.getWidth();
+            }
+            
+            //last case where dimensions are bigger than 0, but smaller than tile.
+            if (remainingLength > 0
+                    && remainingLength < tileSmall.getLength()
+                    || remainingWidth > 0
+                    && remainingWidth < tileSmall.getWidth())
+            {
+                smallQty++;
+                remainingLength-= tileSmall.getLength();
+                remainingWidth-= tileSmall.getWidth();
+            }
+            
+        }
+
+        /* Update quantities */
+
+ /* Update price */
+
+ /* Update helptext */
+        tileLarge.setHelptext("tagplader monteres på spær");
+        tileSmall.setHelptext("tagplader monteres på spær");
+        /* Add to <model> */
+
+ /* Return <model>*/
         return null;
     }
 
