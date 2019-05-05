@@ -1,7 +1,9 @@
 package logic;
 
+import data.DataFacadeImpl;
 import data.exceptions.LoginException;
 import data.models.PartslistModel;
+import java.util.List;
 
 public class LogicFacadeImpl implements LogicFacade {
 
@@ -26,6 +28,12 @@ public class LogicFacadeImpl implements LogicFacade {
     @Override
     public PartslistModel getBOM() throws LoginException {
         return PartslistLogic.getInstance().getBOM();
+    }
+
+    @Override
+    public List<Integer> getAllOrderIds() throws LoginException
+    {
+        return DataFacadeImpl.getInstance().getAllOrderIds();
     }
 
 }
