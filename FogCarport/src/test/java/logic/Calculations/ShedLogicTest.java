@@ -1,8 +1,9 @@
 /*
  *  Malte Hviid-Magnussen
  */
-package logic;
+package logic.Calculations;
 
+import logic.Calculations.ShedLogic;
 import data.DataFacade;
 import data.DataFacadeImpl;
 import data.exceptions.LoginException;

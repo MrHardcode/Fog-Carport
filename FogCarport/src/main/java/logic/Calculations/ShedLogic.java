@@ -1,7 +1,7 @@
 /*
  *  
  */
-package logic;
+package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
@@ -299,6 +299,11 @@ public class ShedLogic
         bom.addMaterial(post);
     }
 
+    /*
+    After making the SVGDrawing I found that I can place the posts evenly with an algorith.
+    Look at line 71-100 in logic/drawings/SVGDrawingShed.java.
+    Maybe something to fix / enhance if I get the time. 
+    */
     int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
     {
         MaterialModel reglar;
@@ -309,7 +314,7 @@ public class ShedLogic
         }
         int amountofreglar = side * (width/postdistance);
         int restreglar = width % postdistance;
-        if (restreglar > 0) // If customer needs ekstra. // Maybe check for if it should be a 2400 or a 3600.
+        if (restreglar > 0) // If customer needs ekstra.
         {
             amountofreglar = side + amountofreglar;
         }
