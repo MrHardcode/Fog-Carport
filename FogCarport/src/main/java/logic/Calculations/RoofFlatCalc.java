@@ -43,7 +43,7 @@ import java.util.function.UnaryOperator;
  *
  * !Outermost parts must extend 5cm beyond its Spær to account for water.
  *
- * !Roof parts have a 2 'wave' overlay (10cm?) 12 screws per cm^2.
+ * !Roof parts have a 2 'wave' overlay (20cm) 12 screws per cm^2.
  *
  * Tagpap roofing: Size dependant calculation
  *
@@ -55,7 +55,7 @@ public class RoofFlatCalc
 {
 
     private int plasticRoofExtension = 50; //5cm extension beyond carport length
-    private int plasticRoofOverlap = 20; //2cm overlap between two tiles
+    private int plasticRoofOverlap = 200; //2cm overlap between two tiles
     private int amountOfScrews; //total amount of screws needed
     private DataFacade DAO; //data accessor
     private PartslistModel roofMaterials; //items to be returned to master list
