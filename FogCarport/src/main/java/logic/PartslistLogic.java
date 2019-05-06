@@ -1,5 +1,6 @@
 package logic;
 
+import data.databaseAccessObjects.mappers.OrderMapper;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -24,8 +25,10 @@ class PartslistLogic
         return instance;
     }
     
-    PartslistModel getBOM() {
+    PartslistModel getBOM() throws LoginException {
         PartslistModel bom = new PartslistModel();
+        OrderModel order = OrderMapper.getInstance().getOrder(2);
+        
         
         
         

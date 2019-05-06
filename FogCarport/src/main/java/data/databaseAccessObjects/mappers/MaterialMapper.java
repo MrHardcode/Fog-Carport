@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.databaseAccessObjects.mappers;
 
+import data.DataFacade;
+import data.DataFacadeImpl;
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
@@ -16,22 +13,17 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Camilla
+ * @author
  */
-public class MaterialMapper
-{
+public class MaterialMapper {
 
     private static MaterialMapper materialMapper;
 
-    private MaterialMapper()
-    {
-
+    private MaterialMapper() {
     }
 
-    public static MaterialMapper getInstance()
-    {
-        if (materialMapper == null)
-        {
+    public static MaterialMapper getInstance() {
+        if (materialMapper == null) {
             materialMapper = new MaterialMapper();
         }
         return materialMapper;
@@ -45,25 +37,22 @@ public class MaterialMapper
      * @return name of the category.
      * @throws LoginException Should most likely throw something else.
      */
-    public String getCategory(int id) throws LoginException
-    {
+    public String getCategory(int id) throws LoginException {
         String SQL = "SELECT `category`.`category_name`\n"
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
-        // Using try-with resources, so they automatically close afterwards.
-        try (Connection con = DBConnector.connection();
-                PreparedStatement ps = con.prepareStatement(SQL);)
-        {
+
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 category = rs.getString("category_name");
             }
             return category;
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
@@ -78,23 +67,24 @@ public class MaterialMapper
      * @return MaterialModel
      * @throws LoginException Should probably be something else later on.
      */
-    public MaterialModel getMaterial(int id) throws LoginException
-    {
+    public MaterialModel getMaterial(int id) throws LoginException {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT * FROM `carportdb`.`materials`"
-                + " WHERE `materials`.`id_material` = ?";
-        // Using try-with resources, so they automatically close afterwards.
-        try (Connection con = DBConnector.connection();
-                PreparedStatement ps = con.prepareStatement(SQL);)
-        {
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n"
+                + "FROM materials \n"
+                + "INNER JOIN `category` \n"
+                + "ON `materials`.`id_category` = `category`.`id_category` \n"
+                + "WHERE `materials`.`id_material` = ?;";
+
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
             material.setID(id);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 String description = rs.getString("description");
                 material.setDescription(description);
 
@@ -113,13 +103,11 @@ public class MaterialMapper
                 String unit = rs.getString("unit");
                 material.setUnit(unit);
 
-                int categoryid = rs.getInt("id_category");
-                material.setCategory(getCategory(categoryid)); // Using another Method
+                String categoryname = rs.getString("category_name");
+                material.setCategory(categoryname);
 
             }
-
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
@@ -136,25 +124,21 @@ public class MaterialMapper
      * @return name of the category.
      * @throws LoginException Should most likely throw something else.
      */
-    public String getOrderDetailsCategory(int id) throws LoginException
-    {
+    public String getOrderDetailsCategory(int id) throws LoginException {
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
-        // Using try-with resources, so they automatically close afterwards.
-        try (Connection con = DBConnector.connection();
-                PreparedStatement ps = con.prepareStatement(SQL);)
-        {
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 category = rs.getString("details_category_name");
             }
             return category;
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
@@ -164,30 +148,27 @@ public class MaterialMapper
     // <editor-fold defaultstate="collapsed" desc="Get all Materials for an Order Details">
     /**
      * Get a List of Materials.
+     *
      * @param id of the Order Details.
      * @return List of MaterialModel.
      * @throws LoginException Should most likely throw something else.
      */
-    public PartslistModel getMaterials(int id) throws LoginException
-    { 
+    public PartslistModel getMaterials(int id) throws LoginException {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
-        // Using try-with resources, so they automatically close afterwards.
-        try (Connection con = DBConnector.connection();
-                PreparedStatement ps = con.prepareStatement(SQL);)
-        {
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 MaterialModel material = getMaterial(rs.getInt("id_material"));
                 materials.addMaterial(material);
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }

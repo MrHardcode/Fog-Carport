@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.models;
 
 import java.util.Objects;
@@ -26,8 +21,6 @@ public class MaterialModel
     private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
     private String category;
 
-    // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
-    // i datamodellerne. 
     public MaterialModel()
     {
     }
@@ -51,6 +44,35 @@ public class MaterialModel
         this.length = length;
         this.width = width;
     }
+    
+    /**
+     * Updated constructor to fit database model.
+     *
+     * use setters for: helptext, quantity
+     *
+     * @param ID
+     * @param description
+     * @param length
+     * @param width
+     * @param height
+     * @param price
+     * @param unit
+     * @param category
+     */
+    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category)
+    {
+        this.ID = ID;
+        this.description = description;
+        this.height = height;
+        this.width = width;
+        this.length = length;
+        this.price = price;
+        this.unit = unit;
+        this.category = category;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
 
     /**
      * Get the value of category
@@ -241,6 +263,7 @@ public class MaterialModel
     {
         this.length = length;
     }
+    //</editor-fold>
 
     @Override
     public String toString()
@@ -248,6 +271,7 @@ public class MaterialModel
         return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode and equals">
     @Override
     public int hashCode()
     {
@@ -323,5 +347,7 @@ public class MaterialModel
         }
         return true;
     }
-
+    // </editor-fold>
+    
+    
 }

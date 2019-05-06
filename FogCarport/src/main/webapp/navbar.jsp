@@ -23,6 +23,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="http://localhost:8084/FogCarport/makeCarport.jsp">Bestil Carport </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="FrontController?command=allOrders">Se alle ordrer </a>
+                </li>
 
             </ul>
         </div>
