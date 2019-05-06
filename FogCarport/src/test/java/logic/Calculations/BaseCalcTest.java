@@ -30,7 +30,7 @@ public class BaseCalcTest
 {
     private final int strapID = 54;
     private DataFacade db = DataFacadeImpl.getInstance();
-    private BaseCalc bc = new BaseCalc();
+    private BaseCalc bc;
     private MaterialModel strap;
 
     private int expectedBolts, strapAmount, expectedStraps, expectedPosts, cLength, cWidth, sLength, sWidth, postDistance;
@@ -57,7 +57,7 @@ public class BaseCalcTest
         sLength = n6;
         sWidth = n7;
         postDistance = n8;
-        
+        bc = new BaseCalc();
         try
         {
             strap = db.getMaterial(strapID);
@@ -74,6 +74,7 @@ public class BaseCalcTest
     @Test
     public void test1CalcPosts()
     {
+        System.out.println("Test 1");
         int result = bc.calcPosts(cLength, cWidth, sLength, sWidth, postDistance);
         assertEquals(expectedPosts, result);
     }
@@ -121,18 +122,20 @@ public class BaseCalcTest
     @Test
     public void test2CalcStraps()
     {
+        System.out.println("Test 2");
         int result = bc.calcStraps(cLength, cWidth, strap);
         assertEquals(expectedStraps, result);
     }
 
-//    /**
-//     * Test of calcBolts method, of class BaseCalc.
-//     */
-//    @Test
-//    public void test3CalcBolts()
-//    {
-//        int result = bc.calcBolts(strapAmount);
-//        assertEquals(expectedBolts, result);
-//    }
+    /**
+     * Test of calcBolts method, of class BaseCalc.
+     */
+    @Test
+    public void test3CalcBolts()
+    {
+        System.out.println("Test 3");
+        int result = bc.calcBolts(strapAmount);
+        assertEquals(expectedBolts, result);
+    }
     
 }
