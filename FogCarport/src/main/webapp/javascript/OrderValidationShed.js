@@ -10,6 +10,7 @@ let wid = document.getElementById("input-width").selected;
 
 
 document.getElementById("check-skur").addEventListener("click", checkShedMenuVisibility);
+document.getElementById("check-skur").disabled = true;
 
 //elements from OrderValidation.js
 inputlength.addEventListener("change",function(){checkMenuState();});
@@ -18,11 +19,13 @@ inputwidth.addEventListener("change",function(){checkMenuState();});
 function checkMenuState() {
     if (inputlength.selectedIndex == "0" || inputwidth.selectedIndex == "0")
     {
+        document.getElementById("check-skur").disabled = true;
         document.getElementById("check-skur").checked = false;
         checkShedMenuVisibility();
     }
     else
     {
+        document.getElementById("check-skur").disabled = false;
         clearShedMenu();
         prepareShedMenu();
     }
