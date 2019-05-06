@@ -63,4 +63,16 @@ public class LogicFacadeImpl implements LogicFacade {
         return DataFacadeImpl.getInstance().getEmployee(id);
     }
 
+    @Override
+    public void createCustomer(CustomerModel customer) throws LoginException
+    {
+        DataFacadeImpl.getInstance().createCustomer(customer);
+    }
+
+    @Override
+    public void createEmployee(EmployeeModel employee) throws LoginException
+    {
+        DataFacadeImpl.getInstance().createEmployee(employee);
+    }
+
 }

@@ -125,11 +125,11 @@ public class UserMapper
      *
      * Inputs a Customer into the SQL database.
      *
-     * @param user Entity
+     * @param customer
      * @throws LoginException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    void createCustomer(CustomerModel customer) throws LoginException
+    public void createCustomer(CustomerModel customer) throws LoginException
     {
         String SQL = "INSERT INTO `carportdb`.`customers`\n"
                 + "(`customer_name`,\n"
@@ -166,11 +166,11 @@ public class UserMapper
      *
      * Inputs a Employee into the SQL database.
      *
-     * @param user Entity
+     * @param employee
      * @throws LoginException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    void createEmployee(EmployeeModel employee) throws LoginException
+    public void createEmployee(EmployeeModel employee) throws LoginException
     {
         String SQL = "INSERT INTO `carportdb`.`employees`\n"
                 + "(`emp_name`,\n"

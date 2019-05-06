@@ -76,4 +76,16 @@ public class DataFacadeImpl implements DataFacade
         return UserMapper.getInstance().getCustomer(id);
     }
 
+    @Override
+    public void createCustomer(CustomerModel customer) throws LoginException
+    {
+        UserMapper.getInstance().createCustomer(customer);
+    }
+
+    @Override
+    public void createEmployee(EmployeeModel employee) throws LoginException
+    {
+        UserMapper.getInstance().createEmployee(employee);
+    }
+
 }

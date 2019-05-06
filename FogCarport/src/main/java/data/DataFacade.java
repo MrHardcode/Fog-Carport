@@ -25,4 +25,8 @@ public interface DataFacade
     public EmployeeModel getEmployee(int id) throws LoginException;
     
     public CustomerModel getCustomer(int id) throws LoginException;
+    
+    public void createCustomer(CustomerModel customer) throws LoginException;
+    
+    public void createEmployee(EmployeeModel employee) throws LoginException;
 }
