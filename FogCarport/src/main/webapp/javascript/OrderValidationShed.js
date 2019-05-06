@@ -8,7 +8,25 @@
 let len = document.getElementById("input-length").selected;
 let wid = document.getElementById("input-width").selected;
 
+
 document.getElementById("check-skur").addEventListener("click", checkShedMenuVisibility);
+
+//elements from OrderValidation.js
+inputlength.addEventListener("change",function(){checkMenuState();});
+inputwidth.addEventListener("change",function(){checkMenuState();});
+
+function checkMenuState() {
+    if (inputlength.selectedIndex == "0" || inputwidth.selectedIndex == "0")
+    {
+        document.getElementById("check-skur").checked = false;
+        checkShedMenuVisibility();
+    }
+    else
+    {
+        clearShedMenu();
+        prepareShedMenu();
+    }
+}
 
 function checkShedMenuVisibility() {
     //The variable x represents the small checkbox on makeCarport.jsp
@@ -53,6 +71,10 @@ function prepareShedMenu() {
         i = 1;
         //while(true) - We keep going untill we have enough values in the array 
         while (true) {
+            if (i === 1)
+            {
+                i = 4;
+            }
             //We subtract 30 from the given length/width so the shed options follow the 
             //same pattern as the main carport construction
             sValues[i] = e - 30 * ([i]);
@@ -61,7 +83,7 @@ function prepareShedMenu() {
                 //If the current values in the array "sValues" is -30 - that means
                 //that no initial value was given (no value for the carport's base construction was given)
                 //This means that no options should be available in the dropdowns for the shed
-                if (sValues[i] === -30)
+                if (sValues[i] < 0)
                 {
                     //Clear the select-options
                     sValues = [];
