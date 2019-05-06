@@ -13,9 +13,30 @@ public class EmployeeModel
     private int id;
     private String name;
     private String role;
-
+    private int id_role;
+    
     public EmployeeModel()
     {
+    }
+
+    /**
+     * Get the value of id_role
+     *
+     * @return the value of id_role
+     */
+    public int getId_role()
+    {
+        return id_role;
+    }
+
+    /**
+     * Set the value of id_role
+     *
+     * @param id_role new value of id_role
+     */
+    public void setId_role(int id_role)
+    {
+        this.id_role = id_role;
     }
 
     /**
