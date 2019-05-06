@@ -60,13 +60,12 @@ public class CustomerModel
         this.phone = phone;
     }
 
-
     /**
      * Get the value of name
      *
      * @return the value of name
      */
-    public String getCustomer_name()
+    public String getName()
     {
         return name;
     }
