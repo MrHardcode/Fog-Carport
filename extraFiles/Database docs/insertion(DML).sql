@@ -195,8 +195,8 @@ UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_
 UPDATE `carportdb`.`materials` SET `width` = '180', `length` = '1200' WHERE (`id_material` = '42');
 
 	/* Flat roof (plastic) parts */
-UPDATE `carportdb`.`materials` SET `width` = '109' WHERE (`id_material` = '28');
-UPDATE `carportdb`.`materials` SET `width` = '109' WHERE (`id_material` = '29');
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '28');
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '29');
 
 
 /* 

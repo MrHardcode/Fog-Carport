@@ -9,7 +9,6 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * This class handles materials needed for a flat roof on the carport.
@@ -19,7 +18,7 @@ import java.util.HashMap;
  *
  * @see PartslistModel
  *
- * @author Runi
+ * @author
  *
  * Material used for creation:
  * https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CP01_DUR.pdf
@@ -55,7 +54,7 @@ public class RoofFlatCalc
 
     /* Rules */
     private int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
-    private int plasticRoofOverlapStanard = 200; //20cm overlap between two tiles
+    private int plasticRoofOverlapStandard = 200; //20cm overlap between two tiles
     private int plastictileScrewsStandard = 12;
     private int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
     private int rafterFittingsStandard = 2; //2 fittings per rafter
@@ -82,14 +81,12 @@ public class RoofFlatCalc
     private int amountOfScrews; //total amount of screws needed
 
     /* Imports */
-    private DataFacade DAO; //data accessor
-    private PartslistModel roofMaterials; //items to be returned to master list
+    private final DataFacade DAO; //data accessor
 
     public RoofFlatCalc()
     {
         amountOfScrews = 0;
         this.DAO = DataFacadeImpl.getInstance();
-        this.roofMaterials = new PartslistModel();
     }
 
     /**
@@ -103,6 +100,7 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
     {
+        PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
@@ -501,8 +499,8 @@ public class RoofFlatCalc
         int bandAmount = 1; //used to determine band quantity. we always want one.
 
         /*get MaterialModel to return */
-        MaterialModel band = DAO.getMaterial(23);
-        MaterialModel bandScrews = DAO.getMaterial(21);
+        MaterialModel band = DAO.getMaterial(bandID);
+        MaterialModel bandScrews = DAO.getMaterial(bandScrewsID);
 
         /* Calculation begin */
         int bandLength = band.getLength(); //10000mm (10m)
@@ -548,23 +546,27 @@ public class RoofFlatCalc
      */
     private PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
     {
-        /* Set up return <model>*/
+        /* Set up return <partslistmodel>*/
         PartslistModel tiles = new PartslistModel();
 
         /* Get MaterialModel to return */
-        MaterialModel tileLarge = DAO.getMaterial(28); //109x6000
-        MaterialModel tileSmall = DAO.getMaterial(29); //109x3600
+        MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID); //109x6000
+        MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID); //109x3600
 
         /* Set up variables */
         int remainingLength = order.getLength();
-        int remainingWidth = order.getWidth();
+        //take into account that we need a 5cm extension per width for water drainage.
+        int remainingWidth = (order.getWidth()) + (plasticRoofExtensionStandard * 2); //50mm (5cm) for 2 sides of the carport = 100mm (10cm) extra width for the whole carport.
+        //take into account that we need a 2cm overlap between two tiles
+        int tileLargeLength = (tileLarge.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
+        int tileSmallLength = (tileSmall.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
+        
         int largeQty = 0;
         int smallQty = 0;
-
         /* Calculation begin */
-        //take into account that we need a 5cm extension per tile
-        int estimatedTiles = (remainingLength / tileLarge.getLength()) + 1;
-        //take into account that we need a 2cm overlap between two tiles
+        
+//        int largeQty = (remainingLength/tileLargeLength);
+//        int smallQty = (int) Math.ceil((remainingLength%tileLargeLength) / tileSmallLength);
 
         while (remainingLength > 0 || remainingWidth > 0)
         {
@@ -572,7 +574,7 @@ public class RoofFlatCalc
             while (remainingLength > tileLarge.getLength())
             {
                 largeQty++;
-                remainingLength -= tileLarge.getLength();
+                remainingLength -= tileLargeLength;
                 remainingWidth -= tileLarge.getWidth();
             }
             /* Add small tiles */
@@ -597,16 +599,23 @@ public class RoofFlatCalc
         }
 
         /* Update quantities */
+        tileLarge.setQuantity(largeQty);
+        tileSmall.setQuantity(smallQty);
+        //need to update screws too (see rules)
 
- /* Update price */
+        /* Update price */
+        tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
+        tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
 
- /* Update helptext */
+        /* Update helptext */
         tileLarge.setHelptext("tagplader monteres på spær");
         tileSmall.setHelptext("tagplader monteres på spær");
-        /* Add to <model> */
+        /* Add to <partslistmodel> */
+        tiles.addMaterial(tileLarge);
+        tiles.addMaterial(tileSmall);
 
- /* Return <model>*/
-        return null;
+        /* Return <partslistmodel>*/
+        return tiles;
     }
 
     /**
@@ -619,7 +628,5 @@ public class RoofFlatCalc
     {
         return null;
     }
-    
-    
 
 }
