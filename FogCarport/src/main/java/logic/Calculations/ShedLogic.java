@@ -44,6 +44,15 @@ public class ShedLogic
      */
     PartslistModel addShed(PartslistModel bom, OrderModel order) throws LoginException
     {
+        if (order == null)
+        {
+            throw new LoginException("Order is null.");
+        }
+        if (bom == null)
+        {
+            bom = new PartslistModel();
+        }
+        
         DataFacade db = DataFacadeImpl.getInstance();
 
         boolean standard = false;

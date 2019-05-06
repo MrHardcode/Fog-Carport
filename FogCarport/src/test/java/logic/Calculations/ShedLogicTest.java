@@ -3,7 +3,6 @@
  */
 package logic.Calculations;
 
-import logic.Calculations.ShedLogic;
 import data.DataFacade;
 import data.DataFacadeImpl;
 import data.exceptions.LoginException;
@@ -296,6 +295,17 @@ public class ShedLogicTest
         assertEquals(test, bom);
     }
 
-    
+    /**
+     *
+     * @throws data.exceptions.LoginException
+     */
+    @Test(expected = LoginException.class)
+    public void testAddShedNull() throws LoginException
+    {
+        OrderModel order = null;
+        PartslistModel model = new PartslistModel();
+        ShedLogic instance = new ShedLogic();
+        instance.addShed(model, order);
+    }
     
 }
