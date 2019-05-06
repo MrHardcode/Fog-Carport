@@ -64,15 +64,18 @@ public class BaseCalc
             postAmount = calcPosts(cLength, cWidth, sLength, sWidth, postDistanceStandard);
         }
         post.setQuantity(postAmount);
+        bom.addMaterial(post);
         //45x195mm rafter wood
         MaterialModel strap = db.getMaterial(strapID);
         int strapAmount = calcStraps(cLength, cWidth, strap);
         strap.setQuantity(strapAmount);
+        bom.addMaterial(strap);
         
         //10x120mm bolts
         MaterialModel bolts = db.getMaterial(boltID);
         int boltAmount = calcBolts(strapAmount);
         bolts.setQuantity(boltAmount);
+        bom.addMaterial(bolts);
     }
 
     protected int calcPosts(int cLength, int cWidth, int sLength, int sWidth, int postDistance)
@@ -310,7 +313,6 @@ public class BaseCalc
             strapAmount = 1;
             separations = 2;
         }
-        System.out.println("Separations: " + separations);
         return strapAmount;
     }
 
