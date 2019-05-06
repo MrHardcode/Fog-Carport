@@ -34,7 +34,7 @@ public class BaseCalc
         int shedLength = order.getShed_length();
         int shedWidth = order.getShed_width();
         boolean hasRaisedRoof = false;
-        separations = 0;
+        
         if (order.getIncline() > 0)
         {
             hasRaisedRoof = true;
@@ -66,12 +66,12 @@ public class BaseCalc
         post.setQuantity(postAmount);
         //45x195mm rafter wood
         MaterialModel strap = db.getMaterial(strapID);
-        int strapAmount = calcStraps(cLength, cWidth, sLength, sWidth, strap);
+        int strapAmount = calcStraps(cLength, cWidth, strap);
         strap.setQuantity(strapAmount);
         
         //10x120mm bolts
         MaterialModel bolts = db.getMaterial(boltID);
-        int boltAmount = calcBolts(postAmount, strapAmount);
+        int boltAmount = calcBolts(strapAmount);
         bolts.setQuantity(boltAmount);
     }
 
@@ -223,8 +223,9 @@ public class BaseCalc
         return postAmount;
     }
     
-    protected int calcStraps(int cLength, int cWidth, int sLength, int sWidth, MaterialModel strap)
+    protected int calcStraps(int cLength, int cWidth, MaterialModel strap)
     {
+        separations = 0;
         //Amount of straps
         int strapAmount = 0;
         boolean skipWidthCalc = false;
@@ -264,7 +265,7 @@ public class BaseCalc
                 ++strapAmount;
                 //If the excess part of the extra strap can cover the carport width 
                 //then we just skip the width calculation
-                if ((strap.getLength() - restLength * 2) > cWidth)
+                if (strap.getLength() - restLength * 2 >= cWidth)
                 {
                     skipWidthCalc = true;
                     ++separations;
@@ -276,10 +277,11 @@ public class BaseCalc
                 strapAmount += 2;
                 //If the excess part of one extra strap can cover the carport width 
                 //then we just skip the width calculation
-                if ((strap.getLength() - restLength) > cWidth)
+                if ((strap.getLength() - restLength) >= cWidth)
                 {
                     skipWidthCalc = true;
                     ++separations;
+                    
                 }
             }
         }
@@ -300,20 +302,24 @@ public class BaseCalc
                     --strapAmount;
                 }
             }
-            //If one strap is enough to cover the whole carport we set strapAmount to 1
-            //This if-statement is necessary for the calculation of the bolts
-            if ((cLength * 2 + cWidth) <= strap.getLength())
-            {
-                strapAmount = 1;
-                separations = 2;
-            }
         }
+        //If one strap is enough to cover the whole carport we set strapAmount to 1
+        //This if-statement is necessary for the calculation of the bolts
+        if ((cLength * 2 + cWidth) <= strap.getLength())
+        {
+            strapAmount = 1;
+            separations = 2;
+        }
+        System.out.println("Separations: " + separations);
         return strapAmount;
     }
 
-    protected int calcBolts(int postAmount, int strapAmount)
+    protected int calcBolts(int strapAmount)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int boltAmount = 0;
+        boltAmount += strapAmount * 4;
+        boltAmount += separations * 4;
+        return boltAmount;
     }
 
 }
