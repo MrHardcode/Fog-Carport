@@ -1,9 +1,8 @@
 /*
- *  Malte Hviid-Magnussen
+ *  
  */
 package logic.Calculations;
 
-import logic.Calculations.ShedLogic;
 import data.DataFacade;
 import data.DataFacadeImpl;
 import data.exceptions.LoginException;
@@ -19,7 +18,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Malte
+ * @author 
  */
 public class ShedLogicTest
 {

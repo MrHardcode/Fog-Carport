@@ -1,13 +1,5 @@
-<%-- 
-    Document   : bom
-    Created on : 13-04-2019, 14:23:06
-    Author     : Malte
---%>
-
 <!--The following tag is the JSTL tag-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<jsp:include page='/header.jsp'></jsp:include>
 
     <!-- Styklisten - Bill of Materials (b.o.m.) -->
 
@@ -46,5 +38,3 @@
 <!-- END OF BOM -->
 
 Total Price: ${bom.totalprice}
-
-<jsp:include page='/footer.jsp'></jsp:include>

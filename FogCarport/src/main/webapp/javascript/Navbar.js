@@ -1,6 +1,3 @@
-/* 
- *  Malte Hviid-Magnussen
- */
 
 $(document).ready(function () { // Makes sure that the page is loaded first.
     $(function () {
