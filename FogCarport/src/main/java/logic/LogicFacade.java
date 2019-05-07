@@ -1,6 +1,8 @@
 package logic;
 
 import data.exceptions.LoginException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -19,4 +21,11 @@ public interface LogicFacade
     
     public MaterialModel getMaterial(int id) throws LoginException;
     
+    public CustomerModel getCustomer(int id) throws LoginException;
+    
+    public EmployeeModel getEmployee(int id) throws LoginException;
+    
+    public void createCustomer(CustomerModel customer) throws LoginException;
+    
+    public void createEmployee(EmployeeModel employee) throws LoginException;
 }

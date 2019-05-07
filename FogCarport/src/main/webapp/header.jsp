@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"  crossorigin="anonymous">
 
         <!-- Custom stylesheets -->
-        <link href="css/login.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="css/login.css" rel="stylesheet" type="text/css"/>-->
         <link href="css/index.css" rel="stylesheet" type="text/css"/>
         <link href="css/validation.css" rel="stylesheet" type="text/css"/>
         <link href="css/footer.css" rel="stylesheet" type="text/css"/>
