@@ -25,8 +25,6 @@
       <th scope="col">Shed Length</th>
       <th scope="col">Shed Walls</th>
       <th scope="col">Shed Floor</th>
-      <th scope="col">Customer ID</th>
-      <th scope="col">Employee ID</th>
     </tr>
   </thead>
   <tbody>
@@ -43,8 +41,32 @@
       <td>${order.shed_length}mm.</td>
       <td>${shedwalls}</td>
       <td>${shedfloor}</td>
-      <td>${order.id_customer}</td>
-      <td>${order.id_employee}</td>
+    </tr>
+  </tbody>
+</table>
+    
+<!-- Show Customer and Employee -->
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID Employee</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Employee Role</th>
+      <th scope="col">ID Customer</th>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Customer Phone</th>
+      <th scope="col">Customer Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>${employee.id}</td>
+      <td>${employee.name}</td>
+      <td>${employee.role}</td>
+      <td>${customer.id}</td>
+      <td>${customer.name}</td>
+      <td>${customer.phone}</td>
+      <td>${customer.email}</td>
     </tr>
   </tbody>
 </table>

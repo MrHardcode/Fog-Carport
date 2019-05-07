@@ -1,5 +1,5 @@
 /*
- *  Malte Hviid-Magnussen
+ *  
  */
 package logic.drawings;
 
@@ -7,7 +7,7 @@ import data.models.OrderModel;
 
 /**
  *
- * @author Malte
+ * @author 
  */
 public class SVGDrawingShed
 {
