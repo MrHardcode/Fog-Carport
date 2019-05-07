@@ -75,25 +75,25 @@
             <div class="form-row">
                 <div class="form-group col-md-7">
                     <label for="inputName">Navn</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name">
+                    <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name" required>
                 </div>
                 <div class="form-group col-md-5">
                     <label for="inputPhoneNumber">Telefon Nummer</label>
-                    <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefon Nummer" name="phonenumber">
+                    <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefon Nummer" name="phonenumber" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputEmail">Email</label>
-                <input type="text" class="form-control" id="inputEmail" placeholder="Example@example.com" name="email">
+                <input type="email" class="form-control" id="inputEmail" placeholder="Example@example.com" name="email" required>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputAddress">Addresse</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress">
+                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputZip">Post Nr.</label>
-                    <input type="text" class="form-control" id="inputZip" name="zip">
+                    <input type="number" class="form-control" id="inputZip" name="zip" required>
                 </div>
             </div>
             
