@@ -15,6 +15,11 @@ import java.util.Objects;
 public class PartslistModel {
     private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice = 0;
+    
+    int rafterCount;
+    int lathRowCount;
+    int tileCount;
+    int topTileCount;
 
     public PartslistModel() {
         billOfMaterials = new ArrayList<>();
@@ -44,6 +49,40 @@ public class PartslistModel {
         this.totalprice = totalprice;
     }
 
+    public int getRafterCount() {
+        return rafterCount;
+    }
+
+    public void setRafterCount(int rafterCount) {
+        this.rafterCount = rafterCount;
+    }
+
+    public int getLathRowCount() {
+        return lathRowCount;
+    }
+
+    public void setLathRowCount(int lathRowCount) {
+        this.lathRowCount = lathRowCount;
+    }
+
+    public int getTileCount() {
+        return tileCount;
+    }
+
+    public void setTileCount(int tileCount) {
+        this.tileCount = tileCount;
+    }
+
+    public int getTopTileCount() {
+        return topTileCount;
+    }
+
+    public void setTopTileCount(int topTileCount) {
+        this.topTileCount = topTileCount;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
