@@ -7,8 +7,6 @@ import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class handles materials needed for a flat roof on the carport.
@@ -72,10 +70,11 @@ public class RoofFlatCalc
     private int fittingRightID = 15;
     private int rafterSmallID = 5; // 45x195x4800
     private int rafterLargeID = 54; //45x195x6000
-    private int fasciaBottomSmall = 55; //25x200x3600
-    private int fasciaBottomLarge = 56; //25x200x5400
-    private int fasciaTopSmall = 57; //25x125x3600
-    private int fasciaTopLarge = 58; //25x125x5400
+    private int fasciaWidthBottomID = 55; //25x200x3600
+    private int fasciaLengthBottomID = 56; //25x200x5400
+    private int fasciaWidthTopID = 57; //25x125x3600
+    private int fasciaLengthTopID = 58; //25x125x5400
+    private int bargeboardScrewsID = 20; //200 a pack
 
     /* Calculations */
     private int amountOfScrews; //total amount of screws needed
@@ -121,11 +120,8 @@ public class RoofFlatCalc
      */
     protected PartslistModel calculateMainParts(OrderModel order) throws LoginException
     {
-        PartslistModel woodMaterials = new PartslistModel();
+        PartslistModel mainMaterials = new PartslistModel();
 
-        /* Get materials */
-        //MaterialModel bargeboards = DAO.getMaterial(54); //update id
-        //MaterialModel bands = DAO.getMaterial(54); //update id
         /* set helptext */
  /* Calculate amount of materials needed */
         PartslistModel rafters = calculateRafters(order);
@@ -141,14 +137,13 @@ public class RoofFlatCalc
         // bands.setQuantity(bands);
         // fittings.setQuantity(fittings);
         /* Add material*/
-        woodMaterials.addPartslist(rafters);
-        woodMaterials.addPartslist(fascias);
-        woodMaterials.addPartslist(bargeboards);
-        woodMaterials.addPartslist(bands);
-        woodMaterials.addPartslist(fittings);
+        mainMaterials.addPartslist(rafters);
+        mainMaterials.addPartslist(fascias);
+        mainMaterials.addPartslist(bargeboards);
+        mainMaterials.addPartslist(bands);
+        mainMaterials.addPartslist(fittings);
 
-        return woodMaterials;
-
+        return mainMaterials;
     }
 
     /**
@@ -158,13 +153,13 @@ public class RoofFlatCalc
      * @return
      * @throws data.exceptions.AlgorithmException
      */
-    protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException
+    protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException, LoginException
     {
         PartslistModel dependantParts = new PartslistModel();
 
         int roofSelection = order.getRoof_tiles_id();
         //the ID selected for roof tiles. 
-        //0 = no roof/no choice. || 28,* 29 = plastic. Other = felt ("tagpap").
+        //0 = no roof/no choice. || 28,* 29 = plastic. 47, 48 = felt ("tagpap").
 
         switch (roofSelection) //could also be done with multiple if-statements
         {
@@ -190,7 +185,7 @@ public class RoofFlatCalc
      *
      * @return
      */
-    private PartslistModel calculatePlasticRoof(OrderModel order)
+    private PartslistModel calculatePlasticRoof(OrderModel order) throws LoginException
     {
         /* Set up return <model>*/
         PartslistModel plasticRoof = new PartslistModel();
@@ -206,8 +201,9 @@ public class RoofFlatCalc
  /* Update helptext */
 
  /* Add to <model> */
+        plasticRoof.addPartslist(calculatePlasticTiles(order));
 
- /* Return <model>*/
+        /* Return <model>*/
         return plasticRoof;
     }
 
@@ -225,6 +221,9 @@ public class RoofFlatCalc
     /**
      * calculates rafter ("spær") for carport roof
      *
+     * we only care about width, then the customer customizes the rafter to
+     * their liking.
+     *
      * @param order order in question
      * @return returns partlistmodel of items needed
      */
@@ -233,19 +232,34 @@ public class RoofFlatCalc
         /* Set up return <model>*/
         PartslistModel rafters = new PartslistModel();
         /* Get MaterialModel to return */
-        MaterialModel rafter = DAO.getMaterial(54);
+        MaterialModel rafter = DAO.getMaterial(rafterLargeID); //45x195x6000
+
+        /* Set up variables */
+        int width = order.getWidth();
+
         /* Calculation begin */
+        int rafterAmount = (width / rafterWidthStandard); //one rafter per 500mm
+        int rafterRemainder = (width % rafterWidthStandard);
+        while (rafterRemainder > 0)
+        {
+            rafterAmount++;
+            rafterRemainder--;
+        }
 
- /* Update quantities */
+        /* Update quantities */
+        rafter.setQuantity(rafterAmount);
 
- /* Update price */
+        /* Update price */
+        rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
 
- /* Update helptext */
+        /* Update helptext */
+        rafter.setHelptext("Spær, monteres på rem");
 
- /* Add to <model> */
+        /* Add to <partslistmodel> */
+        rafters.addMaterial(rafter);
 
- /* Return <model>*/
-        return null;
+        /* Return <partslistmodel>*/
+        return rafters;
     }
 
     /**
@@ -256,168 +270,73 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateFascias(OrderModel order) throws LoginException
     {
-        /* Initialize partslists needed */
-        PartslistModel fasciasLengthTop = new PartslistModel(); //carport length top board
-        //PartslistModel fasciasLengthBottom = new PartslistModel(); //carport length bottom board
-        PartslistModel fasciasWidthTop = new PartslistModel(); //carport width top board
-        //PartslistModel fasciasWidthBottom = new PartslistModel(); //carport width bottom board
+        /* Set up return PartslistModel */
+        PartslistModel fascias = new PartslistModel();
 
-        /* Add needed materials */
-        fasciasLengthTop.addMaterial(DAO.getMaterial(56)); //25x200x5400
-        fasciasLengthTop.addMaterial(DAO.getMaterial(58)); //25x125x5400 
-        fasciasWidthTop.addMaterial(DAO.getMaterial(55)); //25x200x3600
-        fasciasWidthTop.addMaterial(DAO.getMaterial(57)); //25x125x3600
+        /* Initialize materials needed needed */
+        MaterialModel fasciaLengthBottom = DAO.getMaterial(fasciaLengthBottomID);
+        MaterialModel fasciaLengthTop = DAO.getMaterial(fasciaLengthTopID);
+        MaterialModel fasciaWidthBottom = DAO.getMaterial(fasciaWidthBottomID);
+        MaterialModel fasciaWidthTop = DAO.getMaterial(fasciaWidthTopID);
 
-        /* Begin calculation */
-        itemHelper(fasciasLengthTop, order.getWidth());
-        itemHelper(fasciasWidthTop, order.getLength());
+        /* set up variables */
+        int width = order.getWidth();
+        int length = order.getLength();
 
-//////        /* set up variables */
-//////        int width = order.getWidth();
-//////        int length = order.getLength();
-//////
-//////        /* Begin calculation, add to partslist */
-//////        fasciaHelper(fascias, length);
-//////        fasciaHelper(fascias, width);
+        /* Begin calculation, update quantities */
+        fasciaLengthBottom = fasciaHelper(fasciaLengthBottom, length);
+        fasciaLengthTop = fasciaHelper(fasciaLengthTop, length);
+        fasciaWidthBottom = fasciaHelper(fasciaWidthBottom, width);
+        fasciaWidthTop = fasciaHelper(fasciaWidthTop, width);
 
+        //We have now calculated the quantity needed by length, but need to multiply by carport sides.
+        //
+        /* Update quantity */
+        fasciaLengthBottom.setQuantity(fasciaLengthBottom.getQuantity() * 2); //2 lengths
+        fasciaLengthTop.setQuantity(fasciaLengthTop.getQuantity() * 2); //2 lengths
+        fasciaWidthBottom.setQuantity(fasciaWidthBottom.getQuantity() * 2); //2 widths
+        //fasciaWidthTop is not updated, as we only add top fascia to the front, not the back. (due to water draining)
+
+        /* Set helptext */
+        fasciaLengthBottom.setHelptext("understernbrædder til siderne");
+        fasciaLengthTop.setHelptext("oversternbrædder til siderne");
+        fasciaWidthBottom.setHelptext("understernbrædder til for- & bagende");
+        fasciaWidthTop.setHelptext("oversternbrædder til forenden");
         /* Add parts together */
-        fasciasWidthTop.addPartslist(fasciasLengthTop);
+        fascias.addMaterial(fasciaLengthBottom);
+        fascias.addMaterial(fasciaLengthTop);
+        fascias.addMaterial(fasciaWidthBottom);
+        fascias.addMaterial(fasciaWidthTop);
+        /* Update prices */
+        fascias.getBillOfMaterials().forEach((material) ->
+        {
+            material.setPrice(material.getPrice() * material.getQuantity());
+        });
 
         /* return partslist */
-        return fasciasWidthTop;
-    }
-
-    /**
-     * Helps calculating amount of Fascias depending on material length and
-     * remaining length.
-     *
-     * @param remainingLength
-     * @return
-     * @throws LoginException
-     */
-    private PartslistModel fasciaHelper(PartslistModel fascias, int remainingLength) throws LoginException
-    {
-        //PartslistModel fascias = new PartslistModel(); //needs to initialize
-        MaterialModel fascia = null;
-
-        while (remainingLength > 0)
-        {
-            if (remainingLength < 4800) //would have been nice to use MaterialModel.getLength but then we would have to load it from db.
-            {
-                fascia = DAO.getMaterial(1); //length 4800
-            }
-            else if (remainingLength > 4800 && remainingLength < 5400)
-            {
-                fascia = DAO.getMaterial(2); //length 5400
-            }
-            else if (remainingLength > 5400)
-            {
-                fascia = DAO.getMaterial(3); //length 6000
-            }
-
-            if (fascia != null)
-            {
-                int qty = materialCalculateAmount(fascia, remainingLength);
-                int fasciaStandard = rules.get("fasciaStandard"); //2 fascia per side of the house
-                qty = (qty) * (fasciaStandard) * (2); //qty * 2 boards * 2 sides per carport
-                fascia.setQuantity(qty);
-                int lengthDifference = (remainingLength) - (fascia.getLength() * qty);
-                remainingLength -= lengthDifference;
-                fascias.addMaterial(fascia);
-                fasciaHelper(fascias, remainingLength); //recursion
-            }
-        }
         return fascias;
-
-//        while (remainingLength > fasciaLength) // || remainingLength > 0
-//        {
-//            amountOfFascia++;
-//            remainingLength -= fasciaLength;
-//        }
-//
-//        return amountOfFascia;
     }
 
-    private PartslistModel itemHelper(PartslistModel items, int remainingLength) throws LoginException
+    private MaterialModel fasciaHelper(MaterialModel fascia, int dimension)
     {
-        /* sort collection of MaterialModels */
-        ArrayList<MaterialModel> bom = items.getBillOfMaterials();
-        bom.sort((m1, m2) ->
-        {
-            return m1.getLength() - m2.getLength(); //sort ascending
-        });
-        Collections.reverse(bom); //reverse to descending
+        int fasciaQty = fascia.getQuantity();
+        int remainingDimension = dimension;
 
-        while (remainingLength > 0) //while the remaining length is bigger than 0
+        /* Calculate quantity */
+        while (remainingDimension > 0)
         {
-            items.addPartslist(calculateMaterialAmount(items, remainingLength));
-            //items.getBillOfMaterials().replaceAll((UnaryOperator<MaterialModel>) items.getBillOfMaterials());
-            remainingLength -= items.getTotalLength();
+            fasciaQty++;
+            remainingDimension -= fascia.getLength();
         }
-        return items;
+
+        /* Update quantity */
+        fascia.setQuantity(fasciaQty);
+
+        /* return fascia */
+        return fascia;
     }
 
-    private PartslistModel calculateMaterialAmount(PartslistModel items, int remainingLength)
-    {
-        ArrayList<MaterialModel> bom = items.getBillOfMaterials();
-
-        while (remainingLength > 0)
-        {
-            /* The idea is here that we run through the materials from largest to smallest and add as needed */
-            for (MaterialModel material : bom)
-            {
-                //if the remaining length is smaller than the smallest item
-                //add one of smallest item
-                //This is to avoid an endless loop and to end both this and 
-                if (remainingLength < bom.get(bom.size() - 1).getLength())
-                {
-                    MaterialModel smallestItem = (bom.get(bom.size() - 1));
-                    smallestItem.setQuantity(smallestItem.getQuantity() + 1);
-                    remainingLength -= material.getLength();
-                }
-                if (remainingLength >= material.getLength())
-                {
-                    /* Continuously add item qty until remainingLength is lower than item length  */
-                    while (remainingLength >= material.getLength())
-                    {
-                        int qty = material.getQuantity();
-                        qty++;
-                        material.setQuantity(qty);
-                        remainingLength -= material.getLength();
-                    }
-                }
-            }
-        }
-        return items;
-    }
-
-    /**
-     * Calculates amount of the specific material needed to reach optimal
-     * size/price usage.
-     *
-     * @param item item in question (MaterialModel)
-     * @param remainingLength length needed to calculate
-     * @return
-     */
-    private int materialCalculateAmount(MaterialModel item, int remainingLength)
-    {
-        int itemLength = item.getLength();
-        int itemQty = item.getQuantity();
-
-        while (remainingLength > 0 || remainingLength >= itemLength)
-        {
-            itemQty++;
-            remainingLength -= itemLength;
-        }
-
-        if (remainingLength > 0 && remainingLength < 4800) //smallest value
-
-        {
-            return itemQty;
-        }
-        return 0;
-    }
-
+    
     /**
      * calculates bargeboard ("vandbrædt") for carport roof
      *
@@ -426,7 +345,25 @@ public class RoofFlatCalc
      */
     private PartslistModel calculateBargeboard(OrderModel order)
     {
-        return null;
+        /* Set up return <model>*/
+        PartslistModel bargeboards = new PartslistModel();
+
+
+        /* Get MaterialModel to return */
+        
+
+ /* Calculation begin */
+
+ /* Update quantities */
+
+ /* Update price */
+
+ /* Update helptext */
+
+ /* Add to <model> */
+
+ /* Return <model>*/
+        return bargeboards;
     }
 
     /**
@@ -547,12 +484,12 @@ public class RoofFlatCalc
     private PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
     {
         /* Set up return <partslistmodel>*/
-        PartslistModel tiles = new PartslistModel();
+        PartslistModel tileAndTileAccessories = new PartslistModel();
 
         /* Get MaterialModel to return */
         MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID); //109x6000
         MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID); //109x3600
-
+        MaterialModel tileScrews = DAO.getMaterial(plastictileScrew);
         /* Set up variables */
         int remainingLength = order.getLength();
         //take into account that we need a 5cm extension per width for water drainage.
@@ -560,14 +497,13 @@ public class RoofFlatCalc
         //take into account that we need a 2cm overlap between two tiles
         int tileLargeLength = (tileLarge.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
         int tileSmallLength = (tileSmall.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
-        
+
         int largeQty = 0;
         int smallQty = 0;
         /* Calculation begin */
-        
+
 //        int largeQty = (remainingLength/tileLargeLength);
 //        int smallQty = (int) Math.ceil((remainingLength%tileLargeLength) / tileSmallLength);
-
         while (remainingLength > 0 || remainingWidth > 0)
         {
             /* Add large tiles */
@@ -602,20 +538,24 @@ public class RoofFlatCalc
         tileLarge.setQuantity(largeQty);
         tileSmall.setQuantity(smallQty);
         //need to update screws too (see rules)
+        tileScrews.setQuantity(3);
 
         /* Update price */
         tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
         tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
+        tileScrews.setPrice(tileScrews.getQuantity() * tileScrews.getPrice());
 
         /* Update helptext */
         tileLarge.setHelptext("tagplader monteres på spær");
         tileSmall.setHelptext("tagplader monteres på spær");
+        tileScrews.setHelptext("Skruer til tagplader");
         /* Add to <partslistmodel> */
-        tiles.addMaterial(tileLarge);
-        tiles.addMaterial(tileSmall);
+        tileAndTileAccessories.addMaterial(tileLarge);
+        tileAndTileAccessories.addMaterial(tileSmall);
+        tileAndTileAccessories.addMaterial(tileScrews);
 
         /* Return <partslistmodel>*/
-        return tiles;
+        return tileAndTileAccessories;
     }
 
     /**

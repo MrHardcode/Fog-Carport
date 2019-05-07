@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package logic.Calculations;
 
 import data.models.OrderModel;
@@ -11,12 +16,12 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author 
+ * @author Runi
  */
-public class RoofFlatCalcIT
+public class RoofFlatCalcTest
 {
     
-    public RoofFlatCalcIT()
+    public RoofFlatCalcTest()
     {
     }
     
@@ -33,10 +38,6 @@ public class RoofFlatCalcIT
     @Before
     public void setUp()
     {
-        OrderModel order = new OrderModel();
-        order.setHeight(2100);
-        order.setLength(7200);
-        order.setWidth(3600);
     }
     
     @After
@@ -87,22 +88,6 @@ public class RoofFlatCalcIT
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateDependantParts(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of calculateMiscellaneous method, of class RoofFlatCalc.
-     */
-    @Test
-    public void testCalculateMiscellaneous()
-    {
-        System.out.println("calculateMiscellaneous");
-        OrderModel order = null;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateMiscellaneous(order);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
