@@ -20,7 +20,17 @@ public class makeCarportSimple extends presentation.Command
         String length = request.getParameter("length");
         String width  = request.getParameter("width");
         String shed   = request.getParameter("shed");
-        
+        String shedLength = "";
+        String shedWidth = "";
+        String shedFloorID = "";
+        String shedWallID = "";
+        if (shed != null)
+        {
+            shedLength = request.getParameter("shed-length");
+            shedWidth = request.getParameter("shed-width");
+            shedFloorID = request.getParameter("shed-floor-id");
+            shedWallID = request.getParameter("shed-wall-id");
+        }
         PartslistModel bom = logic.getSimpleBOM(height, length, width, shed);
         request.getSession().setAttribute("bom", bom);
         
