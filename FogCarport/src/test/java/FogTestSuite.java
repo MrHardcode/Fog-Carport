@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-RoofRaisedCalcTest.class, BaseCalcTest.class, ShedLogicTest.class, RoofFlatCalcTest.class})
+RoofRaisedCalcTest.class, BaseCalcTest.class, ShedLogicTest.class, RoofFlatCalcTest.class}) 
 
 public class FogTestSuite {
 

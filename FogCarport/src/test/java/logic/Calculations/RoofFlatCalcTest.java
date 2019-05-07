@@ -25,7 +25,7 @@ public class RoofFlatCalcTest
 {
 
     DataFacade DAO;
-    OrderModel testOrder; 
+    OrderModel testOrder;
 
     public RoofFlatCalcTest()
     {
@@ -63,12 +63,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateFlatRoofStructure method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateFlatRoofStructure() throws Exception
     {
         System.out.println("calculateFlatRoofStructure");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateFlatRoofStructure(order);
@@ -79,12 +81,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateMainParts method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateMainParts() throws Exception
     {
         System.out.println("calculateMainParts");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateMainParts(order);
@@ -95,12 +99,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateDependantParts method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateDependantParts() throws Exception
     {
         System.out.println("calculateDependantParts");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateDependantParts(order);
@@ -111,12 +117,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculatePlasticRoof method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculatePlasticRoof() throws Exception
     {
         System.out.println("calculatePlasticRoof");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculatePlasticRoof(order);
@@ -132,7 +140,7 @@ public class RoofFlatCalcTest
     public void testCalculateFeltRoof()
     {
         System.out.println("calculateFeltRoof");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateFeltRoof(order);
@@ -143,12 +151,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateRafters method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateRafters() throws Exception
     {
         System.out.println("calculateRafters");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateRafters(order);
@@ -159,12 +169,14 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateFascias method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateFascias() throws Exception
     {
         System.out.println("calculateFascias");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateFascias(order);
@@ -197,7 +209,7 @@ public class RoofFlatCalcTest
     public void testCalculateBargeboard() throws Exception
     {
         System.out.println("calculateBargeboard");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateBargeboard(order);
@@ -224,7 +236,7 @@ public class RoofFlatCalcTest
 
     /**
      * Test of calculateBand method, of class RoofFlatCalc.
-     * 
+     *
      * This test expects 2 bands from method.
      *
      * @throws java.lang.Exception
@@ -252,7 +264,7 @@ public class RoofFlatCalcTest
         System.out.println("Band QTY expected:\n" + expBand.toString());
         System.out.println("Band QTY actual:\n" + result.getBillOfMaterials().get(0).toString());
         assertEquals(expResult, result);
-        
+
         /* 
         Explanation:
         We add one band per 10m (10.000mm) of distance to cover.
@@ -261,13 +273,14 @@ public class RoofFlatCalcTest
         ((OrderLength)-(ShedLength)*2)
         
         (7800-2100)*2 = 11.400
-        */
+         */
     }
-    
+
     /**
      * Test of calculateBand method, of class RoofFlatCalc.
-     * 
-     * This test should only calculate one band, due to us manipulating the shed length.
+     *
+     * This test should only calculate one band, due to us manipulating the shed
+     * length.
      *
      * @throws java.lang.Exception
      */
@@ -281,21 +294,21 @@ public class RoofFlatCalcTest
         PartslistModel result = instance.calculateBand(testOrder);
 
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 1);
-        
+
         /* 
         Explanation:
         Instead of 11.400 from above method, having a shed with 2100 length,
         we add a shed of 6000mm length.
         Therefore the cover length will be 5400, which is below the threshhold. (10.000mm)
         This means that a second band is not added.
-        */
+         */
     }
-    
-    
-     /**
+
+    /**
      * Test of calculateBand method, of class RoofFlatCalc.
-     * 
-     * This test should calculate three bands, due to us manipulating the dimensions.
+     *
+     * This test should calculate three bands, due to us manipulating the
+     * dimensions.
      *
      * @throws java.lang.Exception
      */
@@ -304,13 +317,12 @@ public class RoofFlatCalcTest
     {
         System.out.println("calculateBand");
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = new PartslistModel();
         //shed_length = 2100
         testOrder.setLength(12101);
         PartslistModel result = instance.calculateBand(testOrder);
 
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 3);
-        
+
         /* 
         Explanation:
         here we have a really long carport right at the breakoff.
@@ -319,24 +331,24 @@ public class RoofFlatCalcTest
         (12101-2100)*2 = 20002 = 3 bands
         
         (( because we need to cover more than two bands length (20.000) ))
-        */
+         */
     }
 
     /**
      * Test of calculatePlasticTiles method, of class RoofFlatCalc.
+     *
      * @throws java.lang.Exception
      */
     @Test
     public void testCalculatePlasticTiles() throws Exception
     {
         System.out.println("calculatePlasticTiles");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculatePlasticTiles(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 6);
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 6);
     }
 
     /**
@@ -346,10 +358,26 @@ public class RoofFlatCalcTest
     public void testCalculateFeltTiles()
     {
         System.out.println("calculateFeltTiles");
-        OrderModel order = null;
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel expResult = null;
         PartslistModel result = instance.calculateFeltTiles(order);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of calculateBand method, of class RoofFlatCalc.
+     */
+    @Test
+    public void testCalculateBand() throws Exception
+    {
+        System.out.println("calculateBand");
+        OrderModel order = null;
+        RoofFlatCalc instance = new RoofFlatCalc();
+        PartslistModel expResult = null;
+        PartslistModel result = instance.calculateBand(order);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

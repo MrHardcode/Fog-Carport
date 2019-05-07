@@ -63,7 +63,7 @@ public class RoofFlatCalc
     /* database material IDs (height|width|length)*/
     private int plasticTileSmallID = 29; //0x109x3600
     private int plasticTileLargeID = 28; //0x109x6000
-    private int plastictileScrew = 22; //200 pcs. a pack
+    private int plasticTileScrewID = 22; //200 pcs. a pack
     private int bandScrewsID = 21; //250 pcs. a pack
     private int bandID = 23; //0x0x10000
     private int fittingScrewsID = 21; //250 pcs. a pack
@@ -77,7 +77,6 @@ public class RoofFlatCalc
     private int fasciaLengthTopID = 58; //25x125x5400
     private int bargeboardLengthID = 59;
     private int bargeboardWidthID = 60;
-
     private int bargeboardScrewsID = 20; //200 a pack
 
     /* Calculations */
@@ -491,6 +490,7 @@ public class RoofFlatCalc
      *
      * @param order
      * @return
+     * @throws data.exceptions.LoginException
      */
     protected PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
     {
@@ -500,54 +500,64 @@ public class RoofFlatCalc
         /* Get MaterialModel to return */
         MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID); //109x6000
         MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID); //109x3600
-        MaterialModel tileScrews = DAO.getMaterial(plastictileScrew);
+        MaterialModel tileScrews = DAO.getMaterial(plasticTileScrewID);
         /* Set up variables */
         int remainingLength = order.getLength();
         //take into account that we need a 5cm extension per width for water drainage.
-        int remainingWidth = (order.getWidth()) + (plasticRoofExtensionStandard * 2); //50mm (5cm) for 2 sides of the carport = 100mm (10cm) extra width for the whole carport.
+        int remainingWidth = order.getWidth() + (plasticRoofExtensionStandard * 2); //50mm (5cm) for 2 sides of the carport = 100mm (10cm) extra width for the whole carport.
         //take into account that we need a 2cm overlap between two tiles
         int tileLargeLength = (tileLarge.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
+        int tileLargeWidth = (tileLarge.getWidth()) - plasticRoofOverlapStandard; //-200mm for overlap
         int tileSmallLength = (tileSmall.getLength()) - plasticRoofOverlapStandard; //-200mm for overlap
-
-        int largeQty = 0;
-        int smallQty = 0;
+        int tileSmallWidth = (tileSmall.getWidth()) - plasticRoofOverlapStandard; //-200mm for overlap
+////        int largeQty = 0;
+////        int smallQty = 0;
         /* Calculation begin */
-
-//        int largeQty = (remainingLength/tileLargeLength);
-//        int smallQty = (int) Math.ceil((remainingLength%tileLargeLength) / tileSmallLength);
-        while (remainingLength > 0 || remainingWidth > 0)
+        int largeQty = (remainingLength / tileLargeLength); //amount of large tiles
+        double remainderLength = (remainingLength % tileLargeLength); //any leftover space?
+        remainderLength /= tileSmallLength; //had to newline, didnt work properly in one-line.
+        int smallQty = 0;
+        if (remainderLength > 0)
         {
-            /* Add large tiles */
-            while (remainingLength > tileLarge.getLength())
-            {
-                largeQty++;
-                remainingLength -= tileLargeLength;
-                remainingWidth -= tileLarge.getWidth();
-            }
-            /* Add small tiles */
-            while (remainingLength > tileSmall.getLength())
-            {
-                smallQty++;
-                remainingLength -= tileSmall.getLength();
-                remainingWidth -= tileSmall.getWidth();
-            }
-
-            //last case where dimensions are bigger than 0, but smaller than tile.
-            if (remainingLength > 0
-                    && remainingLength < tileSmall.getLength()
-                    || remainingWidth > 0
-                    && remainingWidth < tileSmall.getWidth())
-            {
-                smallQty++;
-                remainingLength -= tileSmall.getLength();
-                remainingWidth -= tileSmall.getWidth();
-            }
-
+            smallQty = (int) Math.ceil(remainderLength); //amount of small tiles
         }
+        //We now have amount of tiles for one length
+        int totalAmountLarge = (int) Math.ceil((remainingWidth / tileLargeWidth) * largeQty);
+        int totalAmountSmall = (int) Math.ceil((remainingWidth / tileSmallWidth) * smallQty);
+
+////        while (remainingLength > 0 || remainingWidth > 0)
+////        {
+////            /* Add large tiles */
+////            while (remainingLength > tileLarge.getLength())
+////            {
+////                largeQty++;
+////                remainingLength -= tileLargeLength;
+////                remainingWidth -= tileLarge.getWidth();
+////            }
+////            /* Add small tiles */
+////            while (remainingLength > tileSmall.getLength())
+////            {
+////                smallQty++;
+////                remainingLength -= tileSmall.getLength();
+////                remainingWidth -= tileSmall.getWidth();
+////            }
+////
+////            //last case where dimensions are bigger than 0, but smaller than tile.
+////            if (remainingLength > 0
+////                    && remainingLength < tileSmall.getLength()
+////                    || remainingWidth > 0
+////                    && remainingWidth < tileSmall.getWidth())
+////            {
+////                smallQty++;
+////                remainingLength -= tileSmall.getLength();
+////                remainingWidth -= tileSmall.getWidth();
+////            }
+////
+////        }
 
         /* Update quantities */
-        tileLarge.setQuantity(largeQty);
-        tileSmall.setQuantity(smallQty);
+        tileLarge.setQuantity(totalAmountLarge);
+        tileSmall.setQuantity(totalAmountSmall);
         //need to update screws too (see rules)
         tileScrews.setQuantity(3);
 
