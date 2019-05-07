@@ -25,21 +25,21 @@ import data.models.PartslistModel;
  *
  * Spær: Every 50cm
  *
- * Stern: 8x (two per building side: one under, one over)
+ * Stern: 2 boards per side of the carport, except the back where we only need
+ * 1.
  *
+ * Vandbrædt: 3x (1x front, 1x each side, 0x back)
  *
- * Vandbrædt: 3x (size: 19x100. 1x front, 1x each side)
+ * Universalbeslag: 2x per spær. (Right/Left orientation) (9 screws per beslag)
  *
- * Universalbeslag: 2x per spær. (Remember: Right/Left orientation) (9 screws
- * per beslag)
- *
- * Hulbånd: 1x (10m). 2 screws pr. spær
+ * Hulbånd: 1x (10m). 2 screws pr. spær it crosses.
  *
  * !Plastic roofing:
  *
- * !Outermost parts must extend 5cm beyond its Spær to account for water.
+ * !Outermost parts must extend 5cm beyond its Spær to account for water
+ * drainage.
  *
- * !Roof parts have a 2 'wave' overlay (20cm) & 12 screws per cm^2.
+ * !Roof tiles have a 2 'wave' overlay (20cm) & 12 screws per cm^2.
  *
  * Tagpap roofing: Size dependant calculation
  *
@@ -101,7 +101,7 @@ public class RoofFlatCalc
      * @throws data.exceptions.AlgorithmException
      * @throws data.exceptions.LoginException
      */
-    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
+    protected PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
     {
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
@@ -126,21 +126,13 @@ public class RoofFlatCalc
     {
         PartslistModel mainMaterials = new PartslistModel();
 
-        /* set helptext */
- /* Calculate amount of materials needed */
+        /* Calculate amount of materials needed */
         PartslistModel rafters = calculateRafters(order);
         PartslistModel fascias = calculateFascias(order);
         PartslistModel bargeboards = calculateBargeboard(order);
         PartslistModel bands = calculateBand(order);
         PartslistModel fittings = calculateFittings(rafters);
 
-        /* update quantities */
-        // rafters.setQuantity(rafters);
-        //fascias.setQuantity(fascias);
-        // bargeboards.setQuantity(bargeboards);
-        // bands.setQuantity(bands);
-        // fittings.setQuantity(fittings);
-        /* Add material*/
         mainMaterials.addPartslist(rafters);
         mainMaterials.addPartslist(fascias);
         mainMaterials.addPartslist(bargeboards);
@@ -187,9 +179,11 @@ public class RoofFlatCalc
     /**
      * Calculates materials needed for the flat plastic roof
      *
+     * @param order
      * @return
+     * @throws data.exceptions.LoginException
      */
-    private PartslistModel calculatePlasticRoof(OrderModel order) throws LoginException
+    protected PartslistModel calculatePlasticRoof(OrderModel order) throws LoginException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel plasticRoof = new PartslistModel();
@@ -206,7 +200,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculateFeltRoof(OrderModel order)
+    protected PartslistModel calculateFeltRoof(OrderModel order)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -220,7 +214,7 @@ public class RoofFlatCalc
      * @param order order in question
      * @return returns partlistmodel of items needed
      */
-    private PartslistModel calculateRafters(OrderModel order) throws LoginException
+    protected PartslistModel calculateRafters(OrderModel order) throws LoginException
     {
         /* Set up return <model>*/
         PartslistModel rafters = new PartslistModel();
@@ -261,7 +255,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculateFascias(OrderModel order) throws LoginException
+    protected PartslistModel calculateFascias(OrderModel order) throws LoginException
     {
         /* Set up return PartslistModel */
         PartslistModel fascias = new PartslistModel();
@@ -316,7 +310,7 @@ public class RoofFlatCalc
      * @param dimension dimension in question (length, width, etc)
      * @return returns the same materialmodel, now with new quantity.
      */
-    private MaterialModel itemHelper(MaterialModel material, int dimension)
+    protected MaterialModel itemHelper(MaterialModel material, int dimension)
     {
         int itemQty = material.getQuantity();
         int remainingDimension = dimension;
@@ -341,7 +335,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculateBargeboard(OrderModel order) throws LoginException
+    protected PartslistModel calculateBargeboard(OrderModel order) throws LoginException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel bargeboards = new PartslistModel();
@@ -390,7 +384,7 @@ public class RoofFlatCalc
      * method.
      * @return returns a list of materials (to later add to bill of materials)
      */
-    private PartslistModel calculateFittings(PartslistModel rafters) throws LoginException
+    protected PartslistModel calculateFittings(PartslistModel rafters) throws LoginException
     {
         /* Rafter amount */
         int rafterAmount = rafters.getBillOfMaterials().get(0).getQuantity(); //hackish solution. update?
@@ -447,7 +441,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculateBand(OrderModel order) throws LoginException
+    protected PartslistModel calculateBand(OrderModel order) throws LoginException
     {
         PartslistModel bandParts = new PartslistModel();
         int bandAmount = 1; //used to determine band quantity. we always want one.
@@ -498,7 +492,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
+    protected PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel tileAndTileAccessories = new PartslistModel();
@@ -581,7 +575,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    private PartslistModel calculateFeltTiles(OrderModel order)
+    protected PartslistModel calculateFeltTiles(OrderModel order)
     {
         return null;
     }
