@@ -52,13 +52,26 @@ public class RoofRaisedCalc {
         roofRaisedBOM.addPartslist(getRoofTiles(order));
         roofRaisedBOM.addPartslist(getRoofStructure(order));
         roofRaisedBOM.addPartslist(getCladding(order));
+        roofRaisedBOM.addPartslist(getScrews());
         
+        return roofRaisedBOM;
+    }
+    
+    
+    /**
+     * Calculates amount of screws needed for the entire roof, adds them to a 
+     * Partslist and returns it.
+     * @return PartslistModel 
+     */
+    protected PartslistModel getScrews() throws LoginException {
+        
+        PartslistModel screwBOM = new PartslistModel();
         int screwPacks = (int) Math.ceil(screwCount/200);
         MaterialModel material = DAO.getMaterial(20);
-        for (int i = 0; i < screwPacks; i++) {
-            roofRaisedBOM.addMaterial(material);
+        for (int i = 0; i <= screwPacks; i++) {
+            screwBOM.addMaterial(material);
         }
-        return roofRaisedBOM;
+        return screwBOM;
     }
 
     /**

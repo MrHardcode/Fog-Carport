@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 
+import logic.Calculations.BaseCalcTest;
 import logic.Calculations.RoofRaisedCalcTest;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import logic.Calculations.ShedLogicTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -18,7 +16,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-RoofRaisedCalcTest.class})
+RoofRaisedCalcTest.class, BaseCalcTest.class, ShedLogicTest.class})
 
 public class FogTestSuite {
 

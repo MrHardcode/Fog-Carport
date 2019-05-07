@@ -13,7 +13,7 @@ import data.models.PartslistModel;
 /**
  * Contains logic regarding the Bill of Materials for a shed in the carport.
  *
- * @author Malte
+ * @author 
  */
 public class ShedLogic
 {
