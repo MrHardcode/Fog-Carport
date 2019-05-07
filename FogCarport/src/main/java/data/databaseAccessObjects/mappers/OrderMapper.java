@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -110,4 +112,26 @@ public class OrderMapper {
     }
     // </editor-fold>
 
+    /**
+     * Get all order ids.
+     * Used by the .jsp that shows a list of all orders to the salesman.
+     * @return
+     * @throws LoginException 
+     */
+    public List<Integer> getAllOrderIds() throws LoginException {
+        String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
+        List<Integer> ids = new ArrayList<>();
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Integer id = rs.getInt("id_order");
+                ids.add(id);
+            }
+        }catch(SQLException ex){
+            throw new LoginException(ex.getMessage());
+        }
+        return ids;
+    }
 }
