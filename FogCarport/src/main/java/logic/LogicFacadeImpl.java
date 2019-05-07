@@ -75,4 +75,10 @@ public class LogicFacadeImpl implements LogicFacade {
         DataFacadeImpl.getInstance().createEmployee(employee);
     }
 
+    @Override
+    public void createOrder(OrderModel order) throws LoginException
+    {
+        DataFacadeImpl.getInstance().createOrder(order);
+    }
+
 }
