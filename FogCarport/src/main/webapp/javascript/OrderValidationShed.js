@@ -20,7 +20,7 @@ function checkMenuState() {
     else
     {
         document.getElementById("check-skur").disabled = false;
-        clearShedMenu();
+        clearShedDimensionsMenu();
         prepareShedMenu();
     }
 }
@@ -43,13 +43,16 @@ function checkShedMenuVisibility() {
         let div = document.getElementById("carport-shed-div");
         div.setAttribute("hidden", "hidden");
         //Clearing the dropdowns for the shed
-        clearShedMenu();
+        clearShedDimensionsMenu();
     }
 }
 
-//Variables connecting the JavaScript with the .jsp-page (the selects in the shed-form)
+//Variables connecting the JavaScript with the .jsp-page (the selects in the shed-div)
 let lengthOptions = document.getElementById("shed-length");
 let widthOptions = document.getElementById("shed-width");
+let floorOptions = document.getElementById("shed-floor");
+let wallOptions = document.getElementById("shed-wall");
+
 
 function prepareShedMenu() {
 
@@ -94,6 +97,8 @@ function prepareShedMenu() {
     }
 
     fillDropDownShedDimensions();
+    fillDropDownShedFloor();
+    fillDropDownShedWall();
 
     function fillDropDownShedDimensions() {
         //This enhanced loop creates a new option in the select for the shed-dimensions
@@ -105,9 +110,17 @@ function prepareShedMenu() {
             widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], j);
         }
     }
+    
+    function fillDropDownShedFloor() {
+        floorOptions.options[1] = new Option("Eg", 50);
+    }
+    
+    function fillDropDownShedWall() {
+        wallOptions.options[1] = new Option("Eg", 50);
+    }
 }
 
-function clearShedMenu() {
+function clearShedDimensionsMenu() {
     //Clearing out the options in the selects in the shed-form
     let length = lengthOptions.options.length;
     for (k = 0; k < length; k++) {

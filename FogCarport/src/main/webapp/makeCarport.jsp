@@ -7,7 +7,7 @@
 
     <div class="d-flex justify-content-center" >
         <!-- Form start -->
-        <form action="FrontController" method="post" id="carport-form">
+        <form action="FrontController" method="post" id="carport-form" accept-charset=utf-8>
 
             <!-- Hidden input: &command=simpleorder -->
             <input type="hidden" name="command" value="simpleorder">
@@ -57,6 +57,16 @@
                 <div class="form-group">
                     <label for="ShedInputWidth">Bredde i cm</label>
                     <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ShedInputFloor">Gulv</label>
+                    <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ShedInputWall">Beklædning</label>
+                    <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
                     </select>
                 </div>
             </div>
