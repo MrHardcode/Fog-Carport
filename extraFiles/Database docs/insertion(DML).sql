@@ -201,7 +201,8 @@ UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '29')
 
 /* 
 Adding custom materials 
-(These were not made by Fog, but by us)
+(These were not made by Fog, but by us. Or they were made by Fog, but found to be needed later.)
+They are added here as to not mess with the current itemIDs.
 */
 
 /* Tagpap related materials */
@@ -222,3 +223,7 @@ INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`,
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200 mm. trykimp. Brædt', '25', '200', '5400', '42.75', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '3600', '36', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '5400', '39.95', 'Stk', '1');
+
+/* More options for vandbrædt */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '5400', '37', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '3600', '28', 'Stk', '1');
