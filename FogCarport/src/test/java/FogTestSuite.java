@@ -1,10 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import logic.Calculations.BaseCalcTest;
+import logic.Calculations.RoofFlatCalcTest;
 import logic.Calculations.RoofRaisedCalcTest;
 import logic.Calculations.ShedLogicTest;
 import org.junit.runner.RunWith;
@@ -16,7 +11,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-RoofRaisedCalcTest.class, BaseCalcTest.class, ShedLogicTest.class})
+RoofRaisedCalcTest.class, BaseCalcTest.class, ShedLogicTest.class, RoofFlatCalcTest.class})
 
 public class FogTestSuite {
 

@@ -57,7 +57,8 @@ public class RoofFlatCalc
     private int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
     private int rafterFittingsStandard = 2; //2 fittings per rafter
     private int rafterFittingScrewStandard = 9;
-
+    private int bargeboardScrewStandard = 4;
+    private int bandScrewStandard = 2;
 
     /* database material IDs (height|width|length)*/
     private int plasticTileSmallID = 29; //0x109x3600
@@ -76,7 +77,7 @@ public class RoofFlatCalc
     private int fasciaLengthTopID = 58; //25x125x5400
     private int bargeboardLengthID = 59;
     private int bargeboardWidthID = 60;
-    
+
     private int bargeboardScrewsID = 20; //200 a pack
 
     /* Calculations */
@@ -107,7 +108,7 @@ public class RoofFlatCalc
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
         roofMaterials.addPartslist(calculateDependantParts(order));
-        
+
         return roofMaterials;
     }
 
@@ -145,7 +146,7 @@ public class RoofFlatCalc
         mainMaterials.addPartslist(bargeboards);
         mainMaterials.addPartslist(bands);
         mainMaterials.addPartslist(fittings);
-        
+
         return mainMaterials;
     }
 
@@ -159,7 +160,7 @@ public class RoofFlatCalc
     protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException, LoginException
     {
         PartslistModel dependantParts = new PartslistModel();
-        
+
         int roofSelection = order.getRoof_tiles_id();
         //the ID selected for roof tiles. 
         //0 = no roof/no choice. || 28,* 29 = plastic. 47, 48 = felt ("tagpap").
@@ -170,7 +171,7 @@ public class RoofFlatCalc
             case 28:
             case 29:
                 dependantParts.addPartslist(calculatePlasticRoof(order));
-                
+
                 break;
             //felt roof
             case 47:
@@ -190,23 +191,12 @@ public class RoofFlatCalc
      */
     private PartslistModel calculatePlasticRoof(OrderModel order) throws LoginException
     {
-        /* Set up return <model>*/
+        /* Set up return <partslistmodel>*/
         PartslistModel plasticRoof = new PartslistModel();
 
-        /* Get MaterialModel to return */
-
- /* Calculation begin */
-
- /* Update quantities */
-
- /* Update price */
-
- /* Update helptext */
-
- /* Add to <model> */
         plasticRoof.addPartslist(calculatePlasticTiles(order));
 
-        /* Return <model>*/
+        /* Return <partslistmodel>*/
         return plasticRoof;
     }
 
@@ -372,8 +362,8 @@ public class RoofFlatCalc
         //We have now calculated the quantity needed by dimension, but need to multiply by carport sides.
         /* Update quantities */
         boardLength.setQuantity(boardLength.getQuantity() * 2); //two lengths
-        //boardWidth is not updated, as there only are bargeboards for the front.
         boardScrews.setQuantity(1); //pack of 200
+        //boardWidth is not updated, as there only are bargeboards for the front.
 
         /* Update price */
         boardLength.setPrice(boardLength.getQuantity() * boardLength.getPrice());
@@ -409,8 +399,8 @@ public class RoofFlatCalc
         PartslistModel fittingsAndScrews = new PartslistModel();
 
         /* Get standards */
-        int fittingStandard = this.rafterFittingsStandard; //2
-        int screwStandard = this.rafterFittingScrewStandard; //9
+        int fittingStandard = rafterFittingsStandard; //2
+        int screwStandard = rafterFittingScrewStandard; //9
 
         /* Calculation begin */
         int fittingsAmount = (rafterAmount * fittingStandard); //2 fittings per rafter
@@ -499,7 +489,7 @@ public class RoofFlatCalc
 
         /* Return PartslistModel */
         return bandParts;
-        
+
     }
 
     /**
@@ -558,7 +548,7 @@ public class RoofFlatCalc
                 remainingLength -= tileSmall.getLength();
                 remainingWidth -= tileSmall.getWidth();
             }
-            
+
         }
 
         /* Update quantities */
@@ -595,5 +585,5 @@ public class RoofFlatCalc
     {
         return null;
     }
-    
+
 }
