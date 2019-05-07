@@ -2,7 +2,10 @@ package data;
 
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
+import data.databaseAccessObjects.mappers.UserMapper;
 import data.exceptions.LoginException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -59,6 +62,30 @@ public class DataFacadeImpl implements DataFacade
     public List<Integer> getAllOrderIds() throws LoginException
     {
         return OrderMapper.getInstance().getAllOrderIds();
+    }
+
+    @Override
+    public EmployeeModel getEmployee(int id) throws LoginException
+    {
+        return UserMapper.getInstance().getEmployee(id);
+    }
+
+    @Override
+    public CustomerModel getCustomer(int id) throws LoginException
+    {
+        return UserMapper.getInstance().getCustomer(id);
+    }
+
+    @Override
+    public void createCustomer(CustomerModel customer) throws LoginException
+    {
+        UserMapper.getInstance().createCustomer(customer);
+    }
+
+    @Override
+    public void createEmployee(EmployeeModel employee) throws LoginException
+    {
+        UserMapper.getInstance().createEmployee(employee);
     }
 
 }
