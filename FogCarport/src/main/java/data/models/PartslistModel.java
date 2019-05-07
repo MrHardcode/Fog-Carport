@@ -16,10 +16,10 @@ public class PartslistModel {
     private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice = 0;
     
-    int rafterCount;
-    int lathRowCount;
-    int tileCount;
-    int topTileCount;
+    int rafterCount = 0;
+    int lathRowCount = 0;
+    int tileCount = 0;
+    int topTileCount = 0;
 
     public PartslistModel() {
         billOfMaterials = new ArrayList<>();
