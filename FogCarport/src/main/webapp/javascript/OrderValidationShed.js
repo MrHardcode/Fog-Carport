@@ -1,10 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 let len = document.getElementById("input-length").selected;
 let wid = document.getElementById("input-width").selected;
 
@@ -17,6 +10,7 @@ inputlength.addEventListener("change",function(){checkMenuState();});
 inputwidth.addEventListener("change",function(){checkMenuState();});
 
 function checkMenuState() {
+    //I am using double == instead of triple === on purpose 
     if (inputlength.selectedIndex == "0" || inputwidth.selectedIndex == "0")
     {
         document.getElementById("check-skur").disabled = true;
@@ -38,7 +32,7 @@ function checkShedMenuVisibility() {
     if (x)
     {
         //Making the shed-form visible by removing the cheeky little "hidden"-attribute
-        let div = document.getElementById("carport-shed-form");
+        let div = document.getElementById("carport-shed-div");
         div.removeAttribute("hidden");
         //Preparing the dropdowns with options for the shed
         prepareShedMenu();
@@ -46,7 +40,7 @@ function checkShedMenuVisibility() {
     else
     {
         //Making the shed-form disappear
-        let div = document.getElementById("carport-shed-form");
+        let div = document.getElementById("carport-shed-div");
         div.setAttribute("hidden", "hidden");
         //Clearing the dropdowns for the shed
         clearShedMenu();

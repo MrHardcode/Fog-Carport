@@ -45,28 +45,28 @@
                 <label class="form-check-label" for="CheckSkur">Vælg Skur</label>
             </div>
 
+            
+            <!-- Shed menu part -->
+            <div hidden id="carport-shed-div">
+                <h1 class="h1">Byg skur</h1>
+                <div class="form-group">
+                    <label for="ShedInputLength">Længde i cm</label>
+                    <select class="form-control" id="shed-length" name="shed-length"><option selected="selected" value="">Vælg længde</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ShedInputWidth">Bredde i cm</label>
+                    <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
+                    </select>
+                </div>
+            </div>
+            
+            
             <!-- Button to submit -->
             <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
-
         </form>
         <!-- Form end -->
     </div>
-<div id="shed-menu" class="d-flex justify-content-center">
-        <form hidden id="carport-shed-form" action="FrontController" method="post">
-            <br>
-            <h1 class="h1">Byg skur</h1>
-            <div class="form-group">
-                <label for="ShedInputLength">Længde i cm</label>
-                <select class="form-control" id="shed-length" name="shed-length"><option selected="selected" value="">Vælg længde</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="ShedInputWidth">Bredde i cm</label>
-                <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
-                </select>
-            </div>
-        </form>
-    </div> 
 
 <!-- The order of script imports is important -->
 <script src="javascript/OrderValidation.js" type="text/javascript"></script>
