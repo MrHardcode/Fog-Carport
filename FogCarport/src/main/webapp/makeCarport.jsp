@@ -45,7 +45,6 @@
                 <label class="form-check-label" for="CheckSkur">Vælg Skur</label>
             </div>
 
-            
             <!-- Shed menu part -->
             <div hidden id="carport-shed-div">
                 <h1 class="h1">Byg skur</h1>
@@ -71,6 +70,32 @@
                 </div>
             </div>
             
+            <h1 class="h1">Kunde info</h1>
+            <!-- Customer info -->
+            <div class="form-row">
+                <div class="form-group col-md-7">
+                    <label for="inputName">Navn</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name" required>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="inputPhoneNumber">Telefon Nummer</label>
+                    <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefon Nummer" name="phonenumber" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Example@example.com" name="email" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputAddress">Addresse</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputZip">Post Nr.</label>
+                    <input type="number" class="form-control" id="inputZip" name="zip" required>
+                </div>
+            </div>
             
             <!-- Button to submit -->
             <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
