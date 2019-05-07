@@ -74,6 +74,9 @@ public class RoofFlatCalc
     private int fasciaLengthBottomID = 56; //25x200x5400
     private int fasciaWidthTopID = 57; //25x125x3600
     private int fasciaLengthTopID = 58; //25x125x5400
+    private int bargeboardLengthID = 59;
+    private int bargeboardWidthID = 60;
+    
     private int bargeboardScrewsID = 20; //200 a pack
 
     /* Calculations */
@@ -104,7 +107,7 @@ public class RoofFlatCalc
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
         roofMaterials.addPartslist(calculateDependantParts(order));
-
+        
         return roofMaterials;
     }
 
@@ -142,7 +145,7 @@ public class RoofFlatCalc
         mainMaterials.addPartslist(bargeboards);
         mainMaterials.addPartslist(bands);
         mainMaterials.addPartslist(fittings);
-
+        
         return mainMaterials;
     }
 
@@ -156,7 +159,7 @@ public class RoofFlatCalc
     protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException, LoginException
     {
         PartslistModel dependantParts = new PartslistModel();
-
+        
         int roofSelection = order.getRoof_tiles_id();
         //the ID selected for roof tiles. 
         //0 = no roof/no choice. || 28,* 29 = plastic. 47, 48 = felt ("tagpap").
@@ -167,7 +170,7 @@ public class RoofFlatCalc
             case 28:
             case 29:
                 dependantParts.addPartslist(calculatePlasticRoof(order));
-
+                
                 break;
             //felt roof
             case 47:
@@ -284,13 +287,12 @@ public class RoofFlatCalc
         int length = order.getLength();
 
         /* Begin calculation, update quantities */
-        fasciaLengthBottom = fasciaHelper(fasciaLengthBottom, length);
-        fasciaLengthTop = fasciaHelper(fasciaLengthTop, length);
-        fasciaWidthBottom = fasciaHelper(fasciaWidthBottom, width);
-        fasciaWidthTop = fasciaHelper(fasciaWidthTop, width);
+        fasciaLengthBottom = itemHelper(fasciaLengthBottom, length);
+        fasciaLengthTop = itemHelper(fasciaLengthTop, length);
+        fasciaWidthBottom = itemHelper(fasciaWidthBottom, width);
+        fasciaWidthTop = itemHelper(fasciaWidthTop, width);
 
-        //We have now calculated the quantity needed by length, but need to multiply by carport sides.
-        //
+        //We have now calculated the quantity needed by dimension, but need to multiply by carport sides.
         /* Update quantity */
         fasciaLengthBottom.setQuantity(fasciaLengthBottom.getQuantity() * 2); //2 lengths
         fasciaLengthTop.setQuantity(fasciaLengthTop.getQuantity() * 2); //2 lengths
@@ -317,52 +319,77 @@ public class RoofFlatCalc
         return fascias;
     }
 
-    private MaterialModel fasciaHelper(MaterialModel fascia, int dimension)
+    /**
+     * Helps calculate item quantity for a materialmodel.
+     *
+     * @param material material in question
+     * @param dimension dimension in question (length, width, etc)
+     * @return returns the same materialmodel, now with new quantity.
+     */
+    private MaterialModel itemHelper(MaterialModel material, int dimension)
     {
-        int fasciaQty = fascia.getQuantity();
+        int itemQty = material.getQuantity();
         int remainingDimension = dimension;
 
         /* Calculate quantity */
         while (remainingDimension > 0)
         {
-            fasciaQty++;
-            remainingDimension -= fascia.getLength();
+            itemQty++;
+            remainingDimension -= material.getLength();
         }
 
         /* Update quantity */
-        fascia.setQuantity(fasciaQty);
+        material.setQuantity(itemQty);
 
-        /* return fascia */
-        return fascia;
+        /* return item */
+        return material;
     }
 
-    
     /**
      * calculates bargeboard ("vandbrædt") for carport roof
      *
      * @param order
      * @return
      */
-    private PartslistModel calculateBargeboard(OrderModel order)
+    private PartslistModel calculateBargeboard(OrderModel order) throws LoginException
     {
-        /* Set up return <model>*/
+        /* Set up return <partslistmodel>*/
         PartslistModel bargeboards = new PartslistModel();
 
-
         /* Get MaterialModel to return */
-        
+        MaterialModel boardLength = DAO.getMaterial(bargeboardLengthID);
+        MaterialModel boardWidth = DAO.getMaterial(bargeboardWidthID);
+        MaterialModel boardScrews = DAO.getMaterial(bargeboardScrewsID);
 
- /* Calculation begin */
+        /* Initialize variables */
+        int length = order.getLength();
+        int width = order.getWidth();
 
- /* Update quantities */
+        /* Calculation begin */
+        boardLength = itemHelper(boardLength, length);
+        boardWidth = itemHelper(boardWidth, width);
 
- /* Update price */
+        //We have now calculated the quantity needed by dimension, but need to multiply by carport sides.
+        /* Update quantities */
+        boardLength.setQuantity(boardLength.getQuantity() * 2); //two lengths
+        //boardWidth is not updated, as there only are bargeboards for the front.
+        boardScrews.setQuantity(1); //pack of 200
 
- /* Update helptext */
+        /* Update price */
+        boardLength.setPrice(boardLength.getQuantity() * boardLength.getPrice());
+        boardWidth.setPrice(boardWidth.getQuantity() * boardWidth.getPrice());
 
- /* Add to <model> */
+        /* Update helptext */
+        boardLength.setHelptext("vandbrædt på stern i sider");
+        boardWidth.setHelptext("vandbrædt på stern i forende");
+        boardScrews.setHelptext("Til montering af stern & vandbrædt");
 
- /* Return <model>*/
+        /* Add to <partslistmodel> */
+        bargeboards.addMaterial(boardLength);
+        bargeboards.addMaterial(boardWidth);
+        bargeboards.addMaterial(boardScrews);
+
+        /* Return <partslistmodel>*/
         return bargeboards;
     }
 
@@ -459,7 +486,7 @@ public class RoofFlatCalc
         /* update quantities */
         band.setQuantity(bandAmount);
         bandScrews.setQuantity(1); // 250 a package
-        //screws too (2 pr. spær crossed)
+        //screws calculation too (2 pr. spær crossed)
 
         /* update price */
         band.setPrice(band.getQuantity() * band.getPrice());
@@ -472,7 +499,7 @@ public class RoofFlatCalc
 
         /* Return PartslistModel */
         return bandParts;
-
+        
     }
 
     /**
@@ -531,7 +558,7 @@ public class RoofFlatCalc
                 remainingLength -= tileSmall.getLength();
                 remainingWidth -= tileSmall.getWidth();
             }
-
+            
         }
 
         /* Update quantities */
@@ -568,5 +595,5 @@ public class RoofFlatCalc
     {
         return null;
     }
-
+    
 }
