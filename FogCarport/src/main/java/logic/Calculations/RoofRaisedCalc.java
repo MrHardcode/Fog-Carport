@@ -53,10 +53,18 @@ public class RoofRaisedCalc {
         roofRaisedBOM.addPartslist(getRoofStructure(order));
         roofRaisedBOM.addPartslist(getCladding(order));
         roofRaisedBOM.addPartslist(getScrews());
+        updateFieldsinBOM(roofRaisedBOM);
         
         return roofRaisedBOM;
     }
     
+    
+    protected void updateFieldsinBOM(PartslistModel finalRoofBOM){
+        finalRoofBOM.setLathRowCount(lathRowCount);
+        finalRoofBOM.setRafterCount(rafterCount);
+        finalRoofBOM.setTileCount(tileCount);
+        finalRoofBOM.setTopTileCount(topTileCount);
+    }
     
     /**
      * Calculates amount of screws needed for the entire roof, adds them to a 
