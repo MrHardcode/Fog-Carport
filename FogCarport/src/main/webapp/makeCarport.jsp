@@ -73,11 +73,11 @@
             <h1 class="h1">Kunde info</h1>
             <!-- Customer info -->
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-7">
                     <label for="inputName">Navn</label>
                     <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <label for="inputPhoneNumber">Telefon Nummer</label>
                     <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefon Nummer" name="phonenumber">
                 </div>
