@@ -16,6 +16,12 @@ import static org.junit.Assert.*;
  *
  * Test of RoofFlatCalc
  *
+ * The algorithm was made to match the example given by Fog.
+ *
+ * That means it strives to get the same values available here:
+ *
+ * https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CP01_DUR.pdf
+ *
  * @see RoofFlatCalc
  *
  *
@@ -61,96 +67,22 @@ public class RoofFlatCalcTest
     {
     }
 
-    /**
-     * Test of calculateFlatRoofStructure method, of class RoofFlatCalc.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testCalculateFlatRoofStructure() throws Exception
-    {
-        System.out.println("calculateFlatRoofStructure");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateFlatRoofStructure(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of calculateMainParts method, of class RoofFlatCalc.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testCalculateMainParts() throws Exception
-    {
-        System.out.println("calculateMainParts");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateMainParts(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of calculateDependantParts method, of class RoofFlatCalc.
-     *
-     * @throws java.lang.Exception
-     */
     @Test
     public void testCalculateDependantParts() throws Exception
     {
-        System.out.println("calculateDependantParts");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateDependantParts(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of calculatePlasticRoof method, of class RoofFlatCalc.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testCalculatePlasticRoof() throws Exception
-    {
-        System.out.println("calculatePlasticRoof");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculatePlasticRoof(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of calculateFeltRoof method, of class RoofFlatCalc.
-     */
-    @Test
-    public void testCalculateFeltRoof()
-    {
-        System.out.println("calculateFeltRoof");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateFeltRoof(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of calculateRafters method, of class RoofFlatCalc.
+     *
+     * Explanation:
+     *
+     * This is simple. We add one rafter per 500mm width.
+     *
+     * The order length perfectly matches up to the material length - 6m.
+     *
+     * (6000/500)=12.
      *
      * @throws java.lang.Exception
      */
@@ -160,15 +92,57 @@ public class RoofFlatCalcTest
         System.out.println("calculateRafters");
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
         PartslistModel result = instance.calculateRafters(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
+    }
+
+    /**
+     * Test of calculateRafters method, of class RoofFlatCalc.
+     *
+     * Explanation:
+     *
+     * We don't have any actual data from fog on odd widths.
+     *
+     * They only have 1 rafter available and they do not customize the length.
+     *
+     * Basically, whenever the width is longer than the rafter length (6000) we
+     * multiply by 2.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testCalculateRaftersOddWidth() throws Exception
+    {
+        System.out.println("calculateRaftersOddWidth");
+        OrderModel order = testOrder;
+        testOrder.setWidth(8525);
+        RoofFlatCalc instance = new RoofFlatCalc();
+        PartslistModel result = instance.calculateRafters(order);
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 30);
     }
 
     /**
      * Test of calculateFascias method, of class RoofFlatCalc.
+     *
+     * Please see the .pdf for material breakdown.
+     *
+     * The basic explanation of this is that we need the following:
+     *
+     * 2 lower boards for each side (side1,side2,front,back) of the carport.
+     *
+     * = 8 total. (position 0,1 in partslist)
+     *
+     * 2 top boards for the front (position 2 in partslist)
+     *
+     * 4 top boards for the sides (side1,side2) (position 3 in partslist)
+     *
+     * Due to water drainage the back does NOT have top boards.
+     *
+     * These boards have varying lengths, widths and heights.
+     *
+     * There are two types of materials, length being the most important.
+     *
+     * The lengths (5400, 3600) are handled by the algorithm.
      *
      * @throws java.lang.Exception
      */
@@ -178,32 +152,28 @@ public class RoofFlatCalcTest
         System.out.println("calculateFascias");
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
         PartslistModel result = instance.calculateFascias(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of itemHelper method, of class RoofFlatCalc.
-     */
-    @Test
-    public void testItemHelper()
-    {
-        System.out.println("itemHelper");
-        MaterialModel material = null;
-        int dimension = 0;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        MaterialModel expResult = null;
-        MaterialModel result = instance.itemHelper(material, dimension);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4); //fasciaLengthBottom
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 4); //fasciaLengthTop
+        assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 4); //fasciaWidthBottom
+        assertEquals(result.getBillOfMaterials().get(3).getQuantity(), 2); //fasciaWidthTop
     }
 
     /**
      * Test of calculateBargeboard method, of class RoofFlatCalc.
+     *
+     * Explanation:
+     *
+     * The algorithm handles lengths.
+     *
+     * We need two boards per side = 4 (due to length)
+     *
+     * We need two boards for the front = 2 (due to length)
+     *
+     * No boards for the back. Ever.
+     *
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateBargeboard() throws Exception
@@ -211,27 +181,35 @@ public class RoofFlatCalcTest
         System.out.println("calculateBargeboard");
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
         PartslistModel result = instance.calculateBargeboard(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4);
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 2);
     }
 
     /**
      * Test of calculateFittings method, of class RoofFlatCalc.
+     *
+     * Explanation:
+     *
+     * We need 2 fittings per rafter, 1 right and 1 left.
+     *
+     * partslistmodel position 0 = right
+     *
+     * partslistmodel position 1 = left
+     *
+     * (position 3 = screws)
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateFittings() throws Exception
     {
         System.out.println("calculateFittings");
-        PartslistModel rafters = null;
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
+        PartslistModel rafters = instance.calculateRafters(testOrder);
         PartslistModel result = instance.calculateFittings(rafters);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 15);
     }
 
     /**
@@ -239,10 +217,17 @@ public class RoofFlatCalcTest
      *
      * This test expects 2 bands from method.
      *
+     * Explanation: We add one band per 10m (10.000mm) of distance to cover. One
+     * distance is two diagonals from shed to carport front. In this case we a
+     * shed of 2100mm length, so distance to cover is:
+     * ((OrderLength)-(ShedLength)*2)
+     *
+     * (7800-2100)*2 = 11.400
+     *
      * @throws java.lang.Exception
      */
     @Test
-    public void testCalculateBandRegular() throws Exception
+    public void testCalculateBand() throws Exception
     {
         System.out.println("calculateBand");
         RoofFlatCalc instance = new RoofFlatCalc();
@@ -264,16 +249,6 @@ public class RoofFlatCalcTest
         System.out.println("Band QTY expected:\n" + expBand.toString());
         System.out.println("Band QTY actual:\n" + result.getBillOfMaterials().get(0).toString());
         assertEquals(expResult, result);
-
-        /* 
-        Explanation:
-        We add one band per 10m (10.000mm) of distance to cover.
-        One distance is two diagonals from shed to carport front.
-        In this case we a shed of 2100mm length, so distance to cover is:
-        ((OrderLength)-(ShedLength)*2)
-        
-        (7800-2100)*2 = 11.400
-         */
     }
 
     /**
@@ -282,26 +257,23 @@ public class RoofFlatCalcTest
      * This test should only calculate one band, due to us manipulating the shed
      * length.
      *
+     * Explanation:
+     *
+     * Instead of the 11.400 cover length from testCalculateBand, which had a
+     * shed with 2100 length, in this test we add a shed of 6000mm length.
+     * Therefore the cover length will be 5400, which is below the threshold.
+     * (10.000mm) This means that a second band is not added.
+     *
      * @throws java.lang.Exception
      */
     @Test
     public void testCalculateBandSingle() throws Exception
     {
-        System.out.println("calculateBand");
+        System.out.println("calculateBandSingle");
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = new PartslistModel();
         testOrder.setShed_length(6000);
         PartslistModel result = instance.calculateBand(testOrder);
-
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 1);
-
-        /* 
-        Explanation:
-        Instead of 11.400 from above method, having a shed with 2100 length,
-        we add a shed of 6000mm length.
-        Therefore the cover length will be 5400, which is below the threshhold. (10.000mm)
-        This means that a second band is not added.
-         */
     }
 
     /**
@@ -310,32 +282,42 @@ public class RoofFlatCalcTest
      * This test should calculate three bands, due to us manipulating the
      * dimensions.
      *
+     * Explanation: here we have a really long carport right at the breakoff.
+     * ((OrderLength)-(ShedLength)*2)
+     *
+     * (12101-2100)*2 = 20002 = 3 bands
+     *
+     * (( because we need to cover more than two bands length (20.000) ))
+     *
      * @throws java.lang.Exception
      */
     @Test
     public void testCalculateBandMultiple() throws Exception
     {
-        System.out.println("calculateBand");
+        System.out.println("calculateBandMultiple");
         RoofFlatCalc instance = new RoofFlatCalc();
         //shed_length = 2100
         testOrder.setLength(12101);
         PartslistModel result = instance.calculateBand(testOrder);
-
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 3);
-
-        /* 
-        Explanation:
-        here we have a really long carport right at the breakoff.
-        ((OrderLength)-(ShedLength)*2)
-        
-        (12101-2100)*2 = 20002 = 3 bands
-        
-        (( because we need to cover more than two bands length (20.000) ))
-         */
     }
 
     /**
      * Test of calculatePlasticTiles method, of class RoofFlatCalc.
+     *
+     * Explanation: order is 7800 long, 6100 wide. (Width is +100 due to tile
+     * extension) the tiles are respectively 5800x890 & 3400x890 (-200 due to
+     * tile overlap)
+     *
+     * To cover one length we need two tiles; one large, one small. (total: 1,
+     * 1) (5800+3400) = 9200 is more than enough to cover the 7800 length.
+     *
+     * We need to cover for the whole roof, so we calculate by the width. this
+     * gives us the calculation (6100/890) = 6.85. Normally we would round up,
+     * but it is not needed, as every tile (even the ones at the roof end) has a
+     * 200mm overlap. * There is more than enough material.
+     *
+     * This brings the total to 6,6.
      *
      * @throws java.lang.Exception
      */
@@ -345,42 +327,25 @@ public class RoofFlatCalcTest
         System.out.println("calculatePlasticTiles");
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
         PartslistModel result = instance.calculatePlasticTiles(order);
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 6);
         assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 6);
     }
 
-    /**
-     * Test of calculateFeltTiles method, of class RoofFlatCalc.
-     */
-    @Test
-    public void testCalculateFeltTiles()
-    {
-        System.out.println("calculateFeltTiles");
-        OrderModel order = testOrder;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateFeltTiles(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of calculateBand method, of class RoofFlatCalc.
-     */
-    @Test
-    public void testCalculateBand() throws Exception
-    {
-        System.out.println("calculateBand");
-        OrderModel order = null;
-        RoofFlatCalc instance = new RoofFlatCalc();
-        PartslistModel expResult = null;
-        PartslistModel result = instance.calculateBand(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+    /* NOT PLANNED TO ADD FOR NOW */
+//    /**
+//     * Test of calculateFeltTiles method, of class RoofFlatCalc.
+//     */
+//    @Test
+//    public void testCalculateFeltTiles()
+//    {
+//        System.out.println("calculateFeltTiles");
+//        OrderModel order = testOrder;
+//        RoofFlatCalc instance = new RoofFlatCalc();
+//        PartslistModel expResult = null;
+//        PartslistModel result = instance.calculateFeltTiles(order);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 }
