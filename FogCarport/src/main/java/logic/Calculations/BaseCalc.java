@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Asger
+ * @author 
  */
 public class BaseCalc
 {

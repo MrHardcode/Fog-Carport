@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data.models;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 // simpelt orderobject - skal udviddes i den avancerede algoritme til at tage 
 // højde for kundens ønsker i forhold til materialvalg, taghældning, dimensioner
