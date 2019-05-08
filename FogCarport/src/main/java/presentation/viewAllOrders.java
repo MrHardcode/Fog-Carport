@@ -23,7 +23,7 @@ public class viewAllOrders extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        List<Integer> ids = LogicFacadeImpl.getInstance().getAllOrderIds();
+        List<Integer> ids = logic.getAllOrderIds();
         request.getSession().setAttribute("ids", ids);
         return "allOrders";
     }
