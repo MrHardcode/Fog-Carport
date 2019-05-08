@@ -67,11 +67,6 @@ public class RoofFlatCalcTest
     {
     }
 
-    @Test
-    public void testCalculateDependantParts() throws Exception
-    {
-
-    }
 
     /**
      * Test of calculateRafters method, of class RoofFlatCalc.
@@ -246,8 +241,8 @@ public class RoofFlatCalcTest
         expResult.addMaterial(expBand);
         expResult.addMaterial(expScrews);
 
-        System.out.println("Band QTY expected:\n" + expBand.toString());
-        System.out.println("Band QTY actual:\n" + result.getBillOfMaterials().get(0).toString());
+        System.out.println("Band expected:\n" + expBand.toString());
+        System.out.println("Band actual:\n" + result.getBillOfMaterials().get(0).toString());
         assertEquals(expResult, result);
     }
 
