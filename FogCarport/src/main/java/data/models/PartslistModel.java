@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data.models;
 
 import java.util.ArrayList;
@@ -10,11 +6,19 @@ import java.util.Objects;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class PartslistModel {
     private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice = 0;
+    
+    int rafterCount = 0;
+    int lathRowCount = 0;
+    int tileCount = 0;
+    int topTileCount = 0;
+    private ArrayList postPosSideOne = new ArrayList();
+    private ArrayList postPosSideTwo = new ArrayList();
+    private ArrayList postPosRear = new ArrayList();
 
     public PartslistModel() {
         billOfMaterials = new ArrayList<>();
@@ -44,6 +48,69 @@ public class PartslistModel {
         this.totalprice = totalprice;
     }
 
+    public int getRafterCount() {
+        return rafterCount;
+    }
+
+    public void setRafterCount(int rafterCount) {
+        this.rafterCount = rafterCount;
+    }
+
+    public int getLathRowCount() {
+        return lathRowCount;
+    }
+
+    public void setLathRowCount(int lathRowCount) {
+        this.lathRowCount = lathRowCount;
+    }
+
+    public int getTileCount() {
+        return tileCount;
+    }
+
+    public void setTileCount(int tileCount) {
+        this.tileCount = tileCount;
+    }
+
+    public int getTopTileCount() {
+        return topTileCount;
+    }
+
+    public void setTopTileCount(int topTileCount) {
+        this.topTileCount = topTileCount;
+    }
+
+    public ArrayList getPostPosSideOne()
+    {
+        return postPosSideOne;
+    }
+
+    public void setPostPosSideOne(ArrayList postPosSideOne)
+    {
+        this.postPosSideOne = postPosSideOne;
+    }
+
+    public ArrayList getPostPosSideTwo()
+    {
+        return postPosSideTwo;
+    }
+
+    public void setPostPosSideTwo(ArrayList postPosSideTwo)
+    {
+        this.postPosSideTwo = postPosSideTwo;
+    }
+
+    public ArrayList getPostPosRear()
+    {
+        return postPosRear;
+    }
+
+    public void setPostPosRear(ArrayList postPosRear)
+    {
+        this.postPosRear = postPosRear;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
