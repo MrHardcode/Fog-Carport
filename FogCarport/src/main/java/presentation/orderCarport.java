@@ -61,13 +61,9 @@ public class orderCarport extends Command
             order.setShed_walls_id(shed_wall_id);
         }
         
-        // Input the order and the new customer into the DB.
         db.createCustomer(customer);
-//        db.createEmployee(employee); 
-//      Idk what to do with the employee currently. 
-//      Maybe his ID just comes as a Parameter, and we put that on the order, and that's it? 
         order.setId_customer(customer.getId());
-//        order.setId_employee(employee.getId());
+        order.setId_employee(0);
         db.createOrder(order);
         
         return "homepage";
