@@ -9,7 +9,7 @@
 
         <!-- Brand Logo / Name -->
         <a class="navbar-brand" href="FrontController?command=link&link=homepage">
-            <img src="resources/fogheader.jpg" width="150" height="35" style="margin-right: 5px" alt="fog logo image"/>Fog Carport</a>
+            <img src="resources/fogheader.jpg" width="150" height="35" alt="fog logo image"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
