@@ -11,7 +11,7 @@
 
     <div id="mainOptions" class="offset-md-4">
 
-        <form id="optionOffer" action="FrontController?command=link&link=makeCarport"> <!-- /FrontController?command=simpleorder--> <!-- We redirect to .jsp instead of using the frontcontroller pattern (correctly in this case)-->
+        <form id="optionOffer" action="FrontController?command=link&link=makeCarport">
             <label>Indhent tilbud</label>
             <br>
             <a href="FrontController?command=link&link=makeCarport" class="btn btn-primary" role="button"><i class="fas fa-warehouse"></i> Fortsæt</a>
