@@ -1,3 +1,4 @@
+
 let len = document.getElementById("input-length").selected;
 let wid = document.getElementById("input-width").selected;
 

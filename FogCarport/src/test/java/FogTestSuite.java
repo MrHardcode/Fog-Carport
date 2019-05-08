@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
