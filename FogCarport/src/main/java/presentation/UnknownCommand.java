@@ -15,6 +15,7 @@ class UnknownCommand extends Command
     {
         String msg = "Unknown command."; // Maybe elaborate this.
         if (request.getAttribute("target") == null){
+            request.setAttribute("message", "Unknown Command.");
             return "homepage";
         } else {
             return (String) request.getAttribute("target");
