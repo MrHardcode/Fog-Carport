@@ -65,8 +65,13 @@
 </table>
 
 <div class="d-flex justify-content-center">
-    <form action="FrontController">
+    <form action="FrontController"  class="d-flex justify-content-start">
         <input type="hidden" name="command" value="viewPartslist">        
         <button type="submit" class="btn btn-primary">Se Stykliste</button>
+    </form>
+    
+    <form action="FrontController" class="d-flex justify-content-end" style="margin-left: 10px">
+        <input type="hidden" name="command" value="viewSVG">        
+        <button type="submit" class="btn btn-primary">Se Tegninger</button>
     </form>
 </div>

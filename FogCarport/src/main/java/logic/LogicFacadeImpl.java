@@ -76,9 +76,16 @@ public class LogicFacadeImpl implements LogicFacade {
         DataFacadeImpl.getInstance().createEmployee(employee);
     }
 
-    // Metoden der skal samle alle underklasser og returnere en advanced partslistmodel.
+    // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
     public PartslistModel getPartslistModel(OrderModel order)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // Mother method that calls all the partslist SVG logic and returns the SVG string.
+    @Override
+    public String getSVG(OrderModel order)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

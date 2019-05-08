@@ -30,4 +30,6 @@ public interface LogicFacade
     public void createEmployee(EmployeeModel employee) throws LoginException;
 
     public PartslistModel getPartslistModel(OrderModel order);
+    
+    public String getSVG(OrderModel order);
 }
