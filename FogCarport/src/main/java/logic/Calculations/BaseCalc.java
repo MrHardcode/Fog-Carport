@@ -6,6 +6,7 @@ import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +25,9 @@ public class BaseCalc
     
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
+    private ArrayList postPosSideOne = new ArrayList();
+    private ArrayList postPosSideTwo = new ArrayList();
+    private ArrayList postPosRear = new ArrayList();
     
     protected PartslistModel addBase(PartslistModel bom, OrderModel order) throws LoginException
     {
@@ -105,6 +109,12 @@ public class BaseCalc
     {
         //The first posts are always places 800mm from the entrance-end of the carport
         int length = cLength - 800;
+        
+        /*SVG related*/
+        postPosSideOne.add(80);
+        postPosSideTwo.add(80);
+        /*SVG related*/
+        
         //Posts
         int postAmount = 0;
 
@@ -114,6 +124,18 @@ public class BaseCalc
         int count = 0;
         //Adding post amount to the counter plus 1 (to include the front post)
         count = ((length - sLength) / postDistance) + 1;
+        
+        /*SVG related*/
+        if (count > 0)
+        {
+            for (int i = 1; i <= count; i++)
+            {
+                postPosSideOne.add(80 + i * (postDistance/10));
+                postPosSideTwo.add(80 + i * (postDistance/10));
+            }
+        }
+        /*SVG related*/
+        
         //Another counter
         int temp = 0;
         //Adding the count to temp
@@ -128,6 +150,14 @@ public class BaseCalc
         //1 for the first corner of the shed
         //Another 1 for the second corner of the shed (which is also the corner of the carport)
         temp += 2;
+        
+        /*SVG related*/
+        postPosSideOne.add((cLength / 10) - (sLength / 10));
+        postPosSideOne.add((cLength / 10));
+        postPosSideTwo.add((cLength / 10) - (sLength / 10));
+        postPosSideTwo.add((cLength / 10));
+        /*SVG related*/
+        
         //Adding temp to the postAmount twice since the sides of the carport are equal to each other 
         //because the shed has the same width as the carport
         postAmount += temp * 2;
@@ -136,14 +166,36 @@ public class BaseCalc
         {
             //We add the amount twice since the sides of the carport are equal
             postAmount += (sLength / postDistance) * 2;
+            
+            /*SVG related*/
+            int corner = cLength - sLength;
+            int x = 0;
+            for (int i = cLength; i > corner; i -= postDistance)
+            {
+                ++x;
+                postPosSideOne.add((cLength / 10) - x * (postDistance / 10));
+                postPosSideTwo.add((cLength / 10) - x * (postDistance / 10));
+            }
+            /*SVG related*/
         }
+        
         /*   The rear of the carport   */
         //Calculating width. We don't have to think about extra posts for the shed 
         //since the shed has the same width as the carport
         //The corner posts have already been calculated
         if ((cWidth / postDistance) > 0)
         {
+            int x = postAmount;
+            
             postAmount += (cWidth / postDistance);
+            
+            x = Math.abs(x - postAmount);
+            /*SVG related*/
+            for (int i = 0; i < x; i++)
+            {
+                postPosSideOne.add((cWidth / (x + 1)));
+            }
+            /*SVG related*/
         }
         return postAmount;
     }
