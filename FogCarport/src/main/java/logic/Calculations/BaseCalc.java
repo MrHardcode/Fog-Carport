@@ -9,7 +9,7 @@ import data.models.PartslistModel;
 
 /**
  *
- * @author Asger
+ * @author 
  */
 public class BaseCalc
 {

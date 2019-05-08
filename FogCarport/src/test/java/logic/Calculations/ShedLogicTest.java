@@ -1,5 +1,5 @@
 /*
- *  Malte Hviid-Magnussen
+ *  
  */
 package logic.Calculations;
 
@@ -18,7 +18,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Malte
+ * @author 
  */
 public class ShedLogicTest
 {

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package logic.Calculations;
 
 import data.DataFacade;
@@ -13,15 +9,15 @@ import data.models.PartslistModel;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class RoofRaisedCalcTest {
 
