@@ -31,7 +31,7 @@ public class FrontController extends HttpServlet
 //            validateSession(request);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
-            request.getSession().setAttribute("target", target);
+            request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (LoginException ex)
         {
