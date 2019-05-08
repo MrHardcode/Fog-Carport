@@ -17,7 +17,6 @@ public class PartslistModel
 
     private ArrayList<MaterialModel> billOfMaterials;
     private int totalprice = 0;
-    private int totalLength = 0;
 
     public PartslistModel()
     {
@@ -33,14 +32,12 @@ public class PartslistModel
     {
         this.getBillOfMaterials().add(material);
         this.totalprice += material.getPrice();
-        this.totalLength += material.getLength();
     }
 
     public void addPartslist(PartslistModel partslist)
     {
         billOfMaterials.addAll(partslist.getBillOfMaterials());
         this.totalprice += partslist.getTotalprice();
-        this.totalLength += partslist.getTotalLength();
     }
 
     public int getTotalprice()
@@ -51,16 +48,6 @@ public class PartslistModel
     public void setTotalprice(int totalprice)
     {
         this.totalprice = totalprice;
-    }
-
-    public int getTotalLength()
-    {
-        return totalLength;
-    }
-
-    public void setTotalLength(int totalLength)
-    {
-        this.totalLength = totalLength;
     }
 
     @Override
