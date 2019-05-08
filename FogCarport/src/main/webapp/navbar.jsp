@@ -18,9 +18,11 @@
             <ul class="navbar-nav mr-auto">
 
                 <!-- Navbar links -->
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="FrontController?command=link&link=partslist">Stykliste </a>
                 </li>
+                -->
                 <li class="nav-item">
                     <a class="nav-link" href="FrontController?command=link&link=makeCarport">Bestil Carport </a>
                 </li>
