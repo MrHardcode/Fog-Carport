@@ -14,7 +14,11 @@ class UnknownCommand extends Command
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
         String msg = "Unknown command."; // Maybe elaborate this.
-        throw new LoginException(msg);
+        if (request.getAttribute("target") == null){
+            return "homepage";
+        } else {
+            return (String) request.getAttribute("target");
+        }
     }
 
 }
