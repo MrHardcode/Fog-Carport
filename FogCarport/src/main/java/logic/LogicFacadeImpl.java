@@ -40,6 +40,7 @@ public class LogicFacadeImpl implements LogicFacade {
         return DataFacadeImpl.getInstance().getAllOrderIds();
     }
 
+    @Override
     public OrderModel getOrder(int id) throws LoginException
     {
         return DataFacadeImpl.getInstance().getOrder(id);
@@ -73,6 +74,13 @@ public class LogicFacadeImpl implements LogicFacade {
     public void createEmployee(EmployeeModel employee) throws LoginException
     {
         DataFacadeImpl.getInstance().createEmployee(employee);
+    }
+
+    // Metoden der skal samle alle underklasser og returnere en advanced partslistmodel.
+    @Override
+    public PartslistModel getPartslistModel(OrderModel order)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
