@@ -8,7 +8,6 @@ import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import java.util.HashMap;
-import javafx.scene.paint.Material;
 
 /**
  * This class handles materials needed for a flat roof on the carport.
