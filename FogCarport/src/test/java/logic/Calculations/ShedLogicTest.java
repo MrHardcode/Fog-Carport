@@ -3,7 +3,6 @@
  */
 package logic.Calculations;
 
-import logic.Calculations.ShedLogic;
 import data.DataFacade;
 import data.DataFacadeImpl;
 import data.exceptions.LoginException;
@@ -154,6 +153,18 @@ public class ShedLogicTest
         ShedLogic instance = new ShedLogic();
         instance.addFloor(bom, floor, length, width, db);
         assertEquals(test, bom);
+        
+        bom = new PartslistModel();
+        floor = db.getMaterial(50);
+        instance.addFloor(bom, floor, 3500, 2100, db);
+        assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
+        
+        bom = new PartslistModel();
+        floor = db.getMaterial(50);
+        instance.addFloor(bom, floor, 3600, 2100, db);
+        assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
+        
+        
     }
 
     /**
@@ -268,6 +279,11 @@ public class ShedLogicTest
         instance.reglar(width, db, bom, side);
         assertEquals(test, bom);
         
+        
+        int expected = 6;
+        bom = new PartslistModel();
+        instance.reglar(3500, db, bom, 3);
+        assertEquals(expected, bom.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -294,8 +310,26 @@ public class ShedLogicTest
         ShedLogic instance = new ShedLogic();
         instance.addScrews(bom, screws, packamount, screwamount);
         assertEquals(test, bom);
+        
+        int expectedpacks = 1;
+        packamount = 100;
+        screwamount = 100;
+        bom = new PartslistModel();
+        instance.addScrews(bom, screws, packamount, screwamount);
+        assertEquals(expectedpacks, bom.getBillOfMaterials().get(0).getQuantity());
     }
 
-    
+    /**
+     *
+     * @throws data.exceptions.LoginException
+     */
+    @Test(expected = LoginException.class)
+    public void testAddShedNull() throws LoginException
+    {
+        OrderModel order = null;
+        PartslistModel model = new PartslistModel();
+        ShedLogic instance = new ShedLogic();
+        instance.addShed(model, order);
+    }
     
 }

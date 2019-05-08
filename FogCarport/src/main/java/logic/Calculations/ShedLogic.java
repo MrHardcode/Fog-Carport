@@ -44,6 +44,15 @@ public class ShedLogic
      */
     PartslistModel addShed(PartslistModel bom, OrderModel order) throws LoginException
     {
+        if (order == null)
+        {
+            throw new LoginException("Order is null.");
+        }
+        if (bom == null)
+        {
+            bom = new PartslistModel();
+        }
+        
         DataFacade db = DataFacadeImpl.getInstance();
 
         boolean standard = false;
@@ -157,7 +166,7 @@ public class ShedLogic
         }
         
         int woodlengthamount = length/floorlength; // Get amount of boards needed for length of shed
-        if (length % floorwidth > 0)
+        if (length % floorlength > 0)
         {
             woodlengthamount++; // If we need an extra to get 100% coverage.
         }
@@ -264,9 +273,6 @@ public class ShedLogic
         if (length == order.getLength() && width == order.getWidth())
         {
             // If the shed covers the entire carport, then add no additional posts.
-        } else if (width == order.getWidth() && order.getLength() == length)
-        {
-            // If the shed matches the width of the carport, and the length matches the carport posts, then no need for more posts.
         } else if ((width < order.getWidth() && length > postdistance) || (length < order.getLength() && width > postdistance)) // if carport is absurdly long and shed is aswell...
         {
             postquantity++; //one for the corner
