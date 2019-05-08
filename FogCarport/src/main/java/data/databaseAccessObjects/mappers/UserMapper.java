@@ -23,13 +23,24 @@ public class UserMapper
 {
 
     private static UserMapper userMapper;
+    private Connection con;
 
-    private UserMapper()
+    private UserMapper() throws LoginException
     {
-
+        try
+        {
+            this.con = DBConnector.connection();
+        } catch (SQLException ex)
+        {
+            throw new LoginException(ex.getMessage());
+        }
+    }
+    
+    public void setConnection(Connection con){
+        this.con = con;
     }
 
-    public static UserMapper getInstance()
+    public static UserMapper getInstance() throws LoginException
     {
         if (userMapper == null)
         {
@@ -90,14 +101,13 @@ public class UserMapper
         EmployeeModel employee = new EmployeeModel();
 
         String SQL = "SELECT `employees`.`emp_name`, `roles`.`role` "
-                + "FROM `carportdb`.`employees` "
-                + "INNER JOIN `carportdb`.`roles` "
+                + "FROM `employees` "
+                + "INNER JOIN `roles` "
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
         try
         {
-            Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL);
             employee.setId(id);
             ps.setInt(1, id);
