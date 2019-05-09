@@ -25,6 +25,11 @@ public class SVGDrawingShed
         Do the same for the other side.
 
         And voila, finished.
+    
+    TO DO
+    GUARD FOR WHEN length = shedlength and width = shedwidth
+    delete last posts if they exceed distance
+    Move shed in a bit. just do that by adding a private final int buffer to every int field down below. hopefully that works.
     */
     
     // Update with a forloop for the amount of poles.
