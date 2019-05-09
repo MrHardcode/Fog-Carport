@@ -103,12 +103,17 @@ public class LogicFacadeImpl implements LogicFacade
             ShedLogic shed = new ShedLogic();
             partslistmodel.addPartslist(shed.addShed(partslistmodel, order));
         }
-        // Add raised roof
-        RoofRaisedCalc raisedroof = new RoofRaisedCalc();
-        partslistmodel.addPartslist(raisedroof.getRoofRaisedMaterials(order));
-        // Add flat roof
-        RoofFlatCalc flatroof = new RoofFlatCalc();
-        partslistmodel.addPartslist(flatroof.calculateFlatRoofStructure(order));
+        if (order.getIncline() == 0)
+        {
+            // Add flat roof
+            RoofFlatCalc flatroof = new RoofFlatCalc();
+            partslistmodel.addPartslist(flatroof.calculateFlatRoofStructure(order));
+        } else
+        {
+            // Add raised roof
+            RoofRaisedCalc raisedroof = new RoofRaisedCalc();
+            partslistmodel.addPartslist(raisedroof.getRoofRaisedMaterials(order));
+        }
         // Add base
         BaseCalc basecalc = new BaseCalc();
         partslistmodel.addPartslist(basecalc.addBase(partslistmodel, order));
