@@ -5,18 +5,61 @@ package data.models;
 
 /**
  *
- * @author 
+ * @author
  */
 public class CustomerModel
 {
+
     // Fields
     private int id;
     private String name;
     private int phone;
     private String email;
+    private String adress;
+    private int zip;
 
     public CustomerModel()
     {
+    }
+
+    /**
+     * Get the value of zip
+     *
+     * @return the value of zip
+     */
+    public int getZip()
+    {
+        return zip;
+    }
+
+    /**
+     * Set the value of zip
+     *
+     * @param zip new value of zip
+     */
+    public void setZip(int zip)
+    {
+        this.zip = zip;
+    }
+
+    /**
+     * Get the value of adress
+     *
+     * @return the value of adress
+     */
+    public String getAdress()
+    {
+        return adress;
+    }
+
+    /**
+     * Set the value of adress
+     *
+     * @param adress new value of adress
+     */
+    public void setAdress(String adress)
+    {
+        this.adress = adress;
     }
 
     /**
@@ -38,7 +81,6 @@ public class CustomerModel
     {
         this.email = email;
     }
-
 
     /**
      * Get the value of phone
@@ -80,7 +122,6 @@ public class CustomerModel
         this.name = name;
     }
 
-    
     /**
      * Get the value of id
      *
