@@ -57,6 +57,12 @@ public class ShedLogic
         {
             bom = new PartslistModel();
         }
+        if (order.getShed_walls_id() == 0 || 
+                order.getShed_length() == 0 || 
+                order.getShed_width() == 0)
+        {
+            return bom;
+        }   
         
         DataFacade db = DataFacadeImpl.getInstance();
 

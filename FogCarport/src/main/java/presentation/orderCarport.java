@@ -67,6 +67,11 @@ public class orderCarport extends Command
             order.setShed_width(shed_width);
             order.setShed_floor_id(shed_floor_id);
             order.setShed_walls_id(shed_wall_id);
+        } else {
+            order.setShed_length(0);
+            order.setShed_width(0);
+            order.setShed_floor_id(0);
+            order.setShed_walls_id(0);
         }
 
         db.createCustomer(customer);

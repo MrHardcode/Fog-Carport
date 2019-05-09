@@ -14,12 +14,15 @@ import logic.Calculations.RoofFlatCalc;
 import logic.Calculations.RoofRaisedCalc;
 import logic.Calculations.ShedLogic;
 
-public class LogicFacadeImpl implements LogicFacade {
+public class LogicFacadeImpl implements LogicFacade
+{
 
     private static LogicFacadeImpl instance = null;
 
-    public synchronized static LogicFacadeImpl getInstance() {
-        if (instance == null) {
+    public synchronized static LogicFacadeImpl getInstance()
+    {
+        if (instance == null)
+        {
             instance = new LogicFacadeImpl();
         }
         return instance;
@@ -30,12 +33,14 @@ public class LogicFacadeImpl implements LogicFacade {
     Only takes into account height, width, length, and whether or not you want a shed.
      */
     @Override
-    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException {
+    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
+    {
         return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
     }
 
     @Override
-    public PartslistModel getBOM() throws LoginException {
+    public PartslistModel getBOM() throws LoginException
+    {
         return PartslistLogic.getInstance().getBOM();
     }
 
@@ -93,8 +98,11 @@ public class LogicFacadeImpl implements LogicFacade {
     {
         PartslistModel partslistmodel = new PartslistModel();
         // Add Shed
-        ShedLogic shed = new ShedLogic();
-        partslistmodel.addPartslist(shed.addShed(partslistmodel, order)); 
+        if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
+        {
+            ShedLogic shed = new ShedLogic();
+            partslistmodel.addPartslist(shed.addShed(partslistmodel, order));
+        }
         // Add raised roof
         RoofRaisedCalc raisedroof = new RoofRaisedCalc();
         partslistmodel.addPartslist(raisedroof.getRoofRaisedMaterials(order));
@@ -104,7 +112,7 @@ public class LogicFacadeImpl implements LogicFacade {
         // Add base
         BaseCalc basecalc = new BaseCalc();
         partslistmodel.addPartslist(basecalc.addBase(partslistmodel, order));
-        
+
         return partslistmodel;
     }
 
