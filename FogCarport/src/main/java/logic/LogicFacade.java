@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface LogicFacade
 {
+    public void createOrder(OrderModel order) throws LoginException;
 
     public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException;
     

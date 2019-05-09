@@ -23,6 +23,7 @@ abstract class Command
         commands.put("link", new link()); // link internally.
         commands.put("viewPartslist", new viewPartslist());
         commands.put("viewSVG", new viewSVG());
+        commands.put("makeCarport", new orderCarport());
     }
 
     static Command from(HttpServletRequest request)
