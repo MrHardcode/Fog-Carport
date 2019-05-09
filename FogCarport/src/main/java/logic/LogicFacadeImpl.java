@@ -30,21 +30,21 @@ public class LogicFacadeImpl implements LogicFacade
         return instance;
     }
 
-    /*
-    Returns a simple partslist.
-    Only takes into account height, width, length, and whether or not you want a shed.
-     */
-    @Override
-    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
-    {
-        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
-    }
-
-    @Override
-    public PartslistModel getBOM() throws LoginException
-    {
-        return PartslistLogic.getInstance().getBOM();
-    }
+//    /*
+//    Returns a simple partslist.
+//    Only takes into account height, width, length, and whether or not you want a shed.
+//     */
+//    @Override
+//    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
+//    {
+//        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
+//    }
+//
+//    @Override
+//    public PartslistModel getBOM() throws LoginException
+//    {
+//        return PartslistLogic.getInstance().getBOM();
+//    }
 
     @Override
     public List<Integer> getAllOrderIds() throws LoginException
