@@ -31,10 +31,10 @@
     
 
     BaseCalc bc = new BaseCalc();
-    OrderModel order = new OrderModel(2100, 8000, 8000);
-    order.setIncline(15);
-    order.setShed_length(2800);
-    order.setShed_width(7000);
+    OrderModel order = new OrderModel(2100, 6900, 4200);
+    order.setIncline(0);
+    order.setShed_length(2700);
+    order.setShed_width(4000);
     PartslistModel bom = new PartslistModel();
     bom = bc.addBase(bom, order);
     ArrayList postsSideOne = bom.getPostPosSideOne();

@@ -326,6 +326,7 @@ public class BaseCalc
         if (sWidth / postDistance > 0)
         {
             int x = postAmount;
+            int restWidth = cWidth - sWidth;
             
             postAmount += (sWidth / postDistance);
             if (sWidth % postDistance == 0)
@@ -338,7 +339,7 @@ public class BaseCalc
             /*SVG related*/
             for (int i = 1; i <= x; i++)
             {
-                postPosRear.add(((sWidth / 10) / (x + 1)) * i);
+                postPosRear.add((restWidth/ 10) + ((sWidth / 10) / (x + 1)) * i);
             }
             /*SVG related*/
         }
