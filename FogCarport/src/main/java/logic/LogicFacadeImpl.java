@@ -13,6 +13,7 @@ import logic.Calculations.BaseCalc;
 import logic.Calculations.RoofFlatCalc;
 import logic.Calculations.RoofRaisedCalc;
 import logic.Calculations.ShedLogic;
+import logic.drawings.SVGDrawingRaisedRoof;
 import logic.drawings.SVGDrawingShed;
 
 public class LogicFacadeImpl implements LogicFacade
@@ -122,9 +123,9 @@ public class LogicFacadeImpl implements LogicFacade
         return partslistmodel;
     }
 
-    // Mother method that calls all the partslist SVG logic and returns the SVG string.
+    // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
-    public String getSVG(OrderModel order)
+    public String getSVGbase(OrderModel order)
     {
         // BEGINNING
         String SVG = " <svg width=\"900\" height=\"900\"> ";
@@ -147,6 +148,14 @@ public class LogicFacadeImpl implements LogicFacade
                 + "        </svg>";
 
         return SVG;
+    }
+
+    // Mother method that calls all the partslist SVG drawings for shed and base.
+    @Override
+    public String getSVGroof(OrderModel order) throws LoginException
+    {
+        SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();
+        return roof.getRaisedRoofDrawing(order);
     }
 
 }

@@ -33,5 +33,7 @@ public interface LogicFacade
 
     public PartslistModel getPartslistModel(OrderModel order) throws LoginException, AlgorithmException;
     
-    public String getSVG(OrderModel order);
+    public String getSVGbase(OrderModel order);
+    
+    public String getSVGroof(OrderModel order) throws LoginException;
 }
