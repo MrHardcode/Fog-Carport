@@ -6,7 +6,7 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">Order ID</th>
             <th scope="col">Adress</th>
             <th scope="col">Zipcode</th>
             <th scope="col">Status</th>

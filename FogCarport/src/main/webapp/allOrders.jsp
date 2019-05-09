@@ -6,14 +6,14 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Order #</th>
+                <th scope="col">All Orders</th>
             </tr>
         </thead>
         <tbody>
         <c:forEach var="id" items="${ids}">
             <tr>
                 <td> <!-- This is pretty fugly imo - Please improve if you wish -->
-                    <a type="button" class="btn btn-secondary btn-lg btn-block" href="FrontController?command=viewOrder&orderid=${id}">ID#: ${id}</a>
+                    <a type="button" class="btn btn-secondary btn-lg btn-block" href="FrontController?command=viewOrder&orderid=${id}">ID: ${id}</a>
                 </td>
             </tr>
         </c:forEach>
