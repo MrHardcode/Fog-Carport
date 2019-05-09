@@ -39,6 +39,44 @@ function ValidateCarportInput() {
     }
 }
 
+/*----------------- OrderValidation[CARPORT_ROOF] JS -----------------  */
+
+document.addEventListener("DOMContentLoaded", prepareInclineMenu); //once website is partially, load the incline options
+
+let inclineOption = document.getElementById('roof-incline');
+function prepareInclineMenu() {
+    let roofInclineOptions = [0, 10, 15, 20, 25, 30, 45];
+    for (let i = 0; i < roofInclineOptions.length; i++) {
+        inclineOption.innerHTML += '<option value="' + roofInclineOptions[i] + '">' + roofInclineOptions[i] + '&#176</option>';
+    }
+}
+;
+
+let tileOption = document.getElementById("roof-tiles");
+tileOption.disabled = true;//by default we disable the tile selection
+let roofInclineChoice = document.getElementById("roof-incline").selected;
+
+inclineOption.addEventListener("change", function () {
+    checkInclineMenuState();
+});
+
+function checkInclineMenuState() {
+    
+    if (tileOption.selectedIndex == "0")
+    {
+        tileOption.disabled = true;
+    } else
+    {
+        tileOption.disabled = false;
+        prepareTileMenu();
+    }
+}
+function prepareTileMenu()
+{
+alert("success");
+}
+
+
 /*----------------- OrderValidation[SHED] JS -----------------  */
 let len = document.getElementById("input-length").selected;
 let wid = document.getElementById("input-width").selected;
@@ -101,7 +139,7 @@ let wallOptions = document.getElementById("shed-wall");
 
 
 function prepareShedMenu() {
-    
+
     //Getting the given dimensions of the carport
     let carportLength = document.getElementById("input-length").value;
     let carportWidth = document.getElementById("input-width").value;
