@@ -127,7 +127,7 @@ public class LogicFacadeImpl implements LogicFacade
     public String getSVG(OrderModel order)
     {
         // BEGINNING
-        String SVG = "<svg width=\"800\" height=\"800\">";
+        String SVG = "<svg width=\"900\" height=\"900\">";
 
         // SHED
         if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
