@@ -92,11 +92,7 @@
         </div>
 
         <!-- Button to submit -->
-        <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled style="margin-top: 5px;">Bestil Carport</button>
+        <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil Carport</button>
     </form>
     <!-- Form end -->
 </div>
-
-<!-- The order of script imports is important -->
-<script src="javascript/OrderValidation.js" type="text/javascript"></script>
-<script src="javascript/OrderValidationShed.js" type="text/javascript"></script>

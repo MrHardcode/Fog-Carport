@@ -12,18 +12,14 @@
         <!--The following tag is the JSTL Expression Language tag-->
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        <!-- Insert bootstrap - integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" -->
+        <!-- Insert bootstrap CSS - integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-        <!-- Insert FontAwesome - integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" -->
+        <!-- Insert FontAwesome CSS - integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"  crossorigin="anonymous">
 
-        <!-- Custom stylesheets -->
-        <!--<link href="css/login.css" rel="stylesheet" type="text/css"/>-->
-        <link href="css/index.css" rel="stylesheet" type="text/css"/>
-        <link href="css/validation.css" rel="stylesheet" type="text/css"/>
-        <link href="css/footer.css" rel="stylesheet" type="text/css"/>
-
+        <!-- Custom stylesheet -->
+        <link href="css/global.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
 
@@ -32,31 +28,25 @@
             <!-- Show errormessage to the User --> 
         <c:if test="${not empty message}">
             <H2>Message: ${message} </h2>
-        </c:if>
+            </c:if>
 
         <!-- MASTER INCLUDE -->
-        <c:if test="${not empty target}">
-            <jsp:include page='${target}.jsp'></jsp:include>
-        </c:if>
-        <c:if test="${empty target}">
-            <jsp:include page='homepage.jsp'></jsp:include>
-        </c:if>
+        <jsp:include page='${target}.jsp'></jsp:include>
 
-        <!-- JavaScript - integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" -->
-        <!-- jQuery first, then Bootstrap JS - integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"  -->
-        <script
-            src="https://code.jquery.com/jquery-3.4.0.min.js"
-        crossorigin="anonymous"></script>
-        <script 
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" 
-        crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script src="javascript/Navbar.js" type="text/javascript"></script>
-
+        <!-- FOOTER -->
         <div class="footer">
             <div id="gitLinkText" class="hover">Project Site</div>
             <a href="https://github.com/HrBjarup/Fog-Carport" target="_blank"><img src="resources/GitHubLogo.png" alt="github logo"/></a>
-
         </div>
+        <!-- FOOTER END -->
+
+        <!-- JQUERY JS -->
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js"crossorigin="anonymous"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <!-- SWEETALERT JS -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- CUSTOM JS -->
+        <script src="javascript/global.js" type="text/javascript"></script>
     </body>
 </html>
