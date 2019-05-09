@@ -35,7 +35,7 @@
         <!-- Roof incline choice -->
         <div class="form-group">
             <label for="roofIncline">Taghældning</label>
-            <select class="form-control" id="roof-incline" name="incline">
+            <select class="form-control" id="roof-inclines" name="incline">
                 <option selected="selected" value="">Vælg Taghældning</option>
             </select>
         </div>
