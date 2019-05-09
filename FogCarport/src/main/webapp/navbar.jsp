@@ -24,10 +24,10 @@
                 </li>
                 -->
                 <li class="nav-item">
-                    <a class="nav-link" href="FrontController?command=link&link=makeCarport">Bestil Carport </a>
+                    <a class="nav-link active" href="FrontController?command=link&link=makeCarport">Bestil Carport </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="FrontController?command=allOrders">Se alle ordrer </a>
+                    <a class="nav-link active" href="FrontController?command=allOrders">Se alle ordrer </a>
                 </li>
 
             </ul>
