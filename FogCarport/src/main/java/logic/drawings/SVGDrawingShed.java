@@ -12,8 +12,6 @@ import data.models.OrderModel;
 public class SVGDrawingShed
 {
 
-    private final int buffer = 100;
-
     private final int postdistance = 310; // in cm.
 
     public SVGDrawingShed()
