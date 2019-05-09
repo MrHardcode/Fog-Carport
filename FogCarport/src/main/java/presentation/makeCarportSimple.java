@@ -4,7 +4,6 @@ import data.exceptions.LoginException;
 import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
-import logic.LogicFacadeImpl;
 
 public class makeCarportSimple extends presentation.Command
 {
