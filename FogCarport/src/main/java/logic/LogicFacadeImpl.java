@@ -1,6 +1,7 @@
 package logic;
 
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -8,6 +9,10 @@ import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import java.util.List;
+import logic.Calculations.BaseCalc;
+import logic.Calculations.RoofFlatCalc;
+import logic.Calculations.RoofRaisedCalc;
+import logic.Calculations.ShedLogic;
 
 public class LogicFacadeImpl implements LogicFacade {
 
@@ -78,9 +83,23 @@ public class LogicFacadeImpl implements LogicFacade {
 
     // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
-    public PartslistModel getPartslistModel(OrderModel order)
+    public PartslistModel getPartslistModel(OrderModel order) throws LoginException, AlgorithmException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PartslistModel partslistmodel = new PartslistModel();
+        // Add Shed
+        ShedLogic shed = new ShedLogic();
+        partslistmodel.addPartslist(shed.addShed(partslistmodel, order)); 
+        // Add raised roof
+        RoofRaisedCalc raisedroof = new RoofRaisedCalc();
+        partslistmodel.addPartslist(raisedroof.getRoofRaisedMaterials(order));
+        // Add flat roof
+        RoofFlatCalc flatroof = new RoofFlatCalc();
+        partslistmodel.addPartslist(flatroof.calculateFlatRoofStructure(order));
+        // Add base
+        BaseCalc basecalc = new BaseCalc();
+        partslistmodel.addPartslist(basecalc.addBase(partslistmodel, order));
+        
+        return partslistmodel;
     }
 
     // Mother method that calls all the partslist SVG logic and returns the SVG string.

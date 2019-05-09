@@ -25,7 +25,7 @@ public class BaseCalc
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
     
-    protected PartslistModel addBase(PartslistModel bom, OrderModel order) throws LoginException
+    public PartslistModel addBase(PartslistModel bom, OrderModel order) throws LoginException
     {
         DataFacade db = DataFacadeImpl.getInstance();
         
