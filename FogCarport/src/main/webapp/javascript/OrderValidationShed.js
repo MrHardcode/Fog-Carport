@@ -35,6 +35,8 @@ function checkShedMenuVisibility() {
         //Making the shed-form visible by removing the cheeky little "hidden"-attribute
         let div = document.getElementById("carport-shed-div");
         div.removeAttribute("hidden");
+        //Clearing menu in case the menu was already filled
+        clearShedDimensionsMenu();
         //Preparing the dropdowns with options for the shed
         prepareShedMenu();
     } 
@@ -56,7 +58,7 @@ let wallOptions = document.getElementById("shed-wall");
 
 
 function prepareShedMenu() {
-
+    
     //Getting the given dimensions of the carport
     let carportLength = document.getElementById("input-length").value;
     let carportWidth = document.getElementById("input-width").value;
@@ -113,7 +115,7 @@ function prepareShedMenu() {
     }
     
     function fillDropDownShedFloor() {
-        floorOptions.options[1] = new Option("Eg", 50);
+        floorOptions.options[1] = new Option("Alm. planke", 55);
     }
     
     function fillDropDownShedWall() {
