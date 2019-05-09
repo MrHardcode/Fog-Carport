@@ -10,7 +10,7 @@
 <%@page import="data.models.OrderModel"%>	
 <%
     DataFacade DAO = DataFacadeImpl.getInstance();
-    OrderModel order = DAO.getOrder(4);
+    OrderModel order = DAO.getOrder(14);
     SVGDrawingRaisedRoof draw = new SVGDrawingRaisedRoof();	
     String drawing = draw.getRaisedRoofDrawing(order);	
     request.getSession().setAttribute("drawing", drawing);	

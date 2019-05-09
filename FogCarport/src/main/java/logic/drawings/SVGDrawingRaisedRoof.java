@@ -26,11 +26,11 @@ public class SVGDrawingRaisedRoof {
         int roofLength = order.getLength() / 10;
         int rafterCount = roofRaisedBOM.getRafterCount();
         int lathRowCount = roofRaisedBOM.getLathRowCount();
-        
+
         double angleRad = Math.toRadians(order.getIncline());
         int topLathDist = (int) (Math.cos(angleRad) * 30);
         int bottomLathDist = (int) (Math.cos(angleRad) * 35);
-        
+
         StringBuilder stb = new StringBuilder();
 
         String startSVG = "<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
@@ -63,35 +63,26 @@ public class SVGDrawingRaisedRoof {
             lathRowCount = lathRowCount - 1;
             stb.append(lath);
         }
-        
-        
-        
-        
-        
+
         // rest of laths
-        int remainderLathDistTotal = roofWidth - (2* topLathDist) - (2 * bottomLathDist);
-        int remainderDistEach = remainderLathDistTotal / (lathRowCount + 2);
+        double remainderLathDistHalf = (roofWidth / 2) - topLathDist - bottomLathDist;
+        double remianderDistEach = remainderLathDistHalf / ((lathRowCount / 2) + 1);
 
-        int shiftRoofSide = lathRowCount / 2;
+        double restLathPlacement = halfPadding + bottomLathDist;
 
-        int restPlacement = halfPadding + bottomLathDist + remainderDistEach;
-        for (int i = 0; i < lathRowCount; i++) {
-            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + restPlacement + "\" width=\"" + roofLength + "\" height=\"3\" "
-                    + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
-            if (i == shiftRoofSide - 1) {
-                restPlacement = halfPadding + (roofWidth / 2) + topLathDist;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < (lathRowCount / 2); j++) {
+                restLathPlacement = restLathPlacement + remianderDistEach;
+                String lath = " <rect x=\"" + halfPadding + "\" y=\"" + restLathPlacement + "\" width=\"" + roofLength + "\" height=\"3\" "
+                        + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
+
+                stb.append(lath);
             }
-            restPlacement = restPlacement + remainderDistEach;
-            stb.append(lath);
+            restLathPlacement = topLathDist + (roofWidth / 2) + halfPadding;
         }
-        
-        
-        
-        
-        
-        
+
         // rafters
-        int rafterDist = roofLength/(rafterCount-1);
+        int rafterDist = roofLength / (rafterCount - 1);
         int rafterPlacement = halfPadding;
         for (int i = 0; i < rafterCount; i++) {
             String rafter = " <rect x=\"" + rafterPlacement + "\" y=\"" + halfPadding + "\" width=\"6\" height=\"" + roofWidth + "\" "
@@ -99,7 +90,7 @@ public class SVGDrawingRaisedRoof {
             rafterPlacement = rafterPlacement + rafterDist;
             stb.append(rafter);
         }
-        
+
         stb.append(endSVG);
 
         return stb.toString();
