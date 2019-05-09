@@ -2,36 +2,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<div class="container">
+<div class="container w-100">
 
-  <h1 class="my-4">Tegninger af Carport.
-    <small>Tag og Underkonstruktion.</small>
-  </h1>
+    <h1 class="my-4">Tegninger af Carport.
+        <small>Tag og Underkonstruktion.</small>
+    </h1>
 
-  <div class="row">
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
+    <div class="card h-100">
         <div class="card-body">
-          <h4 class="card-title">
-            <p>Underkonstruktion</p>
-          </h4>
-          <p class="card-text">${svgbase}</p>
+            <h4 class="card-title">
+                <p>Underkonstruktion</p>
+            </h4>
+            <p class="card-text">${svgbase}</p>
         </div>
-      </div>
     </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
+    <br>
+    <div class="card h-100">
         <div class="card-body">
-          <h4 class="card-title">
-            <p>Taget</p>
-          </h4>
-          <p class="card-text">${svgroof}</p>
+            <h4 class="card-title">
+                <p>Taget</p>
+            </h4>
+            <p class="card-text">${svgroof}</p>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- /.row -->
-
 
 </div>
 <!-- /.container -->
