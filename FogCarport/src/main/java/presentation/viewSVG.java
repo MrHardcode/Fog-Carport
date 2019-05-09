@@ -22,12 +22,15 @@ public class viewSVG extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        if (request.getSession().getAttribute("svg") == null)
-        {
-            OrderModel order = (OrderModel) request.getSession().getAttribute("order");
-            String svg = logic.getSVG(order);
-            request.getSession().setAttribute("svg", svg);
-        }
+        OrderModel order = (OrderModel) request.getSession().getAttribute("order");
+        
+        
+        String svg = logic.getSVG(order);
+        
+        request.getSession().setAttribute("svg", svg);
+        
+        
+        
         return "viewSVG";
     }
 

@@ -12,6 +12,10 @@ import data.models.OrderModel;
 public class SVGDrawingShed
 {
     private final int postdistance = 310; // in cm.
+
+    public SVGDrawingShed()
+    {
+    }
     
     /*
         Width / poledistance  = amount of posts (Dont remember modulo. Asger takes care of it.
@@ -32,10 +36,6 @@ public class SVGDrawingShed
         
         
         String SVG = 
-                // Container that matches the entire carport in size.
-                "<svg "
-                + "width=\""+(carportWidth)+"\" "
-                + "height=\""+(carportLength)+"\">\n" +
                 
                 // The shed itself.
 "            <rect "
@@ -52,9 +52,7 @@ public class SVGDrawingShed
                 "<rect x=\"" + (((carportWidth) - (shedWidth))) + "\" \n"
                     + "y=\"" + ((carportLength) - (shedLength)) + "\" \n"
                     + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n"+
-"            Sorry, your browser does not support inline SVG.  \n" +
-"        </svg>";
+                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
         
         return SVG;
     }

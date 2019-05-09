@@ -13,6 +13,7 @@ import logic.Calculations.BaseCalc;
 import logic.Calculations.RoofFlatCalc;
 import logic.Calculations.RoofRaisedCalc;
 import logic.Calculations.ShedLogic;
+import logic.drawings.SVGDrawingShed;
 
 public class LogicFacadeImpl implements LogicFacade
 {
@@ -125,7 +126,21 @@ public class LogicFacadeImpl implements LogicFacade
     @Override
     public String getSVG(OrderModel order)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // BEGINNING
+        String SVG = "<svg width=\"800\" height=\"800\">";
+
+        // SHED
+        if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
+        {
+            SVGDrawingShed shed = new SVGDrawingShed();
+            SVG += shed.getShedDrawing(order);
+        }
+
+        // END
+        SVG += "Sorry, your browser does not support inline SVG.  \n"
+                + "        </svg>";
+
+        return SVG;
     }
 
 }
