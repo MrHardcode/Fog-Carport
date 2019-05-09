@@ -9,7 +9,8 @@ import logic.LogicFacadeImpl;
 
 /**
  * Call this from the .jsp when the advanced stuff is in place.
- * @author 
+ *
+ * @author
  */
 public class orderCarport extends Command
 {
@@ -25,7 +26,7 @@ public class orderCarport extends Command
         OrderModel order = new OrderModel();
         CustomerModel customer = new CustomerModel();
 //        EmployeeModel employee = new EmployeeModel();
-        
+
         // Customer Info
         String name = request.getParameter("name");
         int phonenumber = Integer.parseInt(request.getParameter("phonenumber"));
@@ -38,23 +39,24 @@ public class orderCarport extends Command
         customer.setPhone(phonenumber);
         customer.setAdress(adress);
         customer.setZip(zip);
-        
+
         // Carport Info
         int length = Integer.parseInt(request.getParameter("length"));
         int width = Integer.parseInt(request.getParameter("width"));
         // Set the Carport Info on Order.
         order.setLength(length);
         order.setWidth(width);
-//roof info
-int roof_incline = request.getParameter("incline");
-int roof_tiles_id = request.getParameter("roof_tiles_id");
+        //roof info
+        int roof_incline = Integer.parseInt(request.getParameter("incline"));
+        int roof_tiles_id = Integer.parseInt(request.getParameter("roof_tiles_id"));
 
-//set roof info on Order
-order.setIncline(roof_incline);
-order.setRoof_tiles_id(roof_tiles_id);
+        //set roof info on Order
+        order.setIncline(roof_incline);
+        order.setRoof_tiles_id(roof_tiles_id);
         // Shed Info
         String shed = request.getParameter("shed");
-        if ("y".equals(shed)){
+        if ("y".equals(shed))
+        {
             // Get shed info from Parameters.
             int shed_length = Integer.parseInt(request.getParameter("shed-length"));
             int shed_width = Integer.parseInt(request.getParameter("shed-width"));
@@ -66,13 +68,13 @@ order.setRoof_tiles_id(roof_tiles_id);
             order.setShed_floor_id(shed_floor_id);
             order.setShed_walls_id(shed_wall_id);
         }
-        
+
         db.createCustomer(customer);
         order.setId_customer(customer.getId());
         order.setId_employee(0);
         db.createOrder(order);
-        
+
         return "homepage";
     }
-    
+
 }
