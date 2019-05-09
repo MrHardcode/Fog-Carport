@@ -44,6 +44,10 @@ public class SVGDrawingShed
         
         
         String SVG = 
+                // Container that matches the entire carport in size.
+                "<svg "
+                + "width=\""+(carportWidth)+"\" "
+                + "height=\""+(carportLength)+"\">\n" +
                 
                 // The shed itself.
 "            <rect "
@@ -60,7 +64,8 @@ public class SVGDrawingShed
                 "<rect x=\"" + (((carportWidth) - (shedWidth))) + "\" \n"
                     + "y=\"" + ((carportLength) - (shedLength)) + "\" \n"
                     + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
+                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n"+
+"        </svg>";
         
         return SVG;
     }

@@ -127,14 +127,20 @@ public class LogicFacadeImpl implements LogicFacade
     public String getSVG(OrderModel order)
     {
         // BEGINNING
-        String SVG = "<svg width=\"900\" height=\"900\">";
+        String SVG = " <svg width=\"900\" height=\"900\"> ";
 
-        // SHED
+        // #1 NESTED SVG FOR SOME PADDING: 
+        SVG += " <svg x=\"100\" y=\"100\"> ";
+        
+        // SHED ALSO HAS ITS OWN NESTING WITHIN. NOW SHED IS RELATIVE TO NEST #1
         if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
         {
             SVGDrawingShed shed = new SVGDrawingShed();
             SVG += shed.getShedDrawing(order);
         }
+        
+        // #1 NESTING END 
+        SVG += " </svg> ";
 
         // END
         SVG += "Sorry, your browser does not support inline SVG.  \n"

@@ -24,12 +24,9 @@ public class viewSVG extends Command
     {
         OrderModel order = (OrderModel) request.getSession().getAttribute("order");
         
-        
         String svg = logic.getSVG(order);
         
         request.getSession().setAttribute("svg", svg);
-        
-        
         
         return "viewSVG";
     }
