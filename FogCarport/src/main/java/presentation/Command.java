@@ -19,6 +19,9 @@ abstract class Command
         commands.put("simpleorder", new makeCarportSimple());
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
+        commands.put("link", new link()); // link internally.
+        commands.put("viewPartslist", new viewPartslist());
+        commands.put("viewSVG", new viewSVG());
     }
 
     static Command from(HttpServletRequest request)

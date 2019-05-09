@@ -12,7 +12,7 @@ import java.util.Comparator;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class RoofRaisedCalc {
 

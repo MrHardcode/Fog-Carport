@@ -28,4 +28,8 @@ public interface LogicFacade
     public void createCustomer(CustomerModel customer) throws LoginException;
     
     public void createEmployee(EmployeeModel employee) throws LoginException;
+
+    public PartslistModel getPartslistModel(OrderModel order);
+    
+    public String getSVG(OrderModel order);
 }
