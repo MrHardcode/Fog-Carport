@@ -76,6 +76,12 @@ public class LogicFacadeImpl implements LogicFacade {
         DataFacadeImpl.getInstance().createEmployee(employee);
     }
 
+    @Override
+    public void createOrder(OrderModel order) throws LoginException
+    {
+        DataFacadeImpl.getInstance().createOrder(order);
+    }
+
     // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
     public PartslistModel getPartslistModel(OrderModel order)
