@@ -43,26 +43,28 @@ function ValidateCarportInput() {
 
 document.addEventListener("DOMContentLoaded", prepareInclineMenu); //once website is partially, load the incline options
 
-let inclineOption = document.getElementById('roof-incline');
+/* Add roof incline options to the dropdown*/
+let inclineOptions = document.getElementById('roof-inclines');
 function prepareInclineMenu() {
-    let roofInclineOptions = [0, 10, 15, 20, 25, 30, 45];
+    let roofInclineOptions = [0, 10, 15, 20, 25, 30, 35, 40, 45];
     for (let i = 0; i < roofInclineOptions.length; i++) {
-        inclineOption.innerHTML += '<option value="' + roofInclineOptions[i] + '">' + roofInclineOptions[i] + '&#176</option>';
+        inclineOptions.innerHTML += '<option value="' + roofInclineOptions[i] + '">' + roofInclineOptions[i] + '&#176</option>';
     }
 }
 ;
 
 let tileOption = document.getElementById("roof-tiles");
 tileOption.disabled = true;//by default we disable the tile selection
-let roofInclineChoice = document.getElementById("roof-incline").selected;
 
-inclineOption.addEventListener("change", function () {
+inclineOptions.addEventListener("change", function () {
     checkInclineMenuState();
 });
 
+let inclineChoice = document.getElementById("roof-inclines");
+
+
 function checkInclineMenuState() {
-    
-    if (tileOption.selectedIndex == "0")
+    if (roofInclineChoice.selectedIndex == "0")
     {
         tileOption.disabled = true;
     } else
@@ -73,9 +75,9 @@ function checkInclineMenuState() {
 }
 function prepareTileMenu()
 {
-alert("success");
-}
+//get stuff from db. probably need to be set as request attribute on the command?
 
+}
 
 /*----------------- OrderValidation[SHED] JS -----------------  */
 let len = document.getElementById("input-length").selected;
