@@ -101,7 +101,7 @@ public class LogicFacadeImpl implements LogicFacade
         if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
         {
             ShedLogic shed = new ShedLogic();
-            partslistmodel.addPartslist(shed.addShed(partslistmodel, order));
+            partslistmodel.addPartslist(shed.addShed(order));
         }
         if (order.getIncline() == 0)
         {
@@ -116,7 +116,7 @@ public class LogicFacadeImpl implements LogicFacade
         }
         // Add base
         BaseCalc basecalc = new BaseCalc();
-        partslistmodel.addPartslist(basecalc.addBase(partslistmodel, order));
+        partslistmodel.addPartslist(basecalc.addBase(order));
 
         return partslistmodel;
     }

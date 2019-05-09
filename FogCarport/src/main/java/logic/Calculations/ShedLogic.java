@@ -47,8 +47,9 @@ public class ShedLogic
     Type of wood used for the sheds "beklædning"
     Type of wood used for the floor (if they even want a floor)
      */
-    public PartslistModel addShed(PartslistModel bom, OrderModel order) throws LoginException
+    public PartslistModel addShed(OrderModel order) throws LoginException
     {
+        PartslistModel bom = new PartslistModel();
         if (order == null)
         {
             throw new LoginException("Order is null.");

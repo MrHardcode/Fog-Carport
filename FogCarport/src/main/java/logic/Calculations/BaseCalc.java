@@ -25,8 +25,9 @@ public class BaseCalc
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
     
-    public PartslistModel addBase(PartslistModel bom, OrderModel order) throws LoginException
+    public PartslistModel addBase(OrderModel order) throws LoginException
     {
+        PartslistModel bom = new PartslistModel();
         DataFacade db = DataFacadeImpl.getInstance();
         
         int carportLength = order.getLength();
