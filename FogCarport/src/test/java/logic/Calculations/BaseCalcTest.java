@@ -47,7 +47,7 @@ public class BaseCalcTest
             /*2*/{20, 3, 3, 11, 7500, 3000, 200, 3000, 2750}, /*3*/{20, 3, 3, 10, 7500, 2000, 200, 2000, 2750},
             /*4*/{12, 3, 3, 7, 5500, 4000, 1950, 4000, 2750}, /*5*/{12, 3, 3, 8, 5500, 5000, 1950, 1500, 2750},
             /*6*/{20, 3, 3, 10, 7500, 3000, 200, 3000, 3100}, /*7*/{20, 3, 3, 10, 7500, 3000, 200, 1500, 3100},
-            /*8*/{12, 1, 1, 4, 2000, 2000, 0, 0, 3100}, ///*9*/{20, 4, 4, 8, 8000, 8000, 4300, 6200, 3100}
+            /*8*/{12, 1, 1, 4, 2000, 2000, 0, 0, 3100}, /*9*/{20, 4, 4, 8, 7500, 3100, 0, 0, 3100}
         });
     }
 
@@ -102,32 +102,32 @@ public class BaseCalcTest
         assertEquals(expectedPosts, result);
     }
     
-//    @Test
-//    public void testAddBaseFirstMat() throws Exception
-//    {
-//        PartslistModel result = bc.addBase(new PartslistModel(), order);
-////        System.out.println("Orderdetails test nr." + count + ": \nOrder length: " + order.getLength() 
-////                            + "\nOrder width: " + order.getWidth()
-////                            + "\nShed length: " + order.getShed_length()
-////                            + "\nShed width: " + order.getShed_width()
-////                            + "\nPost distance: " + postDistance + "\n");
-////        ++count;
-//        assertEquals(bom.getBillOfMaterials().get(0).getQuantity(), result.getBillOfMaterials().get(0).getQuantity());
-//    }
-//    
-//    @Test
-//    public void testAddBaseSecondMat() throws Exception
-//    {
-//        PartslistModel result = bc.addBase(new PartslistModel(), order);
-//        assertEquals(bom.getBillOfMaterials().get(1).getQuantity(), result.getBillOfMaterials().get(1).getQuantity());
-//    }
-//    
-//    @Test
-//    public void testAddBaseThirdMat() throws Exception
-//    {
-//        PartslistModel result = bc.addBase(new PartslistModel(), order);
-//        assertEquals(bom.getBillOfMaterials().get(2).getQuantity(), result.getBillOfMaterials().get(2).getQuantity());
-//    }
+    @Test
+    public void testAddBaseFirstMat() throws Exception
+    {
+        PartslistModel result = bc.addBase(new PartslistModel(), order);
+//        System.out.println("Orderdetails test nr." + count + ": \nOrder length: " + order.getLength() 
+//                            + "\nOrder width: " + order.getWidth()
+//                            + "\nShed length: " + order.getShed_length()
+//                            + "\nShed width: " + order.getShed_width()
+//                            + "\nPost distance: " + postDistance + "\n");
+//        ++count;
+        assertEquals(bom.getBillOfMaterials().get(0).getQuantity(), result.getBillOfMaterials().get(0).getQuantity());
+    }
+    
+    @Test
+    public void testAddBaseSecondMat() throws Exception
+    {
+        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        assertEquals(bom.getBillOfMaterials().get(1).getQuantity(), result.getBillOfMaterials().get(1).getQuantity());
+    }
+    
+    @Test
+    public void testAddBaseThirdMat() throws Exception
+    {
+        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        assertEquals(bom.getBillOfMaterials().get(2).getQuantity(), result.getBillOfMaterials().get(2).getQuantity());
+    }
     
     @Test
     public void test2CalcStraps()
