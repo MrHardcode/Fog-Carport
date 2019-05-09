@@ -5,7 +5,6 @@ import data.models.CustomerModel;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
-import logic.LogicFacadeImpl;
 
 /**
  * Call this from the .jsp when the advanced stuff is in place.
@@ -22,7 +21,6 @@ public class orderCarport extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        LogicFacade db = new LogicFacadeImpl();
         OrderModel order = new OrderModel();
         CustomerModel customer = new CustomerModel();
 //        EmployeeModel employee = new EmployeeModel();
@@ -75,11 +73,13 @@ public class orderCarport extends Command
             order.setShed_walls_id(0);
         }
 
-        db.createCustomer(customer);
+        logic.createCustomer(customer);
         order.setId_customer(customer.getId());
         order.setId_employee(0);
-        db.createOrder(order);
+        logic.createOrder(order);
 
+        request.setAttribute("message", "Carport succesfully ordered.");
+        
         return "homepage";
     }
 

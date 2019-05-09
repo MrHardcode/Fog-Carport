@@ -17,7 +17,7 @@ abstract class Command
     private static void initCommands()
     {
         commands = new HashMap<>();
-        commands.put("simpleorder", new makeCarportSimple());
+//        commands.put("simpleorder", new makeCarportSimple());
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
         commands.put("link", new link()); // link internally.
