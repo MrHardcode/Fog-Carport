@@ -36,16 +36,28 @@ public class SVGDrawingRaisedRoof {
                 + "style=\"fill:none; stroke:black; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
         String endSVG = "</svg>";
 
-        
         stb.append(startSVG);
         stb.append(outerRoofBorder);
-        
+
         // place 3 middle laths
-        int placement = halfPadding + (roofWidth / 2) - 30;
+        int middlePlacement = halfPadding + (roofWidth / 2) - 30;
         for (int i = 0; i < 3; i++) {
-            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + placement + "\" width=\"" + roofLength + "\" height=\"3\" "
+            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + middlePlacement + "\" width=\"" + roofLength + "\" height=\"3\" "
                     + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
-            placement = placement + 30;
+            middlePlacement = middlePlacement + 30;
+            lathRowCount = lathRowCount - 1;
+            stb.append(lath);
+        }
+
+        // place 4 outer laths
+        int outerPlacement = halfPadding;
+        for (int i = 0; i < 4; i++) {
+            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + outerPlacement + "\" width=\"" + roofLength + "\" height=\"3\" "
+                    + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
+            if (i == 1) {
+                outerPlacement = halfPadding + roofWidth - 70;
+            }
+            outerPlacement = outerPlacement + 35;
             lathRowCount = lathRowCount - 1;
             stb.append(lath);
         }
