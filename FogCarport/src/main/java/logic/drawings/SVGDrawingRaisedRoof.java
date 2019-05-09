@@ -33,7 +33,7 @@ public class SVGDrawingRaisedRoof {
 
         String startSVG = "<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
         String outerRoofBorder = " <rect x=\"" + halfPadding + "\" y=\"" + halfPadding + "\" width=\"" + roofLength + "\" height=\"" + roofWidth + "\" "
-                + "style=\"fill:none; stroke:black; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
+                + "style=\"fill:none; stroke:red; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
         String endSVG = "</svg>";
 
         stb.append(startSVG);
@@ -61,7 +61,35 @@ public class SVGDrawingRaisedRoof {
             lathRowCount = lathRowCount - 1;
             stb.append(lath);
         }
+        
+        // rest of laths
+        int remainderLathDistTotal = roofWidth - halfPadding - 60 - 70;
+        int remainderDistEach = remainderLathDistTotal / (lathRowCount + 1);
 
+        int shiftRoofSide = lathRowCount / 2;
+
+        int restPlacement = halfPadding + 35 + remainderDistEach;
+        for (int i = 0; i < lathRowCount; i++) {
+            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + restPlacement + "\" width=\"" + roofLength + "\" height=\"3\" "
+                    + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
+            if (i == shiftRoofSide - 1) {
+                restPlacement = (roofWidth / 2) + 30 + remainderDistEach;
+            }
+            restPlacement = restPlacement + remainderDistEach;
+            stb.append(lath);
+        }
+        
+        // rafters
+        int rafterDist = roofLength/(rafterCount-1);
+        int rafterPlacement = halfPadding;
+        for (int i = 0; i < rafterCount; i++) {
+            String rafter = " <rect x=\"" + rafterPlacement + "\" y=\"" + halfPadding + "\" width=\"6\" height=\"" + roofWidth + "\" "
+                    + "style=\"fill:none; stroke:blue; stroke-width:1;\" />\n";
+            rafterPlacement = rafterPlacement + rafterDist;
+            stb.append(rafter);
+        }
+        
+        
         stb.append(endSVG);
 
         //HARDCODED UDKAST
