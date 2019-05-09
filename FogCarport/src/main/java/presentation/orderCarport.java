@@ -46,6 +46,7 @@ public class orderCarport extends Command
         // Set the Carport Info on Order.
         order.setLength(length);
         order.setWidth(width);
+
         //roof info
         int roof_incline = Integer.parseInt(request.getParameter("incline"));
         int roof_tiles_id = Integer.parseInt(request.getParameter("roof_tiles_id"));
