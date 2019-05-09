@@ -12,7 +12,7 @@ import java.util.Comparator;
 
 /**
  *
- * @author 
+ * @author
  */
 public class RoofRaisedCalc {
 
@@ -40,10 +40,12 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * Exposed method of this class. Gathers PartslistModel's from protedted methods
-     * add's screws to the final PartslistModel and returns the final PartslistModel. 
+     * Exposed method of this class. Gathers PartslistModel's from protedted
+     * methods add's screws to the final PartslistModel and returns the final
+     * PartslistModel.
+     *
      * @param order
-     * @return PartslistModel 
+     * @return PartslistModel
      * @throws LoginException
      */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws LoginException {
@@ -53,20 +55,28 @@ public class RoofRaisedCalc {
         roofRaisedBOM.addPartslist(getRoofStructure(order));
         roofRaisedBOM.addPartslist(getCladding(order));
         roofRaisedBOM.addPartslist(getScrews());
-        
+        updateFieldsinBOM(roofRaisedBOM);
+
         return roofRaisedBOM;
     }
-    
-    
+
+    protected void updateFieldsinBOM(PartslistModel finalRoofBOM) {
+        finalRoofBOM.setLathRowCount(lathRowCount);
+        finalRoofBOM.setRafterCount(rafterCount);
+        finalRoofBOM.setTileCount(tileCount);
+        finalRoofBOM.setTopTileCount(topTileCount);
+    }
+
     /**
-     * Calculates amount of screws needed for the entire roof, adds them to a 
+     * Calculates amount of screws needed for the entire roof, adds them to a
      * Partslist and returns it.
-     * @return PartslistModel 
+     *
+     * @return PartslistModel
      */
     protected PartslistModel getScrews() throws LoginException {
-        
+
         PartslistModel screwBOM = new PartslistModel();
-        int screwPacks = (int) Math.ceil(screwCount/200);
+        int screwPacks = (int) Math.ceil(screwCount / 200);
         MaterialModel material = DAO.getMaterial(20);
         for (int i = 0; i <= screwPacks; i++) {
             screwBOM.addMaterial(material);
@@ -75,12 +85,12 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * Takes in the order provided by the exposed method and gathers the order info
-     * needed to calculate the amount of rooftiles, toprooftiles and fasteners. 
-     * The calculated materials are returned in a PartslistModel.
-     * 
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of rooftiles, toprooftiles and
+     * fasteners. The calculated materials are returned in a PartslistModel.
+     *
      * Hardcoded material is one of a kind in the database.
-     * 
+     *
      * @param order
      * @return PartslistModel
      * @throws LoginException
@@ -100,7 +110,7 @@ public class RoofRaisedCalc {
 
         // tagvidde når afstanden fra tagtoppen øverste lægte
         int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (30);
-        
+
         // beregn antal rækker tagsten
         while (remaningRoofWidth > 0) {
             tileRowCount = tileRowCount + 1;
@@ -126,12 +136,12 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * Takes in the order provided by getRoofTiles() method and returns an int representing
-     * the id in the database for the corresponding rooftoptiles. 
-     * 
-     * When/if the order in the database is changed to take this into account, this 
-     * method can be removed. 
-     * 
+     * Takes in the order provided by getRoofTiles() method and returns an int
+     * representing the id in the database for the corresponding rooftoptiles.
+     *
+     * When/if the order in the database is changed to take this into account,
+     * this method can be removed.
+     *
      * @param order
      * @return int roofTopID
      * @throws LoginException
@@ -169,11 +179,11 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * Takes in the order provided by the exposed method and gathers the order info
-     * needed to calculate the amount of rafters, laths and fasteners. 
-     * The calculated materials are returned in a PartslistModel. 
-     * Class field rafterCount is updated. 
-     * 
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of rafters, laths and fasteners. The
+     * calculated materials are returned in a PartslistModel. Class field
+     * rafterCount is updated.
+     *
      * @param order
      * @return PartslistModel
      * @throws LoginException
@@ -187,8 +197,8 @@ public class RoofRaisedCalc {
         rafterCount = 2;
         int remainderLength = order.getLength() - (2 * 45);
 
-        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (900 + 45)); 
-        
+        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (900 + 45));
+
         MaterialModel material = DAO.getMaterial(30);
         for (int i = 0; i < rafterCount; i++) {
             roofStructureBOM.addPartslist(generateRafter(totalWidth, order.getIncline()));
@@ -201,15 +211,15 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * This method takes in an ArrayList of materials and a length, sorts the list
-     * and then calculates the amount of the longest material needed to cover the
-     * given length. The calculated materials are added to the PartslistModel, which
-     * is then returned. 
-     * 
-     * The metod was supposed to be able to switch to use the shorter materials in
-     * the given list when the remaining length is shorter than the longest material,
-     * but that feature has not yet been implemented. 
-     * 
+     * This method takes in an ArrayList of materials and a length, sorts the
+     * list and then calculates the amount of the longest material needed to
+     * cover the given length. The calculated materials are added to the
+     * PartslistModel, which is then returned.
+     *
+     * The metod was supposed to be able to switch to use the shorter materials
+     * in the given list when the remaining length is shorter than the longest
+     * material, but that feature has not yet been implemented.
+     *
      * @param materials
      * @param length
      * @return PartslistModel
@@ -249,11 +259,12 @@ public class RoofRaisedCalc {
 
     /**
      * Calculates the length of the different parts of a single rafter and calls
-     * getMaterialsFromlength() with the length and the ArrayList of raftermaterials.
-     * Class fields screwCount and bracketCount is updated.
-     * 
-     * The hardcoded materials are the only materials used for rafters as of now. 
-     * 
+     * getMaterialsFromlength() with the length and the ArrayList of
+     * raftermaterials. Class fields screwCount and bracketCount is updated.
+     *
+     * The hardcoded materials are the only materials used for rafters as of
+     * now.
+     *
      * @param totalWidth
      * @param incline
      * @return PartslistModel
@@ -276,19 +287,19 @@ public class RoofRaisedCalc {
         rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
         rafterBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(oppositeCath)));
         bracketCount = bracketCount + 6;
-        screwCount = screwCount + (4*6);
+        screwCount = screwCount + (4 * 6);
 
         return rafterBOM;
     }
 
     /**
      * Calculates the length of the different parts of all the laths and calls
-     * getMaterialsFromlength() with the length and the ArrayList of lathmaterials.
-     * Class fields screwCount, intersectionCount, lathRowCount and rafterCount is 
-     * updated.
-     * 
-     * The hardcoded materials are the only materials used for laths as of now. 
-     * 
+     * getMaterialsFromlength() with the length and the ArrayList of
+     * lathmaterials. Class fields screwCount, intersectionCount, lathRowCount
+     * and rafterCount is updated.
+     *
+     * The hardcoded materials are the only materials used for laths as of now.
+     *
      * @param orderLength
      * @param totalWidth
      * @param incline
@@ -312,9 +323,10 @@ public class RoofRaisedCalc {
 
         // beregn antal af rækker af lægter
         lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) 307);
-        
+
         // total længde af alle lægter lagt sammen + 1 toplægte
         lathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
+        lathRowCount = (lathRowCount * 2) + 1;
 
         intersectionCount = lathRowCount * rafterCount;
         screwCount = screwCount + (intersectionCount * 2);
@@ -331,16 +343,17 @@ public class RoofRaisedCalc {
     }
 
     /**
-     * Takes in the order provided by the exposed method and gathers the order info
-     * needed to calculate the amount of cladding and then calls getCladdingMaterialCount(). 
-     * The calculated materials are returned in a PartslistModel.
-     * 
-     * Hardcoded material is not accounted for in the order yet. When/if the order 
-     * in the database is changed to take this into account, this method can be removed.
-     * method can be removed. 
-     * 
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of cladding and then calls
+     * getCladdingMaterialCount(). The calculated materials are returned in a
+     * PartslistModel.
+     *
+     * Hardcoded material is not accounted for in the order yet. When/if the
+     * order in the database is changed to take this into account, this method
+     * can be removed. method can be removed.
+     *
      * Class fields screwCount is updated.
-     * 
+     *
      * @param order
      * @return
      * @throws LoginException
@@ -352,7 +365,7 @@ public class RoofRaisedCalc {
         int totalWidth = order.getWidth() + 600;
 
         int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
-                           + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
+                + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
         amountMaterial = amountMaterial * 2;
 
         for (int i = 0; i < amountMaterial; i++) {
@@ -363,24 +376,24 @@ public class RoofRaisedCalc {
         return claddingBOM;
     }
 
-
     /**
-     * This method calculates the amount of claddingmaterial needed for a given carport
-     * and returns it.
-     * 
-     * The method uses basic trigonometry to calculate the height for each board and 
-     * checks if the lengt of the board is less than the length of the given material.
-     * 
-     * The amount is increased when the height of the board is greater than the 
-     * remaining length of the material. 
-     * 
-     * 
+     * This method calculates the amount of claddingmaterial needed for a given
+     * carport and returns it.
+     *
+     * The method uses basic trigonometry to calculate the height for each board
+     * and checks if the lengt of the board is less than the length of the given
+     * material.
+     *
+     * The amount is increased when the height of the board is greater than the
+     * remaining length of the material.
+     *
+     *
      * @param totalWidth
      * @param incline
      * @param offset
      * @param materialWidth
      * @param materialLength
-     * @return int amountMaterial 
+     * @return int amountMaterial
      * @throws LoginException
      */
     protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws LoginException {
