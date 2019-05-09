@@ -17,35 +17,58 @@ import logic.Calculations.RoofRaisedCalc;
 public class SVGDrawingRaisedRoof {
 
     public String getRaisedRoofDrawing(OrderModel order) throws LoginException {
-//        RoofRaisedCalc calc = new RoofRaisedCalc();
-//        PartslistModel roofRaisedBOM = calc.getRoofRaisedMaterials(order);
-//
-//        int rafterCount = roofRaisedBOM.getRafterCount();
-//        int lathRowCount = roofRaisedBOM.getLathRowCount();
-//        int tileCount = roofRaisedBOM.getTileCount();
-//        int topTileCount = roofRaisedBOM.getTopTileCount();
+        RoofRaisedCalc calc = new RoofRaisedCalc();
+        PartslistModel roofRaisedBOM = calc.getRoofRaisedMaterials(order);
+
+        int svgExtraPadding = 100;
+        int halfPadding = (svgExtraPadding / 2);
+        int roofWidth = (order.getWidth() / 10) + 60; // + udhæng af tag
+        int roofLength = order.getLength() / 10;
+        int rafterCount = roofRaisedBOM.getRafterCount();
+        int lathRowCount = roofRaisedBOM.getLathRowCount();
+        int tileCount = roofRaisedBOM.getTileCount();
+        int topTileCount = roofRaisedBOM.getTopTileCount();
+
+        StringBuilder stb = new StringBuilder();
+
+        String startSVG = "<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
+        String outerRoofBorder = " <rect x=\"" + halfPadding + "\" y=\"" + halfPadding + "\" width=\"" + roofLength + "\" height=\"" + roofWidth + "\" "
+                + "style=\"fill:none; stroke:black; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
+        String endSVG = "</svg>";
+
+        
+        stb.append(startSVG);
+        stb.append(outerRoofBorder);
+        
+        // place 3 middle laths
+        int placement = halfPadding + (roofWidth / 2) - 30;
+        for (int i = 0; i < 3; i++) {
+            String lath = " <rect x=\"" + halfPadding + "\" y=\"" + placement + "\" width=\"" + roofLength + "\" height=\"3\" "
+                    + "style=\"fill:none; stroke:black; stroke-width:1;\" />\n";
+            placement = placement + 30;
+            lathRowCount = lathRowCount - 1;
+            stb.append(lath);
+        }
+
+        stb.append(endSVG);
 
         //HARDCODED UDKAST
-        String hardcode = "<svg width=\"800\" height=\"400\">\n"
-                + "\n"
-                + "  <rect x=\"0\" y=\"0\" width=\"800\" height=\"400\"\n"
-                + "  style=\"fill:grey; stroke:black; stroke-width:4; opacity:0.3\" />\n"
-                + "  \n"
-                + "  <line x1=\"0\" y1=\"199\" x2=\"800\" y2=\"199\" style=\"stroke: black; stroke-width:2\" stroke-dasharray=\"5,2\" />\n"
-                + "  <line x1=\"0\" y1=\"1\" x2=\"800\" y2=\"1\" style=\"stroke: black; stroke-width:2\" stroke-dasharray=\"5,2\" />\n"
-                + "  <line x1=\"0\" y1=\"399\" x2=\"800\" y2=\"399\" style=\"stroke: black; stroke-width:2\" stroke-dasharray=\"5,2\" />\n"
-                + "  <line x1=\"0\" y1=\"99\" x2=\"800\" y2=\"99\" style=\"stroke: black; stroke-width:2\" stroke-dasharray=\"5,2\" />\n"
-                + "  <line x1=\"0\" y1=\"299\" x2=\"800\" y2=\"299\" style=\"stroke: black; stroke-width:2\" stroke-dasharray=\"5,2\" />\n"
-                + "  \n"
-                + "  <line x1=\"3\" y1=\"0\" x2=\"3\" y2=\"400\" style=\"stroke: black; stroke-width:6\"/>\n"
-                + "  <line x1=\"797\" y1=\"0\" x2=\"797\" y2=\"400\" style=\"stroke: black; stroke-width:6\"/>\n"
-                + "  <line x1=\"197\" y1=\"0\" x2=\"197\" y2=\"400\" style=\"stroke: black; stroke-width:6\"/>\n"
-                + "  <line x1=\"597\" y1=\"0\" x2=\"597\" y2=\"400\" style=\"stroke: black; stroke-width:6\"/>\n"
-                + "  <line x1=\"397\" y1=\"0\" x2=\"397\" y2=\"400\" style=\"stroke: black; stroke-width:6\"/>\n"
-                + "\n"
+        String hardcode = "<svg "
+                + "width=\"" + (roofLength + svgExtraPadding) + "\" "
+                + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n"
+                // outer roof border
+                + "  <rect x=\"" + halfPadding + "\" y=\"" + halfPadding + "\" width=\"" + roofLength + "\" height=\"" + roofWidth + "\" "
+                + "style=\"fill:none; stroke:black; stroke-width:4; fill-opacity:1.0; stroke-opacity:1.0\" />\n"
+                // laths, starting in the middle
+
+                + "  <rect x=\"" + halfPadding + "\" y=\"" + (halfPadding + (roofWidth / 2)) + "\" width=\"" + roofLength + "\" height=\"3\" style=\"fill:none; stroke:black; stroke-width:1;\" />\n"
+                + "  <rect x=\"" + halfPadding + "\" y=\"" + (halfPadding + ((roofWidth / 2) + 30)) + "\" width=\"" + roofLength + "\" height=\"3\" style=\"fill:none; stroke:black; stroke-width:1;\" />\n"
+                + "  <rect x=\"" + halfPadding + "\" y=\"" + (halfPadding + ((roofWidth / 2) - 30)) + "\" width=\"" + roofLength + "\" height=\"3\" style=\"fill:none; stroke:black; stroke-width:1;\" />"
+                // rafter
+                //+ "  <rect x=\"50\" y=\"25\" width=\"6\" height=\"300\" style=\"fill:none; stroke:black; stroke-width:1;\" />\n"
                 + "</svg>";
 
-        return hardcode;
+        return stb.toString();
     }
 
 }

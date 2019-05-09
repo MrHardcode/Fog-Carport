@@ -4,13 +4,13 @@
     Author     : Camilla
 --%>
 
+<%@page import="data.DataFacadeImpl"%>
+<%@page import="data.DataFacade"%>
 <%@page import="logic.drawings.SVGDrawingRaisedRoof"%>	
 <%@page import="data.models.OrderModel"%>	
-<%	
-    OrderModel order = new OrderModel();	
-    order.setLength(7000);	
-    order.setWidth(3600);	
-    order.setIncline(20);	
+<%
+    DataFacade DAO = DataFacadeImpl.getInstance();
+    OrderModel order = DAO.getOrder(4);
     SVGDrawingRaisedRoof draw = new SVGDrawingRaisedRoof();	
     String drawing = draw.getRaisedRoofDrawing(order);	
     request.getSession().setAttribute("drawing", drawing);	
