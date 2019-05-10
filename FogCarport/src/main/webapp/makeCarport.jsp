@@ -39,7 +39,7 @@
                 <option selected="selected" value="">Vælg Taghældning</option>
             </select>
         </div>
-        
+
         <!-- Roof type dependant on roof incline-->
         <div class="form-group">
             <label for="flatRoofInput">Tagtype</label>

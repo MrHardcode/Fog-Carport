@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", prepareInclineMenu); //once websit
 /* Add roof incline options to the dropdown*/
 let inclineOptions = document.getElementById('roof-inclines');
 function prepareInclineMenu() {
-    let roofInclineOptions = [0, 10, 15, 20, 25, 30, 35, 40, 45];
+    let roofInclineOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45];
     for (let i = 0; i < roofInclineOptions.length; i++) {
         inclineOptions.innerHTML += '<option value="' + roofInclineOptions[i] + '">' + roofInclineOptions[i] + '&#176</option>';
     }
@@ -56,28 +56,60 @@ function prepareInclineMenu() {
 let tileOption = document.getElementById("roof-tiles");
 tileOption.disabled = true;//by default we disable the tile selection
 
+
+
 inclineOptions.addEventListener("change", function () {
     checkInclineMenuState();
 });
 
-let inclineChoice = document.getElementById("roof-inclines");
-
+let inclineOptionsChoice = document.getElementById("roof-inclines").selected;
 
 function checkInclineMenuState() {
-    if (roofInclineChoice.selectedIndex == "0")
+    //I am using double == instead of triple === on purpose 
+    if (inclineOptions.selectedIndex == 0)
     {
+        //document.getElementById("roof-tiles").disabled = true;
         tileOption.disabled = true;
     } else
     {
         tileOption.disabled = false;
+        //document.getElementById("roof-tiles").disabled = false;
         prepareTileMenu();
     }
 }
+
 function prepareTileMenu()
 {
-//get stuff from db. probably need to be set as request attribute on the command?
+    if (inclineOptions.selectedIndex == 1) //plastic, flat roof
+    {
+//        let flatRoofOptions = {
+//            '28': 'Plastmo Ecolite (Blåtonet)'
+//        };
+//
+//        let keys = Object.keys(foo);
+//        keys.forEach(tileOption.innerHTML += '<option value="' + keys.push()+ '">' + roofInclineOptions[i] + '&#176</option>');
 
+        tileOption.innerHTML += '<option value="' + 28 + '">' + "Plastmo Ecolite (Blåtonet)" + '</option>';
+
+    } else // raised roof.
+    {
+        let roofTileOptions = new Map();
+        roofTileOptions.set(33, "B & C Dobbelt Tagsten (Sort)");
+        roofTileOptions.set(34, "B & C Dobbelt Tagsten (Grå)");
+        roofTileOptions.set(35, "Eternit Tagsten(Teglrød)");
+        roofTileOptions.set(36, "B & C Dobbelt Tagsten (Rød)");
+        roofTileOptions.set(37, "B & C Dobbelt Tagsten (Blå)");
+        roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
+        roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
+        for (let i = 33; i <= 39; i++) {
+            tileOption.innerHTML += '<option value="' + 1 + '">' + roofTileOptions.get(i) + '</option>';
+        }
+
+    }
+    //need to fix: add makeCarport as a command
+    //set roof materials on the request attributes.
 }
+
 
 /*----------------- OrderValidation[SHED] JS -----------------  */
 let len = document.getElementById("input-length").selected;
