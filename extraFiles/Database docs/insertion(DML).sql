@@ -195,13 +195,14 @@ UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_
 UPDATE `carportdb`.`materials` SET `width` = '180', `length` = '1200' WHERE (`id_material` = '42');
 
 	/* Flat roof (plastic) parts */
-UPDATE `carportdb`.`materials` SET `width` = '109' WHERE (`id_material` = '28');
-UPDATE `carportdb`.`materials` SET `width` = '109' WHERE (`id_material` = '29');
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '28');
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '29');
 
 
 /* 
 Adding custom materials 
-(These were not made by Fog, but by us)
+(These were not made by Fog, but by us. Or they were made by Fog, but found to be needed later.)
+They are added here as to not mess with the current itemIDs.
 */
 
 /* Tagpap related materials */
@@ -222,3 +223,15 @@ INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`,
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x200 mm. trykimp. Brædt', '25', '200', '5400', '42.75', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '3600', '36', 'Stk', '1');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x125 mm. trykimp. Brædt', '25', '125', '5400', '39.95', 'Stk', '1');
+
+/* More options for vandbrædt */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '5400', '37', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '3600', '28', 'Stk', '1');
+
+/* More orders */
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '28', '3', '3', '6', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '4100', '6500', '30', '28', '3', '3', '6', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3500', '7100', '30', '28', '3', '3', '6', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '2800', '4200', '30', '29', '3', '3', '6', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '4100', '4100', '30', '29', '3', '3', '6', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '6500', '7200', '30', '29', '3', '3', '6', '4');
