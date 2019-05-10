@@ -25,6 +25,7 @@ public class BaseCalc
     
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
+    //Side one is bugged
     private ArrayList postPosSideOne = new ArrayList();
     private ArrayList postPosSideTwo = new ArrayList();
     private ArrayList postPosRear = new ArrayList();
