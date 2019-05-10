@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto">
                             <!-- HEADLINE -->
-                            <h3 class="login-heading mb-4">Fog Carporte - Sælger Login</h3>
+                            <h3 class="login-heading mb-4">Fog Carporte - Login</h3>
                             <form action="FrontController">
 
                                 <!-- COMMAND -->
@@ -17,7 +17,7 @@
                                 <!-- EMAIL -->
                                 <div class="form-label-group">
                                     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
-                                    <label for="inputEmail">Email address</label>
+                                    <label for="inputEmail">Email</label>
                                 </div>
 
                                 <!-- PASSWORD -->
