@@ -1,6 +1,5 @@
 package presentation;
 
-import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -31,12 +30,10 @@ public class FrontController extends HttpServlet
         {
 //            validateSession(request);
             Command action = Command.from(request);
-            String target = action.execute(request, logic);
-            request.setAttribute("target", target);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (LoginException | AlgorithmException ex)
+            String view = action.execute(request, logic);
+            request.getRequestDispatcher(view + ".jsp").forward(request, response);
+        } catch (LoginException ex)
         {
-            request.setAttribute("target", "homepage");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } 
