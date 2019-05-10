@@ -1,5 +1,6 @@
 package logic;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -12,9 +13,9 @@ public interface LogicFacade
 {
     public void createOrder(OrderModel order) throws LoginException;
 
-    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException;
-    
-    public PartslistModel getBOM () throws LoginException;
+//    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException;
+//    
+//    public PartslistModel getBOM () throws LoginException;
     
     public List<Integer> getAllOrderIds() throws LoginException;
     
@@ -30,7 +31,9 @@ public interface LogicFacade
     
     public void createEmployee(EmployeeModel employee) throws LoginException;
 
-    public PartslistModel getPartslistModel(OrderModel order);
+    public PartslistModel getPartslistModel(OrderModel order) throws LoginException, AlgorithmException;
     
-    public String getSVG(OrderModel order);
+    public String getSVGbase(OrderModel order);
+    
+    public String getSVGroof(OrderModel order) throws LoginException;
 }

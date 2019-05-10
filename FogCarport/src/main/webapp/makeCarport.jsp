@@ -3,8 +3,7 @@
     <!-- Form start -->
     <form action="FrontController" method="post" id="carport-form" accept-charset=utf-8>
 
-        <!-- Hidden input: &command=simpleorder -->
-        <input type="hidden" name="command" value="simpleorder">
+        <input type="hidden" name="command" value="makeCarport">
 
         <h1 class="h1">Bestil Carport</h1>
 

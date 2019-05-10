@@ -6,6 +6,7 @@ package presentation;
 import data.exceptions.LoginException;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 
 /**
@@ -22,12 +23,17 @@ public class viewSVG extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        if (request.getSession().getAttribute("svg") == null)
-        {
-            OrderModel order = (OrderModel) request.getSession().getAttribute("order");
-            String svg = logic.getSVG(order);
-            request.getSession().setAttribute("svg", svg);
-        }
+        HttpSession session = request.getSession();
+        OrderModel order = (OrderModel) session.getAttribute("order");
+        
+        String svgbase = logic.getSVGbase(order);
+        session.setAttribute("svgbase", svgbase);
+        
+        String svgroof = logic.getSVGroof(order);
+        session.setAttribute("svgroof", svgroof);
+        
+        
+        
         return "viewSVG";
     }
 
