@@ -40,6 +40,15 @@ public class PartslistModel
 
     public void addPartslist(PartslistModel partslist)
     {
+        /*Updating SVG stuff*/
+        rafterCount = partslist.getRafterCount();
+        lathRowCount = partslist.getLathRowCount();
+        tileCount = partslist.getTileCount();
+        topTileCount = partslist.getTopTileCount();
+        postPosSideOne = partslist.getPostPosSideOne();
+        postPosSideTwo = partslist.getPostPosSideTwo();
+        postPosRear = partslist.getPostPosRear();
+        /*Updating materials*/
         billOfMaterials.addAll(partslist.getBillOfMaterials());
         this.totalprice += partslist.getTotalprice();
     }
