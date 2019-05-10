@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.models;
 
 import java.util.Objects;
 
 /**
  *
- * @author Camilla
+ * @author 
  */
 public class MaterialModel
 {
@@ -22,11 +17,10 @@ public class MaterialModel
     private int width;
     private int height;
     private int quantity; //Not in constructor. Maybe add it to it.
-    private int price; // Not in constructor. 
+    private double price; // Not in constructor. 
     private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
+    private String category;
 
-    // på nuværende tidspunkt kan jeg ikke se pointen med interfaces
-    // i datamodellerne. 
     public MaterialModel()
     {
     }
@@ -49,6 +43,55 @@ public class MaterialModel
         this.height = height;
         this.length = length;
         this.width = width;
+    }
+    
+    /**
+     * Updated constructor to fit database model.
+     *
+     * use setters for: helptext, quantity
+     *
+     * @param ID
+     * @param description
+     * @param length
+     * @param width
+     * @param height
+     * @param price
+     * @param unit
+     * @param category
+     */
+    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category)
+    {
+        this.ID = ID;
+        this.description = description;
+        this.height = height;
+        this.width = width;
+        this.length = length;
+        this.price = price;
+        this.unit = unit;
+        this.category = category;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+
+    /**
+     * Get the value of category
+     *
+     * @return the value of category
+     */
+    public String getCategory()
+    {
+        return category;
+    }
+
+    /**
+     * Set the value of category
+     *
+     * @param category new value of category
+     */
+    public void setCategory(String category)
+    {
+        this.category = category;
     }
 
     public int getID()
@@ -86,7 +129,7 @@ public class MaterialModel
      *
      * @return the value of price
      */
-    public int getPrice()
+    public double getPrice()
     {
         return price;
     }
@@ -96,7 +139,7 @@ public class MaterialModel
      *
      * @param price new value of price
      */
-    public void setPrice(int price)
+    public void setPrice(double price)
     {
         this.price = price;
     }
@@ -220,29 +263,29 @@ public class MaterialModel
     {
         this.length = length;
     }
+    //</editor-fold>
 
     @Override
     public String toString()
     {
         return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
     }
-    
-    
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode and equals">
     @Override
     public int hashCode()
     {
-        int hash = 7;
-        hash = 83 * hash + this.ID;
-        hash = 83 * hash + Objects.hashCode(this.name);
-        hash = 83 * hash + Objects.hashCode(this.description);
-        hash = 83 * hash + Objects.hashCode(this.helptext);
-        hash = 83 * hash + this.length;
-        hash = 83 * hash + this.width;
-        hash = 83 * hash + this.height;
-        hash = 83 * hash + this.quantity;
-        hash = 83 * hash + this.price;
-        hash = 83 * hash + Objects.hashCode(this.unit);
+        int hash = 5;
+        hash = 41 * hash + this.ID;
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.description);
+        hash = 41 * hash + Objects.hashCode(this.helptext);
+        hash = 41 * hash + this.length;
+        hash = 41 * hash + this.width;
+        hash = 41 * hash + this.height;
+        hash = 41 * hash + this.quantity;
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.unit);
         return hash;
     }
 
@@ -304,6 +347,7 @@ public class MaterialModel
         }
         return true;
     }
-
+    // </editor-fold>
+    
     
 }

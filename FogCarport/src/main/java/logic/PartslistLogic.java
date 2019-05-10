@@ -1,5 +1,6 @@
 package logic;
 
+import data.databaseAccessObjects.mappers.OrderMapper;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -23,7 +24,16 @@ class PartslistLogic
         }
         return instance;
     }
-
+    
+    PartslistModel getBOM() throws LoginException {
+        PartslistModel bom = new PartslistModel();
+        OrderModel order = OrderMapper.getInstance().getOrder(2);
+        
+        
+        
+        
+        return bom;
+    }
     /*
     https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
     Malte used this link as a springboard for the simple bill of materials.
@@ -76,7 +86,7 @@ class PartslistLogic
         else // Else create the partslist
         {
             PartslistModel bom = new PartslistModel();
-            OrderModel order = new OrderModel(_height, _length, _width, hasShed);
+            OrderModel order = new OrderModel(_height, _length, _width);
             if (hasShed == true) // If they want a shed then add it to the partslist.
             {
                 addShed(order, bom);
@@ -595,5 +605,6 @@ class PartslistLogic
         int boltAmount = (strapAmount * 2); //always 2 screws per strap
         return boltAmount;
     }
+
 
 }
