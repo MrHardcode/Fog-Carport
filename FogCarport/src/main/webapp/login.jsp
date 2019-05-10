@@ -1,10 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 14-04-2019, 14:44:26
-    Author     : Malte
---%>
-
-<jsp:include page='/header.jsp'></jsp:include>
 
     <div class="container-fluid">
         <div class="row no-gutter">
@@ -48,5 +41,3 @@
             </div>
         </div>
     </div>
-
-<jsp:include page='/footer.jsp'></jsp:include>
