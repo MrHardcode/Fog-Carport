@@ -1,5 +1,6 @@
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +17,13 @@ abstract class Command
     private static void initCommands()
     {
         commands = new HashMap<>();
-        commands.put("simpleorder", new makeCarportSimple());
+//        commands.put("simpleorder", new makeCarportSimple());
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
         commands.put("link", new link()); // link internally.
         commands.put("viewPartslist", new viewPartslist());
         commands.put("viewSVG", new viewSVG());
+        commands.put("makeCarport", new orderCarport());
     }
 
     static Command from(HttpServletRequest request)
@@ -35,6 +37,6 @@ abstract class Command
     }
 
     abstract String execute(HttpServletRequest request, LogicFacade logic)
-            throws LoginException;
+            throws LoginException, AlgorithmException;
 
 }

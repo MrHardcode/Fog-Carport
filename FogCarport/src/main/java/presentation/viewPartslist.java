@@ -3,6 +3,7 @@
  */
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -21,7 +22,7 @@ public class viewPartslist extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
     {
         OrderModel order = (OrderModel) request.getSession().getAttribute("order");
         if (order != null){
