@@ -29,8 +29,6 @@ public class SVGDrawingBase
     public String getBaseDrawing()
     {
         String SVG =
-                //The container for the drawing:
-                //"<g " +
                 //The strap / edge of the base carport construction:
             "<rect "
                 + "width=\"" + cLength + "\" height=\"5\" y=\"2\" "
@@ -50,7 +48,6 @@ public class SVGDrawingBase
                 + getArrow(cLength + 20, 0, cLength + 20, cWidth)
                 + getLabel(cLength + 25, cWidth / 2, cWidth)
                 + getLabel(cLength / 2 - 20, cWidth + 40, cLength)
-               // + "</g>";
                 ;
         
         
