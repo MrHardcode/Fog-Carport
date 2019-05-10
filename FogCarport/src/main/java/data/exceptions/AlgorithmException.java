@@ -1,4 +1,3 @@
-
 package data.exceptions;
 
 public class AlgorithmException extends Exception

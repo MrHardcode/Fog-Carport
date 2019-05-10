@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  *
- * @author 
+ * @author Camilla
  */
 public class MaterialModel
 {
