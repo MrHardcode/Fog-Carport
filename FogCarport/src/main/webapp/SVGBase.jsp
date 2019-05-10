@@ -33,12 +33,12 @@
     
 
     BaseCalc bc = new BaseCalc();
-    OrderModel order = new OrderModel(2100, 5000, 3000);
+    OrderModel order = new OrderModel(2100, 7800, 4000);
     order.setIncline(0);
-    order.setShed_length(2700);
-    order.setShed_width(2000);
+    order.setShed_length(3300);
+    order.setShed_width(2300);
     PartslistModel bom = new PartslistModel();
-    bom = bc.addBase(bom, order);
+    bom = bc.addBase(order);
     ArrayList postsSideOne = bom.getPostPosSideOne();
     ArrayList postsSideTwo = bom.getPostPosSideTwo();
     ArrayList rear = bom.getPostPosRear();
