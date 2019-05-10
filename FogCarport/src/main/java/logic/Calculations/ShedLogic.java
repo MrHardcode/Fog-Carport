@@ -32,16 +32,9 @@ public class ShedLogic
     private final int postid = 4; // 97x97 mm. trykimp. Stolpe
     
     private final int postdistance = 3100; // Distance between posts.
-    
-    private static ShedLogic instance = null;
 
-    public synchronized static ShedLogic getInstance()
+    public ShedLogic()
     {
-        if (instance == null)
-        {
-            instance = new ShedLogic();
-        }
-        return instance;
     }
 
     /*
@@ -54,8 +47,9 @@ public class ShedLogic
     Type of wood used for the sheds "beklædning"
     Type of wood used for the floor (if they even want a floor)
      */
-    PartslistModel addShed(PartslistModel bom, OrderModel order) throws LoginException
+    public PartslistModel addShed(OrderModel order) throws LoginException
     {
+        PartslistModel bom = new PartslistModel();
         if (order == null)
         {
             throw new LoginException("Order is null.");
@@ -64,6 +58,12 @@ public class ShedLogic
         {
             bom = new PartslistModel();
         }
+        if (order.getShed_walls_id() == 0 || 
+                order.getShed_length() == 0 || 
+                order.getShed_width() == 0)
+        {
+            return bom;
+        }   
         
         DataFacade db = DataFacadeImpl.getInstance();
 

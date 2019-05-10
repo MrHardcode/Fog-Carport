@@ -329,7 +329,7 @@ public class ShedLogicTest
         OrderModel order = null;
         PartslistModel model = new PartslistModel();
         ShedLogic instance = new ShedLogic();
-        instance.addShed(model, order);
+        model = instance.addShed(order);
     }
     
 }

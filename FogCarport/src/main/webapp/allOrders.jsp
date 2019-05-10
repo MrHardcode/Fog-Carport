@@ -2,20 +2,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<div class="d-flex justify-content-center">
+    <h1>All Orders</h1>
+</div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Order #</th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="d-flex justify-content-center w-100">
+    <div class="btn-group-vertical w-50">
         <c:forEach var="id" items="${ids}">
-            <tr>
-                <td> <!-- This is pretty fugly imo - Please improve if you wish -->
-                    <a type="button" class="btn btn-secondary btn-lg btn-block" href="FrontController?command=viewOrder&orderid=${id}">ID#: ${id}</a>
-                </td>
-            </tr>
+            <a type="submit" class="btn btn-primary btn-lg btn-block active" style="margin-top: 2px" href="FrontController?command=viewOrder&orderid=${id}">ID: ${id}</a>
         </c:forEach>
-    </tbody>
-</table>
+    </div>
+</div>

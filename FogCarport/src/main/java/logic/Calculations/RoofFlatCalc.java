@@ -98,7 +98,7 @@ public class RoofFlatCalc
      * @throws data.exceptions.AlgorithmException
      * @throws data.exceptions.LoginException
      */
-    protected PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
+    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
     {
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
