@@ -4,6 +4,8 @@
     Author     : Asger
 --%>
 
+<%@page import="com.sun.org.apache.bcel.internal.generic.AALOAD"%>
+<%@page import="logic.drawings.SVGDrawingBase"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="data.models.PartslistModel"%>
 <%@page import="data.models.OrderModel"%>
@@ -31,10 +33,10 @@
     
 
     BaseCalc bc = new BaseCalc();
-    OrderModel order = new OrderModel(2100, 6900, 4200);
+    OrderModel order = new OrderModel(2100, 5000, 3000);
     order.setIncline(0);
     order.setShed_length(2700);
-    order.setShed_width(4000);
+    order.setShed_width(2000);
     PartslistModel bom = new PartslistModel();
     bom = bc.addBase(bom, order);
     ArrayList postsSideOne = bom.getPostPosSideOne();
@@ -47,6 +49,8 @@
     request.getSession().setAttribute("rear", rear); 
     request.getSession().setAttribute("length", length); 
     request.getSession().setAttribute("width", width); 
+    SVGDrawingBase SVG = new SVGDrawingBase(order, bom);
+    String drawing = SVG.getBaseDrawing();
 %>
 <html>
     <head>
@@ -57,7 +61,7 @@
     <body>
 
         <h1>Base drawing</h1>
-        <svg x="50" width="${cLength}" height="${cWidth}">
+<!--        <svg x="50" width="${cLength}" height="${cWidth}">
             <svg y=5>
                 <rect width="${length}" height="5" y="2" stroke="#000000" stroke-width="2" fill="#FFFFFF"/>
                 <rect y="${width}" width="${length}" height="5" stroke="#000000" stroke-width="2" fill="#FFFFFF"/>
@@ -72,6 +76,9 @@
                     <rect width="7" height="7" x="${length}" y="${post}" stroke="#000000" stroke-width="3" fill="#FFFFFF"/>
                 </c:forEach>
             </svg>
-        </svg>
+        </svg> -->
+                <svg width="1000" height="1000">
+                <%=drawing%>
+                </svg>
     </body>
 </html>

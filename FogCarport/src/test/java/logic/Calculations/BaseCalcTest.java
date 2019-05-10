@@ -95,10 +95,7 @@ public class BaseCalcTest
     @Test
     public void test1CalcPosts()
     {
-        System.out.println("Test nr.: " + count);
-        ++count;
         int result = bc.calcPosts(cLength, cWidth, sLength, sWidth, postDistance);
-        System.out.println("\n");
         assertEquals(expectedPosts, result);
     }
     

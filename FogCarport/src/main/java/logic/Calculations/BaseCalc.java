@@ -215,9 +215,6 @@ public class BaseCalc
             }
             /*SVG related*/
         }
-        System.out.println("Posts side one: " + postPosSideOne.toString());
-        System.out.println("Posts side two: " + postPosSideTwo.toString());
-        System.out.println("Posts rear    : " + postPosRear.toString());
         return postAmount;
     }
     
@@ -361,12 +358,9 @@ public class BaseCalc
             {
                 postPosRear.add(((restWidth / 10) / (x + 1)) * i);
             }
+            /*SVG related*/
         }
         
-        /*SVG related*/
-        System.out.println("Posts side one: " + postPosSideOne.toString());
-        System.out.println("Posts side two: " + postPosSideTwo.toString());
-        System.out.println("Posts rear    : " + postPosRear.toString());
         return postAmount;
     }
     
@@ -425,9 +419,6 @@ public class BaseCalc
         {
             --postAmount;
         }
-        System.out.println("Posts side one: " + postPosSideOne.toString());
-        System.out.println("Posts side two: " + postPosSideTwo.toString());
-        System.out.println("Posts rear    : " + postPosRear.toString());
         return postAmount;
     }
     
