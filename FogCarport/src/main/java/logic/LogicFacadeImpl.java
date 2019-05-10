@@ -13,6 +13,7 @@ import logic.Calculations.BaseCalc;
 import logic.Calculations.RoofFlatCalc;
 import logic.Calculations.RoofRaisedCalc;
 import logic.Calculations.ShedLogic;
+import logic.drawings.SVGDrawingBase;
 import logic.drawings.SVGDrawingRaisedRoof;
 import logic.drawings.SVGDrawingShed;
 
@@ -125,7 +126,7 @@ public class LogicFacadeImpl implements LogicFacade
 
     // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
-    public String getSVGbase(OrderModel order)
+    public String getSVGbase(PartslistModel bom, OrderModel order)
     {
         // BEGINNING
         String SVG = " <svg width=\"900\" height=\"900\"> ";
@@ -139,6 +140,9 @@ public class LogicFacadeImpl implements LogicFacade
             SVGDrawingShed shed = new SVGDrawingShed();
             SVG += shed.getShedDrawing(order);
         }
+        // ADD BASE DRAWING
+        SVGDrawingBase base = new SVGDrawingBase(order, bom);
+        SVG += base.getBaseDrawing();
         
         // #1 NESTING END 
         SVG += " </svg> ";
