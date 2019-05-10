@@ -33,10 +33,10 @@ public class SVGDrawingShed
     // Update with a forloop for the amount of poles.
     public String getShedDrawing(OrderModel order)
     {
-        int carportWidth = order.getWidth() / 10;
-        int carportLength = order.getLength() / 10;
-        int shedWidth = order.getShed_width() / 10;
-        int shedLength = order.getShed_length() / 10;
+        int carportWidth = order.getLength() / 10;
+        int carportLength = order.getWidth() / 10;
+        int shedWidth = order.getShed_length() / 10;
+        int shedLength = order.getShed_width() / 10;
 
         String SVG
                 = // Container that matches the entire carport in size.
@@ -80,10 +80,10 @@ public class SVGDrawingShed
     // 90 in angle if its the width. 0 if the length.
     String getPole(OrderModel order, int angle)
     {
-        int carportWidth = order.getWidth() / 10;
-        int carportLength = order.getLength() / 10;
-        int shedWidth = order.getShed_width() / 10;
-        int shedLength = order.getShed_length() / 10;
+        int carportWidth = order.getLength() / 10;
+        int carportLength = order.getWidth() / 10;
+        int shedWidth = order.getShed_length() / 10;
+        int shedLength = order.getShed_width() / 10;
         String SVG = "";
 
         if (angle == 0) // Horizontally
