@@ -7,7 +7,4 @@
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>FrontController</welcome-file>
-    </welcome-file-list>
 </web-app>

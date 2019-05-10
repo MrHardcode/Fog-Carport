@@ -13,11 +13,8 @@ class UnknownCommand extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        if (request.getAttribute("target") == null){
-            return "homepage";
-        } else {
-            return (String) request.getAttribute("target");
-        }
+        String msg = "Unknown command."; // Maybe elaborate this.
+        throw new LoginException(msg);
     }
 
 }
