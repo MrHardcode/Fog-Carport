@@ -102,7 +102,7 @@ public class BaseCalcTest
     @Test
     public void testAddBaseFirstMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
 //        System.out.println("Orderdetails test nr." + count + ": \nOrder length: " + order.getLength() 
 //                            + "\nOrder width: " + order.getWidth()
 //                            + "\nShed length: " + order.getShed_length()
@@ -115,14 +115,14 @@ public class BaseCalcTest
     @Test
     public void testAddBaseSecondMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
         assertEquals(bom.getBillOfMaterials().get(1).getQuantity(), result.getBillOfMaterials().get(1).getQuantity());
     }
     
     @Test
     public void testAddBaseThirdMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
         assertEquals(bom.getBillOfMaterials().get(2).getQuantity(), result.getBillOfMaterials().get(2).getQuantity());
     }
     

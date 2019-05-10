@@ -1,4 +1,45 @@
+/*----------------- Navbar JS -----------------  */
 
+/*----------------- OrderValidation JS -----------------  */
+
+document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
+
+function fillDropdownsDimensions() {
+    let lengthOption = document.getElementById('input-length');
+    let widthOption = document.getElementById('input-width');
+    for (let i = 240; i < 750; i = i + 30) {
+        lengthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
+        widthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
+    }
+}
+;
+
+let inputlength = document.getElementById("input-length");
+let inputwidth = document.getElementById("input-width");
+let submit = document.getElementById("submit-btn");
+
+inputlength.addEventListener("change", function () {
+    ValidateCarportInput();
+});
+inputwidth.addEventListener("change", function () {
+    ValidateCarportInput();
+});
+
+function ValidateCarportInput() {
+
+    let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
+    let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+
+    if (inputLengthValue !== "" && inputWidthValue !== "") {
+        submit.classList.remove("disabled");
+        submit.removeAttribute("disabled");
+    } else {
+        submit.classList.add("disabled");
+        submit.setAttribute("disabled", "disabled");
+    }
+}
+
+/*----------------- OrderValidation[SHED] JS -----------------  */
 let len = document.getElementById("input-length").selected;
 let wid = document.getElementById("input-width").selected;
 
@@ -7,8 +48,12 @@ document.getElementById("check-skur").addEventListener("click", checkShedMenuVis
 document.getElementById("check-skur").disabled = true;
 
 //elements from OrderValidation.js
-inputlength.addEventListener("change",function(){checkMenuState();});
-inputwidth.addEventListener("change",function(){checkMenuState();});
+inputlength.addEventListener("change", function () {
+    checkMenuState();
+});
+inputwidth.addEventListener("change", function () {
+    checkMenuState();
+});
 
 function checkMenuState() {
     //I am using double == instead of triple === on purpose 
@@ -17,8 +62,7 @@ function checkMenuState() {
         document.getElementById("check-skur").disabled = true;
         document.getElementById("check-skur").checked = false;
         checkShedMenuVisibility();
-    }
-    else
+    } else
     {
         document.getElementById("check-skur").disabled = false;
         clearShedDimensionsMenu();
@@ -35,10 +79,11 @@ function checkShedMenuVisibility() {
         //Making the shed-form visible by removing the cheeky little "hidden"-attribute
         let div = document.getElementById("carport-shed-div");
         div.removeAttribute("hidden");
+        //Clearing menu in case the menu was already filled
+        clearShedDimensionsMenu();
         //Preparing the dropdowns with options for the shed
         prepareShedMenu();
-    } 
-    else
+    } else
     {
         //Making the shed-form disappear
         let div = document.getElementById("carport-shed-div");
@@ -56,7 +101,7 @@ let wallOptions = document.getElementById("shed-wall");
 
 
 function prepareShedMenu() {
-
+    
     //Getting the given dimensions of the carport
     let carportLength = document.getElementById("input-length").value;
     let carportWidth = document.getElementById("input-width").value;
@@ -111,11 +156,11 @@ function prepareShedMenu() {
             widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], j);
         }
     }
-    
+
     function fillDropDownShedFloor() {
-        floorOptions.options[1] = new Option("Eg", 50);
+        floorOptions.options[1] = new Option("Alm. planke", 55);
     }
-    
+
     function fillDropDownShedWall() {
         wallOptions.options[1] = new Option("Eg", 50);
     }
