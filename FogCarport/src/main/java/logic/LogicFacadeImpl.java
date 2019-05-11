@@ -168,4 +168,10 @@ public class LogicFacadeImpl implements LogicFacade
         return DataFacadeImpl.getInstance().login(email, password);
     }
 
+    @Override
+    public List<Integer> getOrderIds(int id) throws LoginException
+    {
+        return DataFacadeImpl.getInstance().getOrderIds(id);
+    }
+
 }

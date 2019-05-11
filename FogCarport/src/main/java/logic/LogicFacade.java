@@ -38,4 +38,6 @@ public interface LogicFacade
     public String getSVGroof(OrderModel order) throws LoginException;
     
     public CustomerModel login(String email, String password) throws LoginException;
+
+    public List<Integer> getOrderIds(int id) throws LoginException;
 }

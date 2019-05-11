@@ -94,4 +94,10 @@ public class DataFacadeImpl implements DataFacade
         return UserMapper.getInstance().login(email, password);
     }
 
+    @Override
+    public List<Integer> getOrderIds(int id) throws LoginException
+    {
+        return OrderMapper.getInstance().getOrderIds(id);
+    }
+
 }

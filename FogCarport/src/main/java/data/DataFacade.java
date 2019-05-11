@@ -31,4 +31,6 @@ public interface DataFacade
     public void createEmployee(EmployeeModel employee) throws LoginException;
     
     public CustomerModel login(String email, String password) throws LoginException;
+    
+    public List<Integer> getOrderIds(int id) throws LoginException;
 }

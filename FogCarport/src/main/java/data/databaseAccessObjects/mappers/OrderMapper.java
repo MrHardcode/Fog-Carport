@@ -135,4 +135,30 @@ public class OrderMapper {
         }
         return ids;
     }
+    
+    /**
+     * Get all Order ids from one Customer.
+     * @param id
+     * @return
+     * @throws LoginException 
+     */
+    public List<Integer> getOrderIds(int id) throws LoginException {
+        String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
+        List<Integer> ids = new ArrayList<>();
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Integer tempid = rs.getInt("id_order");
+                ids.add(tempid);
+            }
+        } catch(SQLException ex) {
+            throw new LoginException(ex.getMessage());
+        }
+        return ids;
+    }
 }
