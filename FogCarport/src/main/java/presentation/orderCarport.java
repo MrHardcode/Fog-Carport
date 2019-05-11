@@ -22,21 +22,22 @@ public class orderCarport extends Command
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
         OrderModel order = new OrderModel();
-        CustomerModel customer = new CustomerModel();
+        CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
 //        EmployeeModel employee = new EmployeeModel();
 
-        // Customer Info
-        String name = request.getParameter("name");
-        int phonenumber = Integer.parseInt(request.getParameter("phonenumber"));
-        String email = request.getParameter("email");
-        String adress = request.getParameter("adress");
-        int zip = Integer.parseInt(request.getParameter("zip"));
-        // Set the Customer Info on Customer.
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setPhone(phonenumber);
-        customer.setAdress(adress);
-        customer.setZip(zip);
+          /* GET CUSTOMER INFO FROM SESSION INSTEAD NOW */
+//        // Customer Info
+//        String name = request.getParameter("name");
+//        int phonenumber = Integer.parseInt(request.getParameter("phonenumber"));
+//        String email = request.getParameter("email");
+//        String adress = request.getParameter("adress");
+//        int zip = Integer.parseInt(request.getParameter("zip"));
+//        // Set the Customer Info on Customer.
+//        customer.setName(name);
+//        customer.setEmail(email);
+//        customer.setPhone(phonenumber);
+//        customer.setAdress(adress);
+//        customer.setZip(zip);
 
         // Carport Info
         int length = Integer.parseInt(request.getParameter("length"));
@@ -73,7 +74,7 @@ public class orderCarport extends Command
             order.setShed_walls_id(0);
         }
 
-        logic.createCustomer(customer);
+//        logic.createCustomer(customer); // Shouldn't create the customer here anymore. Only in createCustomer.jsp
         order.setId_customer(customer.getId());
         order.setId_employee(0);
         logic.createOrder(order);

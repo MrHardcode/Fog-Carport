@@ -31,9 +31,9 @@
                                     Log ind
                                 </button>
 
-                                <!-- Change href to something appropriate when the create user feature is done. -->
+                                <!-- LINK TO CREATE USER -->
                                 <div class="text-center">
-                                    <a class="small" href="#">Opret Bruger</a></div>
+                                    <a class="small" href="FrontController?command=link&link=createUser">Opret Bruger</a></div>
                             </form>
                         </div>
                     </div>
