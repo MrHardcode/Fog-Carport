@@ -88,4 +88,10 @@ public class DataFacadeImpl implements DataFacade
         UserMapper.getInstance().createEmployee(employee);
     }
 
+    @Override
+    public CustomerModel login(String email, String password) throws LoginException
+    {
+        return UserMapper.getInstance().login(email, password);
+    }
+
 }

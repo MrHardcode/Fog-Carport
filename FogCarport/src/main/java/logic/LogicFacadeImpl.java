@@ -162,4 +162,10 @@ public class LogicFacadeImpl implements LogicFacade
         return roof.getRaisedRoofDrawing(order);
     }
 
+    @Override
+    public CustomerModel login(String email, String password) throws LoginException
+    {
+        return DataFacadeImpl.getInstance().login(email, password);
+    }
+
 }

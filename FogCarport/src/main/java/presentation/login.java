@@ -3,8 +3,8 @@
  */
 package presentation;
 
-import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
+import data.models.CustomerModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -20,12 +20,16 @@ public class login extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
+    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
+        CustomerModel customer = logic.login(email, password);
         
+        request.getSession().setAttribute("customer", customer);
+        
+        return "homepage";
     }
     
 }
