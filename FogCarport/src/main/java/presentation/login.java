@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
 /**
- *
+ * Login Method.
+ * This is called after you hit "log ind" on the login.jsp.
+ * You're then either confirmed as a valid user, or rejected and sent back to the login page.
  * @author 
  */
 public class login extends Command
@@ -22,13 +24,16 @@ public class login extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String email = request.getParameter("email"); // Get the email from the Parameters 
+        String password = request.getParameter("password"); // Get the password from the Parameters
         
+        // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
         CustomerModel customer = logic.login(email, password);
         
+        // Place Customer on the Session.
         request.getSession().setAttribute("customer", customer);
         
+        // Return Customer to the homepage of the website.
         return "homepage";
     }
     
