@@ -49,9 +49,12 @@ public class FrontController extends HttpServlet
         HttpSession session = request.getSession();
         if (!(request.getParameter("command").equals("login")))
         {
-            if (session == null || session.getAttribute("customer") == null)
+            if (session.getAttribute("customer") == null)
             {
                 session.invalidate();
+                throw new LoginException("Logged out because of inactivity.");
+            } else if (session == null)
+            {
                 throw new LoginException("Logged out because of inactivity.");
             }
 
