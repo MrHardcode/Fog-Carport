@@ -61,6 +61,7 @@ public class UserMapper
                 customer.setName(rs.getString("customer_name"));
                 customer.setEmail(rs.getString("email"));
                 customer.setPhone(rs.getInt("phone"));
+                customer.setPassword(rs.getString("password"));
             }
 
         } catch (SQLException ex)
