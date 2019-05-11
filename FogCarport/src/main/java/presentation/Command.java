@@ -25,6 +25,7 @@ abstract class Command
         commands.put("viewSVG", new viewSVG()); // Show the SVG drawings of the carport.
         commands.put("makeCarport", new orderCarport()); // Place a new Order into the Database.
         commands.put("login", new login()); // From login.jsp. Log the Customer in.
+        commands.put("createUser", new createUser()); // Make a new Customer
     }
 
     static Command from(HttpServletRequest request)
