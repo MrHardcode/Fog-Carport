@@ -43,11 +43,16 @@ public class FrontController extends HttpServlet
         } 
     }
 
-    
+    /*
+    Session lasts for 30 minutes by default. (You may change this in the session-timeout tag of web.xml.)
+    If the customer is anywhere else but the create user or login page, and isn't logged in and tries to perform an action, 
+    then they will get logged out. 
+    Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
+    */
     private void validateSession(HttpServletRequest request) throws LoginException
     {
         HttpSession session = request.getSession();
-        if (!(request.getParameter("command").equals("login")))
+        if (!(request.getParameter("command").equals("login")) || !(request.getParameter("command").equals("createUser")))
         {
             if (session.getAttribute("customer") == null)
             {
