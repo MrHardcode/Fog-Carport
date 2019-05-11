@@ -24,6 +24,7 @@ abstract class Command
         commands.put("viewPartslist", new viewPartslist());
         commands.put("viewSVG", new viewSVG());
         commands.put("makeCarport", new orderCarport());
+        commands.put("login", new login());
     }
 
     static Command from(HttpServletRequest request)

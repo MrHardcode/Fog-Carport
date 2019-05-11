@@ -33,10 +33,54 @@ public class UserMapper
         }
         return userMapper;
     }
+    
+    /**
+     * Login Method.
+     *
+     * Pulls a User entity from the SQL if the User input correct info into the
+     * form. Else throws an exception and returns User to the index page.
+     *
+     * @param email Users email
+     * @param password Users password
+     * @return User entity
+     * @throws LoginException Custom Exception. Caught in FrontController. Sends
+     * User back to index.jsp.
+     */
+    public CustomerModel login(String email, String password) throws LoginException
+    {
+        String SQL = "SELECT id_customer, phone FROM customers WHERE email=? AND password=?;";
+        try 
+        {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                String tempphone = rs.getString("phone");
+                tempphone = tempphone.replaceAll("\\s+","");
+                int phone = Integer.parseInt(tempphone);
+                int id = rs.getInt("id_customer");
+                CustomerModel customer = new CustomerModel();
+                customer.setPhone(phone);
+                customer.setId(id);
+                customer.setEmail(email);
+                customer.setPassword(password);
+                return customer;
+            } else
+            {
+                throw new LoginException("Could not validate user");
+            }
+        } catch (SQLException ex)
+        {
+            throw new LoginException(ex.getMessage());
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Get a customer">
     /**
-     * Get an Order.
+     * Get a Customer.
      *
      * @param id of the Order.
      * @return OrderModel

@@ -12,7 +12,7 @@
                             <form action="FrontController">
 
                                 <!-- COMMAND -->
-                                <input type="hidden" name="command" value="TBD">
+                                <input type="hidden" name="command" value="login">
 
                                 <!-- EMAIL -->
                                 <div class="form-label-group">
