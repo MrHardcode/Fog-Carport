@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 import logic.LogicFacadeImpl;
 
@@ -29,7 +30,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-//            validateSession(request);
+            validateSession(request);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -42,20 +43,20 @@ public class FrontController extends HttpServlet
         } 
     }
 
-    // Add this in when/if we add in login functionality.
-//    private void validateSession(HttpServletRequest req) throws LoginException
-//    {
-//        HttpSession session = req.getSession();
-//        if (!(req.getParameter("command").equals("Login")))
-//        {
-//            if (session == null || session.getAttribute("user") == null)
-//            {
-//                session.invalidate();
-//                throw new LoginException("Logged out because of inactivity.");
-//            }
-//
-//        }
-//    }
+    
+    private void validateSession(HttpServletRequest request) throws LoginException
+    {
+        HttpSession session = request.getSession();
+        if (!(request.getParameter("command").equals("login")))
+        {
+            if (session == null || session.getAttribute("customer") == null)
+            {
+                session.invalidate();
+                throw new LoginException("Logged out because of inactivity.");
+            }
+
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
