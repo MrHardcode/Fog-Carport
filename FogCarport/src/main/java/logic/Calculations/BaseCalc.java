@@ -25,7 +25,6 @@ public class BaseCalc
     
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
-    //Side one is bugged
     private ArrayList postPosSideOne = new ArrayList();
     private ArrayList postPosSideTwo = new ArrayList();
     private ArrayList postPosRear = new ArrayList();
@@ -281,9 +280,14 @@ public class BaseCalc
         //Adding temp to the postAmount
         postAmount += temp;
         //If the shed is very long we need one or more extra posts
-        if ((sLength / postDistance) > 0 && (sLength % postDistance != 0))
+        if ((sLength / postDistance) > 0)
         {
             postAmount += (sLength / postDistance);
+            
+            if (sLength % postDistance == 0)
+            {
+                --postAmount;
+            }
             
             /*SVG related*/
             int y = sLength / postDistance;
@@ -296,8 +300,21 @@ public class BaseCalc
         /*-------------------------------*/
         /*   First side of the carport   */
         /*-------------------------------*/
-        //Adding the amount of posts for the second side. The + 1 is the front post
+        //Adding the amount of posts for the first side. The + 1 is the front post
         postAmount += (length / postDistance) + 1;
+        
+        /*SVG related*/
+        if (length % postDistance == 0)
+        {
+            int y = length / postDistance;
+            for (int i = 1; i <= y; i++)
+            {
+                postPosSideOne.add(80 + i * (postDistance/10));
+            }
+            postPosSideOne.add(cLength / 10);
+        }
+        /*SVG related*/
+        
         //Adding an extra post if the previous division didn't go up
         if (length % postDistance > 0)
         {
