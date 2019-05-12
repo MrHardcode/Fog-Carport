@@ -30,7 +30,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request);
+//            validateSession(request);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -52,7 +52,8 @@ public class FrontController extends HttpServlet
     private void validateSession(HttpServletRequest request) throws LoginException
     {
         HttpSession session = request.getSession();
-        if (!(request.getParameter("command").equals("login")) || !(request.getParameter("command").equals("createUser")))
+        if (!(request.getParameter("command").equals("login")) 
+                || !(request.getParameter("command").equals("createUser")))
         {
             if (session.getAttribute("customer") == null)
             {
