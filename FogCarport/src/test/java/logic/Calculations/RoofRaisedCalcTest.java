@@ -18,7 +18,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 
-
 /**
  *
  * @author Camilla
@@ -46,8 +45,10 @@ public class RoofRaisedCalcTest {
     @After
     public void tearDown() throws Exception {
     }
+
     /**
      * Test of getScrews method, of class RoofRaisedCalc.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -56,15 +57,20 @@ public class RoofRaisedCalcTest {
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material20 = DAO.getMaterial(20);
         raised.screwCount = 754;
-        for (int i = 0; i < 4; i++) {
-            bomExp.addMaterial(material20);
-        }
+        
+        material20.setQuantity(4);
+        bomExp.addMaterial(material20);
+
         PartslistModel bomRes = raised.getScrews();
+        
+        System.out.println("exp " + bomExp.getBillOfMaterials().get(0).getQuantity());
+        System.out.println("res " + bomRes.getBillOfMaterials().get(0).getQuantity());
         assertEquals(bomExp, bomRes);
     }
 
     /**
      * Test of getRoofTiles method, of class RoofRaisedCalc.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -74,15 +80,15 @@ public class RoofRaisedCalcTest {
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material33 = DAO.getMaterial(33);
         MaterialModel material40 = DAO.getMaterial(40);
+        MaterialModel material32 = DAO.getMaterial(32);
 
-        for (int i = 0; i < 134; i++) {
-            bomExp.addMaterial(material33);
-        }
-        for (int i = 0; i < 5; i++) {
-            bomExp.addMaterial(material40);
-        }
-        bomExp.addMaterial(DAO.getMaterial(32));
-
+        material33.setQuantity(134);
+        material40.setQuantity(5);
+        material32.setQuantity(1);
+        bomExp.addMaterial(material33);
+        bomExp.addMaterial(material40);
+        bomExp.addMaterial(material32);
+        
         order.setWidth(3000);
         order.setIncline(20);
         order.setLength(4000);
@@ -96,23 +102,21 @@ public class RoofRaisedCalcTest {
      * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
      */
     @Test
-    public void testGetRoofRaisedMaterials() throws Exception {
+    public void testGetRoofRoofStructure() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
         MaterialModel material12 = DAO.getMaterial(12);
-        MaterialModel material30 = DAO.getMaterial(30);
-        for (int i = 0; i < 7; i++) {
-            bomExp.addMaterial(material7);
-            bomExp.addMaterial(material7);
-            bomExp.addMaterial(material7);
-            bomExp.addMaterial(material7);
-            bomExp.addMaterial(material30);
-        }
-        for (int i = 0; i < 13; i++) {
-            bomExp.addMaterial(material12);
-        }
+        MaterialModel material30 = DAO.getMaterial(30);     
+        
+        material7.setQuantity(28);
+        material12.setQuantity(13);
+        material30.setQuantity(7);
+        bomExp.addMaterial(material7);
+        bomExp.addMaterial(material30);
+        bomExp.addMaterial(material12);
+
         order.setWidth(3000);
         order.setIncline(20);
         order.setLength(4000);
@@ -133,10 +137,9 @@ public class RoofRaisedCalcTest {
         MaterialModel material7 = DAO.getMaterial(7);
         materials.add(DAO.getMaterial(6)); // length 2400 mm
         materials.add(DAO.getMaterial(7)); // length 3600 mm
-        
-        for (int i = 0; i < 3; i++) {
-            bomExp.addMaterial(material7);
-        }
+        material7.setQuantity(3);
+        bomExp.addMaterial(material7);
+
         PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
         assertEquals(bomExp, bomRes);
     }
@@ -149,12 +152,12 @@ public class RoofRaisedCalcTest {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
+        material7.setQuantity(4);
+        bomExp.addMaterial(material7);
 
-        for (int i = 0; i < 4; i++) {
-            bomExp.addMaterial(material7);
-
-        }
         PartslistModel bomRes = raised.generateRafter(3600, 20);
+        System.out.println("exp " + bomExp.getBillOfMaterials().get(0).getQuantity());
+        System.out.println("res " + bomRes.getBillOfMaterials().get(0).getQuantity());
         assertEquals(bomExp, bomRes);
     }
 
@@ -166,10 +169,8 @@ public class RoofRaisedCalcTest {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material12 = DAO.getMaterial(12);
-
-        for (int i = 0; i < 13; i++) {
-            bomExp.addMaterial(material12);
-        }
+        material12.setQuantity(13);
+        bomExp.addMaterial(material12);
 
         PartslistModel bomRes = raised.generateLaths(4000, 3600, 20);
         assertEquals(bomExp, bomRes);
@@ -186,10 +187,10 @@ public class RoofRaisedCalcTest {
         order.setIncline(20);
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material8 = DAO.getMaterial(8);
-
-        for (int i = 0; i < 20; i++) {
-            bomExp.addMaterial(material8);
-        }
+        
+        material8.setQuantity(20);
+        bomExp.addMaterial(material8);
+                
         PartslistModel bomRes = raised.getCladding(order);
         assertEquals(bomExp, bomRes);
     }
@@ -201,12 +202,10 @@ public class RoofRaisedCalcTest {
     public void testGetCladdingMaterialCount() throws Exception {
         RoofRaisedCalc instance = new RoofRaisedCalc();
         int exp = 5;
-//                getCladdingMaterialCount(totalWidth, incline, offset, materialWidth, materialLength)
         int res = instance.getCladdingMaterialCount(8000, 20, 0, 100, 4800);
 
         assertEquals(exp, res);
 
     }
-
 
 }

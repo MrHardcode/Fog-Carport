@@ -70,6 +70,20 @@ public class MaterialModel
         this.unit = unit;
         this.category = category;
     }
+    
+    public MaterialModel(MaterialModel model){
+        ID = model.ID;
+        name = model.name;
+        description = model.description;
+        helptext = model.helptext; //Not in constructor. Maybe add it to it.
+        length = model.length;
+        width = model.width;
+        height = model.height;
+        quantity = model.quantity; //Not in constructor. Maybe add it to it.
+        price = model.price; // Not in constructor. 
+        unit = model.unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
+        category = model.category;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     
