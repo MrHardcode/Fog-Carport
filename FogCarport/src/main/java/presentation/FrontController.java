@@ -66,7 +66,7 @@ public class FrontController extends HttpServlet
             // SEND USER TO LOGIN PAGE.
             request.setAttribute("target", "login");
             // ERRORMESSAGE SHOWN TO USER.
-            request.setAttribute("message", "You have to be logged in to do that.");
+            request.setAttribute("message", "You should log in.");
             // FORWARD USER.
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
