@@ -78,6 +78,19 @@
             </div>
         </div>
 
+        <h1 class="h1">Kunde info</h1>
+        <!-- Customer info -->
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                <label for="inputAddress">Adresse</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputZip">Postnummer</label>
+                <input type="number" class="form-control" id="inputZip" placeholder="Postnummer" name="zip" required>
+            </div>
+        </div>
+
         <!-- Button to submit -->
         <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>

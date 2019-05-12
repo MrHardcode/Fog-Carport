@@ -48,7 +48,8 @@ public class orderCarport extends Command
 
         //roof info
         int roof_incline = Integer.parseInt(request.getParameter("incline"));
-        int roof_tiles_id = Integer.parseInt(request.getParameter("roof_tiles_id"));
+        String rooftiles = request.getParameter("roof_tiles_id");
+        int roof_tiles_id = Integer.parseInt(rooftiles);
 
         //set roof info on Order
         order.setIncline(roof_incline);
@@ -76,7 +77,10 @@ public class orderCarport extends Command
 
 //        logic.createCustomer(customer); // Shouldn't create the customer here anymore. Only in createCustomer.jsp
         order.setId_customer(customer.getId());
-        order.setId_employee(0);
+        order.setId_employee(1);
+        order.setBuild_adress(request.getParameter("adress"));
+        order.setBuild_zipcode(Integer.parseInt(request.getParameter("zip")));
+        order.setStatus("Awaiting");
         logic.createOrder(order);
 
         request.setAttribute("message", "Carport succesfully ordered.");
