@@ -26,17 +26,19 @@ public class viewAllOrders extends Command
     {
         // Pull Customer out of Session.
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
-        // Get all the ids of the customers orders from the database.
-        List<Integer> ids = logic.getOrderIds(customer.getId());
-        
-        // Message to User if they have no orders.
-        if (ids.isEmpty()) 
+        if (customer != null)
         {
-            request.setAttribute("message", "You have no Orders. Orders show up here when you make one.");
+            // Get all the ids of the customers orders from the database.
+            List<Integer> ids = logic.getOrderIds(customer.getId());
+            // Message to User if they have no orders.
+            if (ids.isEmpty())
+            {
+                request.setAttribute("message", "You have no Orders. Orders show up here when you make one.");
+            }
+            // Put them on the request so they can be shown to the Customer.
+            request.setAttribute("ids", ids);
         }
-        
-        // Put them on the request so they can be shown to the Customer.
-        request.setAttribute("ids", ids);
+
         // Send Customer to the page where they can view and select any of their orders.
         return "allOrders";
     }
