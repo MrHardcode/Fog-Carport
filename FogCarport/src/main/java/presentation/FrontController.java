@@ -31,7 +31,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response);
+            validateSession(request, response); // Throws Illegal State Exception that isn't handled.
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
