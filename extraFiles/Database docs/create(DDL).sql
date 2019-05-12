@@ -17,7 +17,7 @@ CREATE TABLE `carportdb`.`category` (
 CREATE TABLE `carportdb`.`customers` (
   `id_customer` INT NOT NULL AUTO_INCREMENT,
   `customer_name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(20) NOT NULL,
+  `phone` INT(10) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `password` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id_customer`),
