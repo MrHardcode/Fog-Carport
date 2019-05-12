@@ -24,7 +24,7 @@ INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('test', '3')
 
 
 /*
-Creating 50 customers. This was generated here: https://www.generatedata.com/
+Creating 100 customers. This was generated here: https://www.generatedata.com/
 Taking use of default values (auto_increment) for >id_customer<. */
 ALTER TABLE `carportdb`.`customers` AUTO_INCREMENT = 1; /* Ensuring we start from 1*/
 INSERT INTO `customers` (`customer_name`,`phone`,`email`,`password`) VALUES ("Sage S. Wells","05 51 03 56 01","magna@semut.com","875"),("Barclay Ramirez","04 85 00 45 22","nunc.nulla@Pellentesque.ca","900"),("Ava Watkins","04 38 54 12 50","aliquet.libero@lectusNullam.net","894"),("Teegan Bowers","06 41 06 28 48","velit.Cras@ametdiameu.edu","587"),("Noelani R. Sullivan","01 28 82 63 55","nonummy@et.ca","858"),("Abel B. Bray","06 49 18 36 30","sem.egestas@dolordolortempus.co.uk","879"),("Chloe Y. Wolfe","09 57 97 71 82","ipsum.primis@non.edu","812"),("Jael Waller","06 31 75 77 15","Morbi.sit.amet@quispedePraesent.net","419"),("Jacob I. Wilder","09 69 16 50 64","Fusce.feugiat.Lorem@Donec.ca","826"),("Ross Reed","02 90 08 38 20","tortor@nibh.co.uk","640");
