@@ -58,12 +58,9 @@ public class UserMapper
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
-                String tempphone = rs.getString("phone");
-                tempphone = tempphone.replaceAll("\\s+","");
-                int phone = Integer.parseInt(tempphone);
                 int id = rs.getInt("id_customer");
                 CustomerModel customer = new CustomerModel();
-                customer.setPhone(phone);
+                customer.setPhone(rs.getInt("phone"));
                 customer.setId(id);
                 customer.setEmail(email);
                 customer.setPassword(password);
@@ -104,9 +101,7 @@ public class UserMapper
             {
                 customer.setName(rs.getString("customer_name"));
                 customer.setEmail(rs.getString("email"));
-                String tempphone = rs.getString("phone");
-                tempphone = tempphone.replaceAll("\\s+","");
-                int phone = Integer.parseInt(tempphone);
+                customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
             }
 
