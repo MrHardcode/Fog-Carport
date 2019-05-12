@@ -2,6 +2,7 @@ package presentation;
 
 import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
+import data.models.CustomerModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-//            validateSession(request);
+            validateSession(request, response);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -49,21 +50,14 @@ public class FrontController extends HttpServlet
     then they will get logged out. 
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     */
-    private void validateSession(HttpServletRequest request) throws LoginException
+    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
     {
         HttpSession session = request.getSession();
-        if (!(request.getParameter("command").equals("login")) 
-                || !(request.getParameter("command").equals("createUser")))
-        {
-            if (session.getAttribute("customer") == null)
-            {
-                session.invalidate();
-                throw new LoginException("Logged out because of inactivity.");
-            } else if (session == null)
-            {
-                throw new LoginException("Logged out because of inactivity.");
-            }
-
+        CustomerModel customer = (CustomerModel) session.getAttribute("customer");
+        if (!"login".equals(request.getParameter("command")) && customer == null){
+            session.invalidate();
+            request.setAttribute("target", "login");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
