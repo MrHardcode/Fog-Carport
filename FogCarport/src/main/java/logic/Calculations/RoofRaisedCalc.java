@@ -288,6 +288,26 @@ public class RoofRaisedCalc {
 
         return rafterBOM;
     }
+    
+    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws LoginException{
+        PartslistModel fasciaBOM = new PartslistModel();
+        
+        double angleRad = Math.toRadians(incline);
+        double adjacentCath = totalWidth * 0.5;
+        double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(1)); // length 4800 mm
+        materials.add(DAO.getMaterial(2)); // length 5400 mm
+        materials.add(DAO.getMaterial(3)); // length 6000 mm
+        
+        fasciaBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
+        fasciaBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)));
+        fasciaBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(orderLength)));
+        fasciaBOM.addPartslist(getMaterialsFromlength(materials, (int) Math.ceil(orderLength)));
+                
+        return fasciaBOM;
+    }
 
     /**
      * Calculates the length of the different parts of all the laths and calls
