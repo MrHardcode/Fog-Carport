@@ -172,9 +172,11 @@ public class UserMapper
         String SQL = "INSERT INTO `carportdb`.`customers`\n"
                 + "(`customer_name`,\n"
                 + "`phone`,\n"
-                + "`email`)\n"
+                + "`email`,\n"
+                + "`password`)\n"
                 + "VALUES\n"
                 + "(?,\n"
+                + "?,\n"
                 + "?,\n"
                 + "?);";
         try
@@ -184,6 +186,7 @@ public class UserMapper
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getPassword());
             ps.executeUpdate();
             try (ResultSet ids = ps.getGeneratedKeys())
             {
