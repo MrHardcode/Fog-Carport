@@ -31,12 +31,10 @@ public class viewSVG extends Command
             throw new LoginException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
         }
         String svgbase = logic.getSVGbase(bom, order);
-        session.setAttribute("svgbase", svgbase);
+        request.setAttribute("svgbase", svgbase);
         
         String svgroof = logic.getSVGroof(order);
-        session.setAttribute("svgroof", svgroof);
-        
-        
+        request.setAttribute("svgroof", svgroof);
         
         return "viewSVG";
     }

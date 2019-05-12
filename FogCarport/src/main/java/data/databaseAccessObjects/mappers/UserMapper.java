@@ -182,7 +182,7 @@ public class UserMapper
             Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getName());
-            ps.setInt(2, customer.getId());
+            ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
             ps.executeUpdate();
             try (ResultSet ids = ps.getGeneratedKeys())

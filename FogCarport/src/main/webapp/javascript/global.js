@@ -102,7 +102,7 @@ function prepareTileMenu()
         roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
         roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
         for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + 1 + '">' + roofTileOptions.get(i) + '</option>';
+            tileOption.innerHTML += '<option value="' + roofTileOptions.valueOf(i) + '">' + roofTileOptions.get(i) + '</option>';
         }
 
     }
@@ -198,7 +198,7 @@ function prepareShedMenu() {
             sValues[i] = e - 30 * ([i]);
             if (sValues[i] <= 120)
             {
-                //If the current values in the array "sValues" is -30 - that means
+                //If the current values in the array "sValues" is less than 0 - that means
                 //that no initial value was given (no value for the carport's base construction was given)
                 //This means that no options should be available in the dropdowns for the shed
                 if (sValues[i] < 0)
