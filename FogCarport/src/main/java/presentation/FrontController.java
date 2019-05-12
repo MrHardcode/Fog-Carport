@@ -49,17 +49,29 @@ public class FrontController extends HttpServlet
     If the customer is anywhere else but the create user or login page, and isn't logged in and tries to perform an action, 
     then they will get logged out. 
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
-    */
+    
+    TO DO - ADD CREATE USER PAGE TO THIS. CURRENTLY ONLY CHECKING FOR LOGIN PAGE.
+     */
     private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
     {
+        // GET SESSION.
         HttpSession session = request.getSession();
+        // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
-        if (!"login".equals(request.getParameter("command")) && customer == null){
+        // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
+        if (!"login".equals(request.getParameter("command")) && customer == null)
+        {
+            // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
+            // SEND USER TO LOGIN PAGE.
             request.setAttribute("target", "login");
+            // ERRORMESSAGE SHOWN TO USER.
+            request.setAttribute("message", "You have to be logged in to do that.");
+            // FORWARD USER.
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
