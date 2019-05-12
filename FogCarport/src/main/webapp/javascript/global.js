@@ -102,7 +102,7 @@ function prepareTileMenu()
         roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
         roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
         for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + 1 + '">' + roofTileOptions.get(i) + '</option>';
+            tileOption.innerHTML += '<option value="' + roofTileOptions.valueOf(i) + '">' + roofTileOptions.get(i) + '</option>';
         }
 
     }
