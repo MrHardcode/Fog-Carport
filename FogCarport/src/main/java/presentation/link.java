@@ -21,13 +21,8 @@ public class link extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        String link = request.getParameter("link");
-        if (link != null && !link.isEmpty()){
-            return link;
-        } else {
-            return "homepage";
-        }
-                
+        Validation validation = new Validation();
+        return validation.validateString(request.getParameter("link"), "Link");  
     }
     
 }
