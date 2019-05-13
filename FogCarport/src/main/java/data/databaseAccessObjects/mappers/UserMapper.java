@@ -33,10 +33,51 @@ public class UserMapper
         }
         return userMapper;
     }
+    
+    /**
+     * Login Method.
+     *
+     * Pulls a User entity from the SQL if the User input correct info into the
+     * form. Else throws an exception and returns User to the index page.
+     *
+     * @param email Users email
+     * @param password Users password
+     * @return User entity
+     * @throws LoginException Custom Exception. Caught in FrontController. Sends
+     * User back to index.jsp.
+     */
+    public CustomerModel login(String email, String password) throws LoginException
+    {
+        String SQL = "SELECT id_customer, phone FROM customers WHERE email=? AND password=?;";
+        try 
+        {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                int id = rs.getInt("id_customer");
+                CustomerModel customer = new CustomerModel();
+                customer.setPhone(rs.getInt("phone"));
+                customer.setId(id);
+                customer.setEmail(email);
+                customer.setPassword(password);
+                return customer;
+            } else
+            {
+                throw new LoginException("Could not validate user");
+            }
+        } catch (SQLException ex)
+        {
+            throw new LoginException(ex.getMessage());
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Get a customer">
     /**
-     * Get an Order.
+     * Get a Customer.
      *
      * @param id of the Order.
      * @return OrderModel
@@ -61,6 +102,7 @@ public class UserMapper
                 customer.setName(rs.getString("customer_name"));
                 customer.setEmail(rs.getString("email"));
                 customer.setPhone(rs.getInt("phone"));
+                customer.setPassword(rs.getString("password"));
             }
 
         } catch (SQLException ex)
@@ -130,9 +172,11 @@ public class UserMapper
         String SQL = "INSERT INTO `carportdb`.`customers`\n"
                 + "(`customer_name`,\n"
                 + "`phone`,\n"
-                + "`email`)\n"
+                + "`email`,\n"
+                + "`password`)\n"
                 + "VALUES\n"
                 + "(?,\n"
+                + "?,\n"
                 + "?,\n"
                 + "?);";
         try
@@ -142,6 +186,7 @@ public class UserMapper
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getPassword());
             ps.executeUpdate();
             try (ResultSet ids = ps.getGeneratedKeys())
             {

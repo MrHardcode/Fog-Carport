@@ -2,12 +2,14 @@ package presentation;
 
 import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
+import data.models.CustomerModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 import logic.LogicFacadeImpl;
 
@@ -29,7 +31,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-//            validateSession(request);
+            validateSession(request, response); // Throws Illegal State Exception that isn't handled.
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -42,20 +44,34 @@ public class FrontController extends HttpServlet
         } 
     }
 
-    // Add this in when/if we add in login functionality.
-//    private void validateSession(HttpServletRequest req) throws LoginException
-//    {
-//        HttpSession session = req.getSession();
-//        if (!(req.getParameter("command").equals("Login")))
-//        {
-//            if (session == null || session.getAttribute("user") == null)
-//            {
-//                session.invalidate();
-//                throw new LoginException("Logged out because of inactivity.");
-//            }
-//
-//        }
-//    }
+    /*
+    Session lasts for 30 minutes by default. (You may change this in the session-timeout tag of web.xml.)
+    If the customer is anywhere else but the create user or login page, and isn't logged in and tries to perform an action, 
+    then they will get logged out. 
+    Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
+    
+    TO DO - ADD CREATE USER PAGE TO THIS. CURRENTLY ONLY CHECKING FOR LOGIN PAGE.
+     */
+    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
+    {
+        // GET SESSION.
+        HttpSession session = request.getSession();
+        // GET CUSTOMER OBJECT.
+        CustomerModel customer = (CustomerModel) session.getAttribute("customer");
+        // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
+        if (!"login".equals(request.getParameter("command")) && customer == null)
+        {
+            // INVALIDATE THE FAULTY SESSION.
+            session.invalidate();
+            // SEND USER TO LOGIN PAGE.
+            request.setAttribute("target", "login");
+            // ERRORMESSAGE SHOWN TO USER.
+            request.setAttribute("message", "You should log in.");
+            // FORWARD USER.
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

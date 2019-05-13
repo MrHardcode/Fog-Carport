@@ -21,9 +21,11 @@ abstract class Command
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
         commands.put("link", new link()); // link internally.
-        commands.put("viewPartslist", new viewPartslist());
-        commands.put("viewSVG", new viewSVG());
-        commands.put("makeCarport", new orderCarport());
+        commands.put("viewPartslist", new viewPartslist()); // Show the partslist to the Customer based on their order.
+        commands.put("viewSVG", new viewSVG()); // Show the SVG drawings of the carport.
+        commands.put("makeCarport", new orderCarport()); // Place a new Order into the Database.
+        commands.put("login", new login()); // From login.jsp. Log the Customer in.
+        commands.put("createUser", new createUser()); // Make a new Customer
     }
 
     static Command from(HttpServletRequest request)

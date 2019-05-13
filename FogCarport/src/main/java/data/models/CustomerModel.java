@@ -17,9 +17,30 @@ public class CustomerModel
     private String email;
     private String adress;
     private int zip;
+    private String password;
 
     public CustomerModel()
     {
+    }
+
+    /**
+     * Get the value of password
+     *
+     * @return the value of password
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @param password new value of password
+     */
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     /**

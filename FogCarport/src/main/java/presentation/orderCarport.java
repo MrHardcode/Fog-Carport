@@ -22,35 +22,63 @@ public class orderCarport extends Command
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
         OrderModel order = new OrderModel();
-        CustomerModel customer = new CustomerModel();
-//        EmployeeModel employee = new EmployeeModel();
+        CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
 
-        // Customer Info
-        String name = request.getParameter("name");
-        int phonenumber = Integer.parseInt(request.getParameter("phonenumber"));
-        String email = request.getParameter("email");
-        String adress = request.getParameter("adress");
-        int zip = Integer.parseInt(request.getParameter("zip"));
-        // Set the Customer Info on Customer.
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setPhone(phonenumber);
-        customer.setAdress(adress);
-        customer.setZip(zip);
+        // CARPORT LENGTH
+        String carportlength = request.getParameter("length");
+        if (carportlength == null || carportlength.isEmpty())
+        {
+            throw new LoginException("Length of carport may not be empty.");
+        } else
+        {
+            try
+            {
+                int length = Integer.parseInt(carportlength);
+                order.setLength(length);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Length input have to be an integer.");
+            }
+        }
+        
+        // CARPORT WIDTH
+        String carportwidth = request.getParameter("width");
+        if (carportwidth == null || carportlength.isEmpty())
+        {
+            throw new LoginException("Width of carport may not be empty.");
+        } else
+        {
+            try
+            {
+                int width = Integer.parseInt(carportwidth);
+                order.setWidth(width);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Width input have to be an integer.");
+            }
+        }
 
-        // Carport Info
-        int length = Integer.parseInt(request.getParameter("length"));
-        int width = Integer.parseInt(request.getParameter("width"));
-        // Set the Carport Info on Order.
-        order.setLength(length);
-        order.setWidth(width);
-
-        //roof info
-        int roof_incline = Integer.parseInt(request.getParameter("incline"));
-        int roof_tiles_id = Integer.parseInt(request.getParameter("roof_tiles_id"));
+        // ROOF INFO
+        String roofincline = request.getParameter("incline");
+        if (roofincline == null || roofincline.isEmpty())
+        {
+            throw new LoginException("Roof incline may not be empty.");
+        } else
+        {
+            try
+            {
+                int roof_incline = Integer.parseInt(roofincline);
+                order.setIncline(roof_incline);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Roof incline has to be an Integer.");
+            }
+        }
+        
+        String rooftiles = request.getParameter("roof_tiles_id");
+        int roof_tiles_id = Integer.parseInt(rooftiles);
 
         //set roof info on Order
-        order.setIncline(roof_incline);
         order.setRoof_tiles_id(roof_tiles_id);
         // Shed Info
         String shed = request.getParameter("shed");
@@ -66,20 +94,24 @@ public class orderCarport extends Command
             order.setShed_width(shed_width);
             order.setShed_floor_id(shed_floor_id);
             order.setShed_walls_id(shed_wall_id);
-        } else {
+        } else
+        {
             order.setShed_length(0);
             order.setShed_width(0);
             order.setShed_floor_id(0);
             order.setShed_walls_id(0);
         }
 
-        logic.createCustomer(customer);
+//        logic.createCustomer(customer); // Shouldn't create the customer here anymore. Only in createCustomer.jsp
         order.setId_customer(customer.getId());
-        order.setId_employee(0);
+        order.setId_employee(1);
+        order.setBuild_adress(request.getParameter("adress"));
+        order.setBuild_zipcode(Integer.parseInt(request.getParameter("zip")));
+        order.setStatus("Awaiting");
         logic.createOrder(order);
 
         request.setAttribute("message", "Carport succesfully ordered.");
-        
+
         return "homepage";
     }
 

@@ -29,6 +29,12 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="FrontController?command=allOrders">Se alle ordrer </a>
                 </li>
+                <li class="nav-item">
+                    <!-- Show errormessage to the User --> 
+                    <c:if test="${not empty message}">
+                        <a class="nav-link active" >  Message: ${message} </a>
+                        </c:if>
+                </li>
 
             </ul>
         </div>

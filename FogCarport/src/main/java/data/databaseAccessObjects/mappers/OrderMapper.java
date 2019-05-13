@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class OrderMapper {
 
         try {
             Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, order.getBuild_adress());
             ps.setInt(2, order.getBuild_zipcode());
             ps.setString(3, order.getStatus());
@@ -103,10 +104,12 @@ public class OrderMapper {
             ps.setInt(12, order.getId_customer());
             ps.setInt(13, order.getId_employee());
             ps.executeUpdate();
-            ResultSet id = ps.getGeneratedKeys(); // Getting the auto-generated order_id.
-            id.next();
-            int order_id = id.getInt(1);
-            order.setId(order_id);
+            try (ResultSet ids = ps.getGeneratedKeys()) // Getting auto-generated key.
+            {
+                ids.next();
+                int id = ids.getInt(1);
+                order.setId(id);
+            }
         } catch (SQLException ex) {
             throw new LoginException(ex.getMessage());
         }
@@ -131,6 +134,32 @@ public class OrderMapper {
                 ids.add(id);
             }
         }catch(SQLException ex){
+            throw new LoginException(ex.getMessage());
+        }
+        return ids;
+    }
+    
+    /**
+     * Get all Order ids from one Customer.
+     * @param id
+     * @return
+     * @throws LoginException 
+     */
+    public List<Integer> getOrderIds(int id) throws LoginException {
+        String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
+        List<Integer> ids = new ArrayList<>();
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Integer tempid = rs.getInt("id_order");
+                ids.add(tempid);
+            }
+        } catch(SQLException ex) {
             throw new LoginException(ex.getMessage());
         }
         return ids;
