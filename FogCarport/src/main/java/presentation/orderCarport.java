@@ -23,44 +23,39 @@ public class orderCarport extends Command
     {
         OrderModel order = new OrderModel();
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
-//        EmployeeModel employee = new EmployeeModel();
 
-        /* GET CUSTOMER INFO FROM SESSION INSTEAD NOW */
-//        // Customer Info
-//        String name = request.getParameter("name");
-//        int phonenumber = Integer.parseInt(request.getParameter("phonenumber"));
-//        String email = request.getParameter("email");
-//        String adress = request.getParameter("adress");
-//        int zip = Integer.parseInt(request.getParameter("zip"));
-//        // Set the Customer Info on Customer.
-//        customer.setName(name);
-//        customer.setEmail(email);
-//        customer.setPhone(phonenumber);
-//        customer.setAdress(adress);
-//        customer.setZip(zip);
-        // CARPORT LENGTH AND WIDTH
+        // CARPORT LENGTH
         String carportlength = request.getParameter("length");
         if (carportlength == null || carportlength.isEmpty())
         {
             throw new LoginException("Length of carport may not be empty.");
+        } else
+        {
+            try
+            {
+                int length = Integer.parseInt(carportlength);
+                order.setLength(length);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Length input have to be an integer.");
+            }
         }
-
+        
+        // CARPORT WIDTH
         String carportwidth = request.getParameter("width");
         if (carportwidth == null || carportlength.isEmpty())
         {
             throw new LoginException("Width of carport may not be empty.");
-        }
-
-        try
+        } else
         {
-            int length = Integer.parseInt(carportlength);
-            int width = Integer.parseInt(carportwidth);
-            // Set the Carport Info on Order.
-            order.setLength(length);
-            order.setWidth(width);
-        } catch (NumberFormatException ex)
-        {
-            throw new LoginException("Length and Width inputs have to be Integers.");
+            try
+            {
+                int width = Integer.parseInt(carportwidth);
+                order.setWidth(width);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Width input have to be an integer.");
+            }
         }
 
         // ROOF INFO
@@ -68,16 +63,18 @@ public class orderCarport extends Command
         if (roofincline == null || roofincline.isEmpty())
         {
             throw new LoginException("Roof incline may not be empty.");
-        }
-        try
+        } else
         {
-            int roof_incline = Integer.parseInt(roofincline);
-            order.setIncline(roof_incline);
-        } catch (NumberFormatException ex)
-        {
-            throw new LoginException("Roof incline has to be an Integer.");
+            try
+            {
+                int roof_incline = Integer.parseInt(roofincline);
+                order.setIncline(roof_incline);
+            } catch (NumberFormatException ex)
+            {
+                throw new LoginException("Roof incline has to be an Integer.");
+            }
         }
-
+        
         String rooftiles = request.getParameter("roof_tiles_id");
         int roof_tiles_id = Integer.parseInt(rooftiles);
 
