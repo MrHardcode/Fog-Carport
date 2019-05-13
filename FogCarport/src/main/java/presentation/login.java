@@ -25,26 +25,18 @@ public class login extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        String email = request.getParameter("email"); // Get the email from the Parameters 
-        String password = request.getParameter("password"); // Get the password from the Parameters
+        Validation validation = new Validation();
+        String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 
+        String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
-        if (email == null || email.isEmpty())
-        {
-            throw new LoginException("Email field can't be empty.");
-        } else if (password == null || password.isEmpty())
-        {
-            throw new LoginException("Password field can't be empty.");
-        } else
-        {
-            // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
-            CustomerModel customer = logic.login(email, password);
+        // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
+        CustomerModel customer = logic.login(email, password);
 
-            // Place Customer on the Session.
-            request.getSession().setAttribute("customer", customer);
+        // Place Customer on the Session.
+        request.getSession().setAttribute("customer", customer);
 
-            // Return Customer to the homepage of the website.
-            return "homepage";
-        }
+        // Return Customer to the homepage of the website.
+        return "homepage";
 
     }
 
