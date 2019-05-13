@@ -62,14 +62,17 @@ public class FrontController extends HttpServlet
         {
             if (!"createUser".equals(request.getParameter("link")))
             {
-                // INVALIDATE THE FAULTY SESSION.
-                session.invalidate();
-                // SEND USER TO LOGIN PAGE.
-                request.setAttribute("target", "login");
-                // ERRORMESSAGE SHOWN TO USER.
-                request.setAttribute("message", "You should log in.");
-                // FORWARD USER.
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                if (!"createUser".equals(request.getParameter("command")))
+                {
+                    // INVALIDATE THE FAULTY SESSION.
+                    session.invalidate();
+                    // SEND USER TO LOGIN PAGE.
+                    request.setAttribute("target", "login");
+                    // ERRORMESSAGE SHOWN TO USER.
+                    request.setAttribute("message", "You should log in.");
+                    // FORWARD USER.
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
             }
         }
     }
