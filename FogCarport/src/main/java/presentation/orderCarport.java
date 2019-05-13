@@ -21,42 +21,19 @@ public class orderCarport extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
+        Validation validation = new Validation();
         OrderModel order = new OrderModel();
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
 
         // CARPORT LENGTH
         String carportlength = request.getParameter("length");
-        if (carportlength == null || carportlength.isEmpty())
-        {
-            throw new LoginException("Length of carport may not be empty.");
-        } else
-        {
-            try
-            {
-                int length = Integer.parseInt(carportlength);
-                order.setLength(length);
-            } catch (NumberFormatException ex)
-            {
-                throw new LoginException("Length input have to be an integer.");
-            }
-        }
+        int length = validation.validateInteger(carportlength, "Length of carport may not be empty.", "Length input have to be an integer.");
+        order.setLength(length);
         
         // CARPORT WIDTH
         String carportwidth = request.getParameter("width");
-        if (carportwidth == null || carportlength.isEmpty())
-        {
-            throw new LoginException("Width of carport may not be empty.");
-        } else
-        {
-            try
-            {
-                int width = Integer.parseInt(carportwidth);
-                order.setWidth(width);
-            } catch (NumberFormatException ex)
-            {
-                throw new LoginException("Width input have to be an integer.");
-            }
-        }
+        int width = validation.validateInteger(carportwidth, "Width of carport may not be empty.", "Width of carport has to be an integer.");
+        order.setWidth(width);
 
         // ROOF INFO
         String roofincline = request.getParameter("incline");
