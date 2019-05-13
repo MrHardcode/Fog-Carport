@@ -22,16 +22,15 @@ public class Validation
      * Checks if the integer input is null, empty and actually an integer.
      * To be used by command implementation classes. 
      * @param validate String input from user, that is supposed to be an integer afterwards.
-     * @param emptyerror Error to show user, if input is null or empty.
-     * @param numbererror Error to show user, if input is not an integer.
+     * @param name of the thing you want to validate.
      * @return int
      * @throws LoginException 
      */
-    public int validateInteger(String validate, String emptyerror, String numbererror) throws LoginException
+    public int validateInteger(String validate, String name) throws LoginException
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new LoginException(emptyerror);
+            throw new LoginException(name + " may not be empty.");
         } else
         {
             try
@@ -40,7 +39,7 @@ public class Validation
                 return length;
             } catch (NumberFormatException ex)
             {
-                throw new LoginException(numbererror);
+                throw new LoginException(name + " has to be an integer.");
             }
         }
     }
@@ -51,15 +50,15 @@ public class Validation
      * Checks if the String is null or empty.
      * To be used by command implementation classes.
      * @param validate String input you want to validate.
-     * @param error Message you want to show user if their input is null or empty.
+     * @param name you want to show user if their input is null or empty.
      * @return Input string, if it is valid.
      * @throws LoginException 
      */
-    public String validateString(String validate, String error) throws LoginException
+    public String validateString(String validate, String name) throws LoginException
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new LoginException(error);
+            throw new LoginException(name + " may not be empty.");
         } else
         {
             return validate;
