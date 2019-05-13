@@ -13,14 +13,11 @@ import logic.LogicFacade;
 public class createUser extends Command
 {
 
-    public createUser()
-    {
-    }
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return "createUser";
     }
     
 }
