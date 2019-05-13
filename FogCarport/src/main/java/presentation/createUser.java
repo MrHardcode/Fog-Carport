@@ -33,15 +33,10 @@ public class createUser extends Command
         String phone = request.getParameter("phonenumber");
         customer.setPhone(v.validateInteger(phone, "Phone number"));
         
-        String address = request.getParameter("address");
-        customer.setAdress(v.validateString(address, "The address"));
+        logic.createCustomer(customer);
+        request.getSession().setAttribute("customer", logic.login(email, password));
         
-        String zipcode = request.getParameter("zip");
-        customer.setZip(v.validateInteger(zipcode, "Zip code"));
-        
-        System.out.println("Command createUser anyone?");
-        
-        return "createUser";
+        return "homepage";
     }
     
 }

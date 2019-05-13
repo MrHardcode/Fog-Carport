@@ -30,20 +30,8 @@
                 <label for="inputPhoneNumber">Telefon</label>
                 <input type="number" class="form-control col-md-4" id="inputPhoneNumber" placeholder="Telefonnummer" name="phonenumber" required>
             </div>
-
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-9">
-                <label for="inputAddress">Adresse</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="address" required>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputZip">Postnummer</label>
-                <input type="number" class="form-control" id="inputZip" placeholder="XXXX" name="zip" required>
-            </div>
-        </div>
-        
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary" id="submit-btn">Opret og log ind</button>
     </form>

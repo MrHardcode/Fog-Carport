@@ -169,15 +169,15 @@ public class UserMapper
      */
     public void createCustomer(CustomerModel customer) throws LoginException
     {
-        String SQL = "INSERT INTO `carportdb`.`customers`\n"
-                + "(`customer_name`,\n"
-                + "`phone`,\n"
-                + "`email`,\n"
-                + "`password`)\n"
-                + "VALUES\n"
-                + "(?,\n"
-                + "?,\n"
-                + "?,\n"
+        String SQL = "INSERT INTO `carportdb`.`customers` "
+                + "(`customer_name`, "
+                + "`phone`, "
+                + "`email`, "
+                + "`password`) "
+                + "VALUES "
+                + "(?, "
+                + "?, "
+                + "?, "
                 + "?);";
         try
         {
