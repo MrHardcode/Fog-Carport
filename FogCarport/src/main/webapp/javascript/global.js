@@ -221,11 +221,11 @@ function prepareShedMenu() {
     function fillDropDownShedDimensions() {
         //This enhanced loop creates a new option in the select for the shed-dimensions
         for (i in shedLength) {
-            lengthOptions.options[lengthOptions.options.length] = new Option(shedLength[i], i);
+            lengthOptions.options[lengthOptions.options.length] = new Option(shedLength[i], shedLength[i] * 10);
         }
         //This enhanced loop creates a new option in the select for the shed-dimensions
         for (j in shedWidth) {
-            widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], j);
+            widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], shedWidth[j] * 10);
         }
     }
 
