@@ -54,10 +54,6 @@ public class ShedLogic
         {
             throw new LoginException("Order is null.");
         }
-        if (bom == null)
-        {
-            bom = new PartslistModel();
-        }
         if (order.getShed_walls_id() == 0 || 
                 order.getShed_length() == 0 || 
                 order.getShed_width() == 0)
