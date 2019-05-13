@@ -79,6 +79,12 @@ public class OrderMapper {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Create an Order">
+    /**
+     * Create an order.
+     * Inputs an order into the Database.
+     * @param order you want to input into the SQL database.
+     * @throws LoginException 
+     */
     public void createOrder(OrderModel order) throws LoginException {
         // SQL STATEMENT
         String SQL = "INSERT INTO `carportdb`.`orders` "
@@ -116,6 +122,7 @@ public class OrderMapper {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Get all order ids">
     /**
      * Get all order ids.
      * Used by the .jsp that shows a list of all orders to the salesman.
@@ -138,7 +145,9 @@ public class OrderMapper {
         }
         return ids;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Get all order ids for one customer">
     /**
      * Get all Order ids from one Customer.
      * @param id
@@ -164,4 +173,5 @@ public class OrderMapper {
         }
         return ids;
     }
+    // </editor-fold>
 }

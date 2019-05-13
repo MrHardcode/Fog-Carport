@@ -34,6 +34,7 @@ public class UserMapper
         return userMapper;
     }
     
+    // <editor-fold defaultstate="collapsed" desc="Log in a customer">
     /**
      * Login Method.
      *
@@ -74,6 +75,7 @@ public class UserMapper
             throw new LoginException(ex.getMessage());
         }
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Get a customer">
     /**
