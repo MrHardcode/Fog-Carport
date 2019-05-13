@@ -26,10 +26,13 @@ public class viewOrder extends Command
     {
 
         HttpSession session = request.getSession();
-
-        int id = Integer.parseInt(request.getParameter("orderid"));
+        Validation validation = new Validation();
+        int id = validation.validateInteger(request.getParameter("orderid"), "Order id");
+        
+        // Get an order by id from database.
         OrderModel order = logic.getOrder(id);
-
+        
+        // Place values used by viewOrder on request.
         session.setAttribute("order", order);
         session.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id()).getDescription());
         session.setAttribute("shedwalls", logic.getMaterial(order.getShed_walls_id()).getDescription());
