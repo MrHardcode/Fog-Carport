@@ -25,6 +25,7 @@ public class RoofRaisedCalc {
     int intersectionCount;
     int tileCount;
     int topTileCount;
+    int roofOverhang;
 
     /**
      *
@@ -38,6 +39,7 @@ public class RoofRaisedCalc {
         intersectionCount = 0;
         tileCount = 0;
         topTileCount = 0;
+        roofOverhang = 600;
     }
 
     /**
@@ -77,7 +79,8 @@ public class RoofRaisedCalc {
     protected PartslistModel getScrews() throws LoginException {
 
         PartslistModel screwBOM = new PartslistModel();
-        int screwPacks = (int) Math.ceil((double) screwCount / (double) 200);
+        int screwsPrParck = 200;
+        int screwPacks = (int) Math.ceil((double) screwCount / (double) screwsPrParck);
         MaterialModel material = DAO.getMaterial(20);
         
         material.setQuantity(screwPacks);
@@ -102,7 +105,7 @@ public class RoofRaisedCalc {
 
         int tileLength = DAO.getMaterial(order.getRoof_tiles_id()).getLength();
         int tileWidth = DAO.getMaterial(order.getRoof_tiles_id()).getWidth();
-        int totalWidth = order.getWidth() + 600;
+        int totalWidth = order.getWidth() + roofOverhang;
         double angleRad = Math.toRadians(order.getIncline());
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
@@ -197,7 +200,7 @@ public class RoofRaisedCalc {
     protected PartslistModel getRoofStructure(OrderModel order) throws LoginException {
         PartslistModel roofStructureBOM = new PartslistModel();
         rafterCount = 2;
-        int totalWidth = order.getWidth() + 600;
+        int totalWidth = order.getWidth() + roofOverhang;
         int rafterWidth = 45;
         int rafterSpace = 900;
         int remainderLength = order.getLength() - (2 * rafterWidth);
@@ -394,34 +397,28 @@ public class RoofRaisedCalc {
      */
     protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException {
         PartslistModel lathsBOM = new PartslistModel();
-
-        // til hypotenuseberegning (hypotenuse = tagvidde)
         double angleRad = Math.toRadians(incline);
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
         // der er altid mindts 3 rækker af lægter 
         lathRowCount = 3;
-        int lathsLength;
+        int outerLathDist = 300;
+        int upperLathDist = 350;
+        int minimumLathDist = 307;
 
-        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
-        int roofSideWidth = (int) Math.ceil(hypotenuse) - (30 + 350);
-
-        // beregn antal af rækker af lægter
-        lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) 307);
-
-        // total længde af alle lægter lagt sammen + 1 toplægte
-        lathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
+        int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
+        lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);
+        int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
 
         intersectionCount = lathRowCount * rafterCount;
         screwCount = screwCount + (intersectionCount * 2);
 
-        // lægte materialer
         ArrayList<MaterialModel> materials = new ArrayList();
         materials.add(DAO.getMaterial(12)); // length 5400 mm
         materials.add(DAO.getMaterial(13)); // length 4200 mm
 
-        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, lathsLength), lathsBOM);
+        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
         return lathsBOM;
     }
@@ -446,7 +443,7 @@ public class RoofRaisedCalc {
 
         PartslistModel claddingBOM = new PartslistModel();
         MaterialModel material = DAO.getMaterial(8);
-        int totalWidth = order.getWidth() + 600;
+        int totalWidth = order.getWidth() + roofOverhang;
 
         int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
                 + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
