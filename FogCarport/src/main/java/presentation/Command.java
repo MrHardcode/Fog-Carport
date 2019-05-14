@@ -27,7 +27,7 @@ abstract class Command
         commands.put("login", new login()); // From login.jsp. Log the Customer in.
         commands.put("createUser", new createUser()); // Make a new Customer
         commands.put("makeCarportForm", new makeCarportForm()); //Form for creating a new carport order.
-        commands.put("LogOut", new LogOut()); // Log out customer, clear session, return to homepage.
+        commands.put("logOut", new LogOut()); // Log out customer, clear session, return to homepage.
     }
 
     static Command from(HttpServletRequest request)

@@ -44,7 +44,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li id="logoutbutton" class="float-right"> <!-- class="nav-item" -->
                         <!-- Show log out button to the User if they are logged in --> 
-                        <form action="FrontController?command=LogOut" method="POST">
+                        <form action="FrontController?command=logOut"> <!--  method="POST" -->
                             <button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-sign-out-alt"></i> Log ud</button>
                         </form>
                     </li>
