@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package logic.Calculations;
 
 import data.DataFacade;
@@ -15,16 +11,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
 
 /**
  *
- * @author Asger
+ * @author 
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(Parameterized.class)
@@ -38,7 +34,7 @@ public class BaseCalcTest
     private MaterialModel post;
     private MaterialModel strap;
     private MaterialModel bolts;
-//    static int count = 0;
+    static int count = 0;
     private PartslistModel bom;
     private OrderModel order;
     private int expectedBolts, strapAmount, expectedStraps, expectedPosts, cLength, cWidth, sLength, sWidth, postDistance;
@@ -106,7 +102,7 @@ public class BaseCalcTest
     @Test
     public void testAddBaseFirstMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
 //        System.out.println("Orderdetails test nr." + count + ": \nOrder length: " + order.getLength() 
 //                            + "\nOrder width: " + order.getWidth()
 //                            + "\nShed length: " + order.getShed_length()
@@ -119,38 +115,17 @@ public class BaseCalcTest
     @Test
     public void testAddBaseSecondMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
         assertEquals(bom.getBillOfMaterials().get(1).getQuantity(), result.getBillOfMaterials().get(1).getQuantity());
     }
     
     @Test
     public void testAddBaseThirdMat() throws Exception
     {
-        PartslistModel result = bc.addBase(new PartslistModel(), order);
+        PartslistModel result = bc.addBase(order);
         assertEquals(bom.getBillOfMaterials().get(2).getQuantity(), result.getBillOfMaterials().get(2).getQuantity());
     }
-//
-//    /**
-//     * Test of calcMaterials method, of class BaseCalc.
-//     */
-//    @Test
-//    public void testCalcMaterials() throws Exception
-//    {
-//        System.out.println("calcMaterials");
-//        PartslistModel bom = null;
-//        int cLength = 0;
-//        int cWidth = 0;
-//        int sLength = 0;
-//        int sWidth = 0;
-//        boolean heavyRoof = false;
-//        DataFacade db = null;
-//        BaseCalc instance = new BaseCalc();
-//        instance.calcMaterials(bom, cLength, cWidth, sLength, sWidth, heavyRoof, db);
-//        fail("The test case is a prototype.");
-//    }
     
-//
-//
     @Test
     public void test2CalcStraps()
     {

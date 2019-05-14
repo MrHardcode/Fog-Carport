@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author Camilla
+ * @author
  */
 public class RoofRaisedCalc {
 
@@ -234,6 +234,7 @@ public class RoofRaisedCalc {
         rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (rafterSpace + rafterWidth));
 
         MaterialModel material = DAO.getMaterial(topLathBracket);
+
         for (int i = 0; i < rafterCount; i++) {
             addPartslistWithMaterialsQuantity(generateRafter(totalWidth, order.getIncline()), roofStructureBOM);
         }
@@ -349,6 +350,7 @@ public class RoofRaisedCalc {
     }
 
     /**
+
      * Calculates the length of the different parts of a single rafter and calls
      * getMaterialsFromlength() with the length and the ArrayList of
      * raftermaterials. Class fields screwCount and bracketCount is updated.
@@ -451,6 +453,7 @@ public class RoofRaisedCalc {
         // total længde af alle lægter lagt sammen + 1 toplægte
         int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
         // antal af lægter i alt (begge sider af taget + toplægte
+
         lathRowCount = (lathRowCount * 2) + 1;
 
         intersectionCount = lathRowCount * rafterCount;

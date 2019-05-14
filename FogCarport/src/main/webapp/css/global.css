@@ -1,0 +1,205 @@
+/*----------------- Navbar.jsp CSS -----------------  */
+
+.myNavBar
+{
+    display: inline;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.nav-item
+{
+    border-left: solid 1px;
+}
+
+/*----------------- Index.jsp CSS -----------------  */
+#mainText
+{
+    text-align: center;
+    display: block;
+}
+
+#mainOptions
+{
+    text-align: center;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #007bff;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 50px 50px 50px 50px;
+    margin-right: 185px;
+    -webkit-box-shadow: 0px 0px 30px -11px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 30px -11px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 30px -11px rgba(0, 0, 0, 1);
+}
+
+/*----------------- footer.jsp CSS -----------------  */
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    /*text-align: center;*/
+    margin: 4px 4px 4px 4px;
+}
+
+.footer #gitLinkText
+{
+    display: block;
+    left:0px;
+    visibility:hidden;
+}
+
+.footer:hover #gitLinkText {
+    visibility:visible;
+}
+/*----------------- VALIDATION CSS -----------------  */
+/* In release 1.0 this was used for validating user values in regards to order creation */
+
+.h1{
+    padding: 10px;
+}
+
+.text-error-color{
+    color: rgb(242, 116, 116);
+}
+
+.text-error-size{
+    font-size: 13px;
+}
+
+.swal-button--confirm {
+    padding: 7px 19px;
+    border-radius: 4px;
+    background-color: #007bff;
+    font-size: 12px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+.swal-button--confirm:focus {
+    box-shadow: none;
+}
+
+.form-control.is-invalid{
+    border-color: rgb(242, 116, 116);
+    border-top-color: rgb(242, 116, 116);
+    border-right-color: rgb(242, 116, 116);
+    border-bottom-color: rgb(242, 116, 116);
+    border-left-color: rgb(242, 116, 116);
+    background-image: none;
+    padding-right: .75rem;
+}
+
+.form-control.is-invalid:focus{
+    border-color: rgb(242, 116, 116);
+    border-top-color: rgb(242, 116, 116);
+    border-right-color: rgb(242, 116, 116);
+    border-bottom-color: rgb(242, 116, 116);
+    border-left-color: rgb(242, 116, 116);
+    background-image: none;
+    padding-right: .75rem;
+}
+
+/*----------------- makeCarport.jsp CSS -----------------  */
+
+/*----------------- LOGIN CSS -----------------  */
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('https://i.imgur.com/yrztSID.png?1');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group>input,
+.form-label-group>label {
+  padding: 0.75rem 1.5rem;
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group>label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  cursor: text;
+  /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(1.5rem * 0.6667);
+  padding-bottom: calc(0.75rem / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(0.75rem / 3);
+  padding-bottom: calc(0.75rem / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+/*----------------- CREATE USER -----------------*/
+
+.h4{
+    padding: 10px;
+}
+
+.infoBody{
+    width: 500px;
+}
+
+/*----------------- OTHER CSS -----------------  */
+body
+{
+    padding-bottom: 5%;
+}
