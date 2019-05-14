@@ -7,6 +7,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -159,6 +160,22 @@ public class RoofRaisedCalcTest {
 
         PartslistModel bomRes = raised.generateRafter(3600, 20);
         assertEquals(bomExp, bomRes);
+    }
+    
+    /**
+     * Test of generatefasciaBoards method, of class RoofRaisedCalc.
+     */
+    @Test
+    public void testGeneratefasciaBoards() throws LoginException{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material3 = DAO.getMaterial(3);
+        material3.setQuantity(4);
+        bomExp.addMaterial(material3);
+
+        PartslistModel bomRes = raised.generatefasciaBoards(3600, 20, 4000);
+        assertEquals(bomExp, bomRes);
+        
     }
 
     /**
