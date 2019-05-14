@@ -196,14 +196,13 @@ public class RoofRaisedCalc {
      */
     protected PartslistModel getRoofStructure(OrderModel order) throws LoginException {
         PartslistModel roofStructureBOM = new PartslistModel();
-        int totalWidth = order.getWidth() + 600;
-
-        // spær bredde = 45 mm
-        // afstand (luft) mellem spær max 900 mm
         rafterCount = 2;
-        int remainderLength = order.getLength() - (2 * 45);
+        int totalWidth = order.getWidth() + 600;
+        int rafterWidth = 45;
+        int rafterSpace = 900;
+        int remainderLength = order.getLength() - (2 * rafterWidth);
 
-        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (900 + 45));
+        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (rafterSpace + rafterWidth));
 
         MaterialModel material = DAO.getMaterial(30);
         for (int i = 0; i < rafterCount; i++) {
@@ -212,8 +211,8 @@ public class RoofRaisedCalc {
         
         material.setQuantity(rafterCount); // toplægteholdere
         roofStructureBOM.addMaterial(material);
-        
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
+        generatefasciaBoards(totalWidth, order.getIncline(), order.getLength());
 
         return roofStructureBOM;
     }
@@ -424,7 +423,6 @@ public class RoofRaisedCalc {
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, lathsLength), lathsBOM);
 
-        //lathsBOM.addPartslist(getMaterialsFromlength(materials, lathsLength));
         return lathsBOM;
     }
 
