@@ -69,6 +69,8 @@ public class DataFacadeImpl implements DataFacade
     public EmployeeModel getEmployee(int id) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.getEmployee(id);
     }
 
@@ -76,6 +78,8 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel getCustomer(int id) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.getCustomer(id);
     }
 
@@ -83,6 +87,8 @@ public class DataFacadeImpl implements DataFacade
     public void createCustomer(CustomerModel customer) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        userMapper.setDataSource(dataSource.getDataSource());
         userMapper.createCustomer(customer);
     }
 
@@ -90,6 +96,8 @@ public class DataFacadeImpl implements DataFacade
     public void createEmployee(EmployeeModel employee) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        userMapper.setDataSource(dataSource.getDataSource());
         userMapper.createEmployee(employee);
     }
 
