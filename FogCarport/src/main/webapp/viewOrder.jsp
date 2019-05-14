@@ -68,7 +68,7 @@
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="d-flex justify-content-start">
         <input type="hidden" name="command" value="viewPartslist">      
-        <input type="hidden" name="bom" value="${bom}"> 
+        <input type="hidden" name="partslist" value="${bom}"> 
         <button type="submit" class="btn btn-primary">Se Stykliste</button>
     </form>
     

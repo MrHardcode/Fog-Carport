@@ -26,8 +26,8 @@ public class viewPartslist extends Command
     {
 //        OrderModel order = (OrderModel) request.getAttribute("order");
 //        if (order != null){
-            PartslistModel partslist = (PartslistModel) request.getAttribute("bom");
-            request.setAttribute("bom", partslist);
+            PartslistModel partslist = (PartslistModel) request.getAttribute("partslist");
+            request.setAttribute("partslistbom", partslist);
             return "partslist";
 //        }
 //        return "viewOrder";
