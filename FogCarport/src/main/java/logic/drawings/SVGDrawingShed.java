@@ -18,19 +18,12 @@ public class SVGDrawingShed
     {
     }
 
-    /*
-        Width / poledistance  = amount of posts (Dont remember modulo. Asger takes care of it.
-
-        Then put the poles down starting at 0,0 (corner) and going to the edge.
-
-        Do the same for the other side.
-
-        And voila, finished.
-    
-    TO DO
-    GUARD FOR WHEN length = shedlength and width = shedwidth
+    /**
+     * Get a SVG drawing of the shed.
+     *
+     * @param order
+     * @return SVG drawing in string for html.
      */
-    // Update with a forloop for the amount of poles.
     public String getShedDrawing(OrderModel order)
     {
         int carportWidth = order.getLength() / 10;
@@ -44,7 +37,7 @@ public class SVGDrawingShed
                 + "width=\"" + (carportWidth) + "\" "
                 + "height=\"" + (carportLength) + "\">\n"
                 + // The shed itself.
-                "            <rect "
+                " <rect "
                 + "x=\"" + ((carportWidth) - (shedWidth)) + "\" \n"
                 + " y=\"" + ((carportLength) - (shedLength)) + "\" \n"
                 + " width=\"" + (shedWidth) + "\" \n"
@@ -77,7 +70,13 @@ public class SVGDrawingShed
         return SVG;
     }
 
-    // 90 in angle if its the width. 0 if the length.
+    /**
+     * Get a SVG pole drawn in the right spot, with labels and arrows.
+     *
+     * @param order
+     * @param angle 90 in angle if its the width. 0 if the length.
+     * @return SVG drawing string for html.
+     */
     String getPole(OrderModel order, int angle)
     {
         int carportWidth = order.getLength() / 10;
@@ -135,6 +134,15 @@ public class SVGDrawingShed
         return SVG;
     }
 
+    /**
+     * Get a SVG arrow, that shows the distance between two poles on the shed.
+     *
+     * @param beginX Start X coordinate.
+     * @param beginY Start Y coordinate.
+     * @param endX End X coordinate.
+     * @param endY End Y coordinate.
+     * @return SVG drawing string for html.
+     */
     String getArrow(int beginX, int beginY, int endX, int endY)
     {
         // The Arrow.
@@ -162,6 +170,15 @@ public class SVGDrawingShed
         return SVG;
     }
 
+    /**
+     * Get a distance label for the arrow that marks the distance between two
+     * posts.
+     *
+     * @param x X position.
+     * @param y Y position.
+     * @param distance Distance between the two posts.
+     * @return SVG string.
+     */
     String getLabel(int x, int y, int distance)
     {
         String SVG = "";

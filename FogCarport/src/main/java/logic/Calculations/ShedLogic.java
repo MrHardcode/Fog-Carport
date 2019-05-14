@@ -95,6 +95,10 @@ public class ShedLogic
     }
     
     //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
+    /**
+     * Materials for the standard, simple shed. Made in first sprint. Maybe we won't use this in production.
+     * @param bom 
+     */
     void simpleShed(PartslistModel bom)
     {
         // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
@@ -275,6 +279,15 @@ public class ShedLogic
         
     }
 
+    /**
+     * Calculate the amount of posts needed extra for the shed.
+     * @param length of the shed.
+     * @param order 
+     * @param width of the shed.
+     * @param db 
+     * @param bom
+     * @throws LoginException 
+     */
     void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws LoginException
     {
         int postquantity = 0;
@@ -284,25 +297,25 @@ public class ShedLogic
         } else if ((width < order.getWidth() && length > postdistance) || (length < order.getLength() && width > postdistance)) // if carport is absurdly long and shed is aswell...
         {
             postquantity++; //one for the corner
-            if (length > postdistance)
+            if (length > postdistance) // We only need additional posts if the length is longer than the distance between two posts.
             {
                 int templength = length;
                 postquantity--; //one removed for the one at the rem.
                 while (templength > 0)
                 {
-                    postquantity++;
-                    templength -= postdistance;
+                    postquantity++; // Add post
+                    templength -= postdistance; // Remove the distance.
                 }
             }
             
-            if (width > postdistance)
+            if (width > postdistance) // We only need additional posts if the width is longer than the distance between two posts.
             {
                 int tempwidth = width;
                 postquantity--; //one removed for the one at the rem.
                 while (tempwidth > 0)
                 {
-                    postquantity++;
-                    tempwidth -= postdistance;
+                    postquantity++; // Add a post
+                    tempwidth -= postdistance; // Remove the distance.
                 }
             }
         } else {
@@ -313,11 +326,16 @@ public class ShedLogic
         bom.addMaterial(post);
     }
 
-    /*
-    After making the SVGDrawing I found that I can place the posts evenly with an algorith.
-    Look at line 71-100 in logic/drawings/SVGDrawingShed.java.
-    Maybe something to fix / enhance if I get the time. 
-    */
+    
+    /**
+     * Calculate the amount of reglar needed.
+     * @param width of the side you're calculating.
+     * @param db
+     * @param bom
+     * @param side one side needs 2, another needs 3.
+     * @return amount of reglar for that side.
+     * @throws LoginException 
+     */
     int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
     {
         MaterialModel reglar;
@@ -339,7 +357,7 @@ public class ShedLogic
     
     //<editor-fold defaultstate="collapsed" desc="CALCULATOR FOR THE SCREWS">
     /**
-     * add screws to the partslist. 
+     * Add screws to the partslist. 
      * @param bom
      * @param screws type of screw
      * @param packamount amount of screws in a pack.
