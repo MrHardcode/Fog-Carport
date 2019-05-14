@@ -158,8 +158,6 @@ public class RoofRaisedCalcTest {
         bomExp.addMaterial(material7);
 
         PartslistModel bomRes = raised.generateRafter(3600, 20);
-        System.out.println("exp " + bomExp.getBillOfMaterials().get(0).getQuantity());
-        System.out.println("res " + bomRes.getBillOfMaterials().get(0).getQuantity());
         assertEquals(bomExp, bomRes);
     }
 
