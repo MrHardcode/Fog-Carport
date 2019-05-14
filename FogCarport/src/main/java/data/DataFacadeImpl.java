@@ -67,31 +67,36 @@ public class DataFacadeImpl implements DataFacade
     @Override
     public EmployeeModel getEmployee(int id) throws LoginException
     {
-        return UserMapper.getInstance().getEmployee(id);
+        UserMapper userMapper = new UserMapper();
+        return userMapper.getEmployee(id);
     }
 
     @Override
     public CustomerModel getCustomer(int id) throws LoginException
     {
-        return UserMapper.getInstance().getCustomer(id);
+        UserMapper userMapper = new UserMapper();
+        return userMapper.getCustomer(id);
     }
 
     @Override
     public void createCustomer(CustomerModel customer) throws LoginException
     {
-        UserMapper.getInstance().createCustomer(customer);
+        UserMapper userMapper = new UserMapper();
+        userMapper.createCustomer(customer);
     }
 
     @Override
     public void createEmployee(EmployeeModel employee) throws LoginException
     {
-        UserMapper.getInstance().createEmployee(employee);
+        UserMapper userMapper = new UserMapper();
+        userMapper.createEmployee(employee);
     }
 
     @Override
     public CustomerModel login(String email, String password) throws LoginException
     {
-        return UserMapper.getInstance().login(email, password);
+        UserMapper userMapper = new UserMapper();
+        return userMapper.login(email, password);
     }
 
     @Override

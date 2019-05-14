@@ -2,6 +2,7 @@
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.sql.DataSource;
 
 /**
  *
@@ -18,20 +20,11 @@ import java.sql.Statement;
 public class UserMapper
 {
 
-    private static UserMapper userMapper;
+    private DatabaseConnector dbc = new DatabaseConnector();
 
-    private UserMapper()
+    public void setDataSource(DataSource ds)
     {
-
-    }
-
-    public static UserMapper getInstance()
-    {
-        if (userMapper == null)
-        {
-            userMapper = new UserMapper();
-        }
-        return userMapper;
+        dbc.setDataSource(ds);
     }
     
     // <editor-fold defaultstate="collapsed" desc="Log in a customer">
@@ -49,11 +42,11 @@ public class UserMapper
      */
     public CustomerModel login(String email, String password) throws LoginException
     {
-        String SQL = "SELECT id_customer, phone FROM customers WHERE email=? AND password=?;";
+        String SQL = "SELECT customer_name, id_customer, phone FROM customers WHERE email=? AND password=?;";
         try 
         {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+            dbc.open();
+            PreparedStatement ps = dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -62,14 +55,17 @@ public class UserMapper
                 int id = rs.getInt("id_customer");
                 CustomerModel customer = new CustomerModel();
                 customer.setPhone(rs.getInt("phone"));
+                customer.setName(rs.getString("customer_name"));
                 customer.setId(id);
                 customer.setEmail(email);
                 customer.setPassword(password);
+                dbc.close();
                 return customer;
             } else
             {
                 throw new LoginException("Could not validate user");
             }
+            
         } catch (SQLException ex)
         {
             throw new LoginException(ex.getMessage());
@@ -93,8 +89,8 @@ public class UserMapper
 
         try
         {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+            dbc.open();
+            PreparedStatement ps = dbc.preparedStatement(SQL);
             customer.setId(id);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -106,7 +102,7 @@ public class UserMapper
                 customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
             }
-
+            dbc.close();
         } catch (SQLException ex)
         {
             // Should most likely be another exception.
@@ -183,19 +179,19 @@ public class UserMapper
                 + "?);";
         try
         {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            dbc.open();
+            PreparedStatement ps = dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
             ps.setString(4, customer.getPassword());
             ps.executeUpdate();
-            try (ResultSet ids = ps.getGeneratedKeys())
+            ResultSet resultSet = ps.getGeneratedKeys();
+            if (resultSet.next())
             {
-                ids.next();
-                int id = ids.getInt(1);
-                customer.setId(id);
+                customer.setId(resultSet.getInt(1));
             }
+            dbc.close();
         } catch (SQLException ex)
         {
             throw new LoginException("Customer already exists: " + ex.getMessage());
