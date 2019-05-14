@@ -12,12 +12,9 @@ import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 
 /**
  *
