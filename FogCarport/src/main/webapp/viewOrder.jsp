@@ -64,9 +64,11 @@
     </tbody>
 </table>
 
+        
 <div class="d-flex justify-content-center">
-    <form action="FrontController"  class="d-flex justify-content-start">
-        <input type="hidden" name="command" value="viewPartslist">        
+    <form method="POST" action="FrontController"  class="d-flex justify-content-start">
+        <input type="hidden" name="command" value="viewPartslist">      
+        <input type="hidden" name="bom" value="${bom}"> 
         <button type="submit" class="btn btn-primary">Se Stykliste</button>
     </form>
     
