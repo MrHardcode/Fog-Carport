@@ -63,9 +63,6 @@ public class RoofRaisedCalcTest {
         bomExp.addMaterial(material20);
 
         PartslistModel bomRes = raised.getScrews();
-        
-        System.out.println("exp " + bomExp.getBillOfMaterials().get(0).getQuantity());
-        System.out.println("res " + bomRes.getBillOfMaterials().get(0).getQuantity());
         assertEquals(bomExp, bomRes);
     }
 
