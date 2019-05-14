@@ -29,13 +29,20 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="FrontController?command=allOrders">Se alle ordrer </a>
                 </li>
-                <li class="nav-item">
+                <li id ="errormessage" class="nav-item">
                     <!-- Show errormessage to the User --> 
                     <c:if test="${not empty message}">
                         <a class="nav-link active" >  Message: ${message} </a>
-                        </c:if>
+                    </c:if>
                 </li>
-
+                <c:if test="${not empty customer}">
+                    <li id="logoutbutton" class="float-right"> <!-- class="nav-item" -->
+                        <!-- Show log out button to the User if they are logged in --> 
+                        <form action="FrontController?command=LogOut" method="POST">
+                            <button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-sign-out-alt"></i> Log ud</button>
+                        </form>
+                    </li>
+                </c:if>
             </ul>
         </div>
 
