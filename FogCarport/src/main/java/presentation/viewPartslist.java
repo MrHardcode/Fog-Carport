@@ -24,10 +24,10 @@ public class viewPartslist extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
     {
-        OrderModel order = (OrderModel) request.getSession().getAttribute("order");
+        OrderModel order = (OrderModel) request.getAttribute("order");
         if (order != null){
             PartslistModel partslist = logic.getPartslistModel(order);
-            request.getSession().setAttribute("bom", partslist);
+            request.setAttribute("bom", partslist);
             return "partslist";
         }
         return "viewOrder";

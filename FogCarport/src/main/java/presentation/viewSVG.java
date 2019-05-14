@@ -24,11 +24,11 @@ public class viewSVG extends Command
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
     {
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
         // Get the order from request.
-        OrderModel order = (OrderModel) session.getAttribute("order");
+        OrderModel order = (OrderModel) request.getAttribute("order");
         // Get the partslist from request.
-        PartslistModel bom = (PartslistModel) session.getAttribute("bom");
+        PartslistModel bom = (PartslistModel) request.getAttribute("bom");
         // Check for null.
         if (order == null || bom == null){
             throw new LoginException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
