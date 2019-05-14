@@ -28,32 +28,30 @@ public class RoofRaisedCalc {
     int roofOverhang;
     
     // HARDCODED MATERIALS USED
-    final int screwPacks = 20;
-    final int roofTileBrackets = 32; // tagstenbinder/nakkekrog
-    final int roofTileBlack = 33;
-    final int roofTileGrey = 34;
-    final int roofTileOrange = 35;
-    final int roofTileRed = 36;
-    final int roofTileBlue = 37;
-    final int roofTileBlackBlue = 38;
-    final int roofTileSunlux = 39;
-    final int roofTopTileBlack = 40;
-    final int roofTopTileGrey = 41;
-    final int roofTopTileOrange = 42;
-    final int roofTopTileRed = 43;
-    final int roofTopTileBlue = 44;
-    final int roofTopTileBlackBlue = 45;
-    final int roofTopTileSunlux = 46;
-    final int topLathBracket = 30 ; // toplægteholdere
-    final int rafterWood2400 = 6;
-    final int rafterWood3600 = 7;
-    final int fasciaWood4800 = 1;
-    final int fasciaWood5400 = 2;
-    final int fasciaWood6000 = 3;
-    final int lathWood5400 = 12;
-    final int lathWood4200 = 13;
-    
-    
+    final int screwPacks = 20; // 4,5x60mm. Skruer (200 stk)
+    final int roofTileBrackets = 32; // B & C tagstens binder/nakkekrog (kombi)
+    final int roofTileBlack = 33; // B & C Dobbelt Tagsten (Sort)
+    final int roofTileGrey = 34; // B & C Dobbelt Tagsten (Grå)
+    final int roofTileOrange = 35; // Eternit Tagsten(Teglrød)
+    final int roofTileRed = 36; // B & C Dobbelt Tagsten (Rød)
+    final int roofTileBlue = 37; // B & C Dobbelt Tagsten (Blå)
+    final int roofTileBlackBlue = 38; // B & C Dobbelt Tagsten (Sortblå)
+    final int roofTileSunlux = 39; // B & C Dobbelt Tagsten (Sunlux)
+    final int roofTopTileBlack = 40; // B & C Rygsten (Sort)
+    final int roofTopTileGrey = 41; // B & C Rygsten Tagsten (Grå)
+    final int roofTopTileOrange = 42; // Eternit Rygsten (Teglrød)
+    final int roofTopTileRed = 43; // B & C Rygsten (Rød)
+    final int roofTopTileBlue = 44; // B & C Rygsten (Blå)
+    final int roofTopTileBlackBlue = 45; // B & C Rygsten (Sortblå)
+    final int roofTopTileSunlux = 46; // B & C Rygsten (Sunlux)
+    final int topLathBracket = 30 ;  // B & C Toplægte holder
+    final int rafterWood2400 = 6; // 45x95 Reglar ubh. 2400
+    final int rafterWood3600 = 7; // 45x95 Reglar ubh. 3600
+    final int fasciaWood4800 = 1; // 25x150mm trykimp. Bræt 4800
+    final int fasciaWood5400 = 2; // 25x150mm. trykimp. Bræt 5400
+    final int fasciaWood6000 = 3; // 25x150mm. trykimp. Bræt 6000
+    final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400
+    final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200
 
     /**
      *
