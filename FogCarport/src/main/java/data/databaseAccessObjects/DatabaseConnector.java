@@ -35,7 +35,7 @@ public class DatabaseConnector
     {
         if (connection == null || connection.isClosed())
         {
-            connection = DBConnector.connection();
+            connection = dataSource.getConnection();
         }
 
         return connection;

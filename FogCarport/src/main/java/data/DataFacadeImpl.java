@@ -1,5 +1,6 @@
 package data;
 
+import data.databaseAccessObjects.DataSourceMysql;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
@@ -96,6 +97,8 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel login(String email, String password) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.login(email, password);
     }
 

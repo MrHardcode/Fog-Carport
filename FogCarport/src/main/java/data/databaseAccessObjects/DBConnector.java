@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.sql.DataSource;
 
 /**
  *
@@ -19,13 +20,9 @@ public class DBConnector
     private static final String USERNAME = "admin"; 
     private static final String PASSWORD = "1234"; 
 
-    private static Connection singleton;
-
-    public static void setConnection(Connection con)
-    {
-        singleton = con;
-    }
-
+    private static DataSource datasource;
+    private static Connection singleton; 
+    
     public static Connection connection() throws SQLException
     {
         if (singleton == null || singleton.isClosed())
