@@ -215,7 +215,7 @@ public class RoofRaisedCalc {
         material.setQuantity(rafterCount); // toplægteholdere
         roofStructureBOM.addMaterial(material);
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
-        generatefasciaBoards(totalWidth, order.getIncline(), order.getLength());
+        addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);
 
         return roofStructureBOM;
     }

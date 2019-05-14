@@ -108,14 +108,17 @@ public class RoofRaisedCalcTest {
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
         MaterialModel material12 = DAO.getMaterial(12);
-        MaterialModel material30 = DAO.getMaterial(30);     
+        MaterialModel material30 = DAO.getMaterial(30); 
+        MaterialModel material3 = DAO.getMaterial(3);
         
         material7.setQuantity(28);
         material12.setQuantity(13);
         material30.setQuantity(7);
+        material3.setQuantity(4);
         bomExp.addMaterial(material7);
         bomExp.addMaterial(material30);
         bomExp.addMaterial(material12);
+        bomExp.addMaterial(material3);
 
         order.setWidth(3000);
         order.setIncline(20);
@@ -123,7 +126,6 @@ public class RoofRaisedCalcTest {
 
         PartslistModel bomRes = raised.getRoofStructure(order);
         assertEquals(bomExp, bomRes);
-
     }
 
     /**
