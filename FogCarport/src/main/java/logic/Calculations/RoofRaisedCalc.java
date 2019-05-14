@@ -215,8 +215,8 @@ public class RoofRaisedCalc {
 
     /**
      * Takes in the order provided by the exposed method and gathers the order
-     * info needed to calculate the amount of rafters, laths and fasteners. The
-     * calculated materials are returned in a PartslistModel. Class field
+     * info needed to calculate the amount of rafters, laths, fasciaborads and
+     * fasteners. The calculated materials are returned in a PartslistModel. Class field
      * rafterCount is updated.
      *
      * @param order
@@ -309,6 +309,44 @@ public class RoofRaisedCalc {
 
         return calcParts;
     }
+    
+    /**
+     * This method is used when several partslists containing the same materials
+     * are added together, to ensure the quantity is updated correctly and only
+     * one MaterialModel is added pr. material. 
+     * 
+     * It takes in the partslist calculated by the other methods and the partslist 
+     * the calling method wants to return. 
+     * 
+     * @param calcBOM
+     * @param returnBOM
+     */
+    protected void addPartslistWithMaterialsQuantity(PartslistModel calcBOM, PartslistModel returnBOM) {
+        ArrayList<MaterialModel> calcList = calcBOM.getBillOfMaterials();
+        ArrayList<MaterialModel> returnList = returnBOM.getBillOfMaterials();
+
+        for (int i = 0; i < calcList.size(); i++) {
+            if (returnList.isEmpty()) {
+                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
+                break;
+            }
+
+            boolean quantityAdded = false;
+            for (int j = 0; j < returnList.size(); j++) {
+
+                if (calcList.get(i).getID() == returnList.get(j).getID()) {
+                    int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();
+                    returnList.get(j).setQuantity(qunatity);
+                    quantityAdded = true;
+                }
+            }
+            if (quantityAdded == false) {
+                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
+            } else {
+                quantityAdded = false;
+            }
+        }
+    }
 
     /**
      * Calculates the length of the different parts of a single rafter and calls
@@ -344,33 +382,6 @@ public class RoofRaisedCalc {
         screwCount = screwCount + (4 * 6);
 
         return rafterBOM;
-    }
-
-    protected void addPartslistWithMaterialsQuantity(PartslistModel calcBOM, PartslistModel returnBOM) {
-        ArrayList<MaterialModel> calcList = calcBOM.getBillOfMaterials();
-        ArrayList<MaterialModel> returnList = returnBOM.getBillOfMaterials();
-
-        for (int i = 0; i < calcList.size(); i++) {
-            if (returnList.isEmpty()) {
-                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
-                break;
-            }
-
-            boolean quantityAdded = false;
-            for (int j = 0; j < returnList.size(); j++) {
-
-                if (calcList.get(i).getID() == returnList.get(j).getID()) {
-                    int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();
-                    returnList.get(j).setQuantity(qunatity);
-                    quantityAdded = true;
-                }
-            }
-            if (quantityAdded == false) {
-                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
-            } else {
-                quantityAdded = false;
-            }
-        }
     }
 
     /**
@@ -460,14 +471,10 @@ public class RoofRaisedCalc {
      * getCladdingMaterialCount(). The calculated materials are returned in a
      * PartslistModel.
      *
-     * Hardcoded material is not accounted for in the order yet. When/if the
-     * order in the database is changed to take this into account, this method
-     * can be removed. method can be removed.
-     *
      * Class fields screwCount is updated.
      *
      * @param order
-     * @return
+     * @return PartslistModel
      * @throws LoginException
      */
     protected PartslistModel getCladding(OrderModel order) throws LoginException {
