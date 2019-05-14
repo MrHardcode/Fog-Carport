@@ -40,6 +40,7 @@ public class viewSVG extends Command
         String svgroof = logic.getSVGroof(order);
         request.setAttribute("svgroof", svgroof);
         
+        request.setAttribute("order", order);
         return "viewSVG";
     }
 

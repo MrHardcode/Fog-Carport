@@ -129,7 +129,7 @@ public class LogicFacadeImpl implements LogicFacade
     public String getSVGbase(PartslistModel bom, OrderModel order)
     {
         // BEGINNING
-        String SVG = " <svg width=\"900\" height=\"900\"> ";
+        String SVG = "";
 
         // #1 NESTED SVG FOR SOME PADDING: 
         SVG += " <svg x=\"100\" y=\"100\"> ";
@@ -148,8 +148,7 @@ public class LogicFacadeImpl implements LogicFacade
         SVG += " </svg> ";
 
         // END
-        SVG += "Sorry, your browser does not support inline SVG.  \n"
-                + "        </svg>";
+        SVG += "";
 
         return SVG;
     }
