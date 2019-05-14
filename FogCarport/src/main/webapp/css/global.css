@@ -6,12 +6,26 @@
     position: fixed;
     top: 0;
     width: 100%;
+    float: left;
 }
-
 
 .nav-item
 {
+    float: left;
     border-left: solid 1px;
+}
+
+#errormessage a /* any links (text) within the error message */
+{
+    color: red;
+}
+
+#logoutbutton
+{
+    border-left: none;
+    display: block;
+    float: right;
+    padding-top: .30em;
 }
 
 /*----------------- Index.jsp CSS -----------------  */
