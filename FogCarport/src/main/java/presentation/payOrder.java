@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 
 /**
- * View a single order.
+ * Pay for a single order and view the same order after payment
  *
  * @author
  */
