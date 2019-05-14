@@ -15,7 +15,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <!-- START navbar left float-->
+            <ul class="navbar-nav mr-auto"> 
 
                 <!-- Navbar links -->
                 <!--
@@ -35,15 +36,21 @@
                         <a class="nav-link active" >  Message: ${message} </a>
                     </c:if>
                 </li>
-                <c:if test="${not empty customer}">
+                <!-- END navbar left float-->
+            </ul> 
+            <!-- logout button -->
+            <c:if test="${not empty customer}">
+                <!-- START navbar RIGHT float-->
+                <ul class="nav navbar-nav navbar-right">
                     <li id="logoutbutton" class="float-right"> <!-- class="nav-item" -->
                         <!-- Show log out button to the User if they are logged in --> 
                         <form action="FrontController?command=LogOut" method="POST">
                             <button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-sign-out-alt"></i> Log ud</button>
                         </form>
                     </li>
-                </c:if>
-            </ul>
+                </ul>
+                <!-- END navbar RIGHT float-->
+            </c:if>
         </div>
 
     </nav>
