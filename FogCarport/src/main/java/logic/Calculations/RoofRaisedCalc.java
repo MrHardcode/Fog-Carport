@@ -109,12 +109,12 @@ public class RoofRaisedCalc {
         double angleRad = Math.toRadians(order.getIncline());
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
-
+        int topLathDist = 30;
         int tileRowCount = 0;
         int tileRowLength = 0;
 
         // tagvidde når afstanden fra tagtoppen øverste lægte
-        int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (30);
+        int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (topLathDist);
 
         // beregn antal rækker tagsten
         while (remaningRoofWidth > 0) {
@@ -403,8 +403,8 @@ public class RoofRaisedCalc {
 
         // der er altid mindts 3 rækker af lægter 
         lathRowCount = 3;
-        int outerLathDist = 300;
-        int upperLathDist = 350;
+        int outerLathDist = 350;
+        int upperLathDist = 30;
         int minimumLathDist = 307;
 
         int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
