@@ -46,7 +46,7 @@ public class RoofRaisedCalcTest {
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material20 = DAO.getMaterial(20);
         raised.screwCount = 754;
-        
+
         material20.setQuantity(4);
         bomExp.addMaterial(material20);
 
@@ -74,7 +74,7 @@ public class RoofRaisedCalcTest {
         bomExp.addMaterial(material33);
         bomExp.addMaterial(material40);
         bomExp.addMaterial(material32);
-        
+
         order.setWidth(3000);
         order.setIncline(20);
         order.setLength(4000);
@@ -94,9 +94,9 @@ public class RoofRaisedCalcTest {
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
         MaterialModel material12 = DAO.getMaterial(12);
-        MaterialModel material30 = DAO.getMaterial(30); 
+        MaterialModel material30 = DAO.getMaterial(30);
         MaterialModel material3 = DAO.getMaterial(3);
-        
+
         material7.setQuantity(28);
         material12.setQuantity(13);
         material30.setQuantity(7);
@@ -132,6 +132,47 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
 
+    @Test
+    public void testAddPartslistWithMaterialsQuantity() throws LoginException {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material12E = DAO.getMaterial(12);
+        MaterialModel material30E = DAO.getMaterial(30);
+        MaterialModel material3E = DAO.getMaterial(3);
+        material12E.setQuantity(9);
+        material30E.setQuantity(9);
+        material3E.setQuantity(9);
+        bomExp.addMaterial(material12E);
+        bomExp.addMaterial(material30E);
+        bomExp.addMaterial(material3E);
+        
+        PartslistModel bomRes = new PartslistModel();
+        MaterialModel material12R = DAO.getMaterial(12);
+        MaterialModel material30R = DAO.getMaterial(30);
+        MaterialModel material3R = DAO.getMaterial(3);
+        material12R.setQuantity(4);
+        material30R.setQuantity(3);
+        material3R.setQuantity(7);
+        bomRes.addMaterial(material12R);
+        bomRes.addMaterial(material30R);
+        bomRes.addMaterial(material3R);
+        
+        PartslistModel bomAdd = new PartslistModel();
+        MaterialModel material12A = DAO.getMaterial(12);
+        MaterialModel material30A = DAO.getMaterial(30);
+        MaterialModel material3A = DAO.getMaterial(3);
+        material12A.setQuantity(5);
+        material30A.setQuantity(6);
+        material3A.setQuantity(2);
+        bomAdd.addMaterial(material12A);
+        bomAdd.addMaterial(material30A);
+        bomAdd.addMaterial(material3A);
+        
+        raised.addPartslistWithMaterialsQuantity(bomAdd, bomRes);
+        assertEquals(bomExp, bomRes);
+    }
+
     /**
      * Test of generateRafter method, of class RoofRaisedCalc.
      */
@@ -146,12 +187,12 @@ public class RoofRaisedCalcTest {
         PartslistModel bomRes = raised.generateRafter(3600, 20);
         assertEquals(bomExp, bomRes);
     }
-    
+
     /**
      * Test of generatefasciaBoards method, of class RoofRaisedCalc.
      */
     @Test
-    public void testGeneratefasciaBoards() throws LoginException{
+    public void testGeneratefasciaBoards() throws LoginException {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material3 = DAO.getMaterial(3);
@@ -160,7 +201,7 @@ public class RoofRaisedCalcTest {
 
         PartslistModel bomRes = raised.generatefasciaBoards(3600, 20, 4000);
         assertEquals(bomExp, bomRes);
-        
+
     }
 
     /**
@@ -189,10 +230,10 @@ public class RoofRaisedCalcTest {
         order.setIncline(20);
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material8 = DAO.getMaterial(8);
-        
+
         material8.setQuantity(20);
         bomExp.addMaterial(material8);
-                
+
         PartslistModel bomRes = raised.getCladding(order);
         assertEquals(bomExp, bomRes);
     }
