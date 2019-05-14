@@ -50,7 +50,6 @@ public class FrontController extends HttpServlet
     then they will get logged out. 
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
-    TO DO - ADD CREATE USER PAGE TO THIS. CURRENTLY ONLY CHECKING FOR LOGIN PAGE.
      */
     private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
     {
@@ -61,14 +60,20 @@ public class FrontController extends HttpServlet
         // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
         if (!"login".equals(request.getParameter("command")) && customer == null)
         {
-            // INVALIDATE THE FAULTY SESSION.
-            session.invalidate();
-            // SEND USER TO LOGIN PAGE.
-            request.setAttribute("target", "login");
-            // ERRORMESSAGE SHOWN TO USER.
-            request.setAttribute("message", "You should log in.");
-            // FORWARD USER.
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            if (!"createUser".equals(request.getParameter("link")))
+            {
+                if (!"createUser".equals(request.getParameter("command")))
+                {
+                    // INVALIDATE THE FAULTY SESSION.
+                    session.invalidate();
+                    // SEND USER TO LOGIN PAGE.
+                    request.setAttribute("target", "login");
+                    // ERRORMESSAGE SHOWN TO USER.
+                    request.setAttribute("message", "You should log in.");
+                    // FORWARD USER.
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+            }
         }
     }
     
