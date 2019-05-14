@@ -30,21 +30,9 @@ public class RoofRaisedCalcTest {
     public RoofRaisedCalcTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
     @Before
     public void setUp() {
         DAO = DataFacadeImpl.getInstance();
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     /**
