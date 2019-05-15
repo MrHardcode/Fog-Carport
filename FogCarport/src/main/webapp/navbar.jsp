@@ -40,13 +40,26 @@
                         <a class="nav-link active" >  Message: ${message} </a>
                     </c:if>
                 </li>
-                 <!-- END navbar center float -->
+                <!-- END navbar center float -->
             </ul>
+            <!-- login button -->
+            <c:if test="${empty customer}">
+                <!-- START navbar RIGHT float-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
+                        <!-- Show log out button to the User if they are logged in --> 
+                        <form action="FrontController?command=link&link=homepage" method="POST"> 
+                            <button type="submit" class="btn btn-outline-success btn-sm"><i class="fas fa-sign-in-alt"></i> Log ind</button>
+                        </form>
+                    </li>
+                </ul>
+                <!-- END navbar RIGHT float-->
+            </c:if>
             <!-- logout button -->
             <c:if test="${not empty customer}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="logoutbutton" class="float-right"> <!-- class="nav-item" -->
+                    <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
                         <!-- Show log out button to the User if they are logged in --> 
                         <form action="FrontController?command=logOut" method="POST"> 
                             <button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-sign-out-alt"></i> Log ud</button>
