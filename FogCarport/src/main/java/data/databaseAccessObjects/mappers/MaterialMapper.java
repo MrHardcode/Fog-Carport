@@ -62,6 +62,7 @@ public class MaterialMapper {
      * Get a Material.
      *
      * @param id of the Material.
+     * @param helptext
      * @return MaterialModel
      * @throws LoginException Should probably be something else later on.
      */

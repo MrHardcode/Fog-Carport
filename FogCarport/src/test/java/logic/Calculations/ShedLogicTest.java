@@ -23,6 +23,7 @@ import org.junit.Test;
 public class ShedLogicTest
 {
     private DataFacade db; 
+    private final String helptext = "roof";
     
     public ShedLogicTest()
     {
@@ -147,7 +148,7 @@ public class ShedLogicTest
         
         System.out.println("addFloor");
         PartslistModel bom = new PartslistModel();
-        MaterialModel floor = db.getMaterial(50);
+        MaterialModel floor = db.getMaterial(50, helptext);
         int length = 3500;
         int width = 2000;
         ShedLogic instance = new ShedLogic();
@@ -155,12 +156,12 @@ public class ShedLogicTest
         assertEquals(test, bom);
         
         bom = new PartslistModel();
-        floor = db.getMaterial(50);
+        floor = db.getMaterial(50, helptext);
         instance.addFloor(bom, floor, 3500, 2100, db);
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
         
         bom = new PartslistModel();
-        floor = db.getMaterial(50);
+        floor = db.getMaterial(50, helptext);
         instance.addFloor(bom, floor, 3600, 2100, db);
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
         
@@ -304,7 +305,7 @@ public class ShedLogicTest
         
         System.out.println("addScrews");
         PartslistModel bom = new PartslistModel();
-        MaterialModel screws = db.getMaterial(26);
+        MaterialModel screws = db.getMaterial(26, helptext);
         int packamount = 400;
         int screwamount = 401;
         ShedLogic instance = new ShedLogic();

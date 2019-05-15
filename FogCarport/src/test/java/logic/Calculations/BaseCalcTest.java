@@ -38,6 +38,7 @@ public class BaseCalcTest
     private PartslistModel bom;
     private OrderModel order;
     private int expectedBolts, strapAmount, expectedStraps, expectedPosts, cLength, cWidth, sLength, sWidth, postDistance;
+    private final String helptext = "base";
 
     @Parameterized.Parameters
     public static Collection getTestParameters() {
@@ -76,9 +77,9 @@ public class BaseCalcTest
         }
         try
         {
-            post = db.getMaterial(postID);
-            strap = db.getMaterial(strapID);
-            bolts = db.getMaterial(boltID);
+            post = db.getMaterial(postID, helptext);
+            strap = db.getMaterial(strapID, helptext);
+            bolts = db.getMaterial(boltID, helptext);
         } catch (LoginException ex)
         {
             System.out.println("Test class for base calculator failed to access DB");
