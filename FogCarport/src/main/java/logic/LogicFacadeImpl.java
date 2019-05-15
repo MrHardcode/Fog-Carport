@@ -124,7 +124,7 @@ public class LogicFacadeImpl implements LogicFacade
         return partslistmodel;
     }
 
-    // Mother method that calls all the partslist SVG drawings for shed and base.
+    // Mother method that calls the main parts of partslist SVG drawings for shed and base.
     @Override
     public String getSVGbase(PartslistModel bom, OrderModel order)
     {
@@ -142,7 +142,7 @@ public class LogicFacadeImpl implements LogicFacade
         }
         // ADD BASE DRAWING
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
-        SVG += base.getBaseDrawing();
+        SVG += base.getBaseDrawing(order);
         
         // #1 NESTING END 
         SVG += " </svg> ";
@@ -152,7 +152,43 @@ public class LogicFacadeImpl implements LogicFacade
 
         return SVG;
     }
+    
+    @Override
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+        SVGDrawingBase base = new SVGDrawingBase(order, bom);
+        String SVG = "";
+        SVG += base.getWidthArrow(extraDistance);
+        return SVG;
+    }
 
+    @Override
+    public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order)
+    {
+        SVGDrawingBase base = new SVGDrawingBase(order, bom);
+        String SVG = "";
+        SVG += base.getLengthArrow();
+        return SVG;
+    }
+
+    @Override
+    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order)
+    {
+        SVGDrawingBase base = new SVGDrawingBase(order, bom);
+        String SVG = "";
+        SVG += base.getWidthLabel();
+        return SVG;
+    }
+
+    @Override
+    public String getSVGbaseLabelLength(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+        SVGDrawingBase base = new SVGDrawingBase(order, bom);
+        String SVG = "";
+        SVG += base.getLengthLabel(extraDistance);
+        return SVG;
+    }
+    
     // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
     public String getSVGroof(OrderModel order) throws LoginException
