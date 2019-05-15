@@ -32,13 +32,13 @@ public class FrontController extends HttpServlet
     {
         try
         {
-
-            validateSession(request, response); // Throws Illegal State Exception that isn't handled.
+            validateSession(request, response);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (LoginException | AlgorithmException ex)
+        }
+        catch (LoginException | AlgorithmException ex)
         {
             request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
