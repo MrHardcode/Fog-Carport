@@ -45,7 +45,7 @@ public class UserMapper
         String SQL = "SELECT customer_name, id_customer, phone FROM customers WHERE email=? AND password=?;";
         try 
         {
-            dbc.open();
+            dbc.oldOpen();
             PreparedStatement ps = dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
@@ -89,7 +89,7 @@ public class UserMapper
 
         try
         {
-            dbc.open();
+            dbc.oldOpen();
             PreparedStatement ps = dbc.preparedStatement(SQL);
             customer.setId(id);
             ps.setInt(1, id);
@@ -177,10 +177,9 @@ public class UserMapper
                 + "?, "
                 + "?, "
                 + "?);";
-        try
+        try ( DatabaseConnector dbc1 = dbc.open() )
         {
-            dbc.open();
-            PreparedStatement ps = dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = dbc1.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
@@ -191,7 +190,6 @@ public class UserMapper
             {
                 customer.setId(resultSet.getInt(1));
             }
-            dbc.close();
         } catch (SQLException ex)
         {
             throw new LoginException("Customer already exists: " + ex.getMessage());

@@ -14,7 +14,7 @@ import javax.sql.DataSource;
  *
  * @author
  */
-public class DatabaseConnector
+public class DatabaseConnector implements AutoCloseable
 {
 
     private DataSource dataSource;
@@ -25,13 +25,22 @@ public class DatabaseConnector
     public DatabaseConnector()
     {
     }
+    
+    public DatabaseConnector open() throws SQLException{
+        if (connection == null || connection.isClosed())
+        {
+            connection = dataSource.getConnection();
+        }
+        return this;
+    }
 
     public void setDataSource(DataSource dataSource)
     {
         this.dataSource = dataSource;
     }
 
-    public Connection open() throws SQLException
+    @Deprecated
+    public Connection oldOpen() throws SQLException
     {
         if (connection == null || connection.isClosed())
         {
@@ -41,6 +50,7 @@ public class DatabaseConnector
         return connection;
     }
 
+    @Override
     public void close() throws SQLException
     {
         if (resultSet != null)

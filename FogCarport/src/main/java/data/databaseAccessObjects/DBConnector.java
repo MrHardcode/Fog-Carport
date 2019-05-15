@@ -20,7 +20,6 @@ public class DBConnector
     private static final String USERNAME = "admin"; 
     private static final String PASSWORD = "1234"; 
 
-    private static DataSource datasource;
     private static Connection singleton; 
     
     public static Connection connection() throws SQLException

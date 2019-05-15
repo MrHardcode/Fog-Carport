@@ -31,6 +31,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
+            
             validateSession(request, response); // Throws Illegal State Exception that isn't handled.
             Command action = Command.from(request);
             String target = action.execute(request, logic);
@@ -38,7 +39,7 @@ public class FrontController extends HttpServlet
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (LoginException | AlgorithmException ex)
         {
-            request.setAttribute("target", "homepage");
+            request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } 
@@ -66,12 +67,12 @@ public class FrontController extends HttpServlet
                 {
                     // INVALIDATE THE FAULTY SESSION.
                     session.invalidate();
-                    // SEND USER TO LOGIN PAGE.
-                    request.setAttribute("target", "login");
-                    // ERRORMESSAGE SHOWN TO USER.
-                    request.setAttribute("message", "You should log in.");
+//                    // SEND USER TO LOGIN PAGE.
+//                    request.setAttribute("target", "login");
+//                    // ERRORMESSAGE SHOWN TO USER.
+//                    request.setAttribute("message", "You should log in.");
                     // FORWARD USER.
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    throw new LoginException("You should log in.");
                 }
             }
         }
