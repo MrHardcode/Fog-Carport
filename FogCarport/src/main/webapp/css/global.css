@@ -17,7 +17,12 @@
 
 #errormessage a /* any links (text) within the error message */
 {
+    
     color: red;
+}
+#errormessage
+{
+   border-left: none;  
 }
 
 #logoutbutton
@@ -26,6 +31,12 @@
     display: block;
     float: right;
     padding-top: .30em;
+}
+
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
 }
 
 /*----------------- Index.jsp CSS -----------------  */
