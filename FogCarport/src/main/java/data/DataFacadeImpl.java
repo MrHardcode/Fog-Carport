@@ -29,9 +29,9 @@ public class DataFacadeImpl implements DataFacade
 
 
     @Override
-    public MaterialModel getMaterial(int id) throws LoginException
+    public MaterialModel getMaterial(int id, String helptext) throws LoginException
     {
-        return MaterialMapper.getInstance().getMaterial(id);
+        return MaterialMapper.getInstance().getMaterial(id, helptext);
     }
 
     @Override
@@ -44,12 +44,6 @@ public class DataFacadeImpl implements DataFacade
     public PartslistModel getBOM()
     {
         return new PartslistModel();
-    }
-
-    @Override
-    public PartslistModel getOrderDetails(int id) throws LoginException
-    {
-        return MaterialMapper.getInstance().getMaterials(id);
     }
 
     @Override

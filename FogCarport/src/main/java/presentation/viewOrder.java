@@ -34,9 +34,9 @@ public class viewOrder extends Command
         
         // Place values used by viewOrder on request.
         session.setAttribute("order", order);
-        session.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id()).getDescription());
-        session.setAttribute("shedwalls", logic.getMaterial(order.getShed_walls_id()).getDescription());
-        session.setAttribute("shedfloor", logic.getMaterial(order.getShed_floor_id()).getDescription());
+        session.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id(), "roof").getDescription());
+        session.setAttribute("shedwalls", logic.getMaterial(order.getShed_walls_id(), "shed").getDescription());
+        session.setAttribute("shedfloor", logic.getMaterial(order.getShed_floor_id(), "shed").getDescription());
         session.setAttribute("customer", logic.getCustomer(order.getId_customer()));
         session.setAttribute("employee", logic.getEmployee(order.getId_employee()));
 

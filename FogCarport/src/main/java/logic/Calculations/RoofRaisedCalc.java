@@ -52,6 +52,8 @@ public class RoofRaisedCalc {
     final int fasciaWood6000 = 3; // 25x150mm. trykimp. Bræt 6000
     final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400
     final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200
+    
+    final String helptext = "roof"; // Used to grab the right helptext from database.
 
     /**
      *
@@ -107,7 +109,7 @@ public class RoofRaisedCalc {
         PartslistModel screwBOM = new PartslistModel();
         int screwsPrPack = 200;
         int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);
-        MaterialModel material = DAO.getMaterial(screwPacks);
+        MaterialModel material = DAO.getMaterial(screwPacks, helptext);
         
         material.setQuantity(totalScrewPacks);
         screwBOM.addMaterial(material);
@@ -129,8 +131,8 @@ public class RoofRaisedCalc {
     protected PartslistModel getRoofTiles(OrderModel order) throws LoginException {
         PartslistModel roofTilesBOM = new PartslistModel();
 
-        int tileLength = DAO.getMaterial(order.getRoof_tiles_id()).getLength();
-        int tileWidth = DAO.getMaterial(order.getRoof_tiles_id()).getWidth();
+        int tileLength = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getLength();
+        int tileWidth = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getWidth();
         int totalWidth = order.getWidth() + roofOverhang;
         double angleRad = Math.toRadians(order.getIncline());
         double adjacentCath = totalWidth * 0.5;
@@ -152,18 +154,18 @@ public class RoofRaisedCalc {
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
        
-        MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id());
+        MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id(), helptext);
         
         materialTiles.setQuantity(tileCount);
         roofTilesBOM.addMaterial(materialTiles);
         
-        MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order));
+        MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order), helptext);
         topTileCount = (int) Math.ceil((double) order.getLength() / (double) materialTopTiles.getLength());
 
         materialTopTiles.setQuantity(topTileCount);
         roofTilesBOM.addMaterial(materialTopTiles);
                 
-        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets); // tagstenbinder/nakkekrog
+        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext); // tagstenbinder/nakkekrog
         materialBinders.setQuantity(1);
         roofTilesBOM.addMaterial(materialBinders);
 
@@ -183,7 +185,7 @@ public class RoofRaisedCalc {
      */
     protected int getTopRoofTileID(OrderModel order) throws LoginException {
         int roofTopID;
-        int normalTileID = DAO.getMaterial(order.getRoof_tiles_id()).getID();
+        int normalTileID = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getID();
         switch (normalTileID) {
             case roofTileBlack:
                 roofTopID = roofTopTileBlack;
@@ -233,7 +235,7 @@ public class RoofRaisedCalc {
 
         rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (rafterSpace + rafterWidth));
 
-        MaterialModel material = DAO.getMaterial(topLathBracket);
+        MaterialModel material = DAO.getMaterial(topLathBracket, helptext);
 
         for (int i = 0; i < rafterCount; i++) {
             addPartslistWithMaterialsQuantity(generateRafter(totalWidth, order.getIncline()), roofStructureBOM);
@@ -372,8 +374,8 @@ public class RoofRaisedCalc {
         double oppositeCath = (Math.sin(angleRad) * hypotenuse);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(rafterWood2400)); 
-        materials.add(DAO.getMaterial(rafterWood3600)); 
+        materials.add(DAO.getMaterial(rafterWood2400, helptext)); 
+        materials.add(DAO.getMaterial(rafterWood3600, helptext)); 
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalWidth), rafterBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), rafterBOM);
@@ -408,9 +410,9 @@ public class RoofRaisedCalc {
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(fasciaWood4800)); 
-        materials.add(DAO.getMaterial(fasciaWood5400)); 
-        materials.add(DAO.getMaterial(fasciaWood6000)); 
+        materials.add(DAO.getMaterial(fasciaWood4800, helptext)); 
+        materials.add(DAO.getMaterial(fasciaWood5400, helptext)); 
+        materials.add(DAO.getMaterial(fasciaWood6000, helptext)); 
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
@@ -460,8 +462,8 @@ public class RoofRaisedCalc {
         screwCount = screwCount + (intersectionCount * 2);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(lathWood5400)); 
-        materials.add(DAO.getMaterial(lathWood4200)); 
+        materials.add(DAO.getMaterial(lathWood5400, helptext)); 
+        materials.add(DAO.getMaterial(lathWood4200, helptext)); 
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
@@ -483,7 +485,7 @@ public class RoofRaisedCalc {
     protected PartslistModel getCladding(OrderModel order) throws LoginException {
 
         PartslistModel claddingBOM = new PartslistModel();
-        MaterialModel material = DAO.getMaterial(8);
+        MaterialModel material = DAO.getMaterial(8, helptext);
         int totalWidth = order.getWidth() + roofOverhang;
 
         int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())

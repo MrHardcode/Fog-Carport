@@ -21,7 +21,7 @@ public interface LogicFacade
     
     public OrderModel getOrder(int id) throws LoginException;
     
-    public MaterialModel getMaterial(int id) throws LoginException;
+    public MaterialModel getMaterial(int id, String helptext) throws LoginException;
     
     public CustomerModel getCustomer(int id) throws LoginException;
     

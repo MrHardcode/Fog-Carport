@@ -46,22 +46,22 @@ public class makeCarportForm extends Command
 
         /* Load materials needed from DB and add to their respective partslist */
         //flat roof
-        flatRoofParts.addMaterial(logic.getMaterial(plasticTileID));
+        flatRoofParts.addMaterial(logic.getMaterial(plasticTileID, "roof"));
 
         //raised roof
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionOneID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionTwoID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionThreeID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFourID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFiveID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSixID));
-        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSevenID));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionOneID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionTwoID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionThreeID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFourID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFiveID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSixID, "roof"));
+        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSevenID, "roof"));
         //shed floor 
-        shedFloorParts.addMaterial(logic.getMaterial(floorOptionOneID));
-        shedFloorParts.addMaterial(logic.getMaterial(floorOptionTwoID));
+        shedFloorParts.addMaterial(logic.getMaterial(floorOptionOneID, "shed"));
+        shedFloorParts.addMaterial(logic.getMaterial(floorOptionTwoID, "shed"));
 
         //shed wall
-        shedWallParts.addMaterial(logic.getMaterial(wallOptionOneID));
+        shedWallParts.addMaterial(logic.getMaterial(wallOptionOneID, "shed"));
 
         /* Set partslistmodels on their respective request attributes */
         request.setAttribute("flatRoofParts", flatRoofParts.getBillOfMaterials());

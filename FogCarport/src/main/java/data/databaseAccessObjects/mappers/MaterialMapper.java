@@ -4,7 +4,6 @@ package data.databaseAccessObjects.mappers;
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
-import data.models.PartslistModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,10 +65,10 @@ public class MaterialMapper {
      * @return MaterialModel
      * @throws LoginException Should probably be something else later on.
      */
-    public MaterialModel getMaterial(int id) throws LoginException {
+    public MaterialModel getMaterial(int id, String helptext) throws LoginException {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n"
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_"+helptext+" \n"
                 + "FROM materials \n"
                 + "INNER JOIN `category` \n"
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
@@ -105,6 +104,8 @@ public class MaterialMapper {
                 String categoryname = rs.getString("category_name");
                 material.setCategory(categoryname);
 
+                String help_text = rs.getString("helptext_"+helptext);
+                material.setHelptext(help_text);
             }
         } catch (SQLException ex) {
             // Should most likely be another exception.
@@ -144,34 +145,4 @@ public class MaterialMapper {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get all Materials for an Order Details">
-    /**
-     * Get a List of Materials.
-     *
-     * @param id of the Order Details.
-     * @return List of MaterialModel.
-     * @throws LoginException Should most likely throw something else.
-     */
-    public PartslistModel getMaterials(int id) throws LoginException {
-        PartslistModel materials = new PartslistModel();
-        String SQL = "SELECT `order_details`.`id_material`\n"
-                + "FROM `carportdb`.`order_details`\n"
-                + "WHERE `order_details`.`id_order_details` = ?;";
-
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                MaterialModel material = getMaterial(rs.getInt("id_material"));
-                materials.addMaterial(material);
-            }
-        } catch (SQLException ex) {
-            // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
-        }
-        return materials;
-    }
-    // </editor-fold>
 }

@@ -10,13 +10,11 @@ import java.util.List;
 
 public interface DataFacade
 {
-    public MaterialModel getMaterial(int id) throws LoginException;
+    public MaterialModel getMaterial(int id, String helptext) throws LoginException;
     
     public OrderModel getOrder(int id) throws LoginException;
     
     public PartslistModel getBOM();
-    
-    public PartslistModel getOrderDetails(int id) throws LoginException;
     
     public void createOrder(OrderModel order) throws LoginException;
     
