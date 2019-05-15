@@ -3,6 +3,7 @@ package data;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
+import data.exceptions.GeneralLogException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -29,7 +30,7 @@ public class DataFacadeImpl implements DataFacade
 
 
     @Override
-    public MaterialModel getMaterial(int id) throws LoginException
+    public MaterialModel getMaterial(int id) throws GeneralLogException
     {
         return MaterialMapper.getInstance().getMaterial(id);
     }

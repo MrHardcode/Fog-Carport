@@ -101,6 +101,7 @@ public class RoofRaisedCalc {
      * Partslist and returns it.
      *
      * @return PartslistModel
+     * @throws data.exceptions.LoginException
      */
     protected PartslistModel getScrews() throws LoginException {
 

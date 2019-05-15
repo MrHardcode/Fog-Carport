@@ -470,7 +470,7 @@ public class RoofFlatCalc
                 dependantParts.addPartslist(calculateFeltRoof(order));
                 break;
             default:
-                throw new AlgorithmException(1, "Error #1: No suitable roof ID selected");
+                throw new AlgorithmException("Error #1: No suitable roof ID selected");
         }
         return dependantParts;
     }
