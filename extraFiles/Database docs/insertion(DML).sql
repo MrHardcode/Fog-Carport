@@ -59,21 +59,21 @@ category defines what part of the carport the material belongs to.
 Taking use of default values (auto_increment) for >id_material<. */
 ALTER TABLE `carportdb`.`materials` AUTO_INCREMENT = 1; /* Ensuring we start from 1*/
 /* wood (category 1) */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm trykimp. Bræt', '25', '150', '4800', '35', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '5400', '40', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '6000', '45', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('97x97 mm. trykimp. Stolpe', '97', '97', '3000', '65', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '4800', '32.75', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '45', '95', '2400', '22', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x95 Reglar ubh.', '45', '95', '3600', '27.5', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '4800', '33', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2400', '24', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2100', '21', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('25x50 mm. trykimp. Bræt', '25', '50', '5400', '37', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('38x73 mm. taglægte T1', '38', '73', '5400', '39', 'Stk', '1');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('38x73 mm. taglægte T1', '38', '73', '4200', '36.5', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x150mm trykimp. Bræt', '25', '150', '4800', '35', 'Stk', '1', 'Vindskeder på rejsning');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '5400', '40', 'Stk', '1', 'Sternbrædder til siderne');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x150mm. trykimp. Bræt', '25', '150', '6000', '45', 'Stk', '1', 'Sternbrædder til siderne');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('97x97 mm. trykimp. Stolpe', '97', '97', '3000', '65', 'Stk', '1', 'Stolper nedgraves 90 cm. i jord + skråstiver');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_base`, `helptext_shed`) VALUES ('45x195 spærtræ ubh.', '45', '195', '4800', '32.75', 'Stk', '1', 'Remme i sider, sadles ned i stolper Carport del', 'Remme i sider, sadles ned i stolper Skur del');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('45x95 Reglar ubh.', '45', '95', '2400', '22', 'Stk', '1', 'Løsholter i skur');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('45x95 Reglar ubh.', '45', '95', '3600', '27.5', 'Stk', '1', 'Løsholter i skur');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '4800', '33', 'Stk', '1', 'Vand bræt på vindskeder');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2400', '24', 'Stk', '1', 'Beklædning på gavle');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '2100', '21', 'Stk', '1', 'Beklædning på skur');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x50 mm. trykimp. Bræt', '25', '50', '5400', '37', 'Stk', '1', 'Til montering oven på tagfodslægte');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`, `helptext_roof`) VALUES ('38x73 mm. taglægte T1', '38', '73', '5400', '39', 'Stk', '1', 'Til z på bagside af dør', 'Til montering på spær, lægter i rækker på hver skiftevis 1 hel & 1 halv lægte');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('38x73 mm. taglægte T1', '38', '73', '4200', '36.5', 'Stk', '1', 'Toplægte til montering af rygsten. Lægges i toplægte holder');
 /*INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('38x73 mm. Lægte ubh.', '380', '730', '4200', '40', 'Stk', '1');*/ /* Added above, just different items on each BoM */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('færdigskåret (byg-selv spær)', '0', '0', '0', '650', 'Stk', '1');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('færdigskåret (byg-selv spær)', '0', '0', '0', '650', 'Sæt', '1', 'byg-selv spær (skal samles) 8 stk.');
 
 /* miscellaneous (category 2) */
 INSERT INTO `carportdb`.`materials` (`description`, `cost_price`, `unit`, `id_category`) VALUES ('universal 190 mm højre', '2.25', 'Stk', '2');
