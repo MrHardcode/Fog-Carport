@@ -23,8 +23,7 @@ public class LogOut extends Command
         HttpSession session = request.getSession(false); //get current session
         if (session != null)
         {
-            request.getSession().invalidate(); //invalidate current session
-            request.getSession(true); //force session check (== null), set new session
+            session.invalidate(); //invalidate current session
             request.setAttribute("target", "login"); //send user to login page
             request.setAttribute("message", "Successfully logged out");
             //request.getRequestDispatcher("index.jsp");
