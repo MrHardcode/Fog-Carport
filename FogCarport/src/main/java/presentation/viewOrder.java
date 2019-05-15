@@ -38,9 +38,6 @@ public class viewOrder extends Command {
         request.setAttribute("customer", logic.getCustomer(order.getId_customer()));
         request.setAttribute("employee", logic.getEmployee(order.getId_employee()));
 
-        PartslistModel partslist = logic.getPartslistModel(order);
-        request.setAttribute("bom", partslist);
-
         return "viewOrder";
     }
 

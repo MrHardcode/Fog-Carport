@@ -3,6 +3,7 @@
  */
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.LoginException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -22,18 +23,16 @@ public class viewSVG extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
     {
-//        HttpSession session = request.getSession();
-        // Get the order from request.
-        OrderModel order = (OrderModel) request.getAttribute("order");
-        // Get the partslist from request.
-        PartslistModel bom = (PartslistModel) request.getAttribute("bom");
-        // Check for null.
+        int orderID = Integer.parseInt(request.getParameter("orderid"));
+        OrderModel order = logic.getOrder(orderID);
+        PartslistModel bom = logic.getPartslistModel(order);
+        
         if (order == null || bom == null){
             throw new LoginException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
         }
-        // Get the SVG String and place it on request.
+        
         String svgbase = logic.getSVGbase(bom, order);
         request.setAttribute("svgbase", svgbase);
         
