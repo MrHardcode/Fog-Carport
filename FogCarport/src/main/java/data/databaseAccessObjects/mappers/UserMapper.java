@@ -34,6 +34,7 @@ public class UserMapper
         return userMapper;
     }
     
+    // <editor-fold defaultstate="collapsed" desc="Log in a customer">
     /**
      * Login Method.
      *
@@ -74,6 +75,7 @@ public class UserMapper
             throw new LoginException(ex.getMessage());
         }
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Get a customer">
     /**
@@ -169,15 +171,15 @@ public class UserMapper
      */
     public void createCustomer(CustomerModel customer) throws LoginException
     {
-        String SQL = "INSERT INTO `carportdb`.`customers`\n"
-                + "(`customer_name`,\n"
-                + "`phone`,\n"
-                + "`email`,\n"
-                + "`password`)\n"
-                + "VALUES\n"
-                + "(?,\n"
-                + "?,\n"
-                + "?,\n"
+        String SQL = "INSERT INTO `carportdb`.`customers` "
+                + "(`customer_name`, "
+                + "`phone`, "
+                + "`email`, "
+                + "`password`) "
+                + "VALUES "
+                + "(?, "
+                + "?, "
+                + "?, "
                 + "?);";
         try
         {

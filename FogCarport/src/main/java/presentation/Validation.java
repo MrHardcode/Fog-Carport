@@ -64,4 +64,29 @@ public class Validation
             return validate;
         }
     }
+    
+    /**
+     * Validate two Strings (passwords) from user.
+     * 
+     * Checks if strings are null or empty.
+     * Checks if the two given passwords match.
+     * To be used by command implementation classes.
+     * @param password String representing the first password input
+     * @param password2 String representing the second password input
+     * @param name Name of the element that is being validated
+     * @return Input password if it is valid
+     * @throws LoginException 
+     */
+    public String validatePassword(String password, String password2, String name) throws LoginException
+    {
+        if (password == null || password.isEmpty() || password2 == null || password2.isEmpty())
+        {
+            throw new LoginException(name + " must not be empty");
+        }
+        if (!password.equals(password2))
+        {
+            throw new LoginException("Please type in matching passwords");
+        }
+        return password;
+    }
 }
