@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 
 <!-- Show a single order -->
-<% PartslistModel calcBom = (PartslistModel) request.getAttribute("partslist"); %>
+<% PartslistModel calcBom = (PartslistModel) request.getAttribute("partslist");
+    request.setAttribute("calcBom", calcBom);%>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -66,14 +67,14 @@
     </tbody>
 </table>
 
-        
+
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="d-flex justify-content-start">
         <input type="hidden" name="command" value="viewPartslist">      
-        <input type="hidden" name="partslist" value="${bom}"> 
+        <input type="hidden" name="calcBom" value="${calcBom}"> 
         <button type="submit" class="btn btn-primary">Se Stykliste</button>
     </form>
-    
+
     <form action="FrontController" class="d-flex justify-content-end" style="margin-left: 10px">
         <input type="hidden" name="command" value="viewSVG">        
         <button type="submit" class="btn btn-primary">Se Tegninger</button>
