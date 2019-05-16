@@ -112,10 +112,11 @@ public class OrderMapper
             ps.setInt(12, order.getId_customer());
             ps.setInt(13, order.getId_employee());
             ps.executeUpdate();
-            try (ResultSet ids = ps.getGeneratedKeys()) // Getting auto-generated key.
+            ResultSet resultSet = ps.getGeneratedKeys();
+            if (resultSet.next())
             {
-                ids.next();
-                int id = ids.getInt(1);
+                resultSet.next();
+                int id = resultSet.getInt(1);
                 order.setId(id);
             }
         } catch (SQLException ex)
