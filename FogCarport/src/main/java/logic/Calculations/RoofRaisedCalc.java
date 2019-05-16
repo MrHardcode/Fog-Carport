@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 public class RoofRaisedCalc {
 
+    //<editor-fold defaultstate="collapsed" desc="INSTANCE FIELDS">
     DataFacade DAO;
     int bracketCount;
     int screwCount;
@@ -26,8 +27,9 @@ public class RoofRaisedCalc {
     int tileCount;
     int topTileCount;
     int roofOverhang;
+    //</editor-fold>
     
-    // HARDCODED MATERIALS USED
+    //<editor-fold defaultstate="collapsed" desc="HARDCODED MATERIALS USED">
     final int screwPacks = 20; // 4,5x60mm. Skruer (200 stk)
     final int roofTileBrackets = 32; // B & C tagstens binder/nakkekrog (kombi)
     final int roofTileBlack = 33; // B & C Dobbelt Tagsten (Sort)
@@ -52,11 +54,13 @@ public class RoofRaisedCalc {
     final int fasciaWood6000 = 3; // 25x150mm. trykimp. Bræt 6000
     final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400
     final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200
+    //</editor-fold>
+    
     
     final String helptext = "roof"; // Used to grab the right helptext from database.
 
     /**
-     *
+     * Class-constructor, instantiates all instance fields.
      */
     public RoofRaisedCalc() {
         DAO = DataFacadeImpl.getInstance();
