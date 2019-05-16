@@ -174,4 +174,10 @@ public class LogicFacadeImpl implements LogicFacade
         return DataFacadeImpl.getInstance().getOrderIds(id);
     }
 
+    @Override
+    public void payOrder(int id) throws LoginException
+    {
+        DataFacadeImpl.getInstance().payOrder(id);
+    }
+
 }
