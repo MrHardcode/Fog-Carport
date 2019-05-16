@@ -1,12 +1,9 @@
-
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
 import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +12,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author 
+ * @author
  */
 public class UserMapper
 {
@@ -26,7 +23,7 @@ public class UserMapper
     {
         dbc.setDataSource(ds);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Log in a customer">
     /**
      * Login Method.
@@ -43,10 +40,9 @@ public class UserMapper
     public CustomerModel login(String email, String password) throws LoginException
     {
         String SQL = "SELECT customer_name, id_customer, phone FROM customers WHERE email=? AND password=?;";
-        try 
+        try (DatabaseConnector open_dbc = dbc.open())
         {
-            dbc.oldOpen();
-            PreparedStatement ps = dbc.preparedStatement(SQL);
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -59,13 +55,12 @@ public class UserMapper
                 customer.setId(id);
                 customer.setEmail(email);
                 customer.setPassword(password);
-                dbc.close();
                 return customer;
             } else
             {
                 throw new LoginException("Could not validate user");
             }
-            
+
         } catch (SQLException ex)
         {
             throw new LoginException(ex.getMessage());
@@ -87,10 +82,9 @@ public class UserMapper
 
         String SQL = "SELECT * FROM carportdb.customers WHERE id_customer = ?;";
 
-        try
+        try (DatabaseConnector open_dbc = dbc.open())
         {
-            dbc.oldOpen();
-            PreparedStatement ps = dbc.preparedStatement(SQL);
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             customer.setId(id);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -102,7 +96,6 @@ public class UserMapper
                 customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
             }
-            dbc.close();
         } catch (SQLException ex)
         {
             // Should most likely be another exception.
@@ -131,10 +124,9 @@ public class UserMapper
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
-        try
+        try(DatabaseConnector open_dbc = dbc.open())
         {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             employee.setId(id);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -177,9 +169,9 @@ public class UserMapper
                 + "?, "
                 + "?, "
                 + "?);";
-        try ( DatabaseConnector dbc1 = dbc.open() )
+        try (DatabaseConnector open_dbc = dbc.open())
         {
-            PreparedStatement ps = dbc1.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
@@ -215,10 +207,9 @@ public class UserMapper
                 + "VALUES\n"
                 + "(?,\n"
                 + "?);";
-        try
+        try(DatabaseConnector open_dbc = dbc.open())
         {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, employee.getName());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
