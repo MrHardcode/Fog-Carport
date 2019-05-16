@@ -9,10 +9,10 @@ package data.exceptions;
  *
  * @author Camilla
  */
-public class GeneralLogException extends Exception{
+public class DataException extends Exception{
      private static final long serialVersionUID = 1L;
 
-    public GeneralLogException(String message) {
+    public DataException(String message) {
         super(message);
     }
     

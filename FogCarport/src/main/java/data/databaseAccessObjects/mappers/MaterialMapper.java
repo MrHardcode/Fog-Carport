@@ -2,7 +2,7 @@
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
-import data.exceptions.GeneralLogException;
+import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.PartslistModel;
@@ -65,9 +65,9 @@ public class MaterialMapper {
      *
      * @param id of the Material.
      * @return MaterialModel
-     * @throws GeneralLogException 
+     * @throws DataException 
      */
-    public MaterialModel getMaterial(int id) throws GeneralLogException {
+    public MaterialModel getMaterial(int id) throws DataException {
         MaterialModel material = new MaterialModel();
 
         String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n"
@@ -109,7 +109,7 @@ public class MaterialMapper {
             }
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new GeneralLogException(ex.getMessage()); // ex.getMessage() 
+            throw new DataException(ex.getMessage()); // ex.getMessage() 
         }
 
         return material;
@@ -153,7 +153,7 @@ public class MaterialMapper {
      * @return List of MaterialModel.
      * @throws LoginException Should most likely throw something else.
      */
-    public PartslistModel getMaterials(int id) throws GeneralLogException {
+    public PartslistModel getMaterials(int id) throws DataException {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
@@ -170,7 +170,7 @@ public class MaterialMapper {
             }
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new GeneralLogException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
         return materials;
     }

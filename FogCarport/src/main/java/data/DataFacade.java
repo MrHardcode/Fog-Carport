@@ -1,6 +1,6 @@
 package data;
 
-import data.exceptions.GeneralLogException;
+import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DataFacade
 {
-    public MaterialModel getMaterial(int id) throws GeneralLogException;
+    public MaterialModel getMaterial(int id) throws DataException;
     
     public OrderModel getOrder(int id) throws LoginException;
     
