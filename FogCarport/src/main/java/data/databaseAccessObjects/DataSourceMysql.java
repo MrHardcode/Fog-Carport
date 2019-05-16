@@ -4,6 +4,7 @@
 package data.databaseAccessObjects;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import data.exceptions.LoginException;
 import java.sql.SQLException;
 
 /**
@@ -21,15 +22,21 @@ public class DataSourceMysql
 
     private MysqlDataSource dataSource = new MysqlDataSource();
 
-    public DataSourceMysql() throws SQLException
+    public DataSourceMysql() throws LoginException
     {
         dataSource.setServerName(IP);
         dataSource.setPort(PORT);
         dataSource.setDatabaseName(DATABASE);
         dataSource.setUser(USERNAME);
         dataSource.setPassword(PASSWORD);
-        dataSource.setUseSSL(false);
-//        dataSource.setAutoReconnect(true);
+        try
+        {
+            dataSource.setUseSSL(false);
+            dataSource.setAutoReconnect(true);
+        } catch (SQLException ex)
+        {
+            throw new LoginException("Data Source issue.");
+        }
     }
 
     // Should maybe be a singleton like in DBConnector?
@@ -37,5 +44,5 @@ public class DataSourceMysql
     {
         return dataSource;
     }
-    
+
 }
