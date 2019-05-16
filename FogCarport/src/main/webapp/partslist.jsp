@@ -20,7 +20,7 @@
     </thead>
 
     <tbody>
-        <c:forEach var="material" items="${bom.billOfMaterials}">
+        <c:forEach var="material" items="${partslistbom.billOfMaterials}">
             <tr>
                 <td contenteditable='true'>${material.quantity}</td>
                 <td contenteditable='true'>${material.ID}</td>
@@ -37,7 +37,7 @@
 </table>
 <!-- END OF BOM -->
 
-Total Price: ${bom.totalprice}
+Total Price: ${partslistbom.totalprice}
 
 <br>
 <div class="d-flex justify-content-center">
