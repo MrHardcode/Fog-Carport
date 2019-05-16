@@ -5,7 +5,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -47,12 +47,12 @@ public class ShedLogic
     Type of wood used for the sheds "beklædning"
     Type of wood used for the floor (if they even want a floor)
      */
-    public PartslistModel addShed(OrderModel order) throws LoginException
+    public PartslistModel addShed(OrderModel order) throws DataException
     {
         PartslistModel bom = new PartslistModel();
         if (order == null)
         {
-            throw new LoginException("Order is null.");
+            throw new DataException("Order is null.");
         }
         if (order.getShed_walls_id() == 0 || 
                 order.getShed_length() == 0 || 
@@ -166,7 +166,7 @@ public class ShedLogic
      * @param width of the Shed.
      * @return PartslistModel
      */
-    void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws LoginException
+    void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws DataException
     {
         int floorwidth = floor.getWidth(); // Width of the boards used for the floor
         int floorlength = floor.getLength(); // Length of the boards used for the floor
@@ -210,7 +210,7 @@ public class ShedLogic
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
-    void addDoorMaterials(PartslistModel bom, DataFacade db) throws LoginException
+    void addDoorMaterials(PartslistModel bom, DataFacade db) throws DataException
     {
         MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb); 
         stalddørsgreb.setQuantity(1);
@@ -243,7 +243,7 @@ public class ShedLogic
      * @param length
      * @param width
      */
-    void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws LoginException
+    void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws DataException
     {
         // Trykimp brædder til beklædning:
         int amountofwood = (((length + width) * 2) / wood.getWidth()) + 1; // Two length sides and two width sides and one spare board.
@@ -288,7 +288,7 @@ public class ShedLogic
      * @param bom
      * @throws LoginException 
      */
-    void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws LoginException
+    void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws DataException
     {
         int postquantity = 0;
         if (length == order.getLength() && width == order.getWidth())
@@ -336,7 +336,7 @@ public class ShedLogic
      * @return amount of reglar for that side.
      * @throws LoginException 
      */
-    int reglar(int width, DataFacade db, PartslistModel bom, int side) throws LoginException
+    int reglar(int width, DataFacade db, PartslistModel bom, int side) throws DataException
     {
         MaterialModel reglar;
         if (postdistance < 2400 || width < 2400){
