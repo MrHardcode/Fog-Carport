@@ -26,7 +26,7 @@ public class SVGDrawingBase
         postsRear = bom.getPostPosRear();
     }
     
-    public String getBaseDrawing()
+    public String getBaseDrawing(OrderModel order)
     {
         String SVG =
                 //The strap / edge of the base carport construction:
@@ -43,11 +43,6 @@ public class SVGDrawingBase
                 + "stroke=\"#000000\" stroke-width=\"2\" fill=\"#FFFFFF\"/>"
                 //The poles for the base carport cinstruction:
                 + getPoles()
-                //Arrows and labels showing the dimensions of the carport
-                + getArrow(0, cWidth + 20, cLength, cWidth + 20)
-                + getArrow(cLength + 20, 0, cLength + 20, cWidth)
-                + getLabel(cLength + 25, cWidth / 2, cWidth)
-                + getLabel(cLength / 2 - 20, cWidth + 40, cLength)
                 ;
         
         
@@ -78,7 +73,16 @@ public class SVGDrawingBase
         return SVG;
     }
     
-    private String getArrow(int beginX, int beginY, int endX, int endY){
+    public String getLengthArrow(int extraDistance){
+        int extraWidth = 0;
+        if (extraDistance > 0)
+        {
+            extraWidth = 25;
+        }
+        int beginX = 0;
+        int beginY = cWidth + 20 + extraWidth;
+        int endX = cLength;
+        int endY = cWidth + 20 + extraWidth;
         // The Arrow.
         String SVG = " "
                 + "<defs>\n"
@@ -95,7 +99,7 @@ public class SVGDrawingBase
                 + "        <path d=\"M0,0 L8,4 L0,8 L0,0\" style=\"fill: #000000;\" />\n"
                 + "    </marker>\n"
                 + "</defs>\n"
-                + "<line x1=\""+beginX+"\"  y1=\""+beginY+"\" x2=\""+endX+"\"   y2=\""+endY+"\" \n"
+                + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
                 + "	style=\"stroke:#006600;\n"
                 + "	marker-start: url(#beginArrow);\n"
                 + "   marker-end: url(#endArrow);\"/>"
@@ -104,8 +108,58 @@ public class SVGDrawingBase
         return SVG;
     }
     
-    private String getLabel(int x, int y, int distance)
+    public String getWidthArrow(){
+        // The Arrow.
+        int beginX = cLength + 20;
+        int beginY = 0;
+        int endX = cLength + 20;
+        int endY = cWidth;
+        String SVG = " "
+                + "<defs>\n"
+                + "    <marker id=\"beginArrow\" \n"
+                + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
+                + "    	refX=\"0\" refY=\"4\" \n"
+                + "    	orient=\"auto\">\n"
+                + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
+                + "    </marker>\n"
+                + "    <marker id=\"endArrow\" \n"
+                + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
+                + "    	refX=\"8\" refY=\"4\" \n"
+                + "    	orient=\"auto\">\n"
+                + "        <path d=\"M0,0 L8,4 L0,8 L0,0\" style=\"fill: #000000;\" />\n"
+                + "    </marker>\n"
+                + "</defs>\n"
+                + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
+                + "	style=\"stroke:#006600;\n"
+                + "	marker-start: url(#beginArrow);\n"
+                + "   marker-end: url(#endArrow);\"/>"
+                + " ";
+        
+        return SVG;
+    }
+    
+    public String getWidthLabel()
     {
+        int x = cLength + 25;
+        int y= cWidth / 2;
+        int distance = cWidth;
+        String SVG = "";
+        // The text
+        SVG += " <text x=\"" + x + "\" y=\"" + y + "\" fill=\"black\"\">" + distance + "cm" + "</text> "; 
+        
+        return SVG;
+    }
+    
+    public String getLengthLabel(int extraDistance)
+    {
+        int extraWidth = 0;
+        if (extraDistance > 0)
+        {
+            extraWidth = 25;
+        }
+        int x = cLength / 2 - 20;
+        int y= cWidth + 40 + extraWidth;
+        int distance = cLength;
         String SVG = "";
         // The text
         SVG += " <text x=\"" + x + "\" y=\"" + y + "\" fill=\"black\"\">" + distance + "cm" + "</text> "; 
