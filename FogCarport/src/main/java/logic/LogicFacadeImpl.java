@@ -2,6 +2,7 @@ package logic;
 
 import data.DataFacadeImpl;
 import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -48,31 +49,31 @@ public class LogicFacadeImpl implements LogicFacade
 //    }
 
     @Override
-    public List<Integer> getAllOrderIds() throws LoginException
+    public List<Integer> getAllOrderIds() throws DataException
     {
         return DataFacadeImpl.getInstance().getAllOrderIds();
     }
 
     @Override
-    public OrderModel getOrder(int id) throws LoginException
+    public OrderModel getOrder(int id) throws DataException
     {
         return DataFacadeImpl.getInstance().getOrder(id);
     }
 
     @Override
-    public MaterialModel getMaterial(int id) throws LoginException
+    public MaterialModel getMaterial(int id) throws DataException
     {
         return DataFacadeImpl.getInstance().getMaterial(id);
     }
 
     @Override
-    public CustomerModel getCustomer(int id) throws LoginException
+    public CustomerModel getCustomer(int id) throws DataException
     {
         return DataFacadeImpl.getInstance().getCustomer(id);
     }
 
     @Override
-    public EmployeeModel getEmployee(int id) throws LoginException
+    public EmployeeModel getEmployee(int id) throws DataException
     {
         return DataFacadeImpl.getInstance().getEmployee(id);
     }
@@ -90,14 +91,14 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public void createOrder(OrderModel order) throws LoginException
+    public void createOrder(OrderModel order) throws DataException
     {
         DataFacadeImpl.getInstance().createOrder(order);
     }
 
     // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
-    public PartslistModel getPartslistModel(OrderModel order) throws LoginException, AlgorithmException
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException
     {
         PartslistModel partslistmodel = new PartslistModel();
         // Add Shed
@@ -156,7 +157,7 @@ public class LogicFacadeImpl implements LogicFacade
 
     // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
-    public String getSVGroof(OrderModel order) throws LoginException
+    public String getSVGroof(OrderModel order) throws DataException
     {
         SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();
         return roof.getRaisedRoofDrawing(order);
@@ -169,7 +170,7 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public List<Integer> getOrderIds(int id) throws LoginException
+    public List<Integer> getOrderIds(int id) throws DataException
     {
         return DataFacadeImpl.getInstance().getOrderIds(id);
     }

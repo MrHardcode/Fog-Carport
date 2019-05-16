@@ -4,6 +4,7 @@ import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
 import data.exceptions.DataException;
+import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import data.models.MaterialModel;
@@ -77,19 +78,19 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void createCustomer(CustomerModel customer) throws DataException
+    public void createCustomer(CustomerModel customer) throws LoginException
     {
         UserMapper.getInstance().createCustomer(customer);
     }
 
     @Override
-    public void createEmployee(EmployeeModel employee) throws DataException
+    public void createEmployee(EmployeeModel employee) throws LoginException
     {
         UserMapper.getInstance().createEmployee(employee);
     }
 
     @Override
-    public CustomerModel login(String email, String password) throws DataException
+    public CustomerModel login(String email, String password) throws LoginException
     {
         return UserMapper.getInstance().login(email, password);
     }

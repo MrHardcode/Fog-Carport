@@ -2,6 +2,7 @@
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
+import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
@@ -83,9 +84,9 @@ public class UserMapper
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws LoginException Should probably be something else later on.
+     * @throws DataException
      */
-    public CustomerModel getCustomer(int id) throws LoginException
+    public CustomerModel getCustomer(int id) throws DataException
     {
         CustomerModel customer = new CustomerModel();
 
@@ -109,8 +110,7 @@ public class UserMapper
 
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); 
         }
 
         return customer;
@@ -123,9 +123,9 @@ public class UserMapper
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws LoginException Should probably be something else later on.
+     * @throws DataException
      */
-    public EmployeeModel getEmployee(int id) throws LoginException
+    public EmployeeModel getEmployee(int id) throws DataException
     {
         EmployeeModel employee = new EmployeeModel();
 
@@ -151,8 +151,7 @@ public class UserMapper
 
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
         return employee;
