@@ -15,7 +15,7 @@ import logic.LogicFacadeImpl;
 
 /**
  *
- * @author 
+ * @author
  */
 @WebServlet(name = "FrontController", urlPatterns =
 {
@@ -23,6 +23,7 @@ import logic.LogicFacadeImpl;
 })
 public class FrontController extends HttpServlet
 {
+
     private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 
@@ -31,17 +32,18 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response); // Throws Illegal State Exception that isn't handled.
+            validateSession(request, response);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (LoginException | AlgorithmException ex)
+        }
+        catch (LoginException | AlgorithmException ex)
         {
-            request.setAttribute("target", "homepage");
+            request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } 
+        }
     }
 
     /*
@@ -50,7 +52,6 @@ public class FrontController extends HttpServlet
     then they will get logged out. 
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
-    TO DO - ADD CREATE USER PAGE TO THIS. CURRENTLY ONLY CHECKING FOR LOGIN PAGE.
      */
     private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
     {
@@ -59,19 +60,18 @@ public class FrontController extends HttpServlet
         // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
         // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
-        if (!"login".equals(request.getParameter("command")) && customer == null)
+        if (!"login".equals(request.getParameter("command"))
+                && customer == null
+                && (!"createUser".equals(request.getParameter("link"))
+                && !"createUser".equals(request.getParameter("command"))))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
-            // SEND USER TO LOGIN PAGE.
-            request.setAttribute("target", "login");
-            // ERRORMESSAGE SHOWN TO USER.
-            request.setAttribute("message", "You should log in.");
             // FORWARD USER.
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            throw new LoginException("You should log in.");
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
