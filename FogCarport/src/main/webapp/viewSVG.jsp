@@ -16,15 +16,15 @@
            aria-expanded="true" aria-controls="multiCollapse1">Show base</a>
         
         <button class="btn btn-primary" type="button" data-toggle="collapse" 
-                data-target=".multiCollapse2,#collapseOne" aria-expanded="false" 
-                aria-controls="multiCollapse2,#collapseOne">Show roof</button>
+                data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
+                aria-controls="multiCollapse2,.collapseOne">Show roof</button>
     </p>
     <div class="row card">
         <p>
             <svg width="900" height="900">
             <g id="accordion1" class="accordion card-text collapse multi-collapse multiCollapse1">
             ${svgbase}
-            <svg x="100" y="100" id="collapseOne" class="collapse show" data-parent="#accordion1">
+            <svg x="100" y="100" id="collapseOne" class="collapseOne collapse show" data-parent="#accordion1">
             ${svgbaseArrowWidth}
             ${svgbaseArrowLength}
             ${svgbaseLabelWidth}
@@ -34,10 +34,10 @@
             <g class="card-text collapse multi-collapse multiCollapse2">
             <svg x="50" y="21.5" >${svgroof}</svg>
             <svg x="100" y="100">
-            ${svgbaseArrowWidthExtra}
-            ${svgbaseArrowLength}
-            ${svgbaseLabelLengthExtra}
+            ${svgbaseArrowLengthExtra}
             ${svgbaseLabelWidth}
+            ${svgbaseArrowWidth}
+            ${svgbaseLabelLengthExtra}
             </svg>
             </g>
             </svg>

@@ -73,7 +73,7 @@ public class SVGDrawingBase
         return SVG;
     }
     
-    public String getWidthArrow(int extraDistance){
+    public String getLengthArrow(int extraDistance){
         int extraWidth = 0;
         if (extraDistance > 0)
         {
@@ -108,7 +108,7 @@ public class SVGDrawingBase
         return SVG;
     }
     
-    public String getLengthArrow(){
+    public String getWidthArrow(){
         // The Arrow.
         int beginX = cLength + 20;
         int beginY = 0;

@@ -37,15 +37,15 @@ public class viewSVG extends Command
         String svgbase = logic.getSVGbase(bom, order);
         request.setAttribute("svgbase", svgbase);
         
-        String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order, 0);
-        String svgbaseArrowWidthExtra = logic.getSVGbaseArrowWidth(bom, order, 15);
-        String svgbaseArrowLength = logic.getSVGbaseArrowLength(bom, order);
+        String svgbaseArrowLength = logic.getSVGbaseArrowLength(bom, order, 0);
+        String svgbaseArrowLengthExtra = logic.getSVGbaseArrowLength(bom, order, 15);
+        String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order);
         String svgbaseLabelWidth = logic.getSVGbaseLabelWidth(bom, order);
         String svgbaseLabelLength = logic.getSVGbaseLabelLength(bom, order, 0);
         String svgbaseLabelLengthExtra = logic.getSVGbaseLabelLength(bom, order, 10);
         
         request.setAttribute("svgbaseArrowWidth", svgbaseArrowWidth);
-        request.setAttribute("svgbaseArrowWidthExtra", svgbaseArrowWidthExtra);
+        request.setAttribute("svgbaseArrowLengthExtra", svgbaseArrowLengthExtra);
         request.setAttribute("svgbaseArrowLength", svgbaseArrowLength);
         request.setAttribute("svgbaseLabelWidth", svgbaseLabelWidth);
         request.setAttribute("svgbaseLabelLength", svgbaseLabelLength);

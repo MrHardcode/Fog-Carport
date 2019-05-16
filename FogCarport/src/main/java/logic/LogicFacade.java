@@ -35,9 +35,9 @@ public interface LogicFacade
     
     public String getSVGbase(PartslistModel bom, OrderModel order);
     
-    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order, int extraDistance);
+    public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance);
     
-    public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order);
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order);
     
     public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order);
     
