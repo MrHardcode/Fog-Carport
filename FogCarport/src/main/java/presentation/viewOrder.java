@@ -4,7 +4,7 @@
 package presentation;
 
 import data.exceptions.DataException;
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +23,7 @@ public class viewOrder extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
     {
 
         HttpSession session = request.getSession();

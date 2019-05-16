@@ -1,7 +1,7 @@
 package logic;
 
 import data.exceptions.DataException;
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import data.models.MaterialModel;
@@ -27,9 +27,9 @@ public interface LogicFacade
     
     public EmployeeModel getEmployee(int id) throws DataException;
     
-    public void createCustomer(CustomerModel customer) throws LoginException;
+    public void createCustomer(CustomerModel customer) throws UserException;
     
-    public void createEmployee(EmployeeModel employee) throws LoginException;
+    public void createEmployee(EmployeeModel employee) throws UserException;
 
     public PartslistModel getPartslistModel(OrderModel order) throws DataException;
     
@@ -37,7 +37,7 @@ public interface LogicFacade
     
     public String getSVGroof(OrderModel order) throws DataException;
     
-    public CustomerModel login(String email, String password) throws LoginException;
+    public CustomerModel login(String email, String password) throws UserException;
 
     public List<Integer> getOrderIds(int id) throws DataException;
 }

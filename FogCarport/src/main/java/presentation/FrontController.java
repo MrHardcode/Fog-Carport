@@ -1,7 +1,7 @@
 package presentation;
 
 import data.exceptions.DataException;
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -38,7 +38,7 @@ public class FrontController extends HttpServlet
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        catch (LoginException | DataException ex)
+        catch (UserException | DataException ex)
         {
             request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
@@ -53,7 +53,7 @@ public class FrontController extends HttpServlet
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
      */
-    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
+    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws UserException, ServletException, IOException
     {
         // GET SESSION.
         HttpSession session = request.getSession();
@@ -68,7 +68,7 @@ public class FrontController extends HttpServlet
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
             // FORWARD USER.
-            throw new LoginException("You should log in.");
+            throw new UserException("You should log in.");
         }
     }
 

@@ -4,7 +4,7 @@
 package presentation;
 
 import data.exceptions.DataException;
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class viewPartslist extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, DataException
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
     {
         OrderModel order = (OrderModel) request.getSession().getAttribute("order");
         if (order != null){

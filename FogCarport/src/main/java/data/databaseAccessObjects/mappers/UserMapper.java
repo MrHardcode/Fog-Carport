@@ -3,7 +3,7 @@ package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.DataException;
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import java.sql.Connection;
@@ -45,10 +45,10 @@ public class UserMapper
      * @param email Users email
      * @param password Users password
      * @return User entity
-     * @throws LoginException Custom Exception. Caught in FrontController. Sends
+     * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public CustomerModel login(String email, String password) throws LoginException
+    public CustomerModel login(String email, String password) throws UserException
     {
         String SQL = "SELECT id_customer, phone FROM customers WHERE email=? AND password=?;";
         try 
@@ -69,11 +69,11 @@ public class UserMapper
                 return customer;
             } else
             {
-                throw new LoginException("Could not validate user");
+                throw new UserException("Could not validate user");
             }
         } catch (SQLException ex)
         {
-            throw new LoginException(ex.getMessage());
+            throw new UserException(ex.getMessage());
         }
     }
     // </editor-fold>
@@ -165,10 +165,10 @@ public class UserMapper
      * Inputs a Customer into the SQL database.
      *
      * @param customer
-     * @throws LoginException Custom Exception. Caught in FrontController. Sends
+     * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public void createCustomer(CustomerModel customer) throws LoginException
+    public void createCustomer(CustomerModel customer) throws UserException
     {
         String SQL = "INSERT INTO `carportdb`.`customers` "
                 + "(`customer_name`, "
@@ -197,7 +197,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new LoginException("Customer already exists: " + ex.getMessage());
+            throw new UserException("Customer already exists: " + ex.getMessage());
         }
     }
     //</editor-fold>
@@ -209,10 +209,10 @@ public class UserMapper
      * Inputs a Employee into the SQL database.
      *
      * @param employee
-     * @throws LoginException Custom Exception. Caught in FrontController. Sends
+     * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public void createEmployee(EmployeeModel employee) throws LoginException
+    public void createEmployee(EmployeeModel employee) throws UserException
     {
         String SQL = "INSERT INTO `carportdb`.`employees`\n"
                 + "(`emp_name`,\n"
@@ -235,7 +235,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new LoginException("Employee already exists: " + ex.getMessage());
+            throw new UserException("Employee already exists: " + ex.getMessage());
         }
     }
     //</editor-fold>
