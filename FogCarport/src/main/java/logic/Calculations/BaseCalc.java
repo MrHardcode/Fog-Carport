@@ -2,7 +2,6 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
