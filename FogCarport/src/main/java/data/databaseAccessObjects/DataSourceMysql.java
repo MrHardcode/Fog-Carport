@@ -16,7 +16,7 @@ public class DataSourceMysql
 
     private static final String IP = "207.154.233.238";
     private static final int PORT = 3306;
-    public static final String DATABASE = "carportdb";
+    private static final String DATABASE = "carportdb";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "1234";
 
