@@ -56,9 +56,9 @@ public class UserMapperTest
     }
 
     @Test
-    public void testRegisterValidateUser() throws Exception
+    public void testLoginCreateCustomer() throws Exception
     {
-        System.out.println("testRegisterValidateUser...");
+        System.out.println("Test of login and createCustomer in UserMapper");
 
         int id = 1;
         String name = "testuser";
@@ -80,12 +80,12 @@ public class UserMapperTest
 
         userMapper.createCustomer(customer);
 
-        CustomerModel validatedUser = userMapper.login(email, password);
+        CustomerModel validatedCustomer = userMapper.login(email, password);
 
-        assertEquals(id, validatedUser.getId());
-        assertEquals(name, validatedUser.getName());
-        assertEquals(phone, validatedUser.getPhone());
-        assertEquals(email, validatedUser.getEmail());
-        assertEquals(password, validatedUser.getPassword());
+        assertEquals(id, validatedCustomer.getId());
+        assertEquals(name, validatedCustomer.getName());
+        assertEquals(phone, validatedCustomer.getPhone());
+        assertEquals(email, validatedCustomer.getEmail());
+        assertEquals(password, validatedCustomer.getPassword());
     }
 }
