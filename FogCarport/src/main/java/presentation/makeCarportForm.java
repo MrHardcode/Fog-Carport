@@ -1,6 +1,5 @@
 package presentation;
 
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.PartslistModel;
@@ -15,7 +14,7 @@ public class makeCarportForm extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException, DataException
+    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, DataException
     {
         /* Initializing required variables */
 

@@ -1,6 +1,5 @@
 package logic;
 
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
@@ -32,7 +31,7 @@ public interface LogicFacade
     
     public void createEmployee(EmployeeModel employee) throws LoginException;
 
-    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException;
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException;
     
     public String getSVGbase(PartslistModel bom, OrderModel order);
     

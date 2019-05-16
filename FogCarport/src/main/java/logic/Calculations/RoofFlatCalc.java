@@ -2,7 +2,6 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -98,7 +97,7 @@ public class RoofFlatCalc
      * @throws data.exceptions.AlgorithmException
      * @throws DataException
      */
-    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, DataException
+    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException
     {
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
@@ -446,10 +445,9 @@ public class RoofFlatCalc
      *
      * @param order
      * @return returns dependant items (roof tile dependant)
-     * @throws data.exceptions.AlgorithmException
      * @throws data.exceptions.DataException
      */
-    protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException, DataException
+    protected PartslistModel calculateDependantParts(OrderModel order) throws DataException
     {
         PartslistModel dependantParts = new PartslistModel();
 
@@ -471,7 +469,7 @@ public class RoofFlatCalc
                 dependantParts.addPartslist(calculateFeltRoof(order));
                 break;
             default:
-                throw new AlgorithmException("Error #1: No suitable roof ID selected");
+                throw new DataException("Error #1: No suitable roof ID selected");
         }
         return dependantParts;
     }

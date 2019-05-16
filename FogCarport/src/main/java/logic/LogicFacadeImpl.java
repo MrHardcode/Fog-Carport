@@ -1,7 +1,6 @@
 package logic;
 
 import data.DataFacadeImpl;
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
@@ -98,7 +97,7 @@ public class LogicFacadeImpl implements LogicFacade
 
     // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
-    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException
     {
         PartslistModel partslistmodel = new PartslistModel();
         // Add Shed

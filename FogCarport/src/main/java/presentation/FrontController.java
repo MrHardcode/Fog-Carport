@@ -1,6 +1,5 @@
 package presentation;
 
-import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.CustomerModel;
@@ -39,7 +38,7 @@ public class FrontController extends HttpServlet
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        catch (LoginException | AlgorithmException | DataException ex)
+        catch (LoginException | DataException ex)
         {
             request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
