@@ -173,5 +173,23 @@ public class OrderMapper {
         }
         return ids;
     }
-    // </editor-fold>
+  // </editor-fold>
+
+
+    public void payOrder(int id) throws LoginException
+    {
+        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch(SQLException ex) {
+            throw new LoginException(ex.getMessage());
+        }
+        
+    }
+
 }

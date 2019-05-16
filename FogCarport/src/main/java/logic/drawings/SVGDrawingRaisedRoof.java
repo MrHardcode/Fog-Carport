@@ -33,10 +33,10 @@ public class SVGDrawingRaisedRoof {
 
         StringBuilder stb = new StringBuilder();
 
-        String startSVG = "<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
+        String startSVG = ""; //"<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
         String outerRoofBorder = " <rect x=\"" + halfPadding + "\" y=\"" + halfPadding + "\" width=\"" + roofLength + "\" height=\"" + roofWidth + "\" "
                 + "style=\"fill:none; stroke:red; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
-        String endSVG = "</svg>";
+        String endSVG = ""; //"</svg>";
 
         stb.append(startSVG);
         stb.append(outerRoofBorder);

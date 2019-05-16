@@ -116,4 +116,10 @@ public class DataFacadeImpl implements DataFacade
         return OrderMapper.getInstance().getOrderIds(id);
     }
 
+    @Override
+    public void payOrder(int id) throws LoginException
+    {
+        OrderMapper.getInstance().payOrder(id);
+    }
+
 }

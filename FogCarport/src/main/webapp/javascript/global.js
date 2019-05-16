@@ -8,8 +8,8 @@ function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
     for (let i = 240; i < 750; i = i + 30) {
-        lengthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
-        widthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
+        lengthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
+        widthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
     }
 }
 ;
@@ -175,8 +175,8 @@ let wallOptions = document.getElementById("shed-wall");
 function prepareShedMenu() {
 
     //Getting the given dimensions of the carport
-    let carportLength = document.getElementById("input-length").value;
-    let carportWidth = document.getElementById("input-width").value;
+    let carportLength = (document.getElementById("input-length").value)/10;
+    let carportWidth = (document.getElementById("input-width").value)/10;
 
     //Creating arrays used in the fillDropDownShedDimensions() method
     let shedLength = createShedDimensions(carportLength);
