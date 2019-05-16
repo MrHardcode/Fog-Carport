@@ -14,31 +14,38 @@ import java.util.List;
 
 /**
  *
- * @author 
+ * @author
  */
 public class DataFacadeImpl implements DataFacade
 {
-    
+
     private static DataFacadeImpl instance = null;
 
-    public synchronized static DataFacadeImpl getInstance() {
-        if (instance == null) {
+    public synchronized static DataFacadeImpl getInstance()
+    {
+        if (instance == null)
+        {
             instance = new DataFacadeImpl();
         }
         return instance;
     }
 
-
     @Override
     public MaterialModel getMaterial(int id) throws LoginException
     {
-        return MaterialMapper.getInstance().getMaterial(id);
+        MaterialMapper materialMapper = new MaterialMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        materialMapper.setDataSource(dataSource.getDataSource());
+        return materialMapper.getMaterial(id);
     }
 
     @Override
     public OrderModel getOrder(int id) throws LoginException
     {
-        return OrderMapper.getInstance().getOrder(id);
+        OrderMapper orderMapper = new OrderMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        orderMapper.setDataSource(dataSource.getDataSource());
+        return orderMapper.getOrder(id);
     }
 
     @Override
@@ -48,21 +55,21 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public PartslistModel getOrderDetails(int id) throws LoginException
-    {
-        return MaterialMapper.getInstance().getMaterials(id);
-    }
-
-    @Override
     public void createOrder(OrderModel order) throws LoginException
     {
-        OrderMapper.getInstance().createOrder(order);
+        OrderMapper orderMapper = new OrderMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        orderMapper.setDataSource(dataSource.getDataSource());
+        orderMapper.createOrder(order);
     }
 
     @Override
     public List<Integer> getAllOrderIds() throws LoginException
     {
-        return OrderMapper.getInstance().getAllOrderIds();
+        OrderMapper orderMapper = new OrderMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        orderMapper.setDataSource(dataSource.getDataSource());
+        return orderMapper.getAllOrderIds();
     }
 
     @Override
@@ -113,13 +120,19 @@ public class DataFacadeImpl implements DataFacade
     @Override
     public List<Integer> getOrderIds(int id) throws LoginException
     {
-        return OrderMapper.getInstance().getOrderIds(id);
+        OrderMapper orderMapper = new OrderMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        orderMapper.setDataSource(dataSource.getDataSource());
+        return orderMapper.getOrderIds(id);
     }
 
     @Override
     public void payOrder(int id) throws LoginException
     {
-        OrderMapper.getInstance().payOrder(id);
+        OrderMapper orderMapper = new OrderMapper();
+        DataSourceMysql dataSource = new DataSourceMysql();
+        orderMapper.setDataSource(dataSource.getDataSource());
+        orderMapper.payOrder(id);
     }
 
 }

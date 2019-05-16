@@ -10,29 +10,28 @@ import java.util.List;
 
 public interface DataFacade
 {
+
     public MaterialModel getMaterial(int id) throws LoginException;
-    
+
     public OrderModel getOrder(int id) throws LoginException;
-    
+
     public PartslistModel getBOM();
-    
-    public PartslistModel getOrderDetails(int id) throws LoginException;
-    
+
     public void createOrder(OrderModel order) throws LoginException;
-    
+
     public List<Integer> getAllOrderIds() throws LoginException;
-    
+
     public EmployeeModel getEmployee(int id) throws LoginException;
-    
+
     public CustomerModel getCustomer(int id) throws LoginException;
-    
+
     public void createCustomer(CustomerModel customer) throws LoginException;
-    
+
     public void createEmployee(EmployeeModel employee) throws LoginException;
-    
+
     public CustomerModel login(String email, String password) throws LoginException;
-    
+
     public List<Integer> getOrderIds(int id) throws LoginException;
-    
+
     public void payOrder(int id) throws LoginException;
 }

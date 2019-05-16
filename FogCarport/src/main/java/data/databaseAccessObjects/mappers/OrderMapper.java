@@ -1,34 +1,28 @@
-
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.LoginException;
 import data.models.OrderModel;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 
 /**
  *
  * @author
  */
-public class OrderMapper {
+public class OrderMapper
+{
 
-    private static OrderMapper orderMapper;
+    private DatabaseConnector dbc = new DatabaseConnector();
 
-    private OrderMapper() {
-
-    }
-
-    public static OrderMapper getInstance() {
-        if (orderMapper == null) {
-            orderMapper = new OrderMapper();
-        }
-        return orderMapper;
+    public void setDataSource(DataSource ds)
+    {
+        dbc.setDataSource(ds);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get an Order">
@@ -39,21 +33,23 @@ public class OrderMapper {
      * @return OrderModel
      * @throws LoginException Should probably be something else later on.
      */
-    public OrderModel getOrder(int id) throws LoginException {
-        OrderModel order = new OrderModel();
+    public OrderModel getOrder(int id) throws LoginException
+    {
 
         String SQL = "SELECT * FROM `carportdb`.`orders`"
                 + " WHERE `orders`.`id_order` = ?";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
-            order.setId(id); // id_order
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next())
+            {
+                OrderModel order = new OrderModel();
+                order.setId(id); // id_order
                 order.setStatus(rs.getString("status"));
                 order.setWidth(rs.getInt("width"));
                 order.setLength(rs.getInt("length"));
@@ -67,25 +63,31 @@ public class OrderMapper {
                 order.setShed_walls_id(rs.getInt("shed_walls_id"));
                 order.setShed_length(rs.getInt("shed_length"));
                 order.setShed_width(rs.getInt("shed_width"));
+
+                return order;
+            } else
+            {
+                throw new LoginException("Could not get info about order from database.");
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             // Should most likely be another exception.
             throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
-        return order;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Create an Order">
     /**
-     * Create an order.
-     * Inputs an order into the Database.
+     * Create an order. Inputs an order into the Database.
+     *
      * @param order you want to input into the SQL database.
-     * @throws LoginException 
+     * @throws LoginException
      */
-    public void createOrder(OrderModel order) throws LoginException {
+    public void createOrder(OrderModel order) throws LoginException
+    {
         // SQL STATEMENT
         String SQL = "INSERT INTO `carportdb`.`orders` "
                 + " (`build_adress`, `build_zipcode`, `status`, `width`, `length`, "
@@ -93,9 +95,9 @@ public class OrderMapper {
                 + "`shed_floor_id`, `customer_id`, `employee_id`)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, order.getBuild_adress());
             ps.setInt(2, order.getBuild_zipcode());
             ps.setString(3, order.getStatus());
@@ -116,7 +118,8 @@ public class OrderMapper {
                 int id = ids.getInt(1);
                 order.setId(id);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new LoginException(ex.getMessage());
         }
     }
@@ -124,72 +127,81 @@ public class OrderMapper {
 
     // <editor-fold defaultstate="collapsed" desc="Get all order ids">
     /**
-     * Get all order ids.
-     * Used by the .jsp that shows a list of all orders to the salesman.
+     * Get all order ids. Used by the .jsp that shows a list of all orders to
+     * the salesman.
+     *
      * @return
-     * @throws LoginException 
+     * @throws LoginException
      */
-    public List<Integer> getAllOrderIds() throws LoginException {
+    public List<Integer> getAllOrderIds() throws LoginException
+    {
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
         List<Integer> ids = new ArrayList<>();
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next())
+            {
                 Integer id = rs.getInt("id_order");
                 ids.add(id);
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex)
+        {
             throw new LoginException(ex.getMessage());
         }
         return ids;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Get all order ids for one customer">
     /**
      * Get all Order ids from one Customer.
+     *
      * @param id
      * @return
-     * @throws LoginException 
+     * @throws LoginException
      */
-    public List<Integer> getOrderIds(int id) throws LoginException {
+    public List<Integer> getOrderIds(int id) throws LoginException
+    {
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
         List<Integer> ids = new ArrayList<>();
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 Integer tempid = rs.getInt("id_order");
                 ids.add(tempid);
             }
-        } catch(SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new LoginException(ex.getMessage());
         }
         return ids;
     }
-  // </editor-fold>
+    // </editor-fold>
 
-
+    // <editor-fold defaultstate="collapsed" desc="Pay an order. Update "status"">
     public void payOrder(int id) throws LoginException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ps.executeUpdate();
 
-        } catch(SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new LoginException(ex.getMessage());
         }
-        
-    }
 
+    }
+    //</editor-fold>
 }
