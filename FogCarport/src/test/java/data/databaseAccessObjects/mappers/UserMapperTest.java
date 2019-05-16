@@ -32,7 +32,7 @@ public class UserMapperTest
     @BeforeClass
     public static void beforeClass() throws Exception
     {
-        System.out.println("Mockito Tests...");
+        System.out.println("Mockito Tests for User Mapper");
 
         DataSource dataSource = mock(DataSource.class);
         Connection connection = mock(Connection.class);
