@@ -288,8 +288,10 @@ public class RoofRaisedCalc {
                 break;
             }
 
-            int amountLongest = (int) Math.ceil(((double) length / (double) material.getLength()));
-            int remainder = length - material.getLength() * amountLongest;
+            //int amountLongest = (int) Math.ceil(((double) length / (double) material.getLength()));
+            int amountLongest = length / material.getLength();
+            int remainder = length % material.getLength();
+            //int remainder = length - material.getLength() * amountLongest;
 
             for (int i = 0; i < amountLongest; i++) {
                 int quantityCount = quantityPrMaterial.get(material);

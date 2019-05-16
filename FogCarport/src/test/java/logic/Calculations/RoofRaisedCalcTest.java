@@ -122,6 +122,16 @@ public class RoofRaisedCalcTest {
         bomExp.addMaterial(material7);
 
         PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
+        
+        System.out.println("***************************************");
+        for (int i = 0; i < bomRes.getBillOfMaterials().size(); i++) {
+            System.out.println("***");
+            System.out.println("Material ID: " + bomRes.getBillOfMaterials().get(i).getID());
+            System.out.println("Material Quantity: " + bomRes.getBillOfMaterials().get(i).getQuantity());
+            System.out.println("Length of same materials combined: " + bomRes.getBillOfMaterials().get(i).getLength()*bomRes.getBillOfMaterials().get(i).getQuantity());
+            
+        }
+        System.out.println("***************************************");
         assertEquals(bomExp, bomRes);
     }
 
