@@ -19,9 +19,10 @@ public class DBCPDataSource
     private static final String DATABASE = "carportdb";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "1234";
-    private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE;
+    private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE + "?autoReconnect=true&useSSL=false";
 
     static {
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl(URL);
         dataSource.setUsername(USERNAME);
         dataSource.setPassword(PASSWORD);
