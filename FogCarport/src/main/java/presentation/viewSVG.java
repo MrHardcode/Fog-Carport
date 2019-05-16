@@ -3,6 +3,7 @@
  */
 package presentation;
 
+import data.exceptions.DataException;
 import data.exceptions.LoginException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -17,12 +18,11 @@ import logic.LogicFacade;
 public class viewSVG extends Command
 {
 
-    public viewSVG()
-    {
+    public viewSVG(){
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, DataException
     {
         HttpSession session = request.getSession();
         // Get the order from request.
