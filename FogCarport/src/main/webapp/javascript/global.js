@@ -89,6 +89,8 @@ function prepareTileMenu()
 {
     if (inclineOptions.selectedIndex == 1) //plastic, flat roof
     {
+        let jsAtt = '${flatRoofParts}';
+        
 //        let flatRoofOptions = {
 //            '28': 'Plastmo Ecolite (Blåtonet)'
 //        };
