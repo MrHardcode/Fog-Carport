@@ -39,7 +39,6 @@ public class DataSourceMysql
         }
     }
 
-    // Should maybe be a singleton like in DBConnector?
     public MysqlDataSource getDataSource()
     {
         return dataSource;

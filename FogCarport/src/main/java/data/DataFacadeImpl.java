@@ -1,6 +1,6 @@
 package data;
 
-import data.databaseAccessObjects.DataSourceMysql;
+import data.databaseAccessObjects.DBCPDataSource;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
@@ -34,7 +34,7 @@ public class DataFacadeImpl implements DataFacade
     public MaterialModel getMaterial(int id) throws LoginException
     {
         MaterialMapper materialMapper = new MaterialMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         materialMapper.setDataSource(dataSource.getDataSource());
         return materialMapper.getMaterial(id);
     }
@@ -43,7 +43,7 @@ public class DataFacadeImpl implements DataFacade
     public OrderModel getOrder(int id) throws LoginException
     {
         OrderMapper orderMapper = new OrderMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         orderMapper.setDataSource(dataSource.getDataSource());
         return orderMapper.getOrder(id);
     }
@@ -58,7 +58,7 @@ public class DataFacadeImpl implements DataFacade
     public void createOrder(OrderModel order) throws LoginException
     {
         OrderMapper orderMapper = new OrderMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         orderMapper.setDataSource(dataSource.getDataSource());
         orderMapper.createOrder(order);
     }
@@ -67,7 +67,7 @@ public class DataFacadeImpl implements DataFacade
     public List<Integer> getAllOrderIds() throws LoginException
     {
         OrderMapper orderMapper = new OrderMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         orderMapper.setDataSource(dataSource.getDataSource());
         return orderMapper.getAllOrderIds();
     }
@@ -76,7 +76,7 @@ public class DataFacadeImpl implements DataFacade
     public EmployeeModel getEmployee(int id) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.getEmployee(id);
     }
@@ -85,7 +85,7 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel getCustomer(int id) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.getCustomer(id);
     }
@@ -94,7 +94,7 @@ public class DataFacadeImpl implements DataFacade
     public void createCustomer(CustomerModel customer) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         userMapper.setDataSource(dataSource.getDataSource());
         userMapper.createCustomer(customer);
     }
@@ -103,7 +103,7 @@ public class DataFacadeImpl implements DataFacade
     public void createEmployee(EmployeeModel employee) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         userMapper.setDataSource(dataSource.getDataSource());
         userMapper.createEmployee(employee);
     }
@@ -112,7 +112,7 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel login(String email, String password) throws LoginException
     {
         UserMapper userMapper = new UserMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         userMapper.setDataSource(dataSource.getDataSource());
         return userMapper.login(email, password);
     }
@@ -121,7 +121,7 @@ public class DataFacadeImpl implements DataFacade
     public List<Integer> getOrderIds(int id) throws LoginException
     {
         OrderMapper orderMapper = new OrderMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         orderMapper.setDataSource(dataSource.getDataSource());
         return orderMapper.getOrderIds(id);
     }
@@ -130,7 +130,7 @@ public class DataFacadeImpl implements DataFacade
     public void payOrder(int id) throws LoginException
     {
         OrderMapper orderMapper = new OrderMapper();
-        DataSourceMysql dataSource = new DataSourceMysql();
+        DBCPDataSource dataSource = new DBCPDataSource();
         orderMapper.setDataSource(dataSource.getDataSource());
         orderMapper.payOrder(id);
     }
