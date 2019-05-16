@@ -3,12 +3,10 @@
  */
 package data.databaseAccessObjects.mappers;
 
-import data.exceptions.LoginException;
 import data.models.CustomerModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.sql.DataSource;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
