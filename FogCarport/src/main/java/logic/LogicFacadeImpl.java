@@ -60,9 +60,9 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public MaterialModel getMaterial(int id) throws DataException
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
     {
-        return DataFacadeImpl.getInstance().getMaterial(id);
+        return DataFacadeImpl.getInstance().getMaterial(id, helptext);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public MaterialModel getMaterial(int id) throws DataException
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
     {
         MaterialMapper materialMapper = new MaterialMapper();
         materialMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -51,6 +51,12 @@ public class DataFacadeImpl implements DataFacade
     public PartslistModel getBOM()
     {
         return new PartslistModel();
+    }
+
+    @Override
+    public PartslistModel getOrderDetails(int id, String helptext) throws DataException
+    {
+        return MaterialMapper.getInstance().getMaterials(id, helptext);
     }
 
     @Override

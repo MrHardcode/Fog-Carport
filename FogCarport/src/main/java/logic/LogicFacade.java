@@ -21,7 +21,7 @@ public interface LogicFacade
     
     public OrderModel getOrder(int id) throws DataException;
     
-    public MaterialModel getMaterial(int id) throws DataException;
+    public MaterialModel getMaterial(int id, String helptext) throws DataException;
     
     public CustomerModel getCustomer(int id) throws DataException;
     

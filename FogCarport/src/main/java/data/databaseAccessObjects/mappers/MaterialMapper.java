@@ -60,13 +60,14 @@ public class MaterialMapper
      * Get a Material.
      *
      * @param id of the Material.
+     * @param helptext
      * @return MaterialModel
      * @throws DataException 
      */
-    public MaterialModel getMaterial(int id) throws DataException {
+    public MaterialModel getMaterial(int id, String helptext) throws DataException {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n"
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_"+helptext+" \n"
                 + "FROM materials \n"
                 + "INNER JOIN `category` \n"
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
@@ -103,6 +104,8 @@ public class MaterialMapper
                 String categoryname = rs.getString("category_name");
                 material.setCategory(categoryname);
 
+                String help_text = rs.getString("helptext_"+helptext);
+                material.setHelptext(help_text);
             }
         } catch (SQLException ex)
         {
@@ -150,10 +153,11 @@ public class MaterialMapper
      * Get a List of Materials.
      *
      * @param id of the Order Details.
+     * @param helptext
      * @return List of MaterialModel.
      * @throws DataException
      */
-    public PartslistModel getMaterials(int id) throws DataException {
+    public PartslistModel getMaterials(int id, String helptext) throws DataException {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
@@ -165,7 +169,7 @@ public class MaterialMapper
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                MaterialModel material = getMaterial(rs.getInt("id_material"));
+                MaterialModel material = getMaterial(rs.getInt("id_material"), helptext);
                 materials.addMaterial(material);
             }
         } catch (SQLException ex) {
