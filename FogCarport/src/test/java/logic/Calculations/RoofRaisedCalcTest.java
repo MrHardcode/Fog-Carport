@@ -243,23 +243,18 @@ public class RoofRaisedCalcTest {
     public void testGetCladding() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
-        order.setWidth(2000);
-        order.setIncline(20);
+        order.setWidth(3800);
+        order.setIncline(25);
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material8 = DAO.getMaterial(8);
+        MaterialModel material10 = DAO.getMaterial(10);
 
-        material8.setQuantity(20);
+        material8.setQuantity(6);
+        material10.setQuantity(1);
         bomExp.addMaterial(material8);
+        bomExp.addMaterial(material10);
 
-        PartslistModel bomRes = raised.getCladding(order);
-        System.out.println("***************************************");
-        for (int i = 0; i < bomRes.getBillOfMaterials().size(); i++) {
-            System.out.println("***");
-            System.out.println("Material ID: " + bomRes.getBillOfMaterials().get(i).getID());
-            System.out.println("Material Quantity: " + bomRes.getBillOfMaterials().get(i).getQuantity());
-            System.out.println("Length of same materials combined: " + bomRes.getBillOfMaterials().get(i).getLength()*bomRes.getBillOfMaterials().get(i).getQuantity());
-        }
-        System.out.println("***************************************");
+        PartslistModel bomRes = raised.generateCladding(order);
         assertEquals(bomExp, bomRes);
     }
 
@@ -270,20 +265,8 @@ public class RoofRaisedCalcTest {
     @Test
     public void testGetCladdingMaterialCount() throws Exception {
         RoofRaisedCalc instance = new RoofRaisedCalc();
-        int exp = 5;
-        int res = instance.getCladdingMaterialCount(8000, 20, 0, 100, 4800);
+        int exp = 2429;
+        int res = instance.getCladdingMaterialCount(2600, 20, 0);
         assertEquals(exp, res);
-// NEWgetCladdingMaterialCount
     }
-    
-    @Test
-    public void testNEWgetCladdingMaterialCount() throws Exception {
-        RoofRaisedCalc instance = new RoofRaisedCalc();
-        int exp = 24000;
-        int res = instance.NEWgetCladdingMaterialCount(2600, 20, 0);
-        System.out.println("res: " + res);
-        assertEquals(exp, res);
-// NEWgetCladdingMaterialCount
-    }
-
 }
