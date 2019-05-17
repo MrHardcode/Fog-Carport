@@ -3,6 +3,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -403,6 +404,29 @@ public class RoofRaisedCalcTest {
 
         PartslistModel bomRes = raised.getMaterialsFromlength(materials, 51146);
         assertEquals(bomExp, bomRes);
+    }
+    
+    @Test (expected = AlgorithmException.class)
+    public void testGetMaterialsFromlengthFAILemptyList() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        ArrayList<MaterialModel> materials = new ArrayList();
+        raised.getMaterialsFromlength(materials, 9000);
+        fail("AlgorithmException wasn't thrown");
+    }
+    
+    @Test (expected = AlgorithmException.class)
+    public void testGetMaterialsFromlengthFAILmaterialLengthZero() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        ArrayList<MaterialModel> materials = new ArrayList();
+        MaterialModel material14 = DAO.getMaterial(14); 
+        
+        materials.add(material14);
+        material14.setQuantity(1);
+        bomExp.addMaterial(material14);
+        
+        raised.getMaterialsFromlength(materials, 8000);
+        fail("AlgorithmException wasn't thrown");
     }
 
     @Test
