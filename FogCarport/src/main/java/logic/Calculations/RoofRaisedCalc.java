@@ -28,7 +28,7 @@ public class RoofRaisedCalc {
     int topTileCount;
     int roofOverhang;
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="HARDCODED MATERIALS USED">
     final int screwPacks = 20; // 4,5x60mm. Skruer (200 stk)
     final int roofTileBrackets = 32; // B & C tagstens binder/nakkekrog (kombi)
@@ -46,7 +46,7 @@ public class RoofRaisedCalc {
     final int roofTopTileBlue = 44; // B & C Rygsten (Blå)
     final int roofTopTileBlackBlue = 45; // B & C Rygsten (Sortblå)
     final int roofTopTileSunlux = 46; // B & C Rygsten (Sunlux)
-    final int topLathBracket = 30 ;  // B & C Toplægte holder
+    final int topLathBracket = 30;  // B & C Toplægte holder
     final int rafterWood2400 = 6; // 45x95 Reglar ubh. 2400
     final int rafterWood3600 = 7; // 45x95 Reglar ubh. 3600
     final int fasciaWood4800 = 1; // 25x150mm trykimp. Bræt 4800
@@ -55,7 +55,7 @@ public class RoofRaisedCalc {
     final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400
     final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200
     //</editor-fold>
-    
+
     /**
      * Class-constructor, instantiates all instance fields.
      */
@@ -112,7 +112,7 @@ public class RoofRaisedCalc {
         int screwsPrPack = 200;
         int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);
         MaterialModel material = DAO.getMaterial(screwPacks);
-        
+
         material.setQuantity(totalScrewPacks);
         screwBOM.addMaterial(material);
 
@@ -155,18 +155,18 @@ public class RoofRaisedCalc {
         // total længde af alle tagsten lagt sammen
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
-       
+
         MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id());
-        
+
         materialTiles.setQuantity(tileCount);
         roofTilesBOM.addMaterial(materialTiles);
-        
+
         MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order));
         topTileCount = (int) Math.ceil((double) order.getLength() / (double) materialTopTiles.getLength());
 
         materialTopTiles.setQuantity(topTileCount);
         roofTilesBOM.addMaterial(materialTopTiles);
-                
+
         MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets); // tagstenbinder/nakkekrog
         materialBinders.setQuantity(1);
         roofTilesBOM.addMaterial(materialBinders);
@@ -220,8 +220,8 @@ public class RoofRaisedCalc {
     /**
      * Takes in the order provided by the exposed method and gathers the order
      * info needed to calculate the amount of rafters, laths, fasciaborads and
-     * fasteners. The calculated materials are returned in a PartslistModel. Class field
-     * rafterCount is updated.
+     * fasteners. The calculated materials are returned in a PartslistModel.
+     * Class field rafterCount is updated.
      *
      * @param order
      * @return PartslistModel
@@ -242,8 +242,8 @@ public class RoofRaisedCalc {
         for (int i = 0; i < rafterCount; i++) {
             addPartslistWithMaterialsQuantity(generateRafter(totalWidth, order.getIncline()), roofStructureBOM);
         }
-        
-        material.setQuantity(rafterCount); 
+
+        material.setQuantity(rafterCount);
         roofStructureBOM.addMaterial(material);
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
         addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);
@@ -285,41 +285,43 @@ public class RoofRaisedCalc {
         }
 
         int restLength = length;
-        double ratioLast = -1;
-        double ratioNew = 0;
+        double ratioBest = -1;
         MaterialModel bestMaterial = null;
-        
-        while(restLength > 0){
-            
+
+        while (restLength > 0) {
+
             for (MaterialModel material : materials) {
-                ratioNew = restLength/material.getLength();
-                
-                if (ratioLast == -1){
-                    ratioLast = ratioNew;
+                double ratioCurrent = (double) restLength / (double) material.getLength();
+
+                if (ratioBest == -1) {
+                    ratioBest = ratioCurrent;
                     bestMaterial = material;
+                } else if (ratioBest > 1 && ratioCurrent > 1) {
+                    ratioBest = Math.min(ratioBest, ratioCurrent);
+                    if (ratioBest == ratioCurrent) {
+                        bestMaterial = material;
+                    }
+                } else if (ratioBest < 1 && ratioCurrent < 1) {
+                    ratioBest = Math.max(ratioBest, ratioCurrent);
+                    if (ratioBest == ratioCurrent) {
+                        bestMaterial = material;
+                    }
                 }
-                if (ratioLast > 1 && ratioNew > 1){
-                    ratioLast = Math.min(ratioLast, ratioNew);
-                    bestMaterial = material;
-                }
-                if (ratioLast > 1 && ratioNew < 1){
-                    ratioLast = ratioNew;
-                    bestMaterial = material;
-                }
-                if(ratioLast < 1 && ratioLast > 0 && ratioNew < 1){
-                    ratioLast = Math.max(ratioLast, ratioNew);
-                    bestMaterial = material;
-                }
-                
+
             }
-            int materialAmount = (int) Math.floor(ratioLast);
+            int materialAmount = 0;
+            if (ratioBest > 1) {
+                materialAmount = (int) Math.floor(ratioBest);
+            }
+
+            if (ratioBest < 1) {
+                materialAmount = (int) Math.ceil(ratioBest);
+            }
             quantityPrMaterial.put(bestMaterial, materialAmount);
             restLength = restLength - (bestMaterial.getLength() * materialAmount);
+            ratioBest = -1;
         }
-        
-        
-        
-        
+
 //        for (MaterialModel material : materials) {
 //            if (length < 1) {
 //                break;
@@ -339,7 +341,6 @@ public class RoofRaisedCalc {
 //                length = remainder;
 //            }
 //        }
-
         for (MaterialModel material : materials) {
             int quantity = quantityPrMaterial.get(material);
             if (quantity > 0) {
@@ -350,15 +351,15 @@ public class RoofRaisedCalc {
 
         return calcParts;
     }
-    
+
     /**
      * This method is used when several partslists containing the same materials
      * are added together, to ensure the quantity is updated correctly and only
-     * one MaterialModel is added pr. material. 
-     * 
-     * It takes in the partslist calculated by the other methods and the partslist 
-     * the calling method wants to return. 
-     * 
+     * one MaterialModel is added pr. material.
+     *
+     * It takes in the partslist calculated by the other methods and the
+     * partslist the calling method wants to return.
+     *
      * @param calcBOM
      * @param returnBOM
      */
@@ -390,7 +391,7 @@ public class RoofRaisedCalc {
     }
 
     /**
-
+     *
      * Calculates the length of the different parts of a single rafter and calls
      * getMaterialsFromlength() with the length and the ArrayList of
      * raftermaterials. Class fields screwCount and bracketCount is updated.
@@ -412,8 +413,8 @@ public class RoofRaisedCalc {
         double oppositeCath = (Math.sin(angleRad) * hypotenuse);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(rafterWood2400)); 
-        materials.add(DAO.getMaterial(rafterWood3600)); 
+        materials.add(DAO.getMaterial(rafterWood2400));
+        materials.add(DAO.getMaterial(rafterWood3600));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalWidth), rafterBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), rafterBOM);
@@ -448,9 +449,9 @@ public class RoofRaisedCalc {
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(fasciaWood4800)); 
-        materials.add(DAO.getMaterial(fasciaWood5400)); 
-        materials.add(DAO.getMaterial(fasciaWood6000)); 
+        materials.add(DAO.getMaterial(fasciaWood4800));
+        materials.add(DAO.getMaterial(fasciaWood5400));
+        materials.add(DAO.getMaterial(fasciaWood6000));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
@@ -485,10 +486,10 @@ public class RoofRaisedCalc {
         int outerLathDist = 350;
         int upperLathDist = 30;
         int minimumLathDist = 307;
-        
+
         // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
         int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
-         // beregn antal af rækker af lægter
+        // beregn antal af rækker af lægter
         lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);
         // total længde af alle lægter lagt sammen + 1 toplægte
         int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
@@ -500,8 +501,8 @@ public class RoofRaisedCalc {
         screwCount = screwCount + (intersectionCount * 2);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(lathWood5400)); 
-        materials.add(DAO.getMaterial(lathWood4200)); 
+        materials.add(DAO.getMaterial(lathWood5400));
+        materials.add(DAO.getMaterial(lathWood4200));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
