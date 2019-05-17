@@ -27,6 +27,7 @@ public class RoofRaisedCalc {
     int tileCount;
     int topTileCount;
     int roofOverhang;
+    int claddingBoardsTotal;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="HARDCODED MATERIALS USED">
@@ -69,6 +70,7 @@ public class RoofRaisedCalc {
         tileCount = 0;
         topTileCount = 0;
         roofOverhang = 600;
+        claddingBoardsTotal = 0;
     }
 
     /**
@@ -247,7 +249,7 @@ public class RoofRaisedCalc {
         roofStructureBOM.addMaterial(material);
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
         addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);
-
+        System.out.println("screwa " + screwCount);
         return roofStructureBOM;
     }
 
@@ -531,15 +533,24 @@ public class RoofRaisedCalc {
     protected PartslistModel getCladding(OrderModel order) throws DataException {
 
         PartslistModel claddingBOM = new PartslistModel();
-        MaterialModel material = DAO.getMaterial(8);
+//        MaterialModel material = DAO.getMaterial(8);
         int totalWidth = order.getWidth() + roofOverhang;
 
-        int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
-                + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
-        amountMaterial = amountMaterial * 2;
-        material.setQuantity(amountMaterial);
-        claddingBOM.addMaterial(material);
-        screwCount = (screwCount + 6) * amountMaterial;
+//        int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
+//                + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
+        int totalCladdingLengh = (NEWgetCladdingMaterialCount(totalWidth, order.getIncline(), 0) + NEWgetCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;
+        claddingBoardsTotal = claddingBoardsTotal * 2;
+        
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(8));
+        materials.add(DAO.getMaterial(9));
+        materials.add(DAO.getMaterial(10));
+        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalCladdingLengh), claddingBOM);
+        
+//        amountMaterial = amountMaterial * 2;
+//        material.setQuantity(amountMaterial);
+//        claddingBOM.addMaterial(material);
+        screwCount = screwCount * claddingBoardsTotal * 4;
 
         return claddingBOM;
     }
@@ -586,5 +597,26 @@ public class RoofRaisedCalc {
             cladWidth = cladWidth + spaceWidth;
         }
         return amountMaterial;
+    }
+    
+    protected int NEWgetCladdingMaterialCount(int totalWidth, int incline, int offset) throws DataException {
+        int materialWidth = 100;
+        int spaceWidth = 60;
+        int cladWidth = offset;
+        double angleRad = Math.toRadians(incline);
+        double startAdjacentCath = totalWidth * 0.5;
+        int totalCladdingLengthPrSidePrOffset = 0;
+
+        for (int i = cladWidth; i < startAdjacentCath; i = cladWidth) {
+            cladWidth = cladWidth + materialWidth;
+
+            double hypotenuse = (cladWidth / Math.cos(angleRad));
+            double oppositeCath = (Math.sin(angleRad) * hypotenuse);
+            totalCladdingLengthPrSidePrOffset = totalCladdingLengthPrSidePrOffset + (int) Math.ceil(oppositeCath);
+
+            cladWidth = cladWidth + spaceWidth;
+            claddingBoardsTotal++;
+        }
+        return totalCladdingLengthPrSidePrOffset;
     }
 }
