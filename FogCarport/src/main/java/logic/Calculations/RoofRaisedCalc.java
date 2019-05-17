@@ -284,27 +284,61 @@ public class RoofRaisedCalc {
             quantityPrMaterial.put(material, 0);
         }
 
-        for (MaterialModel material : materials) {
-            if (length < 1) {
-                break;
+        int restLength = length;
+        double ratioLast = -1;
+        double ratioNew = 0;
+        MaterialModel bestMaterial = null;
+        
+        while(restLength > 0){
+            
+            for (MaterialModel material : materials) {
+                ratioNew = restLength/material.getLength();
+                
+                if (ratioLast == -1){
+                    ratioLast = ratioNew;
+                    bestMaterial = material;
+                }
+                if (ratioLast > 1 && ratioNew > 1){
+                    ratioLast = Math.min(ratioLast, ratioNew);
+                    bestMaterial = material;
+                }
+                if (ratioLast > 1 && ratioNew < 1){
+                    ratioLast = ratioNew;
+                    bestMaterial = material;
+                }
+                if(ratioLast < 1 && ratioLast > 0 && ratioNew < 1){
+                    ratioLast = Math.max(ratioLast, ratioNew);
+                    bestMaterial = material;
+                }
+                
             }
-
-            int amountLongest = (int) Math.ceil(((double) length / (double) material.getLength()));
-//            int amountLongest = length / material.getLength();
-//            int remainder = length % material.getLength();
-            int remainder = length - material.getLength() * amountLongest;
-
-            for (int i = 0; i < amountLongest; i++) {
-                int quantityCount = quantityPrMaterial.get(material);
-                quantityCount = quantityCount + 1;
-                quantityPrMaterial.put(material, quantityCount);
-
-                length = length - material.getLength();
-            }
-            if (remainder > 0) {
-                length = remainder;
-            }
+            int materialAmount = (int) Math.floor(ratioLast);
+            quantityPrMaterial.put(bestMaterial, materialAmount);
+            restLength = restLength - (bestMaterial.getLength() * materialAmount);
         }
+        
+        
+        
+        
+//        for (MaterialModel material : materials) {
+//            if (length < 1) {
+//                break;
+//            }
+//
+//            int amountLongest = (int) Math.ceil(((double) length / (double) material.getLength()));
+//            int remainder = length - material.getLength() * amountLongest;
+//
+//            for (int i = 0; i < amountLongest; i++) {
+//                int quantityCount = quantityPrMaterial.get(material);
+//                quantityCount = quantityCount + 1;
+//                quantityPrMaterial.put(material, quantityCount);
+//
+//                length = length - material.getLength();
+//            }
+//            if (remainder > 0) {
+//                length = remainder;
+//            }
+//        }
 
         for (MaterialModel material : materials) {
             int quantity = quantityPrMaterial.get(material);
