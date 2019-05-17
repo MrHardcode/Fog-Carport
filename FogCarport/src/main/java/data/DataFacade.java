@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface DataFacade
 {
-    public MaterialModel getMaterial(int id) throws DataException;
+    public MaterialModel getMaterial(int id, String helptext) throws DataException;
     
     public OrderModel getOrder(int id) throws DataException;
     
     public PartslistModel getBOM();
     
-    public PartslistModel getOrderDetails(int id) throws DataException;
+    public PartslistModel getOrderDetails(int id, String helptext) throws DataException;
     
     public void createOrder(OrderModel order) throws DataException;
     

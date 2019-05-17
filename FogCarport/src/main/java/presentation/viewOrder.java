@@ -7,9 +7,7 @@ package presentation;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
-import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 
 /**
@@ -36,9 +34,9 @@ public class viewOrder extends Command {
 
         // Place values used by viewOrder on request.
         request.setAttribute("order", order);
-        request.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id()).getDescription());
-        request.setAttribute("shedwalls", logic.getMaterial(order.getShed_walls_id()).getDescription());
-        request.setAttribute("shedfloor", logic.getMaterial(order.getShed_floor_id()).getDescription());
+        request.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id(), "roof").getDescription());
+        request.setAttribute("shedwalls", logic.getMaterial(order.getShed_walls_id(), "shed").getDescription());
+        request.setAttribute("shedfloor", logic.getMaterial(order.getShed_floor_id(), "shed").getDescription());
         request.setAttribute("customer", logic.getCustomer(order.getId_customer()));
         request.setAttribute("employee", logic.getEmployee(order.getId_employee()));
 
