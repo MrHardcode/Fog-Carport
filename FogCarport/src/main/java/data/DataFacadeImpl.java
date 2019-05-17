@@ -36,7 +36,7 @@ public class DataFacadeImpl implements DataFacade
     {
         MaterialMapper materialMapper = new MaterialMapper();
         materialMapper.setDataSource(DBCPDataSource.getDataSource());
-        return materialMapper.getMaterial(id);
+        return materialMapper.getMaterial(id, helptext);
     }
 
     @Override
@@ -56,7 +56,9 @@ public class DataFacadeImpl implements DataFacade
     @Override
     public PartslistModel getOrderDetails(int id, String helptext) throws DataException
     {
-        return MaterialMapper.getInstance().getMaterials(id, helptext);
+        MaterialMapper materialMapper = new MaterialMapper();
+        materialMapper.setDataSource(DBCPDataSource.getDataSource());
+        return materialMapper.getMaterials(id, helptext);
     }
 
     @Override
@@ -131,10 +133,6 @@ public class DataFacadeImpl implements DataFacade
         orderMapper.payOrder(id);
     }
 
-    @Override
-    public PartslistModel getOrderDetails(int id) throws DataException
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
 }
