@@ -409,17 +409,47 @@ public class RoofRaisedCalcTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGenerateRafter() throws Exception {
+    public void testGenerateRafterNORMAL() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
-        material7.setQuantity(3);
-        bomExp.addMaterial(material7);
         MaterialModel material6 = DAO.getMaterial(6);
+        material7.setQuantity(3);
         material6.setQuantity(2);
+        bomExp.addMaterial(material7);
         bomExp.addMaterial(material6);
 
         PartslistModel bomRes = raised.generateRafter(4600, 20);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGenerateRafterMIN() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material6 = DAO.getMaterial(6);
+        material7.setQuantity(1);
+        material6.setQuantity(3);
+        bomExp.addMaterial(material7);
+        bomExp.addMaterial(material6);
+
+        PartslistModel bomRes = raised.generateRafter(2400, 5);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGenerateRafterMAX() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material6 = DAO.getMaterial(6);
+        material7.setQuantity(5);
+        material6.setQuantity(2);
+        bomExp.addMaterial(material7);
+        bomExp.addMaterial(material6);
+
+        PartslistModel bomRes = raised.generateRafter(7200, 45);
         assertEquals(bomExp, bomRes);
     }
 
@@ -428,19 +458,48 @@ public class RoofRaisedCalcTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGeneratefasciaBoards() throws Exception {
+    public void testGeneratefasciaBoardsNORMAL() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material1 = DAO.getMaterial(1);
+        MaterialModel material3 = DAO.getMaterial(3);
+        material1.setQuantity(4);
+        material3.setQuantity(2);
+        bomExp.addMaterial(material1);
+        bomExp.addMaterial(material3);
+
+        PartslistModel bomRes = raised.generatefasciaBoards(4500, 35, 7500);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGeneratefasciaBoardsMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material1 = DAO.getMaterial(1);
         material1.setQuantity(4);
         bomExp.addMaterial(material1);
-        MaterialModel material3 = DAO.getMaterial(3);
-        material3.setQuantity(2);
-        bomExp.addMaterial(material3);
 
-        PartslistModel bomRes = raised.generatefasciaBoards(4500, 35, 7500);
+        PartslistModel bomRes = raised.generatefasciaBoards(2400, 5, 2400);
         assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGeneratefasciaBoardsMAX() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material1 = DAO.getMaterial(1);
+        MaterialModel material2 = DAO.getMaterial(2);
+        MaterialModel material3 = DAO.getMaterial(3);
+        material1.setQuantity(2);
+        material2.setQuantity(2);
+        material3.setQuantity(2);
+        bomExp.addMaterial(material2);
+        bomExp.addMaterial(material3);
+        bomExp.addMaterial(material1);
 
+        PartslistModel bomRes = raised.generatefasciaBoards(7200, 45, 7200);
+        assertEquals(bomExp, bomRes);
     }
 
     /**
@@ -448,17 +507,44 @@ public class RoofRaisedCalcTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGenerateLaths() throws Exception {
+    public void testGenerateLathsNORMAL() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material12 = DAO.getMaterial(12);
-        material12.setQuantity(19);
-        bomExp.addMaterial(material12);
         MaterialModel material13 = DAO.getMaterial(13);
+        material12.setQuantity(19);
         material13.setQuantity(1);
+        bomExp.addMaterial(material12);
         bomExp.addMaterial(material13);
 
         PartslistModel bomRes = raised.generateLaths(6100, 3700, 20);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGenerateLathsMIN() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material12 = DAO.getMaterial(12);
+        material12.setQuantity(5);
+        bomExp.addMaterial(material12);
+
+        PartslistModel bomRes = raised.generateLaths(2400, 2400, 5);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGenerateLathsMAX() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material13 = DAO.getMaterial(13);
+        material12.setQuantity(49);
+        material13.setQuantity(1);
+        bomExp.addMaterial(material12);
+        bomExp.addMaterial(material13);
+
+        PartslistModel bomRes = raised.generateLaths(7200, 7200, 45);
         assertEquals(bomExp, bomRes);
     }
 
@@ -467,7 +553,7 @@ public class RoofRaisedCalcTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetCladding() throws Exception {
+    public void testGetCladdingNORMAL() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         order.setWidth(3800);
@@ -484,16 +570,69 @@ public class RoofRaisedCalcTest {
         PartslistModel bomRes = raised.generateCladding(order);
         assertEquals(bomExp, bomRes);
     }
+    
+    @Test
+    public void testGetCladdingMIN() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        order.setWidth(2400);
+        order.setIncline(5);
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material8 = DAO.getMaterial(8);
+        MaterialModel material10 = DAO.getMaterial(10);
+
+        material8.setQuantity(1);
+        material10.setQuantity(1);
+        bomExp.addMaterial(material8);
+        bomExp.addMaterial(material10);
+
+        PartslistModel bomRes = raised.generateCladding(order);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGetCladdingMAX() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        order.setWidth(7200);
+        order.setIncline(45);
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material8 = DAO.getMaterial(8);
+        MaterialModel material10 = DAO.getMaterial(10);
+
+        material8.setQuantity(84);
+        material10.setQuantity(1);
+        bomExp.addMaterial(material8);
+        bomExp.addMaterial(material10);
+
+        PartslistModel bomRes = raised.generateCladding(order);
+        assertEquals(bomExp, bomRes);
+    }
 
     /**
      * Test of getCladdingMaterialCount method, of class RoofRaisedCalc.
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetCladdingMaterialCount() throws Exception {
+    public void testGetCladdingMaterialCountNORMAL() throws Exception {
         RoofRaisedCalc instance = new RoofRaisedCalc();
-        int exp = 2429;
-        int res = instance.getCladdingMaterialCount(2600, 20, 0);
+        int exp = 11186;
+        int res = instance.getCladdingMaterialCount(4300, 35, 0);
+        assertEquals(exp, res);
+    }
+    @Test
+    public void testGetCladdingMaterialCountMIN() throws Exception {
+        RoofRaisedCalc instance = new RoofRaisedCalc();
+        int exp = 464;
+        int res = instance.getCladdingMaterialCount(2400, 5, 0);
+        assertEquals(exp, res);
+    }
+    
+    @Test
+    public void testGetCladdingMaterialCountMAX() throws Exception {
+        RoofRaisedCalc instance = new RoofRaisedCalc();
+        int exp = 42780;
+        int res = instance.getCladdingMaterialCount(7200, 45, 0);
         assertEquals(exp, res);
     }
 }
