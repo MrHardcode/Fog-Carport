@@ -6,12 +6,37 @@
     position: fixed;
     top: 0;
     width: 100%;
+    float: left;
 }
-
 
 .nav-item
 {
+    float: left;
     border-left: solid 1px;
+}
+
+#errormessage a /* any links (text) within the error message */
+{
+    
+    color: red;
+}
+#errormessage
+{
+   border-left: none;  
+}
+
+#accessbutton /* login/logout buttons */
+{
+    border-left: none;
+    display: block;
+    float: right;
+    padding-top: .30em;
+}
+
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
 }
 
 /*----------------- Index.jsp CSS -----------------  */

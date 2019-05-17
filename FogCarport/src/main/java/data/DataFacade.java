@@ -34,4 +34,7 @@ public interface DataFacade
     public CustomerModel login(String email, String password) throws UserException;
     
     public List<Integer> getOrderIds(int id) throws DataException;
+    
+    public void payOrder(int id) throws LoginException;
+
 }

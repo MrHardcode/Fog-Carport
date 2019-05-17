@@ -12,25 +12,27 @@ import logic.LogicFacade;
 
 /**
  * Sends user from viewOrder.jsp to partslist.jsp and populates it if need be.
- * @author 
+ *
+ * @author
  */
-public class viewPartslist extends Command
-{
+public class viewPartslist extends Command {
 
-    public viewPartslist()
-    {
+    public viewPartslist() {
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
-    {
-        OrderModel order = (OrderModel) request.getSession().getAttribute("order");
-        if (order != null){
-            PartslistModel partslist = logic.getPartslistModel(order);
-            request.getSession().setAttribute("bom", partslist);
-            return "partslist";
+
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException {
+        int orderID = Integer.parseInt(request.getParameter("orderid"));
+        OrderModel order = logic.getOrder(orderID);
+        PartslistModel partslist = logic.getPartslistModel(order);
+        
+        if (order == null || partslist == null) {
+            throw new UserException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
+
         }
-        return "viewOrder";
+        request.setAttribute("partslistbom", partslist);
+        return "partslist";
     }
-    
+
 }

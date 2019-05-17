@@ -35,9 +35,22 @@ public interface LogicFacade
     
     public String getSVGbase(PartslistModel bom, OrderModel order);
     
+
     public String getSVGroof(OrderModel order) throws DataException;
+
+    public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance);
     
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order);
+    
+    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order);
+    
+    public String getSVGbaseLabelLength(PartslistModel bom, OrderModel order, int extraDistance);
+
     public CustomerModel login(String email, String password) throws UserException;
 
     public List<Integer> getOrderIds(int id) throws DataException;
+
+    
+    public void payOrder(int id) throws LoginException;
+
 }
