@@ -3,7 +3,7 @@
  */
 package presentation;
 
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.CustomerModel;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class viewAllOrders extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws DataException
     {
         // Pull Customer out of Session.
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");

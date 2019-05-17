@@ -2,8 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -96,9 +95,9 @@ public class RoofFlatCalc
      * @param order
      * @return
      * @throws data.exceptions.AlgorithmException
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws AlgorithmException, LoginException
+    public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException
     {
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
@@ -117,9 +116,9 @@ public class RoofFlatCalc
      * @param order order in question
      *
      * @return returns partslistmodel of main parts
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    protected PartslistModel calculateMainParts(OrderModel order) throws LoginException
+    protected PartslistModel calculateMainParts(OrderModel order) throws DataException 
     {
         /* Initialize partslist to return */
         PartslistModel mainMaterials = new PartslistModel();
@@ -153,9 +152,9 @@ public class RoofFlatCalc
      *
      * @param order order in question
      * @return returns partlistmodel of items needed
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    protected PartslistModel calculateRafters(OrderModel order) throws LoginException
+    protected PartslistModel calculateRafters(OrderModel order) throws DataException 
     {
         /* Set up return <partslistmodel>*/
         PartslistModel rafters = new PartslistModel();
@@ -211,9 +210,9 @@ public class RoofFlatCalc
      *
      * @param order
      * @return
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    protected PartslistModel calculateFascias(OrderModel order) throws LoginException
+    protected PartslistModel calculateFascias(OrderModel order) throws DataException
     {
         /* Set up return PartslistModel */
         PartslistModel fascias = new PartslistModel();
@@ -295,7 +294,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    protected PartslistModel calculateBargeboard(OrderModel order) throws LoginException
+    protected PartslistModel calculateBargeboard(OrderModel order) throws DataException 
     {
         /* Set up return <partslistmodel>*/
         PartslistModel bargeboards = new PartslistModel();
@@ -343,7 +342,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    protected PartslistModel calculateBand(OrderModel order) throws LoginException
+    protected PartslistModel calculateBand(OrderModel order) throws DataException 
     {
         PartslistModel bandParts = new PartslistModel();
         int bandAmount = 1; //used to determine band quantity. we always want one.
@@ -394,7 +393,7 @@ public class RoofFlatCalc
      * fittings.
      * @return returns a list of materials (to later add to bill of materials)
      */
-    protected PartslistModel calculateFittings(PartslistModel rafters) throws LoginException
+    protected PartslistModel calculateFittings(PartslistModel rafters) throws DataException 
     {
         /* Rafter amount */
         int rafterAmount = rafters.getBillOfMaterials().get(0).getQuantity(); //hackish solution.
@@ -446,9 +445,9 @@ public class RoofFlatCalc
      *
      * @param order
      * @return returns dependant items (roof tile dependant)
-     * @throws data.exceptions.AlgorithmException
+     * @throws data.exceptions.DataException
      */
-    protected PartslistModel calculateDependantParts(OrderModel order) throws AlgorithmException, LoginException
+    protected PartslistModel calculateDependantParts(OrderModel order) throws DataException
     {
         PartslistModel dependantParts = new PartslistModel();
 
@@ -470,7 +469,7 @@ public class RoofFlatCalc
                 dependantParts.addPartslist(calculateFeltRoof(order));
                 break;
             default:
-                throw new AlgorithmException(1, "Error #1: No suitable roof ID selected");
+                throw new DataException("Error #1: No suitable roof ID selected");
         }
         return dependantParts;
     }
@@ -480,9 +479,9 @@ public class RoofFlatCalc
      *
      * @param order
      * @return
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    protected PartslistModel calculatePlasticRoof(OrderModel order) throws LoginException
+    protected PartslistModel calculatePlasticRoof(OrderModel order) throws DataException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel plasticRoof = new PartslistModel();
@@ -499,9 +498,9 @@ public class RoofFlatCalc
      *
      * @param order
      * @return
-     * @throws data.exceptions.LoginException
+     * @throws DataException
      */
-    protected PartslistModel calculatePlasticTiles(OrderModel order) throws LoginException
+    protected PartslistModel calculatePlasticTiles(OrderModel order) throws DataException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel tileAndTileAccessories = new PartslistModel();

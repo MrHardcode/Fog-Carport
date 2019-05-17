@@ -1,7 +1,5 @@
 package presentation;
 
-import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
@@ -18,7 +16,7 @@ public class LogOut extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException
+    String execute(HttpServletRequest request, LogicFacade logic) 
     {
         HttpSession session = request.getSession(false); //get current session
         if (session != null)

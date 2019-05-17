@@ -1,7 +1,7 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DatabaseConnector;
-import data.exceptions.LoginException;
+import data.databaseAccessObjects.DBConnector;
+import data.exceptions.DataException;
 import data.models.OrderModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +31,7 @@ public class OrderMapper
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws LoginException Should probably be something else later on.
+     * @throws DataException
      */
     public OrderModel getOrder(int id) throws LoginException
     {
@@ -70,10 +70,8 @@ public class OrderMapper
                 throw new LoginException("Could not get info about order from database.");
             }
 
-        } catch (SQLException ex)
-        {
-            // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        } catch (SQLException ex) {
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
     }
@@ -84,10 +82,9 @@ public class OrderMapper
      * Create an order. Inputs an order into the Database.
      *
      * @param order you want to input into the SQL database.
-     * @throws LoginException
+     * @throws DataException 
      */
-    public void createOrder(OrderModel order) throws LoginException
-    {
+    public void createOrder(OrderModel order) throws DataException {
         // SQL STATEMENT
         String SQL = "INSERT INTO `carportdb`.`orders` "
                 + " (`build_adress`, `build_zipcode`, `status`, `width`, `length`, "
@@ -119,9 +116,8 @@ public class OrderMapper
                 int id = resultSet.getInt(1);
                 order.setId(id);
             }
-        } catch (SQLException ex)
-        {
-            throw new LoginException(ex.getMessage());
+        } catch (SQLException ex) {
+            throw new DataException(ex.getMessage());
         }
     }
     // </editor-fold>
@@ -132,10 +128,9 @@ public class OrderMapper
      * the salesman.
      *
      * @return
-     * @throws LoginException
+     * @throws DataException 
      */
-    public List<Integer> getAllOrderIds() throws LoginException
-    {
+    public List<Integer> getAllOrderIds() throws DataException {
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
         List<Integer> ids = new ArrayList<>();
         try (DatabaseConnector open_dbc = dbc.open())
@@ -147,9 +142,8 @@ public class OrderMapper
                 Integer id = rs.getInt("id_order");
                 ids.add(id);
             }
-        } catch (SQLException ex)
-        {
-            throw new LoginException(ex.getMessage());
+        }catch(SQLException ex){
+            throw new DataException(ex.getMessage());
         }
         return ids;
     }
@@ -161,10 +155,9 @@ public class OrderMapper
      *
      * @param id
      * @return
-     * @throws LoginException
+     * @throws DataException 
      */
-    public List<Integer> getOrderIds(int id) throws LoginException
-    {
+    public List<Integer> getOrderIds(int id) throws DataException {
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
         List<Integer> ids = new ArrayList<>();
         try (DatabaseConnector open_dbc = dbc.open())
@@ -179,9 +172,8 @@ public class OrderMapper
                 Integer tempid = rs.getInt("id_order");
                 ids.add(tempid);
             }
-        } catch (SQLException ex)
-        {
-            throw new LoginException(ex.getMessage());
+        } catch(SQLException ex) {
+            throw new DataException(ex.getMessage());
         }
         return ids;
     }
@@ -206,3 +198,4 @@ public class OrderMapper
     }
     //</editor-fold>
 }
+

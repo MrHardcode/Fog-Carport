@@ -4,7 +4,8 @@ import data.databaseAccessObjects.DBCPDataSource;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import data.models.MaterialModel;
@@ -31,7 +32,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public MaterialModel getMaterial(int id) throws LoginException
+    public MaterialModel getMaterial(int id) throws DataException
     {
         MaterialMapper materialMapper = new MaterialMapper();
         materialMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -39,7 +40,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public OrderModel getOrder(int id) throws LoginException
+    public OrderModel getOrder(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -61,7 +62,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public List<Integer> getAllOrderIds() throws LoginException
+    public List<Integer> getAllOrderIds() throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -69,7 +70,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public EmployeeModel getEmployee(int id) throws LoginException
+    public EmployeeModel getEmployee(int id) throws DataException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -77,7 +78,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public CustomerModel getCustomer(int id) throws LoginException
+    public CustomerModel getCustomer(int id) throws DataException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -85,7 +86,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void createCustomer(CustomerModel customer) throws LoginException
+    public void createCustomer(CustomerModel customer) throws UserException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -93,7 +94,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void createEmployee(EmployeeModel employee) throws LoginException
+    public void createEmployee(EmployeeModel employee) throws UserException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -101,7 +102,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public CustomerModel login(String email, String password) throws LoginException
+    public CustomerModel login(String email, String password) throws UserException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -109,7 +110,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public List<Integer> getOrderIds(int id) throws LoginException
+    public List<Integer> getOrderIds(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -117,7 +118,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void payOrder(int id) throws LoginException
+    public void payOrder(int id) 
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
