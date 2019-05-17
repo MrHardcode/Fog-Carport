@@ -3,7 +3,6 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -53,7 +52,7 @@ public class BaseCalcTest
     }
 
     //constructor uses @Parameters
-    public BaseCalcTest(int n0, int n1, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
+    public BaseCalcTest(int n0, int n1, int n2, int n3, int n4, int n5, int n6, int n7, int n8) throws Exception {
         expectedBolts = n0;
         strapAmount = n1;
         expectedStraps = n2;
@@ -77,10 +76,10 @@ public class BaseCalcTest
         }
         try
         {
-            post = db.getMaterial(postID, helptext);
-            strap = db.getMaterial(strapID, helptext);
-            bolts = db.getMaterial(boltID, helptext);
-        } catch (LoginException ex)
+            post = db.getMaterial(postID);
+            strap = db.getMaterial(strapID);
+            bolts = db.getMaterial(boltID);
+        } catch (Exception ex)
         {
             System.out.println("Test class for base calculator failed to access DB");
             Logger.getLogger(BaseCalcTest.class.getName()).log(Level.SEVERE, null, ex);

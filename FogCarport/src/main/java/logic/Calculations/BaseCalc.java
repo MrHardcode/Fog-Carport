@@ -2,7 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -31,7 +31,7 @@ public class BaseCalc
     private ArrayList postPosRear = new ArrayList();
     
 
-    public PartslistModel addBase(OrderModel order) throws LoginException
+    public PartslistModel addBase(OrderModel order) throws DataException
     {
         PartslistModel bom = new PartslistModel();
         DataFacade db = DataFacadeImpl.getInstance();
@@ -59,7 +59,7 @@ public class BaseCalc
             int cLength, int cWidth, 
             int sLength, int sWidth, 
             boolean heavyRoof, 
-            DataFacade db) throws LoginException
+            DataFacade db) throws DataException
     {
         //97x97mm post
         MaterialModel post = db.getMaterial(postID, helptext);

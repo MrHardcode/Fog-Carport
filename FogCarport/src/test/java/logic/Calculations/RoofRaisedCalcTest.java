@@ -3,7 +3,6 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -80,6 +79,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetRoofRoofStructure() throws Exception {
@@ -110,6 +110,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getMaterialsFromlength method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMaterialsFromlength() throws Exception {
@@ -127,7 +128,7 @@ public class RoofRaisedCalcTest {
     }
 
     @Test
-    public void testAddPartslistWithMaterialsQuantity() throws LoginException {
+    public void testAddPartslistWithMaterialsQuantity() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
 
         PartslistModel bomExp = new PartslistModel();
@@ -169,6 +170,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of generateRafter method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGenerateRafter() throws Exception {
@@ -184,9 +186,10 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of generatefasciaBoards method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGeneratefasciaBoards() throws LoginException {
+    public void testGeneratefasciaBoards() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material3 = DAO.getMaterial(3, helptext);
@@ -200,6 +203,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of generateLaths method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGenerateLaths() throws Exception {
@@ -215,6 +219,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getCladding method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetCladding() throws Exception {
@@ -234,6 +239,7 @@ public class RoofRaisedCalcTest {
 
     /**
      * Test of getCladdingMaterialCount method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetCladdingMaterialCount() throws Exception {

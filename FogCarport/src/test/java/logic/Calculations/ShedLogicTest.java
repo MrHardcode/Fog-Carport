@@ -5,7 +5,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -291,7 +291,7 @@ public class ShedLogicTest
      * Test of addScrews method, of class ShedLogic.
      */
     @Test
-    public void testAddScrews() throws LoginException
+    public void testAddScrews() throws Exception
     {
         PartslistModel test = new PartslistModel();
         MaterialModel tscrews = new MaterialModel();
@@ -324,8 +324,8 @@ public class ShedLogicTest
      *
      * @throws data.exceptions.LoginException
      */
-    @Test(expected = LoginException.class)
-    public void testAddShedNull() throws LoginException
+    @Test(expected = DataException.class)
+    public void testAddShedNull() throws DataException
     {
         OrderModel order = null;
         PartslistModel model = new PartslistModel();

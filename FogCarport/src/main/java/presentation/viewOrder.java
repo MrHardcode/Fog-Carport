@@ -3,8 +3,9 @@
  */
 package presentation;
 
-import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
+
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
@@ -20,7 +21,10 @@ public class viewOrder extends Command {
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException, AlgorithmException {
+
+    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
+    {
+
 
         Validation validation = new Validation();
         int id = validation.validateInteger(request.getParameter("orderid"), "Order id");

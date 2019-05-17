@@ -1,6 +1,7 @@
 package data;
 
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import data.models.MaterialModel;
@@ -12,25 +13,28 @@ public interface DataFacade
 {
     public MaterialModel getMaterial(int id, String helptext) throws LoginException;
     
-    public OrderModel getOrder(int id) throws LoginException;
+    public OrderModel getOrder(int id) throws DataException;
     
     public PartslistModel getBOM();
     
-    public void createOrder(OrderModel order) throws LoginException;
+    public PartslistModel getOrderDetails(int id) throws DataException;
     
-    public List<Integer> getAllOrderIds() throws LoginException;
+    public void createOrder(OrderModel order) throws DataException;
     
-    public EmployeeModel getEmployee(int id) throws LoginException;
+    public List<Integer> getAllOrderIds() throws DataException;
     
-    public CustomerModel getCustomer(int id) throws LoginException;
+    public EmployeeModel getEmployee(int id) throws DataException;
     
-    public void createCustomer(CustomerModel customer) throws LoginException;
+    public CustomerModel getCustomer(int id) throws DataException;
     
-    public void createEmployee(EmployeeModel employee) throws LoginException;
+    public void createCustomer(CustomerModel customer) throws UserException;
     
-    public CustomerModel login(String email, String password) throws LoginException;
+    public void createEmployee(EmployeeModel employee) throws UserException;
     
-    public List<Integer> getOrderIds(int id) throws LoginException;
+    public CustomerModel login(String email, String password) throws UserException;
     
-    public void payOrder(int id) throws LoginException;
+    public List<Integer> getOrderIds(int id) throws DataException;
+    
+    public void payOrder(int id);
+
 }
