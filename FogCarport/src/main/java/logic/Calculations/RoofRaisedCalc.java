@@ -289,14 +289,13 @@ public class RoofRaisedCalc {
         MaterialModel bestMaterial = null;
 
         while (restLength > 0) {
-
             for (MaterialModel material : materials) {
                 double ratioCurrent = (double) restLength / (double) material.getLength();
 
                 if (ratioBest == -1) {
                     ratioBest = ratioCurrent;
                     bestMaterial = material;
-                } else if (ratioBest > 1 && ratioCurrent > 1) {
+                } else if (ratioBest >= 1 && ratioCurrent >= 1) {
                     ratioBest = Math.min(ratioBest, ratioCurrent);
                     if (ratioBest == ratioCurrent) {
                         bestMaterial = material;
@@ -307,17 +306,16 @@ public class RoofRaisedCalc {
                         bestMaterial = material;
                     }
                 }
-
             }
             int materialAmount = 0;
-            if (ratioBest > 1) {
+            if (ratioBest >= 1) {
                 materialAmount = (int) Math.floor(ratioBest);
             }
-
             if (ratioBest < 1) {
                 materialAmount = (int) Math.ceil(ratioBest);
             }
-            quantityPrMaterial.put(bestMaterial, materialAmount);
+            int exsistingAmount = quantityPrMaterial.get(bestMaterial);
+            quantityPrMaterial.put(bestMaterial, exsistingAmount + materialAmount);
             restLength = restLength - (bestMaterial.getLength() * materialAmount);
             ratioBest = -1;
         }
@@ -348,6 +346,16 @@ public class RoofRaisedCalc {
                 calcParts.addMaterial(material);
             }
         }
+//        System.out.println("***************************************");
+//        System.out.println("Order Length: " + length);
+//        for (int i = 0; i < calcParts.getBillOfMaterials().size(); i++) {
+//            System.out.println("***");
+//            System.out.println("Material ID: " + calcParts.getBillOfMaterials().get(i).getID());
+//            System.out.println("Material Quantity: " + calcParts.getBillOfMaterials().get(i).getQuantity());
+//            System.out.println("Length of same materials combined: " + calcParts.getBillOfMaterials().get(i).getLength()*calcParts.getBillOfMaterials().get(i).getQuantity());
+//            
+//        }
+//        System.out.println("***************************************");
 
         return calcParts;
     }
@@ -370,7 +378,7 @@ public class RoofRaisedCalc {
         for (int i = 0; i < calcList.size(); i++) {
             if (returnList.isEmpty()) {
                 returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
-                break;
+                continue;
             }
 
             boolean quantityAdded = false;
@@ -503,7 +511,7 @@ public class RoofRaisedCalc {
         ArrayList<MaterialModel> materials = new ArrayList();
         materials.add(DAO.getMaterial(lathWood5400));
         materials.add(DAO.getMaterial(lathWood4200));
-
+        System.out.println("Total lath length: " + totalLathsLength);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
         return lathsBOM;
