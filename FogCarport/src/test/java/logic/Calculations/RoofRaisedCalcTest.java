@@ -284,6 +284,48 @@ public class RoofRaisedCalcTest {
     }
     
     @Test
+    public void testGetMaterialsFromlengthNEGATIVE() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        ArrayList<MaterialModel> materials = new ArrayList();
+        MaterialModel material3 = DAO.getMaterial(3); 
+        MaterialModel material6 = DAO.getMaterial(6); 
+        MaterialModel material7 = DAO.getMaterial(7); 
+        MaterialModel material8 = DAO.getMaterial(8); 
+        MaterialModel material10 = DAO.getMaterial(10); 
+        
+        materials.add(material3);
+        materials.add(material6); 
+        materials.add(material7);
+        materials.add(material8); 
+        materials.add(material10); 
+        
+        PartslistModel bomRes = raised.getMaterialsFromlength(materials, -1);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
+    public void testGetMaterialsFromlengthZERO() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        PartslistModel bomExp = new PartslistModel();
+        ArrayList<MaterialModel> materials = new ArrayList();
+        MaterialModel material3 = DAO.getMaterial(3); 
+        MaterialModel material6 = DAO.getMaterial(6); 
+        MaterialModel material7 = DAO.getMaterial(7); 
+        MaterialModel material8 = DAO.getMaterial(8); 
+        MaterialModel material10 = DAO.getMaterial(10); 
+        
+        materials.add(material3);
+        materials.add(material6); 
+        materials.add(material7);
+        materials.add(material8); 
+        materials.add(material10); 
+        
+        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 0);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    @Test
     public void testGetMaterialsFromlengthMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();

@@ -270,6 +270,10 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) {
+        if(materials.size() < 1 || materials.get(0).getLength() < 1){
+            
+        }
+        
         PartslistModel calcParts = new PartslistModel();
         Collections.sort(materials, new Comparator<MaterialModel>() {
             @Override
