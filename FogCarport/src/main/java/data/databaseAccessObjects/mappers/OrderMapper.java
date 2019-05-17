@@ -175,8 +175,22 @@ public class OrderMapper {
     }
     // </editor-fold>
 
-    public void payOrder(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void payOrder(int id) throws DataException
+    {
+        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
+        try
+        {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException ex)
+        {
+            throw new DataException(ex.getMessage());
+        }
+
     }
 }
 

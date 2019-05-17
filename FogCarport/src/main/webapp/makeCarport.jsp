@@ -1,7 +1,7 @@
 
 <div class="d-flex justify-content-center" >
     <!-- Form start -->
-    <form action="FrontController" method="post" id="carport-form" accept-charset=utf-8>
+    <form action="FrontController" method="POST" id="carport-form" accept-charset=utf-8>
 
         <input type="hidden" name="command" value="makeCarport">
 

@@ -57,6 +57,7 @@ public class RoofFlatCalc
     private int rafterFittingScrewStandard = 9;
     private int bargeboardScrewStandard = 4;
     private int bandScrewStandard = 2;
+    private final String helptext = "roof"; // Used to fetch the right helptext from database.
 
     /* database material IDs (height|width|length)*/
     private int plasticTileSmallID = 29; //0x109x3600
@@ -161,7 +162,7 @@ public class RoofFlatCalc
         PartslistModel rafters = new PartslistModel();
 
         /* Get MaterialModel to return */
-        MaterialModel rafter = DAO.getMaterial(rafterLargeID); //45x195x6000
+        MaterialModel rafter = DAO.getMaterial(rafterLargeID, helptext); //45x195x6000
 
         /* Set up variables */
         int width = order.getWidth();
@@ -219,10 +220,10 @@ public class RoofFlatCalc
         PartslistModel fascias = new PartslistModel();
 
         /* Initialize materials needed needed */
-        MaterialModel fasciaLengthBottom = DAO.getMaterial(fasciaLengthBottomID);
-        MaterialModel fasciaLengthTop = DAO.getMaterial(fasciaLengthTopID);
-        MaterialModel fasciaWidthBottom = DAO.getMaterial(fasciaWidthBottomID);
-        MaterialModel fasciaWidthTop = DAO.getMaterial(fasciaWidthTopID);
+        MaterialModel fasciaLengthBottom = DAO.getMaterial(fasciaLengthBottomID, helptext);
+        MaterialModel fasciaLengthTop = DAO.getMaterial(fasciaLengthTopID, helptext);
+        MaterialModel fasciaWidthBottom = DAO.getMaterial(fasciaWidthBottomID, helptext);
+        MaterialModel fasciaWidthTop = DAO.getMaterial(fasciaWidthTopID, helptext);
 
         /* set up variables */
         int width = order.getWidth();
@@ -301,9 +302,9 @@ public class RoofFlatCalc
         PartslistModel bargeboards = new PartslistModel();
 
         /* Get MaterialModel to return */
-        MaterialModel boardsLength = DAO.getMaterial(bargeboardLengthID);
-        MaterialModel boardsWidth = DAO.getMaterial(bargeboardWidthID);
-        MaterialModel boardScrews = DAO.getMaterial(bargeboardScrewsID);
+        MaterialModel boardsLength = DAO.getMaterial(bargeboardLengthID, helptext);
+        MaterialModel boardsWidth = DAO.getMaterial(bargeboardWidthID, helptext);
+        MaterialModel boardScrews = DAO.getMaterial(bargeboardScrewsID, helptext);
 
         /* Initialize variables */
         int length = order.getLength();
@@ -349,8 +350,8 @@ public class RoofFlatCalc
         int bandAmount = 1; //used to determine band quantity. we always want one.
 
         /*get MaterialModel to return */
-        MaterialModel band = DAO.getMaterial(bandID);
-        MaterialModel bandScrews = DAO.getMaterial(bandScrewsID);
+        MaterialModel band = DAO.getMaterial(bandID, helptext);
+        MaterialModel bandScrews = DAO.getMaterial(bandScrewsID, helptext);
 
         /* Calculation begin */
         int bandLength = band.getLength(); //10000mm (10m)
@@ -410,9 +411,9 @@ public class RoofFlatCalc
         //int screwAmount = (fittingsAmount*screwStandard); //9 screws per fitting
 
         /* Get materials from database */
-        MaterialModel fittingRight = DAO.getMaterial(fittingRightID);
-        MaterialModel fittingLeft = DAO.getMaterial(fittingLeftID);
-        MaterialModel fittingScrews = DAO.getMaterial(fittingScrewsID);
+        MaterialModel fittingRight = DAO.getMaterial(fittingRightID, helptext);
+        MaterialModel fittingLeft = DAO.getMaterial(fittingLeftID, helptext);
+        MaterialModel fittingScrews = DAO.getMaterial(fittingScrewsID, helptext);
         //amountOfScrews += (fittingsAmount * screwAmount);
 
         /* update quantities */
@@ -507,9 +508,9 @@ public class RoofFlatCalc
         PartslistModel tileAndTileAccessories = new PartslistModel();
 
         /* Get MaterialModel to return */
-        MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID); //109x6000
-        MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID); //109x3600
-        MaterialModel tileScrews = DAO.getMaterial(plasticTileScrewID);
+        MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID, helptext); //109x6000
+        MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID, helptext); //109x3600
+        MaterialModel tileScrews = DAO.getMaterial(plasticTileScrewID, helptext);
 
         /* Set up variables */
         int remainingLength = order.getLength();

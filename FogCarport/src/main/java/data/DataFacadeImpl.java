@@ -30,9 +30,9 @@ public class DataFacadeImpl implements DataFacade
 
 
     @Override
-    public MaterialModel getMaterial(int id) throws DataException
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
     {
-        return MaterialMapper.getInstance().getMaterial(id);
+        return MaterialMapper.getInstance().getMaterial(id, helptext);
     }
 
     @Override
@@ -48,9 +48,9 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public PartslistModel getOrderDetails(int id) throws DataException
+    public PartslistModel getOrderDetails(int id, String helptext) throws DataException
     {
-        return MaterialMapper.getInstance().getMaterials(id);
+        return MaterialMapper.getInstance().getMaterials(id, helptext);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void payOrder(int id) 
+    public void payOrder(int id) throws DataException
     {
         OrderMapper.getInstance().payOrder(id);
     }

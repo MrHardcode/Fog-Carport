@@ -32,6 +32,7 @@ public class ShedLogic
     private final int postid = 4; // 97x97 mm. trykimp. Stolpe
     
     private final int postdistance = 3100; // Distance between posts.
+    private final String helptext = "shed"; // indicator for what helptext to grab from database.
 
     public ShedLogic()
     {
@@ -73,7 +74,7 @@ public class ShedLogic
             // VARIABLES IF NOT STANDARD SHED:
             int width = order.getShed_width();
             int length = order.getShed_length();
-            MaterialModel wood = db.getMaterial(order.getShed_walls_id());
+            MaterialModel wood = db.getMaterial(order.getShed_walls_id(), helptext);
 
             // MATERIALS NEEDED NO MATTER WHAT - DOOR
             addDoorMaterials(bom, db);
@@ -81,7 +82,7 @@ public class ShedLogic
             // IF FLOOR IS CHOSEN:
             if (order.getShed_floor_id() != 0)
             {
-                MaterialModel floor = db.getMaterial(order.getShed_floor_id());
+                MaterialModel floor = db.getMaterial(order.getShed_floor_id(), helptext);
                 // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH HERE TO BOM
                 addFloor(bom, floor, length, width, db);
             }
@@ -189,7 +190,7 @@ public class ShedLogic
         
         // 4 screws per board #27 - 300 in a pack
         int screwamount = amountofwood * 4;
-        MaterialModel screws = db.getMaterial(this.skruer50mm); // 300 in one pack.
+        MaterialModel screws = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.
         addScrews(bom, screws, 300, screwamount);
     }
     // </editor-fold>
@@ -212,15 +213,15 @@ public class ShedLogic
      */
     void addDoorMaterials(PartslistModel bom, DataFacade db) throws DataException
     {
-        MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb); 
+        MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb, helptext); 
         stalddørsgreb.setQuantity(1);
         bom.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.
         
-        MaterialModel laegte = db.getMaterial(taglægte); // 38x73mm taglægte.
+        MaterialModel laegte = db.getMaterial(taglægte, helptext); // 38x73mm taglægte.
         laegte.setQuantity(1);
         bom.addMaterial(laegte); // for the backside of the door.
         
-        MaterialModel hængsel = db.getMaterial(thængsel);
+        MaterialModel hængsel = db.getMaterial(thængsel, helptext);
         hængsel.setQuantity(2);
         bom.addMaterial(hængsel); // T-hængsel for the door.
     }
@@ -253,11 +254,11 @@ public class ShedLogic
         // Adding skruer for the beklædning.
         // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
         int amountofscrews50 = 3 * amountofwood;
-        MaterialModel skruer50 = db.getMaterial(this.skruer50mm); // 300 in one pack.
+        MaterialModel skruer50 = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.
         addScrews(bom, skruer50, 300, amountofscrews50);
         // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
         int amountofscrews70 = 6 * amountofwood;
-        MaterialModel skruer70 = db.getMaterial(this.skruer70mm); // 400 in one pack.
+        MaterialModel skruer70 = db.getMaterial(this.skruer70mm, helptext); // 400 in one pack.
         addScrews(bom, skruer70, 400, amountofscrews70);
 
         // Adding additional posts if needed
@@ -268,12 +269,12 @@ public class ShedLogic
         vinkelbeslagamount += reglar(length, db, bom, 2);
 
         // Vinkelbeslag #19 2 per reglar
-        MaterialModel vinkelbeslag = db.getMaterial(this.vinkelbeslag);
+        MaterialModel vinkelbeslag = db.getMaterial(this.vinkelbeslag, helptext);
         vinkelbeslag.setQuantity(vinkelbeslagamount);
         bom.addMaterial(vinkelbeslag);
         
         // Beslagsskruer #21 4 per beslag
-        MaterialModel beslagsskruer = db.getMaterial(this.beslagsskruer);
+        MaterialModel beslagsskruer = db.getMaterial(this.beslagsskruer, helptext);
         int screwamount = 4 * vinkelbeslagamount;
         addScrews(bom, beslagsskruer, 100, screwamount);
         
@@ -321,7 +322,7 @@ public class ShedLogic
         } else {
             postquantity++; // the one at the corner
         }
-        MaterialModel post = db.getMaterial(postid);
+        MaterialModel post = db.getMaterial(postid, helptext);
         post.setQuantity(postquantity);
         bom.addMaterial(post);
     }
@@ -340,9 +341,9 @@ public class ShedLogic
     {
         MaterialModel reglar;
         if (postdistance < 2400 || width < 2400){
-            reglar = db.getMaterial(this.reglar2400); // 2400 reglar
+            reglar = db.getMaterial(this.reglar2400, helptext); // 2400 reglar
         } else {
-            reglar = db.getMaterial(this.reglar3600); // 3600 reglar
+            reglar = db.getMaterial(this.reglar3600, helptext); // 3600 reglar
         }
         int amountofreglar = side * (width/postdistance);
         int restreglar = width % postdistance;
