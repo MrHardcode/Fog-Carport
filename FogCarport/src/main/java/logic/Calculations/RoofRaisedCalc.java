@@ -87,6 +87,10 @@ public class RoofRaisedCalc {
      * @throws DataException
      */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
+        if(order.getIncline() <= 0 ){
+            throw new AlgorithmException("Possible division by zero, incline cannot be zero or less than zero");
+        }
+        
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
