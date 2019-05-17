@@ -13,11 +13,11 @@ import java.util.Properties;
 public class DBConnector
 {
 
-    private static final String IP = "207.154.233.238";
+    private static final String IP = "localhost"; // 207.154.233.238
     private static final String PORT = "3306";
     public static final String DATABASE = "carportdb"; 
-    private static final String USERNAME = "admin"; 
-    private static final String PASSWORD = "1234"; 
+    private static final String USERNAME = "root"; // admin 
+    private static final String PASSWORD = "root"; // 1234
 
     private static Connection singleton;
 

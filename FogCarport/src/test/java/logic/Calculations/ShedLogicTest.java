@@ -153,7 +153,7 @@ public class ShedLogicTest
         int width = 2000;
         ShedLogic instance = new ShedLogic();
         instance.addFloor(bom, floor, length, width, db);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         bom = new PartslistModel();
         floor = db.getMaterial(50, helptext);
@@ -219,7 +219,7 @@ public class ShedLogicTest
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
         instance.addDoorMaterials(bom, db);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
@@ -250,7 +250,7 @@ public class ShedLogicTest
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
         instance.posts(length, order, width, db, bom);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
@@ -278,7 +278,7 @@ public class ShedLogicTest
         int side = 3;
         ShedLogic instance = new ShedLogic();
         instance.reglar(width, db, bom, side);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         
         int expected = 6;
@@ -310,7 +310,7 @@ public class ShedLogicTest
         int screwamount = 401;
         ShedLogic instance = new ShedLogic();
         instance.addScrews(bom, screws, packamount, screwamount);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         int expectedpacks = 1;
         packamount = 100;
