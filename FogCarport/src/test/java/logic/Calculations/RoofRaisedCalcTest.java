@@ -29,8 +29,178 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getScrews method, of class RoofRaisedCalc.
-     *
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetRoofRaisedMaterialsMIN() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material35 = DAO.getMaterial(35);
+        MaterialModel material42 = DAO.getMaterial(42);
+        MaterialModel material32 = DAO.getMaterial(32);
+        MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material6 = DAO.getMaterial(6);
+        MaterialModel material30 = DAO.getMaterial(30);
+        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material1 = DAO.getMaterial(1);
+        MaterialModel material8 = DAO.getMaterial(8);
+        MaterialModel material10 = DAO.getMaterial(10);
+        MaterialModel material20 = DAO.getMaterial(20);        
+        
+        material35.setQuantity(14);
+        material42.setQuantity(2);
+        material32.setQuantity(2);
+        material7.setQuantity(5);
+        material6.setQuantity(15);
+        material30.setQuantity(5);
+        material12.setQuantity(6);
+        material1.setQuantity(4);
+        material8.setQuantity(1);
+        material10.setQuantity(1);
+        material20.setQuantity(5);        
+        
+        bomExp.addMaterial(material35);
+        bomExp.addMaterial(material42);
+        bomExp.addMaterial(material32);
+        bomExp.addMaterial(material7);
+        bomExp.addMaterial(material6);
+        bomExp.addMaterial(material30);
+        bomExp.addMaterial(material12);
+        bomExp.addMaterial(material1);
+        bomExp.addMaterial(material8);
+        bomExp.addMaterial(material10);
+        bomExp.addMaterial(material20);
+
+        order.setWidth(2400);
+        order.setIncline(5);
+        order.setLength(2400);
+        order.setRoof_tiles_id(35);
+
+        PartslistModel bomRes = raised.getRoofRaisedMaterials(order);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    /**
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetRoofRaisedMaterialsMAX() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        PartslistModel bomExp = new PartslistModel();
+        MaterialModel material38 = DAO.getMaterial(38);
+        MaterialModel material45 = DAO.getMaterial(45);
+        MaterialModel material32 = DAO.getMaterial(32);
+        MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material6 = DAO.getMaterial(6);
+        MaterialModel material30 = DAO.getMaterial(30);
+        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material3 = DAO.getMaterial(3);
+        MaterialModel material1 = DAO.getMaterial(1);
+        MaterialModel material8 = DAO.getMaterial(8);
+        MaterialModel material10 = DAO.getMaterial(10);
+        MaterialModel material20 = DAO.getMaterial(20);        
+        
+        material38.setQuantity(697);
+        material45.setQuantity(18);
+        material32.setQuantity(2);
+        material7.setQuantity(50);
+        material6.setQuantity(40);
+        material30.setQuantity(10);
+        material12.setQuantity(52);
+        material3.setQuantity(4);
+        material1.setQuantity(2);
+        material8.setQuantity(84);
+        material10.setQuantity(1);
+        material20.setQuantity(14);        
+        
+        bomExp.addMaterial(material38);
+        bomExp.addMaterial(material45);
+        bomExp.addMaterial(material32);
+        bomExp.addMaterial(material7);
+        bomExp.addMaterial(material6);
+        bomExp.addMaterial(material30);
+        bomExp.addMaterial(material12);
+        bomExp.addMaterial(material3);
+        bomExp.addMaterial(material1);
+        bomExp.addMaterial(material8);
+        bomExp.addMaterial(material10);
+        bomExp.addMaterial(material20);
+
+        order.setWidth(7200);
+        order.setIncline(45);
+        order.setLength(7200);
+        order.setRoof_tiles_id(38);
+
+        PartslistModel bomRes = raised.getRoofRaisedMaterials(order);
+        assertEquals(bomExp, bomRes);
+    }
+    
+    /**
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc with order = null.
+     * @throws java.lang.Exception
+     */
+    @Test (expected = AlgorithmException.class)
+    public void testGetRoofRaisedMaterialsFAILnull() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = null;
+        raised.getRoofRaisedMaterials(order);
+        fail("AlgorithmException wasn't thrown");
+    }
+    
+    /**
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc with order.getLength = zero.
+     * @throws java.lang.Exception
+     */
+    @Test (expected = AlgorithmException.class)
+    public void testGetRoofRaisedMaterialsFAILzeroLength() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        order.setWidth(7200);
+        order.setIncline(45);
+        order.setLength(0);
+        order.setRoof_tiles_id(38);
+        raised.getRoofRaisedMaterials(order);
+        fail("AlgorithmException wasn't thrown");
+    }
+    
+    /**
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc with order.getWidth = zero.
+     * @throws java.lang.Exception
+     */
+    @Test (expected = AlgorithmException.class)
+    public void testGetRoofRaisedMaterialsFAILzeroWidth() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        order.setWidth(0);
+        order.setIncline(45);
+        order.setLength(3500);
+        order.setRoof_tiles_id(38);
+        raised.getRoofRaisedMaterials(order);
+        fail("AlgorithmException wasn't thrown");
+    }
+    
+    /**
+     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc with order.getIncline = zero.
+     * @throws java.lang.Exception
+     */
+    @Test (expected = AlgorithmException.class)
+    public void testGetRoofRaisedMaterialsFAILzeroIncline() throws Exception{
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        OrderModel order = new OrderModel();
+        order.setWidth(400);
+        order.setIncline(0);
+        order.setLength(3500);
+        order.setRoof_tiles_id(38);
+        raised.getRoofRaisedMaterials(order);
+        fail("AlgorithmException wasn't thrown");
+    }
+    
+    /**
+     * Test of getScrews method, of class RoofRaisedCalc normal amount.
      * @throws java.lang.Exception
      */
     @Test
@@ -47,6 +217,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getScrews method, of class RoofRaisedCalc where amount is 1.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetScrewsMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -61,6 +235,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getScrews method, of class RoofRaisedCalc big amount.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetScrewsMANY() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -74,10 +252,21 @@ public class RoofRaisedCalcTest {
         PartslistModel bomRes = raised.getScrews();
         assertEquals(bomExp, bomRes);
     }
+    
+    /**
+     * Test of getScrews method, of class RoofRaisedCalc where amount is less than 1.
+     * @throws java.lang.Exception
+     */
+    @Test (expected = AlgorithmException.class)
+    public void testGetScrewsFAIL() throws Exception {
+        RoofRaisedCalc raised = new RoofRaisedCalc();
+        raised.screwCount = 0;
+        raised.getScrews();
+        fail("AlgorithmException wasn't thrown");
+    }
 
     /**
-     * Test of getRoofTiles method, of class RoofRaisedCalc.
-     *
+     * Test of getRoofTiles method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -105,6 +294,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getRoofTiles method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetRoofTilesMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -130,6 +323,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getRoofTiles method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetRoofTilesMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -156,7 +353,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getRoofRaisedMaterials method, of class RoofRaisedCalc.
+     * Test of RoofRoofStructure method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -196,6 +393,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of RoofRoofStructure method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetRoofRoofStructureMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -227,6 +428,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of RoofRoofStructure method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetRoofRoofStructureMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -262,7 +467,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getMaterialsFromlength method, of class RoofRaisedCalc.
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc normal length.
      * @throws java.lang.Exception
      */
     @Test
@@ -284,6 +489,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc negative length.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetMaterialsFromlengthNEGATIVE() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -305,6 +514,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc zero length.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetMaterialsFromlengthZERO() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -326,6 +539,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc smallest acceptable length.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetMaterialsFromlengthMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -350,6 +567,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc small length.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetMaterialsFromlengthSMALL() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -379,6 +600,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc big length.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetMaterialsFromlengthBIG() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -406,6 +631,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc empty material list.
+     * @throws java.lang.Exception
+     */
     @Test (expected = AlgorithmException.class)
     public void testGetMaterialsFromlengthFAILemptyList() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -414,6 +643,10 @@ public class RoofRaisedCalcTest {
         fail("AlgorithmException wasn't thrown");
     }
     
+    /**
+     * Test of getMaterialsFromlength method, of class RoofRaisedCalc materialLength = zero.
+     * @throws java.lang.Exception
+     */
     @Test (expected = AlgorithmException.class)
     public void testGetMaterialsFromlengthFAILmaterialLengthZero() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -429,6 +662,10 @@ public class RoofRaisedCalcTest {
         fail("AlgorithmException wasn't thrown");
     }
 
+    /**
+     * Test of addPartslistWithMaterialsQuantity method, of class RoofRaisedCalc.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testAddPartslistWithMaterialsQuantity() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -471,7 +708,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of generateRafter method, of class RoofRaisedCalc.
+     * Test of generateRafter method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -489,6 +726,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generateRafter method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGenerateRafterMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -504,6 +745,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generateRafter method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGenerateRafterMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -520,7 +765,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of generatefasciaBoards method, of class RoofRaisedCalc.
+     * Test of generatefasciaBoards method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -538,6 +783,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generatefasciaBoards method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGeneratefasciaBoardsMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -550,6 +799,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generatefasciaBoards method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGeneratefasciaBoardsMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -569,7 +822,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of generateLaths method, of class RoofRaisedCalc.
+     * Test of generateLaths method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -587,6 +840,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generateLaths method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGenerateLathsMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -599,6 +856,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of generateLaths method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGenerateLathsMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -615,7 +876,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getCladding method, of class RoofRaisedCalc.
+     * Test of getCladding method, of class RoofRaisedCalc normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -637,6 +898,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getCladding method, of class RoofRaisedCalc min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetCladdingMIN() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -656,6 +921,10 @@ public class RoofRaisedCalcTest {
         assertEquals(bomExp, bomRes);
     }
     
+    /**
+     * Test of getCladding method, of class RoofRaisedCalc max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetCladdingMAX() throws Exception {
         RoofRaisedCalc raised = new RoofRaisedCalc();
@@ -676,7 +945,7 @@ public class RoofRaisedCalcTest {
     }
 
     /**
-     * Test of getCladdingMaterialCount method, of class RoofRaisedCalc.
+     * Test of getCladdingMaterialCount method, of class RoofRaisedCalc with normal values.
      * @throws java.lang.Exception
      */
     @Test
@@ -686,6 +955,11 @@ public class RoofRaisedCalcTest {
         int res = instance.getCladdingMaterialCount(4300, 35, 0);
         assertEquals(exp, res);
     }
+    
+    /**
+     * Test of getCladdingMaterialCount method, of class RoofRaisedCalc with min values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetCladdingMaterialCountMIN() throws Exception {
         RoofRaisedCalc instance = new RoofRaisedCalc();
@@ -694,6 +968,10 @@ public class RoofRaisedCalcTest {
         assertEquals(exp, res);
     }
     
+    /**
+     * Test of getCladdingMaterialCount method, of class RoofRaisedCalc with max values.
+     * @throws java.lang.Exception
+     */
     @Test
     public void testGetCladdingMaterialCountMAX() throws Exception {
         RoofRaisedCalc instance = new RoofRaisedCalc();

@@ -116,8 +116,10 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel getScrews() throws DataException {
-
+    protected PartslistModel getScrews() throws DataException, AlgorithmException {
+        if(screwCount < 1){
+            throw new AlgorithmException("ScrewCounter is less than 1");
+        }
         PartslistModel screwBOM = new PartslistModel();
         int screwsPrPack = 200;
         int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);
