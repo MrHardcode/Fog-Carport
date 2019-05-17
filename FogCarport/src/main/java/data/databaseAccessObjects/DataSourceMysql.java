@@ -4,7 +4,7 @@
 package data.databaseAccessObjects;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import java.sql.SQLException;
 
 /**
@@ -22,7 +22,7 @@ public class DataSourceMysql
 
     private MysqlDataSource dataSource = new MysqlDataSource();
 
-    public DataSourceMysql() throws LoginException
+    public DataSourceMysql() throws DataException
     {
         dataSource.setServerName(IP);
         dataSource.setPort(PORT);
@@ -35,7 +35,7 @@ public class DataSourceMysql
             dataSource.setAutoReconnect(true);
         } catch (SQLException ex)
         {
-            throw new LoginException("Data Source issue.");
+            throw new DataException("Data Source issue.");
         }
     }
 

@@ -1,6 +1,6 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
@@ -101,7 +101,7 @@ public class UserMapper
                 return customer;
             } else
             {
-                throw new LoginException("Could not retrieve customer info.");
+                throw new DataException("Could not retrieve customer info.");
             }
         } catch (SQLException ex)
         {
@@ -118,7 +118,7 @@ public class UserMapper
      * @return OrderModel
      * @throws DataException
      */
-    public EmployeeModel getEmployee(int id) throws DataException
+    public EmployeeModel getEmployee(int id) throws UserException
     {
 
         String SQL = "SELECT `employees`.`emp_name`, `roles`.`role` "
@@ -142,12 +142,12 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new LoginException("Could not get info about employee from database.");
+                throw new UserException("Could not get info about employee from database.");
             }
 
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
     }

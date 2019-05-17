@@ -54,7 +54,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void createOrder(OrderModel order) throws LoginException
+    public void createOrder(OrderModel order) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -70,7 +70,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public EmployeeModel getEmployee(int id) throws DataException
+    public EmployeeModel getEmployee(int id) throws UserException
     {
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(DBCPDataSource.getDataSource());
@@ -118,11 +118,17 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void payOrder(int id) 
+    public void payOrder(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(DBCPDataSource.getDataSource());
         orderMapper.payOrder(id);
+    }
+
+    @Override
+    public PartslistModel getOrderDetails(int id) throws DataException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

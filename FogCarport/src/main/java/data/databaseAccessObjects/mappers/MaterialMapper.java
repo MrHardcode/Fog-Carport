@@ -1,8 +1,9 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
+import data.models.PartslistModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -158,9 +159,9 @@ public class MaterialMapper
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

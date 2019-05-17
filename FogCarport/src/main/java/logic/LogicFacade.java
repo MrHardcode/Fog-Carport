@@ -25,7 +25,7 @@ public interface LogicFacade
     
     public CustomerModel getCustomer(int id) throws DataException;
     
-    public EmployeeModel getEmployee(int id) throws DataException;
+    public EmployeeModel getEmployee(int id) throws UserException;
     
     public void createCustomer(CustomerModel customer) throws UserException;
     
@@ -49,6 +49,6 @@ public interface LogicFacade
 
     public List<Integer> getOrderIds(int id) throws DataException;
 
-    public void payOrder(int id) ;
+    public void payOrder(int id) throws DataException;
 
 }

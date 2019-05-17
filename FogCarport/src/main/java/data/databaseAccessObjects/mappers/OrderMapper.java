@@ -1,6 +1,6 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.models.OrderModel;
 import java.sql.PreparedStatement;
@@ -33,7 +33,7 @@ public class OrderMapper
      * @return OrderModel
      * @throws DataException
      */
-    public OrderModel getOrder(int id) throws LoginException
+    public OrderModel getOrder(int id) throws DataException
     {
 
         String SQL = "SELECT * FROM `carportdb`.`orders`"
@@ -67,7 +67,7 @@ public class OrderMapper
                 return order;
             } else
             {
-                throw new LoginException("Could not get info about order from database.");
+                throw new DataException("Could not get info about order from database.");
             }
 
         } catch (SQLException ex) {
@@ -180,7 +180,7 @@ public class OrderMapper
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Pay an order. Update "status"">
-    public void payOrder(int id) throws LoginException
+    public void payOrder(int id) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
         try (DatabaseConnector open_dbc = dbc.open())
@@ -192,7 +192,7 @@ public class OrderMapper
 
         } catch (SQLException ex)
         {
-            throw new LoginException(ex.getMessage());
+            throw new DataException(ex.getMessage());
         }
 
     }
