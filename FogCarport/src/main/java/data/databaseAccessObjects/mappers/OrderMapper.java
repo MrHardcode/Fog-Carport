@@ -174,5 +174,9 @@ public class OrderMapper {
         return ids;
     }
     // </editor-fold>
+
+    public void payOrder(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 

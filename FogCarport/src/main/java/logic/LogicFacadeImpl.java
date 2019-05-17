@@ -210,7 +210,7 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public void payOrder(int id) throws LoginException
+    public void payOrder(int id) 
     {
         DataFacadeImpl.getInstance().payOrder(id);
     }

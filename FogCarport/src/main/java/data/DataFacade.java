@@ -35,6 +35,6 @@ public interface DataFacade
     
     public List<Integer> getOrderIds(int id) throws DataException;
     
-    public void payOrder(int id) throws LoginException;
+    public void payOrder(int id);
 
 }

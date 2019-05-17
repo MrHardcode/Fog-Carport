@@ -34,7 +34,6 @@ public interface LogicFacade
     public PartslistModel getPartslistModel(OrderModel order) throws DataException;
     
     public String getSVGbase(PartslistModel bom, OrderModel order);
-    
 
     public String getSVGroof(OrderModel order) throws DataException;
 
@@ -50,7 +49,6 @@ public interface LogicFacade
 
     public List<Integer> getOrderIds(int id) throws DataException;
 
-    
-    public void payOrder(int id) throws LoginException;
+    public void payOrder(int id) ;
 
 }
