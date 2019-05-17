@@ -62,7 +62,7 @@ public class RoofRaisedCalcTest {
 
         material33.setQuantity(134);
         material40.setQuantity(5);
-        material32.setQuantity(1);
+        material32.setQuantity(2);
         bomExp.addMaterial(material33);
         bomExp.addMaterial(material40);
         bomExp.addMaterial(material32);
@@ -247,12 +247,12 @@ public class RoofRaisedCalcTest {
         order.setIncline(25);
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material8 = DAO.getMaterial(8);
-        MaterialModel material10 = DAO.getMaterial(10);
+        MaterialModel material9 = DAO.getMaterial(9);
 
-        material8.setQuantity(6);
-        material10.setQuantity(1);
+        material8.setQuantity(12);
+        material9.setQuantity(1);
         bomExp.addMaterial(material8);
-        bomExp.addMaterial(material10);
+        bomExp.addMaterial(material9);
 
         PartslistModel bomRes = raised.generateCladding(order);
         assertEquals(bomExp, bomRes);

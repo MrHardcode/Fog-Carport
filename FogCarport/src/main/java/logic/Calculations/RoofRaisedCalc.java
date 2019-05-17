@@ -89,8 +89,8 @@ public class RoofRaisedCalc {
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
-        roofRaisedBOM.addPartslist(getRoofStructure(order)); // 406
-        roofRaisedBOM.addPartslist(generateCladding(order)); // 200
+        roofRaisedBOM.addPartslist(getRoofStructure(order)); 
+        roofRaisedBOM.addPartslist(generateCladding(order)); 
         roofRaisedBOM.addPartslist(getScrews());
         updateFieldsinBOM(roofRaisedBOM);
 
