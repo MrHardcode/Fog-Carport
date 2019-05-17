@@ -85,12 +85,12 @@ public class RoofRaisedCalc {
      * @param order
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
-        if(order.getIncline() <= 0 ){
-            throw new AlgorithmException("Possible division by zero, incline cannot be zero or less than zero");
+        if(order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() <= 0){
+            throw new AlgorithmException("Order is null or possible division by zero, order length, width & incline cannot be zero or less than zero");
         }
-        
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
@@ -277,7 +277,7 @@ public class RoofRaisedCalc {
      */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
         if(materials.size() < 1 || materials.get(0).getLength() < 1){
-            throw new AlgorithmException("Materiallist not valid");
+            throw new AlgorithmException("Materiallist not of valid size or materials without length dimension");
         }
         
         PartslistModel calcParts = new PartslistModel();
