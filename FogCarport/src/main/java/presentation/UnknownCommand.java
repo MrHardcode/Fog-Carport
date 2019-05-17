@@ -1,6 +1,6 @@
 package presentation;
 
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -11,7 +11,7 @@ class UnknownCommand extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {
         if (request.getAttribute("target") == null){
             return "login";

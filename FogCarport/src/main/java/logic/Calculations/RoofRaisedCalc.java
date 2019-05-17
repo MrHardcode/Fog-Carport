@@ -2,7 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -78,9 +78,9 @@ public class RoofRaisedCalc {
      *
      * @param order
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws LoginException {
+    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException {
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
@@ -104,8 +104,9 @@ public class RoofRaisedCalc {
      * Partslist and returns it.
      *
      * @return PartslistModel
+     * @throws DataException
      */
-    protected PartslistModel getScrews() throws LoginException {
+    protected PartslistModel getScrews() throws DataException {
 
         PartslistModel screwBOM = new PartslistModel();
         int screwsPrPack = 200;
@@ -127,9 +128,9 @@ public class RoofRaisedCalc {
      *
      * @param order
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel getRoofTiles(OrderModel order) throws LoginException {
+    protected PartslistModel getRoofTiles(OrderModel order) throws DataException {
         PartslistModel roofTilesBOM = new PartslistModel();
 
         int tileLength = DAO.getMaterial(order.getRoof_tiles_id()).getLength();
@@ -182,9 +183,9 @@ public class RoofRaisedCalc {
      *
      * @param order
      * @return int roofTopID
-     * @throws LoginException
+     * @throws DataException
      */
-    protected int getTopRoofTileID(OrderModel order) throws LoginException {
+    protected int getTopRoofTileID(OrderModel order) throws DataException {
         int roofTopID;
         int normalTileID = DAO.getMaterial(order.getRoof_tiles_id()).getID();
         switch (normalTileID) {
@@ -224,9 +225,9 @@ public class RoofRaisedCalc {
      *
      * @param order
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel getRoofStructure(OrderModel order) throws LoginException {
+    protected PartslistModel getRoofStructure(OrderModel order) throws DataException {
         PartslistModel roofStructureBOM = new PartslistModel();
         rafterCount = 2;
         int totalWidth = order.getWidth() + roofOverhang;
@@ -366,9 +367,9 @@ public class RoofRaisedCalc {
      * @param totalWidth
      * @param incline
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel generateRafter(int totalWidth, int incline) throws LoginException {
+    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException {
         PartslistModel rafterBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -403,9 +404,9 @@ public class RoofRaisedCalc {
      * @param totalWidth
      * @param incline
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws LoginException {
+    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException {
         PartslistModel fasciaBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -437,9 +438,9 @@ public class RoofRaisedCalc {
      * @param totalWidth
      * @param incline
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws LoginException {
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException {
         PartslistModel lathsBOM = new PartslistModel();
         double angleRad = Math.toRadians(incline);
         double adjacentCath = totalWidth * 0.5;
@@ -483,9 +484,9 @@ public class RoofRaisedCalc {
      *
      * @param order
      * @return PartslistModel
-     * @throws LoginException
+     * @throws DataException
      */
-    protected PartslistModel getCladding(OrderModel order) throws LoginException {
+    protected PartslistModel getCladding(OrderModel order) throws DataException {
 
         PartslistModel claddingBOM = new PartslistModel();
         MaterialModel material = DAO.getMaterial(8);
@@ -519,9 +520,9 @@ public class RoofRaisedCalc {
      * @param materialWidth
      * @param materialLength
      * @return int amountMaterial
-     * @throws LoginException
+     * @throws DataException
      */
-    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws LoginException {
+    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws DataException {
         int materialLengthStart = materialLength;
         int spaceWidth = 60;
         int cladWidth = offset;
