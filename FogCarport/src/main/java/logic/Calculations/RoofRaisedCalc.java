@@ -252,7 +252,6 @@ public class RoofRaisedCalc {
         roofStructureBOM.addMaterial(material);
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
         addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);
-        System.out.println("screws" + screwCount);
         return roofStructureBOM;
     }
 
