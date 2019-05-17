@@ -89,21 +89,12 @@
             </div>
         </div>
         
-        <h1 class="h1 form-group justify-content-center">Kundeinfo</h1>
-        <h4 class="h4 form-group justify-content-center">Opret bruger ved at indtaste dine oplysninger herunder</h4>
+        <h1 class="h1 form-group justify-content-center">Kontakt info</h1>
         <!-- Customer info -->
         <div class="form-group">
             <div class="form-group">
                 <label for="inputEmail">E-mail (Dette bliver dit brugernavn)</label>
                 <input type="email" class="form-control" id="inputEmail" placeholder="Eksempel@mail.dk" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Adgangskode</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
-                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm" required>
             </div>
             <div class="form-group">
                 <label for="inputName">Navn</label>
