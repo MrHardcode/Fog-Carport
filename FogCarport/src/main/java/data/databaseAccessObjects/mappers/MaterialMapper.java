@@ -4,6 +4,7 @@ package data.databaseAccessObjects.mappers;
 import data.databaseAccessObjects.DBConnector;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
+import data.models.PartslistModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +67,7 @@ public class MaterialMapper {
      * @return MaterialModel
      * @throws DataException 
      */
-    public MaterialModel getMaterial(int id, String helptext) throws LoginException {
+    public MaterialModel getMaterial(int id, String helptext) throws DataException {
         MaterialModel material = new MaterialModel();
 
         String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_"+helptext+" \n"
@@ -151,10 +152,11 @@ public class MaterialMapper {
      * Get a List of Materials.
      *
      * @param id of the Order Details.
+     * @param helptext
      * @return List of MaterialModel.
      * @throws DataException
      */
-    public PartslistModel getMaterials(int id) throws DataException {
+    public PartslistModel getMaterials(int id, String helptext) throws DataException {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
@@ -166,7 +168,7 @@ public class MaterialMapper {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                MaterialModel material = getMaterial(rs.getInt("id_material"));
+                MaterialModel material = getMaterial(rs.getInt("id_material"), helptext);
                 materials.addMaterial(material);
             }
         } catch (SQLException ex) {

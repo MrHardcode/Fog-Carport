@@ -76,9 +76,9 @@ public class BaseCalcTest
         }
         try
         {
-            post = db.getMaterial(postID);
-            strap = db.getMaterial(strapID);
-            bolts = db.getMaterial(boltID);
+            post = db.getMaterial(postID, "base");
+            strap = db.getMaterial(strapID, "base");
+            bolts = db.getMaterial(boltID, "base");
         } catch (Exception ex)
         {
             System.out.println("Test class for base calculator failed to access DB");
