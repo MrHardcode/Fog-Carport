@@ -1,7 +1,7 @@
 package presentation;
 
-import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
@@ -43,6 +43,6 @@ abstract class Command
     }
 
     abstract String execute(HttpServletRequest request, LogicFacade logic)
-            throws LoginException, AlgorithmException;
+            throws UserException, DataException;
 
 }

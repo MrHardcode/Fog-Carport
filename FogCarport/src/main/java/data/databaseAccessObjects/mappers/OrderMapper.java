@@ -1,8 +1,9 @@
 
+
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.OrderModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,9 +38,9 @@ public class OrderMapper {
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws LoginException Should probably be something else later on.
+     * @throws DataException
      */
-    public OrderModel getOrder(int id) throws LoginException {
+    public OrderModel getOrder(int id) throws DataException {
         OrderModel order = new OrderModel();
 
         String SQL = "SELECT * FROM `carportdb`.`orders`"
@@ -70,8 +71,7 @@ public class OrderMapper {
             }
 
         } catch (SQLException ex) {
-            // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
         return order;
@@ -83,9 +83,9 @@ public class OrderMapper {
      * Create an order.
      * Inputs an order into the Database.
      * @param order you want to input into the SQL database.
-     * @throws LoginException 
+     * @throws DataException 
      */
-    public void createOrder(OrderModel order) throws LoginException {
+    public void createOrder(OrderModel order) throws DataException {
         // SQL STATEMENT
         String SQL = "INSERT INTO `carportdb`.`orders` "
                 + " (`build_adress`, `build_zipcode`, `status`, `width`, `length`, "
@@ -117,7 +117,7 @@ public class OrderMapper {
                 order.setId(id);
             }
         } catch (SQLException ex) {
-            throw new LoginException(ex.getMessage());
+            throw new DataException(ex.getMessage());
         }
     }
     // </editor-fold>
@@ -127,9 +127,9 @@ public class OrderMapper {
      * Get all order ids.
      * Used by the .jsp that shows a list of all orders to the salesman.
      * @return
-     * @throws LoginException 
+     * @throws DataException 
      */
-    public List<Integer> getAllOrderIds() throws LoginException {
+    public List<Integer> getAllOrderIds() throws DataException {
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
         List<Integer> ids = new ArrayList<>();
         try {
@@ -141,7 +141,7 @@ public class OrderMapper {
                 ids.add(id);
             }
         }catch(SQLException ex){
-            throw new LoginException(ex.getMessage());
+            throw new DataException(ex.getMessage());
         }
         return ids;
     }
@@ -152,9 +152,9 @@ public class OrderMapper {
      * Get all Order ids from one Customer.
      * @param id
      * @return
-     * @throws LoginException 
+     * @throws DataException 
      */
-    public List<Integer> getOrderIds(int id) throws LoginException {
+    public List<Integer> getOrderIds(int id) throws DataException {
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
         List<Integer> ids = new ArrayList<>();
         try {
@@ -169,27 +169,28 @@ public class OrderMapper {
                 ids.add(tempid);
             }
         } catch(SQLException ex) {
-            throw new LoginException(ex.getMessage());
+            throw new DataException(ex.getMessage());
         }
         return ids;
     }
-  // </editor-fold>
+    // </editor-fold>
 
-
-    public void payOrder(int id) throws LoginException
+    public void payOrder(int id) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
-        try {
+        try
+        {
             Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL);
 
             ps.setInt(1, id);
             ps.executeUpdate();
 
-        } catch(SQLException ex) {
-            throw new LoginException(ex.getMessage());
+        } catch (SQLException ex)
+        {
+            throw new DataException(ex.getMessage());
         }
-        
-    }
 
+    }
 }
+

@@ -3,7 +3,7 @@
  */
 package presentation;
 
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 
 /**
  *
@@ -24,13 +24,13 @@ public class Validation
      * @param validate String input from user, that is supposed to be an integer afterwards.
      * @param name of the thing you want to validate.
      * @return int
-     * @throws LoginException 
+     * @throws UserException 
      */
-    public int validateInteger(String validate, String name) throws LoginException
+    public int validateInteger(String validate, String name) throws UserException
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new LoginException(name + " may not be empty.");
+            throw new UserException(name + " may not be empty.");
         } else
         {
             try
@@ -39,7 +39,7 @@ public class Validation
                 return length;
             } catch (NumberFormatException ex)
             {
-                throw new LoginException(name + " has to be an integer.");
+                throw new UserException(name + " has to be an integer.");
             }
         }
     }
@@ -52,13 +52,13 @@ public class Validation
      * @param validate String input you want to validate.
      * @param name you want to show user if their input is null or empty.
      * @return Input string, if it is valid.
-     * @throws LoginException 
+     * @throws UserException 
      */
-    public String validateString(String validate, String name) throws LoginException
+    public String validateString(String validate, String name) throws UserException
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new LoginException(name + " may not be empty.");
+            throw new UserException(name + " may not be empty.");
         } else
         {
             return validate;
@@ -75,17 +75,17 @@ public class Validation
      * @param password2 String representing the second password input
      * @param name Name of the element that is being validated
      * @return Input password if it is valid
-     * @throws LoginException 
+     * @throws UserException 
      */
-    public String validatePassword(String password, String password2, String name) throws LoginException
+    public String validatePassword(String password, String password2, String name) throws UserException
     {
         if (password == null || password.isEmpty() || password2 == null || password2.isEmpty())
         {
-            throw new LoginException(name + " must not be empty");
+            throw new UserException(name + " must not be empty");
         }
         if (!password.equals(password2))
         {
-            throw new LoginException("Please type in matching passwords");
+            throw new UserException("Please type in matching passwords");
         }
         return password;
     }

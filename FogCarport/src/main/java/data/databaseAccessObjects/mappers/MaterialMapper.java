@@ -2,7 +2,7 @@
 package data.databaseAccessObjects.mappers;
 
 import data.databaseAccessObjects.DBConnector;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.PartslistModel;
 import java.sql.Connection;
@@ -34,9 +34,9 @@ public class MaterialMapper {
      *
      * @param id of the category.
      * @return name of the category.
-     * @throws LoginException Should most likely throw something else.
+     * @throws DataException
      */
-    public String getCategory(int id) throws LoginException {
+    public String getCategory(int id) throws DataException {
         String SQL = "SELECT `category`.`category_name`\n"
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
@@ -53,7 +53,7 @@ public class MaterialMapper {
             return category;
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
     }
     // </editor-fold>
@@ -63,13 +63,14 @@ public class MaterialMapper {
      * Get a Material.
      *
      * @param id of the Material.
+     * @param helptext
      * @return MaterialModel
-     * @throws LoginException Should probably be something else later on.
+     * @throws DataException 
      */
-    public MaterialModel getMaterial(int id) throws LoginException {
+    public MaterialModel getMaterial(int id, String helptext) throws DataException {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name \n"
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_"+helptext+" \n"
                 + "FROM materials \n"
                 + "INNER JOIN `category` \n"
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
@@ -105,10 +106,12 @@ public class MaterialMapper {
                 String categoryname = rs.getString("category_name");
                 material.setCategory(categoryname);
 
+                String help_text = rs.getString("helptext_"+helptext);
+                material.setHelptext(help_text);
             }
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() 
         }
 
         return material;
@@ -121,9 +124,9 @@ public class MaterialMapper {
      *
      * @param id of the category.
      * @return name of the category.
-     * @throws LoginException Should most likely throw something else.
+     * @throws DataException
      */
-    public String getOrderDetailsCategory(int id) throws LoginException {
+    public String getOrderDetailsCategory(int id) throws DataException {
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
@@ -139,7 +142,7 @@ public class MaterialMapper {
             return category;
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
     }
     // </editor-fold>
@@ -149,10 +152,11 @@ public class MaterialMapper {
      * Get a List of Materials.
      *
      * @param id of the Order Details.
+     * @param helptext
      * @return List of MaterialModel.
-     * @throws LoginException Should most likely throw something else.
+     * @throws DataException
      */
-    public PartslistModel getMaterials(int id) throws LoginException {
+    public PartslistModel getMaterials(int id, String helptext) throws DataException {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
@@ -164,12 +168,12 @@ public class MaterialMapper {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                MaterialModel material = getMaterial(rs.getInt("id_material"));
+                MaterialModel material = getMaterial(rs.getInt("id_material"), helptext);
                 materials.addMaterial(material);
             }
         } catch (SQLException ex) {
             // Should most likely be another exception.
-            throw new LoginException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
         return materials;
     }
