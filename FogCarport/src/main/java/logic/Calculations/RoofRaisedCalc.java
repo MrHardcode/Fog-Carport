@@ -2,6 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -85,7 +86,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException {
+    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
@@ -232,7 +233,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel getRoofStructure(OrderModel order) throws DataException {
+    protected PartslistModel getRoofStructure(OrderModel order) throws DataException, AlgorithmException {
         PartslistModel roofStructureBOM = new PartslistModel();
         rafterCount = 2;
         int totalWidth = order.getWidth() + roofOverhang;
@@ -268,10 +269,11 @@ public class RoofRaisedCalc {
      * @param materials
      * @param length
      * @return PartslistModel
+     * @throws data.exceptions.AlgorithmException
      */
-    protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) {
+    protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
         if(materials.size() < 1 || materials.get(0).getLength() < 1){
-            
+            throw new AlgorithmException("Materiallist not valid");
         }
         
         PartslistModel calcParts = new PartslistModel();
@@ -390,7 +392,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException {
+    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel rafterBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -427,7 +429,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException {
+    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException, AlgorithmException {
         PartslistModel fasciaBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -461,7 +463,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException {
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel lathsBOM = new PartslistModel();
         double angleRad = Math.toRadians(incline);
         double adjacentCath = totalWidth * 0.5;
@@ -506,7 +508,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generateCladding(OrderModel order) throws DataException {
+    protected PartslistModel generateCladding(OrderModel order) throws DataException, AlgorithmException {
 
         PartslistModel claddingBOM = new PartslistModel();
         int totalWidth = order.getWidth() + roofOverhang;
