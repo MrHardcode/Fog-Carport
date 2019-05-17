@@ -82,32 +82,35 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGetRoofRoofStructure() throws Exception {
-        System.out.println("START OF METHOD CALL for GetRoofRoofStructure");
         RoofRaisedCalc raised = new RoofRaisedCalc();
         OrderModel order = new OrderModel();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
-        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material6 = DAO.getMaterial(6);
         MaterialModel material30 = DAO.getMaterial(30);
-        MaterialModel material3 = DAO.getMaterial(3);
+        MaterialModel material12 = DAO.getMaterial(12);
+        MaterialModel material13 = DAO.getMaterial(13);
+        MaterialModel material1 = DAO.getMaterial(1);
 
-        material7.setQuantity(28);
-        material12.setQuantity(13);
+        material7.setQuantity(7);
+        material6.setQuantity(21);
         material30.setQuantity(7);
-        material3.setQuantity(4);
+        material12.setQuantity(12);
+        material13.setQuantity(1);
+        material1.setQuantity(4);
+        
         bomExp.addMaterial(material7);
+        bomExp.addMaterial(material6);
         bomExp.addMaterial(material30);
         bomExp.addMaterial(material12);
-        bomExp.addMaterial(material3);
+        bomExp.addMaterial(material13);
+        bomExp.addMaterial(material1);
 
         order.setWidth(3000);
         order.setIncline(20);
         order.setLength(4000);
 
         PartslistModel bomRes = raised.getRoofStructure(order);
-        System.out.println("END OF METHOD CALL");
-        System.out.println(" ");
-        System.out.println(" ");
         assertEquals(bomExp, bomRes);
     }
 
@@ -117,30 +120,19 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGetMaterialsFromlength() throws Exception {
-        System.out.println("START OF METHOD CALL for GetMaterialsFromlength");
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         ArrayList<MaterialModel> materials = new ArrayList();
         MaterialModel material7 = DAO.getMaterial(7);
+        MaterialModel material6 = DAO.getMaterial(6);
         materials.add(DAO.getMaterial(6)); // length 2400 mm
         materials.add(DAO.getMaterial(7)); // length 3600 mm
-        material7.setQuantity(3);
+        material7.setQuantity(7);
         bomExp.addMaterial(material7);
+        material6.setQuantity(1);
+        bomExp.addMaterial(material6);
 
-        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 7500);
-        
-//        System.out.println("***************************************");
-//        for (int i = 0; i < bomRes.getBillOfMaterials().size(); i++) {
-//            System.out.println("***");
-//            System.out.println("Material ID: " + bomRes.getBillOfMaterials().get(i).getID());
-//            System.out.println("Material Quantity: " + bomRes.getBillOfMaterials().get(i).getQuantity());
-//            System.out.println("Length of same materials combined: " + bomRes.getBillOfMaterials().get(i).getLength()*bomRes.getBillOfMaterials().get(i).getQuantity());
-//            
-//        }
-//        System.out.println("***************************************");
-        System.out.println("END OF METHOD CALL");
-        System.out.println(" ");
-        System.out.println(" ");
+        PartslistModel bomRes = raised.getMaterialsFromlength(materials, 26100);
         assertEquals(bomExp, bomRes);
     }
 
@@ -191,17 +183,16 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGenerateRafter() throws Exception {
-        System.out.println("START OF METHOD CALL for GenerateRafter");
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
         MaterialModel material7 = DAO.getMaterial(7);
-        material7.setQuantity(4);
+        material7.setQuantity(3);
         bomExp.addMaterial(material7);
+        MaterialModel material6 = DAO.getMaterial(6);
+        material6.setQuantity(2);
+        bomExp.addMaterial(material6);
 
-        PartslistModel bomRes = raised.generateRafter(3600, 20);
-        System.out.println("END OF METHOD CALL");
-        System.out.println(" ");
-        System.out.println(" ");
+        PartslistModel bomRes = raised.generateRafter(4600, 20);
         assertEquals(bomExp, bomRes);
     }
 
@@ -211,17 +202,16 @@ public class RoofRaisedCalcTest {
      */
     @Test
     public void testGeneratefasciaBoards() throws Exception {
-        System.out.println("START OF METHOD CALL for GeneratefasciaBoards");
         RoofRaisedCalc raised = new RoofRaisedCalc();
         PartslistModel bomExp = new PartslistModel();
+        MaterialModel material1 = DAO.getMaterial(1);
+        material1.setQuantity(4);
+        bomExp.addMaterial(material1);
         MaterialModel material3 = DAO.getMaterial(3);
-        material3.setQuantity(4);
+        material3.setQuantity(2);
         bomExp.addMaterial(material3);
 
-        PartslistModel bomRes = raised.generatefasciaBoards(3600, 20, 4000);
-        System.out.println("END OF METHOD CALL");
-        System.out.println(" ");
-        System.out.println(" ");
+        PartslistModel bomRes = raised.generatefasciaBoards(4500, 35, 7500);
         assertEquals(bomExp, bomRes);
 
     }

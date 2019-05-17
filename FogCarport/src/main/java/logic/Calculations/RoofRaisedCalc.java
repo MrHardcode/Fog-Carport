@@ -511,7 +511,6 @@ public class RoofRaisedCalc {
         ArrayList<MaterialModel> materials = new ArrayList();
         materials.add(DAO.getMaterial(lathWood5400));
         materials.add(DAO.getMaterial(lathWood4200));
-        System.out.println("Total lath length: " + totalLathsLength);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
         return lathsBOM;
