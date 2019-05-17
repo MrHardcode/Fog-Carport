@@ -12,7 +12,7 @@
     <!-- Option to get an offer -->
     <div id="mainOptions" class="offset-md-4">
 
-        <form id="optionOffer" action="FrontController?command=makeCarportForm">
+        <form id="optionOffer" method="POST" action="FrontController?command=makeCarportForm">
             <label>Indhent tilbud</label>
             <br>
             <a href="FrontController?command=makeCarportForm" class="btn btn-primary" role="button"><i class="fas fa-warehouse"></i> Fortsæt</a>
@@ -20,7 +20,7 @@
     </div>
     <!-- Option to do something else. Log in/Register? --> 
     <div id="mainOptions">
-        <form id="optionOther" action="index.jsp">
+        <form id="optionOther" method="POST" action="index.jsp">
             <label>Gør noget andet</label>
             <br>
             <a href="FrontController?command=link&link=homepage" class="btn btn-primary" role="button"><i class="fas fa-question-circle"></i> Fortsæt</a>
