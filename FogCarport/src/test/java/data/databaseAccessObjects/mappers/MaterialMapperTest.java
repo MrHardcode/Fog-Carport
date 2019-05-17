@@ -1,5 +1,5 @@
 ///*
-// *  Malte Hviid-Magnussen
+// *  
 // */
 //package data.databaseAccessObjects.mappers;
 //
@@ -20,7 +20,7 @@
 //
 ///**
 // *
-// * @author Malte
+// * @author 
 // */
 //public class MaterialMapperTest
 //{
@@ -68,6 +68,7 @@
 //        double cost_price = 12.32;
 //        String unit = "Stk";
 //        String categoryname = "misc";
+//        String helptext = "Helptext";
 //        
 //        when(resultSet.next()).thenReturn(true);
 //        when(resultSet.getString("description")).thenReturn(description);
@@ -77,8 +78,9 @@
 //        when(resultSet.getDouble("cost_price")).thenReturn(cost_price);
 //        when(resultSet.getString("unit")).thenReturn(unit);
 //        when(resultSet.getString("category_name")).thenReturn(categoryname);
+//        when(resultSet.getString("helptext_"+helptext)).thenReturn(helptext);
 //
-//        MaterialModel validatedMaterial = materialMapper.getMaterial(id);
+//        MaterialModel validatedMaterial = materialMapper.getMaterial(id, helptext);
 //
 //        assertEquals(id, validatedMaterial.getID());
 //        assertEquals(description, validatedMaterial.getDescription());
@@ -88,6 +90,7 @@
 //        assertEquals(cost_price, validatedMaterial.getPrice());
 //        assertEquals(unit, validatedMaterial.getUnit());
 //        assertEquals(categoryname, validatedMaterial.getCategory());
+//        assertEquals(helptext, validatedMaterial.getHelptext());
 //    }
 //
 //}
