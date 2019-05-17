@@ -102,7 +102,7 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void payOrder(int id) 
+    public void payOrder(int id) throws DataException
     {
         OrderMapper.getInstance().payOrder(id);
     }
