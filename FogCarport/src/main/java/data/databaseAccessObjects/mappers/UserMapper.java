@@ -114,7 +114,7 @@ public class UserMapper {
     public EmployeeModel getEmployee(int id) throws DataException {
         EmployeeModel employee = new EmployeeModel();
 
-        String SQL = "SELECT `employees`.`emp_name`, `roles`.`role` "
+        String SQL = "SELECT `employees`.`emp_email`, `roles`.`role` "
                 + "FROM `carportdb`.`employees` "
                 + "INNER JOIN `carportdb`.`roles` "
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
@@ -128,7 +128,7 @@ public class UserMapper {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                employee.setName(rs.getString("emp_name"));
+                employee.setEmail(rs.getString("emp_email"));
                 employee.setRole(rs.getString("role"));
             }
 
@@ -192,7 +192,7 @@ public class UserMapper {
      */
     public void createEmployee(EmployeeModel employee) throws UserException {
         String SQL = "INSERT INTO `carportdb`.`employees`\n"
-                + "(`emp_name`,\n"
+                + "(`emp_email`,\n"
                 + "`id_role`)\n"
                 + "VALUES\n"
                 + "(?,\n"
@@ -200,7 +200,7 @@ public class UserMapper {
         try {
             Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, employee.getName());
+            ps.setString(1, employee.getEmail());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
             try (ResultSet ids = ps.getGeneratedKeys()) {
@@ -214,13 +214,13 @@ public class UserMapper {
     }
     //</editor-fold>
 
-    public EmployeeModel empLogin(String name, String password) throws UserException {
+    public EmployeeModel empLogin(String email, String password) throws UserException {
 
-        String SQL = "SELECT id_employee, id_role FROM employees where emp_name=? AND emp_password=?;";
+        String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND emp_password=?;";
         try {
             Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL);
-            ps.setString(1, name);
+            ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             
@@ -228,7 +228,7 @@ public class UserMapper {
                 int id_emp = rs.getInt("id_employee");
                 int id_role = rs.getInt("id_role");
                 EmployeeModel employee = new EmployeeModel();
-                employee.setName(name);
+                employee.setEmail(email);
                 employee.setId_role(id_role);
                 employee.setId(id_emp);
                 return employee;

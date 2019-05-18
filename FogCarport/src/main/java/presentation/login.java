@@ -5,6 +5,7 @@ package presentation;
 
 import data.exceptions.UserException;
 import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -29,17 +30,13 @@ public class login extends Command
         String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 
         String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
-        // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
         try{
             CustomerModel customer = logic.login(email, password);
             request.getSession().setAttribute("customer", customer);
         } catch(UserException ux){
-            
+            EmployeeModel employee = logic.empLogin(email, password);
+            request.getSession().setAttribute("employee", employee);
         }
-
-        // Place Customer on the Session.
-
-        // Return Customer to the homepage of the website.
         return "homepage";
 
     }

@@ -48,7 +48,7 @@ CREATE TABLE `carportdb`.`materials` (
 	
 CREATE TABLE `carportdb`.`employees` (
   `id_employee` INT NOT NULL AUTO_INCREMENT,
-  `emp_name` VARCHAR(45) NOT NULL,
+  `emp_email` VARCHAR(45) NOT NULL,
   `id_role` INT NOT NULL,
   `password` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id_employee`),
