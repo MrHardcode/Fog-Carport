@@ -15,7 +15,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class viewSVG extends Command
+public class ViewSVG extends Command
 {
     @Override
 

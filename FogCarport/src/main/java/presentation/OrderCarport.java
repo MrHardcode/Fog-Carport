@@ -12,7 +12,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class orderCarport extends Command
+public class OrderCarport extends Command
 {
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException

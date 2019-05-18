@@ -10,7 +10,7 @@ import logic.LogicFacade;
  *
  * @author 
  */
-public class createUser extends Command
+public class CreateUser extends Command
 {
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException

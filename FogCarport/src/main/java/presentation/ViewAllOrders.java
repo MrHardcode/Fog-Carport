@@ -14,7 +14,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class viewAllOrders extends Command
+public class ViewAllOrders extends Command
 {
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException

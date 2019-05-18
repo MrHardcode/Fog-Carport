@@ -15,7 +15,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class login extends Command
+public class Login extends Command
 {
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException

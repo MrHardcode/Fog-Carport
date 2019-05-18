@@ -15,7 +15,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class payOrder extends Command
+public class PayOrder extends Command
 {
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
