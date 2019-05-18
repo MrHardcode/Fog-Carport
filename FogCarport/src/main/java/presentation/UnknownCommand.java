@@ -14,7 +14,7 @@ class UnknownCommand extends Command
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {
         if (request.getAttribute("target") == null){
-            return "login";
+            return "homepage";
         } else {
             return (String) request.getAttribute("target");
         }
