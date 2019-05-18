@@ -30,10 +30,14 @@ public class login extends Command
         String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
         // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
-        CustomerModel customer = logic.login(email, password);
+        try{
+            CustomerModel customer = logic.login(email, password);
+            request.getSession().setAttribute("customer", customer);
+        } catch(UserException ux){
+            
+        }
 
         // Place Customer on the Session.
-        request.getSession().setAttribute("customer", customer);
 
         // Return Customer to the homepage of the website.
         return "homepage";
