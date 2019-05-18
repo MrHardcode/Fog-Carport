@@ -7,7 +7,6 @@ import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 
 /**
@@ -22,7 +21,6 @@ public class payOrder extends Command
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
     {
 
-        HttpSession session = request.getSession();
         Validation validation = new Validation();
         int id = validation.validateInteger(request.getParameter("orderid"), "Order id");
         
