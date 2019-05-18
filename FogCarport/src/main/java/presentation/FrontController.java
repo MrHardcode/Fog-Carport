@@ -39,7 +39,7 @@ public class FrontController extends HttpServlet
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (UserException | DataException ex)
         {
-            request.setAttribute("target", "login");
+            request.setAttribute("target", "homepage");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
@@ -65,7 +65,7 @@ public class FrontController extends HttpServlet
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
             // FORWARD USER.
-            throw new UserException("You should log in.");
+            throw new UserException("Du skal være logget ind.");
         }
     }
 

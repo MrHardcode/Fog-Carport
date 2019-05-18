@@ -101,14 +101,14 @@
                 <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name" required>
             </div>
             <div class="form-group">
-                <label for="inputPhoneNumber">Telefon</label>
-                <input type="number" class="form-control col-md-4" id="inputPhoneNumber" placeholder="Telefonnummer" name="phonenumber" required>
+                <label for="inputAddress">Adresse</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-8">
-                <label for="inputAddress">Adresse</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
+                <label for="inputPhoneNumber">Telefon</label>
+                <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefonnummer" name="phonenumber" required>
             </div>
             <div class="form-group col-md-4">
                 <label for="inputZip">Postnummer</label>

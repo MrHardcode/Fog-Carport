@@ -37,7 +37,7 @@
                 <li id ="errormessage" class="nav-item">
                     <!-- Show errormessage to the User --> 
                     <c:if test="${not empty message}">
-                        <a class="nav-link active" >  Message: ${message} </a>
+                        <a class="nav-link active" >  Besked: ${message} </a>
                     </c:if>
                 </li>
                 <!-- END navbar center float -->
