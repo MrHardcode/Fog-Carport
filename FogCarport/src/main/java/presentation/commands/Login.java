@@ -1,8 +1,9 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
+import presentation.Validation;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import logic.LogicFacade;
 public class Login extends Command
 {
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {
         Validation validation = new Validation();
         String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 

@@ -1,9 +1,10 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 
+import presentation.Validation;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
@@ -15,10 +16,10 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class viewOrder extends Command {
+public class ViewSingleOrder extends Command {
     @Override
 
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
     {
 
 
