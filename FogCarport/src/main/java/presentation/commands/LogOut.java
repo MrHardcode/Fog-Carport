@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,7 @@ public class LogOut extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) 
+    public String execute(HttpServletRequest request, LogicFacade logic) 
     {
         HttpSession session = request.getSession(false); //get current session
         if (session != null)
@@ -21,8 +21,6 @@ public class LogOut extends Command
             session.invalidate(); //invalidate current session
             request.setAttribute("target", "login"); //send user to login page
             request.setAttribute("message", "Successfully logged out");
-            //request.getRequestDispatcher("index.jsp");
-            //return "login";
         }
        return "login";
     }

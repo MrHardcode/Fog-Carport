@@ -1,7 +1,7 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 
 import data.exceptions.DataException;
@@ -19,7 +19,7 @@ public class ViewSVG extends Command
 {
     @Override
 
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
 
     {
         int orderID = Integer.parseInt(request.getParameter("orderid"));

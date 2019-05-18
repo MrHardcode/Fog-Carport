@@ -1,7 +1,7 @@
 /*
  * 
  */
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.models.CustomerModel;
@@ -17,7 +17,7 @@ import logic.LogicFacade;
 public class ViewAllOrders extends Command
 {
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException
     {
         // Pull Customer out of Session.
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");

@@ -1,5 +1,6 @@
-package presentation;
+package presentation.commands;
 
+import presentation.Validation;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
@@ -15,7 +16,7 @@ import logic.LogicFacade;
 public class OrderCarport extends Command
 {
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
     {
         Validation validation = new Validation();
         OrderModel order = new OrderModel();

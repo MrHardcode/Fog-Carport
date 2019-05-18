@@ -1,5 +1,6 @@
 package presentation;
 
+import presentation.commands.Command;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;

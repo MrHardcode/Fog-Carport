@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
-abstract class Command
+public abstract class Command
 {
 
     private static HashMap<String, Command> commands;
@@ -26,7 +26,7 @@ abstract class Command
         commands.put("payOrder", new PayOrder()); //Pay for a single order (change status to finalized)
     }
 
-    static Command from(HttpServletRequest request)
+    public static Command from(HttpServletRequest request)
     {
         String commandName = request.getParameter("command");
         if (commands == null)
@@ -36,7 +36,7 @@ abstract class Command
         return commands.getOrDefault(commandName, new UnknownCommand());
     }
 
-    abstract String execute(HttpServletRequest request, LogicFacade logic)
+    public abstract String execute(HttpServletRequest request, LogicFacade logic)
             throws UserException, DataException;
 
 }

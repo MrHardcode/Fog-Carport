@@ -1,6 +1,7 @@
 
-package presentation;
+package presentation.commands;
 
+import presentation.Validation;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import logic.LogicFacade;
 public class CreateUser extends Command
 {
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {
         Validation v = new Validation();
         CustomerModel customer = new CustomerModel();

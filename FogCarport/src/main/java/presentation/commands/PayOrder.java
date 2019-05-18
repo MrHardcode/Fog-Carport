@@ -1,8 +1,9 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
+import presentation.Validation;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
@@ -18,7 +19,7 @@ import logic.LogicFacade;
 public class PayOrder extends Command
 {
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
     {
 
         HttpSession session = request.getSession();

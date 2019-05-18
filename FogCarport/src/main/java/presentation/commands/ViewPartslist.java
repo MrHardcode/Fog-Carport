@@ -1,7 +1,7 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -18,7 +18,7 @@ import logic.LogicFacade;
 public class ViewPartslist extends Command {
     @Override
 
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException {
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException {
         int orderID = Integer.parseInt(request.getParameter("orderid"));
         OrderModel order = logic.getOrder(orderID);
         PartslistModel partslist = logic.getPartslistModel(order);
