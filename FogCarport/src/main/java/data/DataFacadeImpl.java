@@ -107,4 +107,9 @@ public class DataFacadeImpl implements DataFacade
         OrderMapper.getInstance().payOrder(id);
     }
 
+    @Override
+    public EmployeeModel empLogin(String email, String password) throws UserException {
+        return UserMapper.getInstance().empLogin(email, password);
+    }
+
 }
