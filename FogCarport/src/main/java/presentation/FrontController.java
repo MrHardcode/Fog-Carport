@@ -4,6 +4,7 @@ import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,28 +19,24 @@ import logic.LogicFacadeImpl;
  *
  * @author
  */
-@WebServlet(name = "FrontController", urlPatterns =
-{
-    "/FrontController"
-})
-public class FrontController extends HttpServlet
-{
+@WebServlet(name = "FrontController", urlPatterns
+        = {
+            "/FrontController"
+        })
+public class FrontController extends HttpServlet {
 
     private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        try
-        {
+            throws ServletException, IOException {
+        try {
             validateSession(request, response);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
-        catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
+        } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
             request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
@@ -54,18 +51,17 @@ public class FrontController extends HttpServlet
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
      */
-    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws UserException, ServletException, IOException
-    {
+    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws UserException, ServletException, IOException {
         // GET SESSION.
         HttpSession session = request.getSession();
         // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
+        EmployeeModel employee = (EmployeeModel) session.getAttribute("employee");
         // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
-        if (!"login".equals(request.getParameter("command"))
-                && customer == null
-                && (!"createUser".equals(request.getParameter("link"))
-                && !"createUser".equals(request.getParameter("command"))))
-        {
+        if (!"login".equals(request.getParameter("command")) 
+                && (customer == null && employee == null) 
+                && (!"createUser".equals(request.getParameter("link")) 
+                && !"createUser".equals(request.getParameter("command")))) {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
             // FORWARD USER.
@@ -84,8 +80,7 @@ public class FrontController extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -99,8 +94,7 @@ public class FrontController extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -110,8 +104,7 @@ public class FrontController extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
