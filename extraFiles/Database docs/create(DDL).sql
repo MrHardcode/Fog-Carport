@@ -50,6 +50,7 @@ CREATE TABLE `carportdb`.`employees` (
   `id_employee` INT NOT NULL AUTO_INCREMENT,
   `emp_name` VARCHAR(45) NOT NULL,
   `id_role` INT NOT NULL,
+  `password` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id_employee`),
   UNIQUE INDEX `id_employee_UNIQUE` (`id_employee` ASC) VISIBLE,
   INDEX `id_role_idx` (`id_role` ASC) VISIBLE,
