@@ -9,7 +9,6 @@ import logic.LogicFacade;
  */
 class UnknownCommand extends Command
 {
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {

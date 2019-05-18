@@ -17,7 +17,6 @@ import logic.LogicFacade;
  */
 public class payOrder extends Command
 {
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
     {

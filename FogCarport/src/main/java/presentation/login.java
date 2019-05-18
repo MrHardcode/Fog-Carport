@@ -17,11 +17,6 @@ import logic.LogicFacade;
  */
 public class login extends Command
 {
-
-    public login()
-    {
-    }
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {

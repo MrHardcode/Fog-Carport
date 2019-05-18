@@ -10,14 +10,9 @@ abstract class Command
 {
 
     private static HashMap<String, Command> commands;
-
-    /**
-     * If you make new Commands, add them to this map.
-     */
     private static void initCommands()
     {
         commands = new HashMap<>();
-//        commands.put("simpleorder", new makeCarportSimple());
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
         commands.put("link", new link()); // link internally.
@@ -29,7 +24,6 @@ abstract class Command
         commands.put("makeCarportForm", new makeCarportForm()); //Form for creating a new carport order.
         commands.put("logOut", new LogOut()); // Log out customer, clear session, return to homepage.
         commands.put("payOrder", new payOrder()); //Pay for a single order (change status to finalized)
-
     }
 
     static Command from(HttpServletRequest request)

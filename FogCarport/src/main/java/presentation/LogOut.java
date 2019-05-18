@@ -5,12 +5,9 @@ import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 
 /**
- *
  * Command that handles log out (from the log out button in the navbar)
- * 
  * Should be optimized if possible. session.invalidate does NOT seem to work as intended.
- * 
- * @author Runi
+ * @author 
  */
 public class LogOut extends Command
 {

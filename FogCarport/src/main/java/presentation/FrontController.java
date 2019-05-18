@@ -23,7 +23,6 @@ import logic.LogicFacadeImpl;
 })
 public class FrontController extends HttpServlet
 {
-
     private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 

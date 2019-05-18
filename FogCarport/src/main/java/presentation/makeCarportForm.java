@@ -12,7 +12,6 @@ import logic.LogicFacade;
  */
 public class makeCarportForm extends Command
 {
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
     {

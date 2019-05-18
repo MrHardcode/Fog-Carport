@@ -12,7 +12,6 @@ import logic.LogicFacade;
  */
 public class createUser extends Command
 {
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {

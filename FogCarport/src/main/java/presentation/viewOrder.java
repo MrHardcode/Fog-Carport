@@ -16,10 +16,6 @@ import logic.LogicFacade;
  * @author
  */
 public class viewOrder extends Command {
-
-    public viewOrder() {
-    }
-
     @Override
 
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException

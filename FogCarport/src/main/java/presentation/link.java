@@ -13,11 +13,6 @@ import logic.LogicFacade;
  */
 public class link extends Command
 {
-
-    public link()
-    {
-    }
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {

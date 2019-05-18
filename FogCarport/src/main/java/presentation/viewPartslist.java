@@ -16,10 +16,6 @@ import logic.LogicFacade;
  * @author
  */
 public class viewPartslist extends Command {
-
-    public viewPartslist() {
-    }
-
     @Override
 
     String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException {

@@ -16,11 +16,6 @@ import logic.LogicFacade;
  */
 public class viewAllOrders extends Command
 {
-
-    public viewAllOrders()
-    {
-    }
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException
     {
