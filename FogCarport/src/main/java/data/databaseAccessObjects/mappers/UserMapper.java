@@ -216,7 +216,7 @@ public class UserMapper {
 
     public EmployeeModel empLogin(String email, String password) throws UserException {
 
-        String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND emp_password=?;";
+        String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
         try {
             Connection con = DBConnector.connection();
             PreparedStatement ps = con.prepareStatement(SQL);
