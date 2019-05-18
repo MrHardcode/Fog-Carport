@@ -15,12 +15,12 @@ INSERT INTO `carportdb`.`roles` (`role`) VALUES ('testrole');
 Creating employees. 
 Taking use of default values (auto_increment) for >id_employee<. */
 ALTER TABLE `carportdb`.`employees` AUTO_INCREMENT = 1; /* Ensuring we start from 1*/
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('admin', '1'); /* role: admin */
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('runi', '2'); /* role: salesman */
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('asger', '2'); /* role: salesman */
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('camilla', '2'); /* role: salesman */
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('malte', '2'); /* role: salesman */
-INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`) VALUES ('test', '3'); /* role: testrole */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('admin', '1', '1234'); /* role: admin */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('runi', '2', '1234'); /* role: salesman */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('asger', '2', '1234'); /* role: salesman */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('camilla', '2', '1234'); /* role: salesman */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('malte', '2', '1234'); /* role: salesman */
+INSERT INTO `carportdb`.`employees` (`emp_name`, `id_role`,`password`) VALUES ('test', '3', '1234'); /* role: testrole */
 
 
 /*
