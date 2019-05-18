@@ -37,8 +37,7 @@ public class FrontController extends HttpServlet
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
-        catch (UserException | DataException ex)
+        } catch (UserException | DataException ex)
         {
             request.setAttribute("target", "login");
             request.setAttribute("message", ex.getMessage());
@@ -59,13 +58,9 @@ public class FrontController extends HttpServlet
         HttpSession session = request.getSession();
         // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
-        // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
-        if (!"login".equals(request.getParameter("command"))
-                && customer == null
-                && (!"createUser".equals(request.getParameter("link"))
-                && !"createUser".equals(request.getParameter("command")))
-                && (!"homepage".equals(request.getParameter("link"))
-                && !"homepage".equals(request.getParameter("command"))))
+        // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
+        String command = request.getParameter("command");
+        if (customer == null && ("viewOrder".equals(command) || "viewSVG".equals(command) || "allOrders".equals(command)))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
