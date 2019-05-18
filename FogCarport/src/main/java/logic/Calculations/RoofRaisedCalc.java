@@ -2,6 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
@@ -27,8 +28,9 @@ public class RoofRaisedCalc {
     int tileCount;
     int topTileCount;
     int roofOverhang;
+    int claddingBoardsTotal;
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="HARDCODED MATERIALS USED">
     final int screwPacks = 20; // 4,5x60mm. Skruer (200 stk)
     final int roofTileBrackets = 32; // B & C tagstens binder/nakkekrog (kombi)
@@ -46,7 +48,7 @@ public class RoofRaisedCalc {
     final int roofTopTileBlue = 44; // B & C Rygsten (Blå)
     final int roofTopTileBlackBlue = 45; // B & C Rygsten (Sortblå)
     final int roofTopTileSunlux = 46; // B & C Rygsten (Sunlux)
-    final int topLathBracket = 30 ;  // B & C Toplægte holder
+    final int topLathBracket = 30;  // B & C Toplægte holder
     final int rafterWood2400 = 6; // 45x95 Reglar ubh. 2400
     final int rafterWood3600 = 7; // 45x95 Reglar ubh. 3600
     final int fasciaWood4800 = 1; // 25x150mm trykimp. Bræt 4800
@@ -54,10 +56,11 @@ public class RoofRaisedCalc {
     final int fasciaWood6000 = 3; // 25x150mm. trykimp. Bræt 6000
     final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400
     final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200
-    //</editor-fold>
-    
-    
+    final int claddingWood4800 = 8; // 19x100mm. trykimp. Bræt 4800
+    final int claddingWood2400 = 9; // 19x100mm. trykimp. Bræt 2400
+    final int claddingWood2100 = 10; // 19x100mm. trykimp. Bræt 2100
     final String helptext = "roof"; // Used to grab the right helptext from database.
+    //</editor-fold>
 
     /**
      * Class-constructor, instantiates all instance fields.
@@ -72,6 +75,7 @@ public class RoofRaisedCalc {
         tileCount = 0;
         topTileCount = 0;
         roofOverhang = 600;
+        claddingBoardsTotal = 0;
     }
 
     /**
@@ -82,13 +86,17 @@ public class RoofRaisedCalc {
      * @param order
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
-    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException {
+    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
+        if(order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() <= 0){
+            throw new AlgorithmException("Order is null or possible division by zero, order length, width & incline cannot be zero or less than zero");
+        }
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
-        roofRaisedBOM.addPartslist(getRoofStructure(order));
-        roofRaisedBOM.addPartslist(getCladding(order));
+        roofRaisedBOM.addPartslist(getRoofStructure(order)); 
+        roofRaisedBOM.addPartslist(generateCladding(order)); 
         roofRaisedBOM.addPartslist(getScrews());
         updateFieldsinBOM(roofRaisedBOM);
 
@@ -109,8 +117,10 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel getScrews() throws DataException {
-
+    protected PartslistModel getScrews() throws DataException, AlgorithmException {
+        if(screwCount < 1){
+            throw new AlgorithmException("ScrewCounter is less than 1");
+        }
         PartslistModel screwBOM = new PartslistModel();
         int screwsPrPack = 200;
         int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);
@@ -158,20 +168,20 @@ public class RoofRaisedCalc {
         // total længde af alle tagsten lagt sammen
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
-       
         MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id(), helptext);
         
         materialTiles.setQuantity(tileCount);
         roofTilesBOM.addMaterial(materialTiles);
         
         MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order), helptext);
+
         topTileCount = (int) Math.ceil((double) order.getLength() / (double) materialTopTiles.getLength());
 
         materialTopTiles.setQuantity(topTileCount);
         roofTilesBOM.addMaterial(materialTopTiles);
                 
         MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext); // tagstenbinder/nakkekrog
-        materialBinders.setQuantity(1);
+        materialBinders.setQuantity(2);
         roofTilesBOM.addMaterial(materialBinders);
 
         return roofTilesBOM;
@@ -223,14 +233,14 @@ public class RoofRaisedCalc {
     /**
      * Takes in the order provided by the exposed method and gathers the order
      * info needed to calculate the amount of rafters, laths, fasciaborads and
-     * fasteners. The calculated materials are returned in a PartslistModel. Class field
-     * rafterCount is updated.
+     * fasteners. The calculated materials are returned in a PartslistModel.
+     * Class field rafterCount is updated.
      *
      * @param order
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel getRoofStructure(OrderModel order) throws DataException {
+    protected PartslistModel getRoofStructure(OrderModel order) throws DataException, AlgorithmException {
         PartslistModel roofStructureBOM = new PartslistModel();
         rafterCount = 2;
         int totalWidth = order.getWidth() + roofOverhang;
@@ -245,12 +255,11 @@ public class RoofRaisedCalc {
         for (int i = 0; i < rafterCount; i++) {
             addPartslistWithMaterialsQuantity(generateRafter(totalWidth, order.getIncline()), roofStructureBOM);
         }
-        
-        material.setQuantity(rafterCount); 
+
+        material.setQuantity(rafterCount);
         roofStructureBOM.addMaterial(material);
         addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);
         addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);
-
         return roofStructureBOM;
     }
 
@@ -267,8 +276,13 @@ public class RoofRaisedCalc {
      * @param materials
      * @param length
      * @return PartslistModel
+     * @throws data.exceptions.AlgorithmException
      */
-    protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) {
+    protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
+        if(materials.size() < 1 || materials.get(0).getLength() < 1){
+            throw new AlgorithmException("Materiallist not of valid size or materials without length dimension");
+        }
+        
         PartslistModel calcParts = new PartslistModel();
         Collections.sort(materials, new Comparator<MaterialModel>() {
             @Override
@@ -287,24 +301,40 @@ public class RoofRaisedCalc {
             quantityPrMaterial.put(material, 0);
         }
 
-        for (MaterialModel material : materials) {
-            if (length < 1) {
-                break;
-            }
+        int restLength = length;
+        double ratioBest = -1;
+        MaterialModel bestMaterial = null;
 
-            int amountLongest = (int) Math.ceil(((double) length / (double) material.getLength()));
-            int remainder = length - material.getLength() * amountLongest;
+        while (restLength > 0) {
+            for (MaterialModel material : materials) {
+                double ratioCurrent = (double) restLength / (double) material.getLength();
 
-            for (int i = 0; i < amountLongest; i++) {
-                int quantityCount = quantityPrMaterial.get(material);
-                quantityCount = quantityCount + 1;
-                quantityPrMaterial.put(material, quantityCount);
-
-                length = length - material.getLength();
+                if (ratioBest == -1) {
+                    ratioBest = ratioCurrent;
+                    bestMaterial = material;
+                } else if (ratioBest >= 1 && ratioCurrent >= 1) {
+                    ratioBest = Math.min(ratioBest, ratioCurrent);
+                    if (ratioBest == ratioCurrent) {
+                        bestMaterial = material;
+                    }
+                } else if (ratioBest < 1 && ratioCurrent < 1) {
+                    ratioBest = Math.max(ratioBest, ratioCurrent);
+                    if (ratioBest == ratioCurrent) {
+                        bestMaterial = material;
+                    }
+                }
             }
-            if (remainder > 0) {
-                length = remainder;
+            int materialAmount = 0;
+            if (ratioBest >= 1) {
+                materialAmount = (int) Math.floor(ratioBest);
             }
+            if (ratioBest < 1) {
+                materialAmount = (int) Math.ceil(ratioBest);
+            }
+            int exsistingAmount = quantityPrMaterial.get(bestMaterial);
+            quantityPrMaterial.put(bestMaterial, exsistingAmount + materialAmount);
+            restLength = restLength - (bestMaterial.getLength() * materialAmount);
+            ratioBest = -1;
         }
 
         for (MaterialModel material : materials) {
@@ -314,18 +344,17 @@ public class RoofRaisedCalc {
                 calcParts.addMaterial(material);
             }
         }
-
         return calcParts;
     }
-    
+
     /**
      * This method is used when several partslists containing the same materials
      * are added together, to ensure the quantity is updated correctly and only
-     * one MaterialModel is added pr. material. 
-     * 
-     * It takes in the partslist calculated by the other methods and the partslist 
-     * the calling method wants to return. 
-     * 
+     * one MaterialModel is added pr. material.
+     *
+     * It takes in the partslist calculated by the other methods and the
+     * partslist the calling method wants to return.
+     *
      * @param calcBOM
      * @param returnBOM
      */
@@ -336,7 +365,7 @@ public class RoofRaisedCalc {
         for (int i = 0; i < calcList.size(); i++) {
             if (returnList.isEmpty()) {
                 returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
-                break;
+                continue;
             }
 
             boolean quantityAdded = false;
@@ -357,7 +386,7 @@ public class RoofRaisedCalc {
     }
 
     /**
-
+     *
      * Calculates the length of the different parts of a single rafter and calls
      * getMaterialsFromlength() with the length and the ArrayList of
      * raftermaterials. Class fields screwCount and bracketCount is updated.
@@ -370,7 +399,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException {
+    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel rafterBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -407,7 +436,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException {
+    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException, AlgorithmException {
         PartslistModel fasciaBOM = new PartslistModel();
 
         double angleRad = Math.toRadians(incline);
@@ -441,7 +470,7 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException {
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel lathsBOM = new PartslistModel();
         double angleRad = Math.toRadians(incline);
         double adjacentCath = totalWidth * 0.5;
@@ -452,10 +481,10 @@ public class RoofRaisedCalc {
         int outerLathDist = 350;
         int upperLathDist = 30;
         int minimumLathDist = 307;
-        
+
         // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
         int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
-         // beregn antal af rækker af lægter
+        // beregn antal af rækker af lægter
         lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);
         // total længde af alle lægter lagt sammen + 1 toplægte
         int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
@@ -487,19 +516,22 @@ public class RoofRaisedCalc {
      * @return PartslistModel
      * @throws DataException
      */
-    protected PartslistModel getCladding(OrderModel order) throws DataException {
+    protected PartslistModel generateCladding(OrderModel order) throws DataException, AlgorithmException {
 
         PartslistModel claddingBOM = new PartslistModel();
-        MaterialModel material = DAO.getMaterial(8, helptext);
         int totalWidth = order.getWidth() + roofOverhang;
-
-        int amountMaterial = getCladdingMaterialCount(totalWidth, order.getIncline(), 0, material.getWidth(), material.getLength())
-                + getCladdingMaterialCount(totalWidth, order.getIncline(), 8, material.getWidth(), material.getLength());
-        amountMaterial = amountMaterial * 2;
-        material.setQuantity(amountMaterial);
-        claddingBOM.addMaterial(material);
-        screwCount = (screwCount + 6) * amountMaterial;
-
+        int totalCladdingLengthFront = (getCladdingMaterialCount(totalWidth, order.getIncline(), 0) + getCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;
+        int totalCladdingLengthBack = (getCladdingMaterialCount(totalWidth, order.getIncline(), 0) + getCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;
+        int totalCladdingLengh = totalCladdingLengthFront + totalCladdingLengthBack;
+        claddingBoardsTotal = claddingBoardsTotal * 4;
+        
+        ArrayList<MaterialModel> materials = new ArrayList();
+        materials.add(DAO.getMaterial(claddingWood4800, helptext));
+        materials.add(DAO.getMaterial(claddingWood2400, helptext));
+        materials.add(DAO.getMaterial(claddingWood2100, helptext));
+        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalCladdingLengh), claddingBOM);
+        
+        screwCount = screwCount + (claddingBoardsTotal * 4);
         return claddingBOM;
     }
 
@@ -518,32 +550,27 @@ public class RoofRaisedCalc {
      * @param totalWidth
      * @param incline
      * @param offset
-     * @param materialWidth
-     * @param materialLength
      * @return int amountMaterial
      * @throws DataException
      */
-    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset, int materialWidth, int materialLength) throws DataException {
-        int materialLengthStart = materialLength;
+    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset) throws DataException {
+        int materialWidth = 100;
         int spaceWidth = 60;
         int cladWidth = offset;
         double angleRad = Math.toRadians(incline);
         double startAdjacentCath = totalWidth * 0.5;
-        int amountMaterial = 1;
-
+        int totalCladdingLengthPrSidePrOffset = 0;
+        
         for (int i = cladWidth; i < startAdjacentCath; i = cladWidth) {
             cladWidth = cladWidth + materialWidth;
 
             double hypotenuse = (cladWidth / Math.cos(angleRad));
             double oppositeCath = (Math.sin(angleRad) * hypotenuse);
+            totalCladdingLengthPrSidePrOffset = totalCladdingLengthPrSidePrOffset + (int) Math.ceil(oppositeCath);
 
-            if (oppositeCath > materialLength) {
-                amountMaterial = amountMaterial + 1;
-                materialLength = materialLengthStart;
-            }
-            materialLength = materialLength - (int) Math.ceil(oppositeCath);
             cladWidth = cladWidth + spaceWidth;
+            claddingBoardsTotal++;
         }
-        return amountMaterial;
+        return totalCladdingLengthPrSidePrOffset;
     }
 }

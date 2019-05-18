@@ -3,6 +3,7 @@
  */
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
@@ -22,7 +23,7 @@ public class viewPartslist extends Command {
 
     @Override
 
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException {
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException, AlgorithmException {
         int orderID = Integer.parseInt(request.getParameter("orderid"));
         OrderModel order = logic.getOrder(orderID);
         PartslistModel partslist = logic.getPartslistModel(order);

@@ -1,6 +1,7 @@
 package logic;
 
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
@@ -97,7 +98,7 @@ public class LogicFacadeImpl implements LogicFacade
 
     // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
     @Override
-    public PartslistModel getPartslistModel(OrderModel order) throws DataException
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException
     {
         PartslistModel partslistmodel = new PartslistModel();
         // Add Shed
@@ -191,7 +192,7 @@ public class LogicFacadeImpl implements LogicFacade
     
     // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
-    public String getSVGroof(OrderModel order) throws DataException
+    public String getSVGroof(OrderModel order) throws DataException, AlgorithmException
     {
         SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();
         return roof.getRaisedRoofDrawing(order);
