@@ -54,7 +54,7 @@
     <tbody>
         <tr>
             <td>${employee.id}</td>
-            <td>${employee.name}</td>
+            <td>${employee.email}</td>
             <td>${employee.role}</td>
             <td>${customer.id}</td>
             <td>${customer.name}</td>
