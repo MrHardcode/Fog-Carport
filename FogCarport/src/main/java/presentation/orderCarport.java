@@ -32,13 +32,6 @@ public class orderCarport extends Command
             order.setId_customer(customer.getId());
         } else if (request.getParameter("password") == null)
         {
-            /*
-            email
-            name
-            adress
-            phonenumber
-            zip
-             */
             String email = validation.validateString(request.getParameter("email"), "Email");
             String name = validation.validateString(request.getParameter("name"), "Navn");
             String adress = validation.validateString(request.getParameter("adress"), "Adresse");
@@ -50,9 +43,28 @@ public class orderCarport extends Command
             customer_one.setAdress(adress);
             customer_one.setPhone(phonenumber);
             customer_one.setZip(zip);
-            customer_one.setPassword(""); // What do we do with password for a user that doesnt want an account ? 
-            logic.createCustomer(customer);
-            order.setId_customer(customer.getId());
+            customer_one.setPassword(" ");
+            customer_one.setRegistered(false);
+            logic.createCustomer(customer_one);
+            order.setId_customer(customer_one.getId());
+        } else if (request.getParameter("password") != null)
+        {
+            String email = validation.validateString(request.getParameter("email"), "Email");
+            String name = validation.validateString(request.getParameter("name"), "Navn");
+            String adress = validation.validateString(request.getParameter("adress"), "Adresse");
+            int phonenumber = validation.validateInteger(request.getParameter("phonenumber"), "Telefonnummer");
+            int zip = validation.validateInteger(request.getParameter("zip"), "Post Nummer");
+            String password = validation.validateString(request.getParameter("password"), "Password");
+            CustomerModel customer_one = new CustomerModel();
+            customer_one.setEmail(email);
+            customer_one.setName(name);
+            customer_one.setAdress(adress);
+            customer_one.setPhone(phonenumber);
+            customer_one.setZip(zip);
+            customer_one.setPassword(password);
+            customer_one.setRegistered(true);
+            logic.createCustomer(customer_one);
+            order.setId_customer(customer_one.getId());
         }
 
         // CARPORT LENGTH
