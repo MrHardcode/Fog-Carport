@@ -1,8 +1,10 @@
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +20,9 @@ import logic.LogicFacadeImpl;
  * @author
  */
 @WebServlet(name = "FrontController", urlPatterns =
-{
-    "/FrontController"
-})
+        {
+            "/FrontController"
+        })
 public class FrontController extends HttpServlet
 {
 
@@ -37,7 +39,8 @@ public class FrontController extends HttpServlet
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (UserException | DataException ex)
+
+        } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
             request.setAttribute("target", "homepage");
             request.setAttribute("message", ex.getMessage());
@@ -58,9 +61,11 @@ public class FrontController extends HttpServlet
         HttpSession session = request.getSession();
         // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
+        EmployeeModel employee = (EmployeeModel) session.getAttribute("employee");
         // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
         String command = request.getParameter("command");
-        if (customer == null && ("viewOrder".equals(command) || "viewSVG".equals(command) || "allOrders".equals(command)))
+        String link = request.getParameter("link");
+        if (customer == null && employee == null && ("viewSVG".equals(link) || "viewSVG".equals(command)) && ("viewOrder".equals(link) || "viewOrder".equals(command)) && ("allOrders".equals(command) || "allOrders".equals(link)))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();

@@ -1,5 +1,6 @@
 package logic;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
@@ -31,11 +32,11 @@ public interface LogicFacade
     
     public void createEmployee(EmployeeModel employee) throws UserException;
 
-    public PartslistModel getPartslistModel(OrderModel order) throws DataException;
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException;
     
     public String getSVGbase(PartslistModel bom, OrderModel order);
 
-    public String getSVGroof(OrderModel order) throws DataException;
+    public String getSVGroof(OrderModel order) throws DataException, AlgorithmException;
 
     public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance);
     
@@ -50,5 +51,7 @@ public interface LogicFacade
     public List<Integer> getOrderIds(int id) throws DataException;
 
     public void payOrder(int id) throws DataException;
+    
+    public EmployeeModel empLogin(String email, String password) throws UserException;
 
 }

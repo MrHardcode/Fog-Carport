@@ -5,6 +5,7 @@
  */
 package logic.drawings;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -16,7 +17,7 @@ import logic.Calculations.RoofRaisedCalc;
  */
 public class SVGDrawingRaisedRoof {
 
-    public String getRaisedRoofDrawing(OrderModel order) throws DataException {
+    public String getRaisedRoofDrawing(OrderModel order) throws DataException, AlgorithmException {
         RoofRaisedCalc calc = new RoofRaisedCalc();
         PartslistModel roofRaisedBOM = calc.getRoofRaisedMaterials(order);
 
