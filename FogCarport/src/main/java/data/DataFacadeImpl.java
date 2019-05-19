@@ -135,7 +135,9 @@ public class DataFacadeImpl implements DataFacade
 
     @Override
     public EmployeeModel empLogin(String email, String password) throws UserException {
-        return UserMapper.getInstance().empLogin(email, password);
+        UserMapper userMapper = new UserMapper();
+        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        return userMapper.empLogin(email, password);
     }
 
 }

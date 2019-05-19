@@ -113,7 +113,7 @@ public class UserMapper {
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws DataException
+     * @throws data.exceptions.UserException
      */
     public EmployeeModel getEmployee(int id) throws UserException
     {
@@ -134,7 +134,7 @@ public class UserMapper {
             {
                 EmployeeModel employee = new EmployeeModel();
                 employee.setId(id);
-                employee.setName(rs.getString("emp_name"));
+                employee.setEmail(rs.getString("emp_email"));
                 employee.setRole(rs.getString("role"));
                 return employee;
             } else
@@ -210,7 +210,7 @@ public class UserMapper {
         try (DatabaseConnector open_dbc = dbc.open())
         {
             PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, employee.getName());
+            ps.setString(1, employee.getEmail());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
             try (ResultSet ids = ps.getGeneratedKeys()) {
@@ -227,9 +227,9 @@ public class UserMapper {
     public EmployeeModel empLogin(String email, String password) throws UserException {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
