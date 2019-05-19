@@ -6,6 +6,7 @@ import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
 import java.io.IOException;
+import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logic.LogicFacade;
 import logic.LogicFacadeImpl;
+import logic.logging.MyLogger;
 
 /**
  *
@@ -25,7 +27,7 @@ import logic.LogicFacadeImpl;
         })
 public class FrontController extends HttpServlet
 {
-
+    
     private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +44,7 @@ public class FrontController extends HttpServlet
 
         } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
+            MyLogger.getLogger().log(Level.SEVERE, null, ex);
             request.setAttribute("target", "homepage");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
