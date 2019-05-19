@@ -102,7 +102,7 @@ public class LogicFacadeImpl implements LogicFacade
     {
         PartslistModel partslistmodel = new PartslistModel();
         // Add Shed
-        if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
+        if (order.getShed_width() != 0 && order.getShed_length() != 0)
         {
             ShedLogic shed = new ShedLogic();
             partslistmodel.addPartslist(shed.addShed(order));

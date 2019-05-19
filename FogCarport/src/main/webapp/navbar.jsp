@@ -43,7 +43,7 @@
                 <!-- END navbar center float -->
             </ul>
             <!-- login button -->
-            <c:if test="${empty customer}">
+            <c:if test="${empty customer && empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
@@ -56,7 +56,7 @@
                 <!-- END navbar RIGHT float-->
             </c:if>
             <!-- logout button -->
-            <c:if test="${not empty customer}">
+            <c:if test="${not empty customer || not empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
