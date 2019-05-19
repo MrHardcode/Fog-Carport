@@ -68,7 +68,7 @@ CREATE TABLE `carportdb`.`orders` (
   `width` INT NOT NULL,
   `length` INT NOT NULL,
   `incline` INT NOT NULL,
-  `roof_tiles_id` INT NOT NULL DEFAULT 0,
+  `roof_tiles_id` INT NOT NULL DEFAULT 35,
   `shed_width` INT NULL,
   `shed_length` INT NULL,
   `shed_walls_id` INT NOT NULL DEFAULT 10,
