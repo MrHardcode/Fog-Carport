@@ -65,7 +65,7 @@ public class FrontController extends HttpServlet
         // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
         String command = request.getParameter("command");
         String link = request.getParameter("link");
-        if (customer == null && employee == null && ("viewSVG".equals(link) || "viewSVG".equals(command)) && ("viewOrder".equals(link) || "viewOrder".equals(command)) && ("allOrders".equals(command) || "allOrders".equals(link)))
+        if (customer == null && employee == null && ("viewSVG".equals(link) || "viewSVG".equals(command) || "viewOrder".equals(link) || "viewOrder".equals(command) || "allOrders".equals(command) || "allOrders".equals(link)))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
