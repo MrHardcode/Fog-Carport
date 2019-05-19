@@ -15,8 +15,7 @@ import javax.sql.DataSource;
  *
  * @author
  */
-public class UserMapper
-{
+public class UserMapper {
 
     private DatabaseConnector dbc = new DatabaseConnector();
 
@@ -47,8 +46,7 @@ public class UserMapper
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if (rs.next())
-            {
+            if (rs.next()) {
                 int id = rs.getInt("id_customer");
                 CustomerModel customer = new CustomerModel();
                 customer.setPhone(rs.getInt("phone"));
@@ -57,9 +55,8 @@ public class UserMapper
                 customer.setEmail(email);
                 customer.setPassword(password);
                 return customer;
-            } else
-            {
-                throw new UserException("Could not validate user");
+            } else {
+                throw new UserException("Could not validate customer");
             }
 
         } catch (SQLException ex)
@@ -121,7 +118,7 @@ public class UserMapper
     public EmployeeModel getEmployee(int id) throws UserException
     {
 
-        String SQL = "SELECT `employees`.`emp_name`, `roles`.`role` "
+        String SQL = "SELECT `employees`.`emp_email`, `roles`.`role` "
                 + "FROM `carportdb`.`employees` "
                 + "INNER JOIN `carportdb`.`roles` "
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
@@ -163,8 +160,7 @@ public class UserMapper
      * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public void createCustomer(CustomerModel customer) throws UserException
-    {
+    public void createCustomer(CustomerModel customer) throws UserException {
         String SQL = "INSERT INTO `carportdb`.`customers` "
                 + "(`customer_name`, "
                 + "`phone`, "
@@ -188,8 +184,7 @@ public class UserMapper
             {
                 customer.setId(resultSet.getInt(1));
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new UserException("Customer already exists: " + ex.getMessage());
         }
     }
@@ -205,10 +200,9 @@ public class UserMapper
      * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public void createEmployee(EmployeeModel employee) throws UserException
-    {
+    public void createEmployee(EmployeeModel employee) throws UserException {
         String SQL = "INSERT INTO `carportdb`.`employees`\n"
-                + "(`emp_name`,\n"
+                + "(`emp_email`,\n"
                 + "`id_role`)\n"
                 + "VALUES\n"
                 + "(?,\n"
@@ -219,16 +213,40 @@ public class UserMapper
             ps.setString(1, employee.getName());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
-            try (ResultSet ids = ps.getGeneratedKeys())
-            {
+            try (ResultSet ids = ps.getGeneratedKeys()) {
                 ids.next();
                 int id = ids.getInt(1);
                 employee.setId(id);
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new UserException("Employee already exists: " + ex.getMessage());
         }
     }
     //</editor-fold>
+
+    public EmployeeModel empLogin(String email, String password) throws UserException {
+
+        String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
+        try {
+            Connection con = DBConnector.connection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                int id_emp = rs.getInt("id_employee");
+                int id_role = rs.getInt("id_role");
+                EmployeeModel employee = new EmployeeModel();
+                employee.setEmail(email);
+                employee.setId_role(id_role);
+                employee.setId(id_emp);
+                return employee;
+            } else {
+                throw new UserException("Could not validate employee");
+            }
+        } catch (SQLException ex) {
+            throw new UserException(ex.getMessage());
+        }
+    }
 }

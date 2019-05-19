@@ -36,5 +36,7 @@ public interface DataFacade
     public List<Integer> getOrderIds(int id) throws DataException;
     
     public void payOrder(int id) throws DataException;
+    
+    public EmployeeModel empLogin(String email, String password) throws UserException;
 
 }

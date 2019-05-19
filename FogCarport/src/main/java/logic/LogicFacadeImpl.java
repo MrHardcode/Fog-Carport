@@ -216,4 +216,9 @@ public class LogicFacadeImpl implements LogicFacade
         DataFacadeImpl.getInstance().payOrder(id);
     }
 
+    @Override
+    public EmployeeModel empLogin(String name, String password) throws UserException {
+        return DataFacadeImpl.getInstance().empLogin(name, password);
+    }
+
 }
