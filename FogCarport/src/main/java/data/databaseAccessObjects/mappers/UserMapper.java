@@ -54,6 +54,7 @@ public class UserMapper
                 {
                     int id = rs.getInt("id_customer");
                     CustomerModel customer = new CustomerModel();
+                    customer.setRegistered(registered);
                     customer.setPhone(rs.getInt("phone"));
                     customer.setName(rs.getString("customer_name"));
                     customer.setId(id);

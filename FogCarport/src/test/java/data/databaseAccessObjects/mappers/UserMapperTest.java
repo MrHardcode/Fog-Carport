@@ -70,6 +70,7 @@ public class UserMapperTest
         when(resultSet.getInt("id_customer")).thenReturn(id);
         when(resultSet.getInt("phone")).thenReturn(phone);
         when(resultSet.getString("customer_name")).thenReturn(name);
+        when(resultSet.getString("password")).thenReturn(password);
         when(resultSet.getBoolean("registered")).thenReturn(true);
 
         CustomerModel customer = new CustomerModel();
