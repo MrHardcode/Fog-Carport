@@ -1,15 +1,15 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.sql.DataSource;
 
 /**
  *
@@ -17,17 +17,11 @@ import java.sql.Statement;
  */
 public class UserMapper {
 
-    private static UserMapper userMapper;
+    private DatabaseConnector dbc = new DatabaseConnector();
 
-    private UserMapper() {
-
-    }
-
-    public static UserMapper getInstance() {
-        if (userMapper == null) {
-            userMapper = new UserMapper();
-        }
-        return userMapper;
+    public void setDataSource(DataSource ds)
+    {
+        dbc.setDataSource(ds);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Log in a customer">
@@ -43,11 +37,12 @@ public class UserMapper {
      * @throws UserException Custom Exception. Caught in FrontController. Sends
      * User back to index.jsp.
      */
-    public CustomerModel login(String email, String password) throws UserException {
-        String SQL = "SELECT id_customer, phone FROM customers WHERE email=? AND password=?;";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+    public CustomerModel login(String email, String password) throws UserException
+    {
+        String SQL = "SELECT customer_name, id_customer, phone FROM customers WHERE email=? AND password=?;";
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -55,6 +50,7 @@ public class UserMapper {
                 int id = rs.getInt("id_customer");
                 CustomerModel customer = new CustomerModel();
                 customer.setPhone(rs.getInt("phone"));
+                customer.setName(rs.getString("customer_name"));
                 customer.setId(id);
                 customer.setEmail(email);
                 customer.setPassword(password);
@@ -62,7 +58,9 @@ public class UserMapper {
             } else {
                 throw new UserException("Could not validate customer");
             }
-        } catch (SQLException ex) {
+
+        } catch (SQLException ex)
+        {
             throw new UserException(ex.getMessage());
         }
     }
@@ -76,30 +74,36 @@ public class UserMapper {
      * @return OrderModel
      * @throws DataException
      */
-    public CustomerModel getCustomer(int id) throws DataException {
-        CustomerModel customer = new CustomerModel();
-
+    public CustomerModel getCustomer(int id) throws DataException
+    {
         String SQL = "SELECT * FROM carportdb.customers WHERE id_customer = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
-            customer.setId(id);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next())
+            {
+                CustomerModel customer = new CustomerModel();
+                customer.setId(id);
+
                 customer.setName(rs.getString("customer_name"));
                 customer.setEmail(rs.getString("email"));
                 customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
+
+                return customer;
+            } else
+            {
+                throw new DataException("Could not retrieve customer info.");
             }
-
-        } catch (SQLException ex) {
-            throw new DataException(ex.getMessage());
+        } catch (SQLException ex)
+        {
+            throw new DataException(ex.getMessage()); 
         }
-
-        return customer;
     }
     // </editor-fold>
 
@@ -109,10 +113,10 @@ public class UserMapper {
      *
      * @param id of the Order.
      * @return OrderModel
-     * @throws DataException
+     * @throws data.exceptions.UserException
      */
-    public EmployeeModel getEmployee(int id) throws DataException {
-        EmployeeModel employee = new EmployeeModel();
+    public EmployeeModel getEmployee(int id) throws UserException
+    {
 
         String SQL = "SELECT `employees`.`emp_email`, `roles`.`role` "
                 + "FROM `carportdb`.`employees` "
@@ -120,23 +124,29 @@ public class UserMapper {
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
-            employee.setId(id);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next())
+            {
+                EmployeeModel employee = new EmployeeModel();
+                employee.setId(id);
                 employee.setEmail(rs.getString("emp_email"));
                 employee.setRole(rs.getString("role"));
+                return employee;
+            } else
+            {
+                throw new UserException("Could not get info about employee from database.");
             }
 
-        } catch (SQLException ex) {
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        } catch (SQLException ex)
+        {
+            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
-        return employee;
     }
     // </editor-fold>
 
@@ -161,18 +171,18 @@ public class UserMapper {
                 + "?, "
                 + "?, "
                 + "?);";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
             ps.setString(4, customer.getPassword());
             ps.executeUpdate();
-            try (ResultSet ids = ps.getGeneratedKeys()) {
-                ids.next();
-                int id = ids.getInt(1);
-                customer.setId(id);
+            ResultSet resultSet = ps.getGeneratedKeys();
+            if (resultSet.next())
+            {
+                customer.setId(resultSet.getInt(1));
             }
         } catch (SQLException ex) {
             throw new UserException("Customer already exists: " + ex.getMessage());
@@ -197,9 +207,9 @@ public class UserMapper {
                 + "VALUES\n"
                 + "(?,\n"
                 + "?);";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, employee.getEmail());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
@@ -217,9 +227,9 @@ public class UserMapper {
     public EmployeeModel empLogin(String email, String password) throws UserException {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();

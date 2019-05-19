@@ -1,31 +1,26 @@
-
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DBConnector;
+import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.PartslistModel;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 
 /**
  *
  * @author
  */
-public class MaterialMapper {
+public class MaterialMapper
+{
 
-    private static MaterialMapper materialMapper;
+    private DatabaseConnector dbc = new DatabaseConnector();
 
-    private MaterialMapper() {
-    }
-
-    public static MaterialMapper getInstance() {
-        if (materialMapper == null) {
-            materialMapper = new MaterialMapper();
-        }
-        return materialMapper;
+    public void setDataSource(DataSource ds)
+    {
+        dbc.setDataSource(ds);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get Category of a Material">
@@ -41,17 +36,19 @@ public class MaterialMapper {
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 category = rs.getString("category_name");
             }
             return category;
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             // Should most likely be another exception.
             throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
@@ -76,15 +73,16 @@ public class MaterialMapper {
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
                 + "WHERE `materials`.`id_material` = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             material.setID(id);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 String description = rs.getString("description");
                 material.setDescription(description);
 
@@ -109,7 +107,8 @@ public class MaterialMapper {
                 String help_text = rs.getString("helptext_"+helptext);
                 material.setHelptext(help_text);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             // Should most likely be another exception.
             throw new DataException(ex.getMessage()); // ex.getMessage() 
         }
@@ -130,17 +129,19 @@ public class MaterialMapper {
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 category = rs.getString("details_category_name");
             }
             return category;
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             // Should most likely be another exception.
             throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
@@ -162,9 +163,9 @@ public class MaterialMapper {
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
-        try {
-            Connection con = DBConnector.connection();
-            PreparedStatement ps = con.prepareStatement(SQL);
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

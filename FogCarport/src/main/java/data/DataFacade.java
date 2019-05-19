@@ -23,7 +23,7 @@ public interface DataFacade
     
     public List<Integer> getAllOrderIds() throws DataException;
     
-    public EmployeeModel getEmployee(int id) throws DataException;
+    public EmployeeModel getEmployee(int id) throws UserException;
     
     public CustomerModel getCustomer(int id) throws DataException;
     

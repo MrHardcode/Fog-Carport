@@ -26,7 +26,7 @@ public interface LogicFacade
     
     public CustomerModel getCustomer(int id) throws DataException;
     
-    public EmployeeModel getEmployee(int id) throws DataException;
+    public EmployeeModel getEmployee(int id) throws UserException;
     
     public void createCustomer(CustomerModel customer) throws UserException;
     

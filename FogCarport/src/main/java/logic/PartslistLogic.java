@@ -28,7 +28,8 @@ class PartslistLogic
     
     PartslistModel getBOM() throws UserException, DataException {
         PartslistModel bom = new PartslistModel();
-        OrderModel order = OrderMapper.getInstance().getOrder(2);
+        
+//        OrderModel order = OrderMapper.getInstance().getOrder(2);
         
         
         
