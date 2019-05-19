@@ -70,6 +70,7 @@ public class UserMapperTest
         when(resultSet.getInt("id_customer")).thenReturn(id);
         when(resultSet.getInt("phone")).thenReturn(phone);
         when(resultSet.getString("customer_name")).thenReturn(name);
+        when(resultSet.getBoolean("registered")).thenReturn(true);
 
         CustomerModel customer = new CustomerModel();
         customer.setId(id);
@@ -77,12 +78,14 @@ public class UserMapperTest
         customer.setPhone(phone);
         customer.setEmail(email);
         customer.setPassword(password);
+        customer.setRegistered(true);
 
         userMapper.createCustomer(customer);
 
         CustomerModel validatedCustomer = userMapper.login(email, password);
 
         assertEquals(id, validatedCustomer.getId());
+        assertEquals(true, validatedCustomer.isRegistered());
         assertEquals(name, validatedCustomer.getName());
         assertEquals(phone, validatedCustomer.getPhone());
         assertEquals(email, validatedCustomer.getEmail());

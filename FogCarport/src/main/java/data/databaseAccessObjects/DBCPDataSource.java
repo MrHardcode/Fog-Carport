@@ -14,11 +14,11 @@ public class DBCPDataSource
 
     private static final BasicDataSource dataSource = new BasicDataSource();
 
-    private static final String IP = "207.154.233.238";
+    private static final String IP = "localhost"; // 207.154.233.238
     private static final int PORT = 3306;
     private static final String DATABASE = "carportdb";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "1234";
+    private static final String USERNAME = "root"; //admin
+    private static final String PASSWORD = "root"; //1234
     private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE + "?autoReconnect=true&useSSL=false";
 
     static {
