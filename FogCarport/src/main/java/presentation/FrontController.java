@@ -36,7 +36,7 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response);
+            validateSession(request);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -58,7 +58,7 @@ public class FrontController extends HttpServlet
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
      */
-    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws UserException, ServletException, IOException
+    private void validateSession(HttpServletRequest request) throws UserException, ServletException, IOException
     {
         // GET SESSION.
         HttpSession session = request.getSession();

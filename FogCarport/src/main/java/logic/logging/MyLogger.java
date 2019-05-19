@@ -3,7 +3,6 @@
  */
 package logic.logging;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
@@ -18,16 +17,16 @@ import java.util.logging.Logger;
  */
 public class MyLogger
 {
-
+    private final static String PATH = ""; // INSERT ABSOLUTE PATH HERE BEFORE WE GO LIVE AND MAKE SURE TO HAVE THE RIGHT PERMISSIONS.
     private final static Logger LOGGER = Logger.getLogger(logic.logging.MyLogger.class.getName());
 
-    public static Logger getLogger() throws SecurityException, IOException
+    public static Logger getLogger() throws java.io.IOException
     {
-        LOGGER.addHandler(new ConsoleHandler());
-        FileHandler handler = new FileHandler("/extraFiles/logs/logs.log");
-        handler.setFormatter(new StackTraceFormatter());
-        LOGGER.addHandler(handler);
-        return LOGGER;
+            LOGGER.addHandler(new ConsoleHandler());
+            FileHandler handler = new FileHandler(PATH + "\\log.%u.%g.txt");
+            handler.setFormatter(new StackTraceFormatter());
+            LOGGER.addHandler(handler);
+            return LOGGER;
     }
 
     private static class StackTraceFormatter extends Formatter
