@@ -112,7 +112,6 @@ public class OrderMapper
             ResultSet resultSet = ps.getGeneratedKeys();
             if (resultSet.next())
             {
-                resultSet.next();
                 int id = resultSet.getInt(1);
                 order.setId(id);
             }
