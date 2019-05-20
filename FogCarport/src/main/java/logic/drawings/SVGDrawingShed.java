@@ -43,7 +43,7 @@ public class SVGDrawingShed
                 + " y=\"" + ((carportLength) - (shedLength)) + "\" \n"
                 + " width=\"" + (shedWidth) + "\" \n"
                 + " height=\"" + (shedLength) + "\" \n"
-                + " style=\"stroke:black;stroke-dasharray:10,5;stroke-width:5;fill-opacity:0.1;stroke-opacity:1\" />\n";
+                + " style=\"stroke:black;stroke-dasharray:10,5;stroke-width:3;fill-opacity:0.1;stroke-opacity:1\" />\n";
 
         // Posts from corner to the edge.
         if (shedWidth != carportWidth)
@@ -62,8 +62,8 @@ public class SVGDrawingShed
             //Post at the corner
             SVG += "<rect x=\"" + (((carportWidth) - (shedWidth))) + "\" \n"
                     + "y=\"" + ((carportLength) - (shedLength)) + "\" \n"
-                    + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
+                    + "width=\"7\" height=\"7\" \n"
+                    + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n";
         }
         // Closing tag
         SVG += "        </svg>";
@@ -105,8 +105,8 @@ public class SVGDrawingShed
                 // The post
                 SVG += " <rect x=\"" + ((carportWidth - shedWidth) + postwidth) + "\" \n" // Places posts 213cm instead of 310cm. Now they are spread even and nice.
                         + "y=\"" + (carportLength - shedLength) + "\" \n"
-                        + "width=\"15\" height=\"15\" \n"
-                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+                        + "width=\"7\" height=\"7\" \n"
+                        + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
 
@@ -128,8 +128,8 @@ public class SVGDrawingShed
 
                 SVG += " <rect x=\"" + (carportWidth - shedWidth) + "\" \n"
                         + "y=\"" + ((carportLength - shedLength) + postlength) + "\" \n"
-                        + "width=\"15\" height=\"15\" \n"
-                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+                        + "width=\"7\" height=\"7\" \n"
+                        + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
         return SVG;
