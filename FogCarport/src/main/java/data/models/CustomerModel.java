@@ -18,11 +18,33 @@ public class CustomerModel
     private String adress;
     private int zip;
     private String password;
-
+    private boolean registered;
+    
     public CustomerModel()
     {
     }
 
+    /**
+     * Get the value of registered
+     *
+     * @return the value of registered
+     */
+    public boolean isRegistered()
+    {
+        return registered;
+    }
+
+    /**
+     * Set the value of registered
+     *
+     * @param registered new value of registered
+     */
+    public void setRegistered(boolean registered)
+    {
+        this.registered = registered;
+    }
+
+    
     /**
      * Get the value of password
      *

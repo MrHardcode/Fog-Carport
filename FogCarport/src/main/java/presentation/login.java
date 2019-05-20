@@ -3,8 +3,9 @@
  */
 package presentation;
 
-import data.exceptions.LoginException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -23,19 +24,19 @@ public class login extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws LoginException
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException
     {
         Validation validation = new Validation();
         String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 
         String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
-        // Check that Customer exists in the Database. If Customer is in Database, return it as a Model.
-        CustomerModel customer = logic.login(email, password);
-
-        // Place Customer on the Session.
-        request.getSession().setAttribute("customer", customer);
-
-        // Return Customer to the homepage of the website.
+        try{
+            CustomerModel customer = logic.login(email, password);
+            request.getSession().setAttribute("customer", customer);
+        } catch(UserException ux){
+            EmployeeModel employee = logic.empLogin(email, password);
+            request.getSession().setAttribute("employee", employee);
+        }
         return "homepage";
 
     }

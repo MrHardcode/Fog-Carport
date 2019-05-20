@@ -24,12 +24,19 @@
                     <a class="nav-link" href="FrontController?command=link&link=partslist">Stykliste </a>
                 </li>
                 -->
-                <li class="nav-item">
-                    <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="FrontController?command=allOrders">Se alle ordrer </a>
-                </li>
+                <c:if test="${not empty customer}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="FrontController?command=allOrders">Se dine ordrer </a>
+                    </li>
+                </c:if>
+                <c:if test="${not empty employee}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="FrontController?command=allOrders">Se alle ordrer </a>
+                    </li>
+                </c:if>
                 <!-- END navbar left float-->
             </ul> 
             <!-- START navbar center float -->
@@ -37,18 +44,18 @@
                 <li id ="errormessage" class="nav-item">
                     <!-- Show errormessage to the User --> 
                     <c:if test="${not empty message}">
-                        <a class="nav-link active" >  Message: ${message} </a>
+                        <a class="nav-link active" >  Besked: ${message} </a>
                     </c:if>
                 </li>
                 <!-- END navbar center float -->
             </ul>
             <!-- login button -->
-            <c:if test="${empty customer}">
+            <c:if test="${empty customer && empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
-                        <!-- Show log out button to the User if they are logged in --> 
-                        <form action="FrontController?command=link&link=homepage" method="POST"> 
+                        <!-- Show log in button to the User if they are not logged in --> 
+                        <form action="FrontController?command=link&link=login" method="POST"> 
                             <button type="submit" class="btn btn-outline-success btn-sm"><i class="fas fa-sign-in-alt"></i> Log ind</button>
                         </form>
                     </li>
@@ -56,7 +63,7 @@
                 <!-- END navbar RIGHT float-->
             </c:if>
             <!-- logout button -->
-            <c:if test="${not empty customer}">
+            <c:if test="${not empty customer || not empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->

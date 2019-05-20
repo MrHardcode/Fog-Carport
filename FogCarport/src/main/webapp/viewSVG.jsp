@@ -47,5 +47,5 @@
 
 <br>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-secondary " href="FrontController?command=link&link=viewOrder">Tilbage til din valgte ordre </a>
+    <a class="btn btn-secondary" href="FrontController?command=link&link=viewOrder">Tilbage til din valgte ordre </a>
 </div>

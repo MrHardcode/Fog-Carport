@@ -1,6 +1,6 @@
 <!-- Taken from makeCarport.jsp - change at will - Needs password etc - Needs Command - -->
 <div class="form-group mx-auto infoBody">
-    <form action="FrontController" method="post" id="create-user-form" accept-charset=utf-8>
+    <form action="FrontController" method="POST" id="create-user-form" accept-charset=utf-8>
         
         <input type="hidden" name="command" value="createUser">
         
