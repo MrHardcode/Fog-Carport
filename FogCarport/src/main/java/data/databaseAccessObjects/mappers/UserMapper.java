@@ -140,18 +140,8 @@ public class UserMapper
         } else {
             registered = 0;
         }
-        String SQL = "INSERT INTO `carportdb`.`customers`\n"
-                + "(`customer_name`,\n"
-                + "`phone`,\n"
-                + "`email`,\n"
-                + "`password`,\n"
-                + "`registered`)\n"
-                + "VALUES\n"
-                + "(?,\n"
-                + "?,\n"
-                + "?,\n"
-                + "?,\n"
-                + "?);";
+        String SQL = "INSERT INTO `carportdb`.`customers` "
+                + "(`customer_name`, `phone`, `email`, `password`, `registered`) VALUES (?, ?, ?, ?, ?);";
         try (DatabaseConnector open_dbc = dbc.open())
         {
             PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
