@@ -87,6 +87,7 @@ public class RoofFlatCalc
 
     public RoofFlatCalc()
     {
+        roofMaterials = new PartslistModel(); //items to be returned to master list
         amountOfScrews = 0;
         this.DAO = DataFacadeImpl.getInstance();
     }
@@ -102,7 +103,6 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException, AlgorithmException
     {
-        roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
