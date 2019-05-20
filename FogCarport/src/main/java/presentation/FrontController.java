@@ -66,10 +66,8 @@ public class FrontController extends HttpServlet
         String command = request.getParameter("command");
         String link = request.getParameter("link");
         if (customer == null && employee == null 
-                && ("viewSVG".equals(link) || "viewSVG".equals(command) 
-                || "viewOrder".equals(link) || "viewOrder".equals(command) 
-                || "allOrders".equals(command) || "allOrders".equals(link) 
-                || "makeCarportForm".equals(link) || "makeCarportForm".equals(command)))
+                && !"login".equals(command) && !"login".equals(link)
+                && !"createUser".equals(command) && !"createUser".equals(link))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
