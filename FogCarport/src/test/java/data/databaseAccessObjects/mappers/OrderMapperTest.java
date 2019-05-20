@@ -60,6 +60,7 @@ public class OrderMapperTest
     {
         System.out.println("Test of getOrder and createOrder in OrderMapper");
 
+        /* ARRANGE */ 
         int id = 1;
         String status = "Accepted";
         int width = 3300;
@@ -105,10 +106,12 @@ public class OrderMapperTest
         order.setShed_length(shed_length);
         order.setShed_width(shed_width);
 
+        /* ACT */ 
         orderMapper.createOrder(order);
 
         OrderModel validatedOrder = orderMapper.getOrder(id);
 
+        /* ASSERT */
         assertEquals(id, validatedOrder.getId());
         assertEquals(status, validatedOrder.getStatus());
         assertEquals(width, validatedOrder.getWidth());
