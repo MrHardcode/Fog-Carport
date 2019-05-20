@@ -34,14 +34,22 @@ public class SVGDrawingFlatRoof
         int rafterPlacement = 0;
         for (int i = 0; i < rafterCount; i++)
         {
-            String rafter = "<rect x=\"" + rafterPlacement + "\" width=\".5%\" height=\"" + roofWidth + "\" fill=\"gray\" />";
+            String rafter = "<rect x=\"" + rafterPlacement + "\" width=\".5%\" height=\"" + roofWidth + "\" fill=\"gray\" ";
+            if (i == 0 || i == rafterCount - 1) //if first or last rafter
+            {
+                rafter += "style=\"fill-opacity: .5;\" />\n";
+            }
+            else
+            {
+                rafter += "/>\n"; //closing tag and newline
+            }
             stb.append(rafter);
             rafterPlacement += rafterDist; //update rafterPlacement for next rafter
         }
 
         //hulbånd
         int bandLength = roofLength - (order.getShed_length() / 10); //shed end point
-        String band1 = "<line x1=\"" + rafterDist + "\" y1=\"0\" x2=\"" + bandLength + "\" y2=\"" + roofWidth + " style=\"stroke: black; stroke-dasharray:20,10\" />";
+        String band1 = "<line x1=\"" + rafterDist + "\" x2=\"" + bandLength + "\" y2=\"" + roofWidth + "\" style=\"stroke: black; stroke-dasharray:20,10\" />\n";
         String band2 = "<line x1=\"" + rafterDist + "\" y1=\"" + roofWidth + "\" x2=\"" + bandLength + "\" y2=\"0\" style=\"stroke: black; stroke-dasharray:20,10\" />";
         stb.append(band1);
         stb.append(band2);
