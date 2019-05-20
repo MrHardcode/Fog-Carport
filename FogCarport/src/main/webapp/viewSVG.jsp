@@ -35,16 +35,26 @@
             <svg x="50" y="21.5" >${svgroof}</svg>
             <svg x="100" y="100">
             ${svgbaseArrowLengthExtra}
-            ${svgbaseLabelWidth}
-            ${svgbaseArrowWidth}
+            ${svgbaseLabelWidthExtra}
             ${svgbaseLabelLengthExtra}
             </svg>
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="100" y="70">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="100">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
             </g>
             </svg>
         </p>
     </div>
 </div>
-
 <br>
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="">

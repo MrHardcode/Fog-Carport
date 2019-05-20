@@ -37,17 +37,22 @@ public class viewSVG extends Command
         
         String svgbaseArrowLength = logic.getSVGbaseArrowLength(bom, order, 0);
         String svgbaseArrowLengthExtra = logic.getSVGbaseArrowLength(bom, order, order.getIncline());
-        String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order);
-        String svgbaseLabelWidth = logic.getSVGbaseLabelWidth(bom, order);
+        String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order, 0);
+        String svgbaseArrowWidthExtra = logic.getSVGbaseArrowWidth(bom, order, order.getIncline());
+        String svgbaseLabelWidth = logic.getSVGbaseLabelWidth(bom, order, 0);
+        String svgbaseLabelWidthExtra = logic.getSVGbaseLabelWidth(bom, order, order.getIncline());
         String svgbaseLabelLength = logic.getSVGbaseLabelLength(bom, order, 0);
         String svgbaseLabelLengthExtra = logic.getSVGbaseLabelLength(bom, order, order.getIncline());
         
         request.setAttribute("svgbaseArrowWidth", svgbaseArrowWidth);
+        request.setAttribute("svgbaseArrowWidthExtra", svgbaseArrowWidthExtra);
         request.setAttribute("svgbaseArrowLengthExtra", svgbaseArrowLengthExtra);
         request.setAttribute("svgbaseArrowLength", svgbaseArrowLength);
         request.setAttribute("svgbaseLabelWidth", svgbaseLabelWidth);
+        request.setAttribute("svgbaseLabelWidthExtra", svgbaseLabelWidthExtra);
         request.setAttribute("svgbaseLabelLength", svgbaseLabelLength);
         request.setAttribute("svgbaseLabelLengthExtra", svgbaseLabelLengthExtra);
+        request.setAttribute("incline", order.getIncline());
         
         String svgroof = logic.getSVGroof(order);
         request.setAttribute("svgroof", svgroof);
