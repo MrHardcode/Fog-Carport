@@ -80,14 +80,15 @@ public class RoofFlatCalc
 
     /* Calculations */
     private int amountOfScrews; //total amount of screws needed
+    private int rafterCount;
 
     /* Imports */
     private final DataFacade DAO; //data accessor
-    PartslistModel roofMaterials;
+    
 
     public RoofFlatCalc()
     {
-        roofMaterials = new PartslistModel(); //items to be returned to master list
+        rafterCount = 0;
         amountOfScrews = 0;
         this.DAO = DataFacadeImpl.getInstance();
     }
@@ -103,11 +104,13 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException, AlgorithmException
     {
+       PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
         roofMaterials.addPartslist(calculateDependantParts(order));
 
+        roofMaterials.setRafterCount(rafterCount); //needed for svg
         return roofMaterials;
     }
 
@@ -189,12 +192,12 @@ public class RoofFlatCalc
         if (rafterLengthRemainder > 0) //if there is less than 500mm to the end of the roof, add another rafter.
         {
             rafterLengthRemainder = Math.ceil(rafterLengthRemainder);
-            rafterTotalAmount = (int) rafterLengthRemainder;
+            rafterTotalAmount += (int) rafterLengthRemainder;
         }
 
         /* Update quantities */
         rafter.setQuantity(rafterTotalAmount);
-        roofMaterials.setRafterCount(rafterTotalAmount); //needed for SVG
+        rafterCount = rafterTotalAmount; //needed for SVG
 
         /* Update price */
         rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
