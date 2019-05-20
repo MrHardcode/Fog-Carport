@@ -68,7 +68,8 @@ public class FrontController extends HttpServlet
         if (customer == null && employee == null 
                 && !"login".equals(command) && !"login".equals(link)
                 && !"createUser".equals(command) && !"createUser".equals(link)
-                && !"homepage".equals(command) && !"homepage".equals(link))
+                && !"homepage".equals(command) && !"homepage".equals(link)
+                && !"makeCarport".equals(command))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
