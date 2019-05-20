@@ -41,7 +41,7 @@
             </select>
             <p hidden class="text-error-color text-error-size">Bredde skal være mellem 240cm og 720cm</p>
         </div>
-        
+
         <!-- Roof incline choice -->
         <div class="form-group">
             <label for="roofIncline">Taghældning</label>
@@ -88,7 +88,7 @@
                 </select>
             </div>
         </div>
-        
+
         <h1 class="h1 form-group justify-content-center">Kontakt info</h1>
         <!-- Customer info -->
         <div class="form-group">
@@ -115,24 +115,24 @@
                 <input type="number" class="form-control" id="inputZip" placeholder="Postnummer" name="zip" required>
             </div>
         </div>
-        
-        <h2 class="h2 form-group justify-content-center">Opret bruger (valgfrit)</h2>
-        <div class="form-group">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="check-skur" name="createCustomerAccount" value="y">
-                <label class="form-check-label" for="CheckSkur">Jeg vil gerne have en bruger</label>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Adgangskode</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password">
-            </div>
-            <div class="form-group">
-                <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
-                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm">
-            </div>
-            
-        </div>
 
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
+            Jeg vil gerne have en bruger
+        </button>
+
+        <div class="collapse" id="passwordcollapse">
+            <h2 class="h2 form-group justify-content-center">Opret bruger (valgfrit)</h2>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="inputPassword">Adgangskode</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
+                    <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm">
+                </div>
+            </div>
+        </div>
         <!-- Button to submit -->
         <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>

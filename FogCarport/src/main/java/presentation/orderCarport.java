@@ -30,14 +30,14 @@ public class orderCarport extends Command
         {
             // CUSTOMER
             order.setId_customer(customer.getId());
-        } else if ("y".equals(request.getParameter("createCustomerAccount")))
+        } else if (request.getParameter("password") != null && !request.getParameter("password").isEmpty())
         {
+            String password = validation.validatePassword(request.getParameter("password"), request.getParameter("password-confirm"), "Password");
             String email = validation.validateString(request.getParameter("email"), "Email");
             String name = validation.validateString(request.getParameter("name"), "Navn");
             String adress = validation.validateString(request.getParameter("adress"), "Adresse");
             int phonenumber = validation.validateInteger(request.getParameter("phonenumber"), "Telefonnummer");
             int zip = validation.validateInteger(request.getParameter("zip"), "Post Nummer");
-            String password = validation.validateString(request.getParameter("password"), "Password");
             CustomerModel customer_one = new CustomerModel();
             customer_one.setEmail(email);
             customer_one.setName(name);
