@@ -1,5 +1,5 @@
 
-package data.databaseAccessObjects;
+package data.databaseAccessObjects.dataSources;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
