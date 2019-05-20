@@ -176,17 +176,17 @@ public class UserMapper
      */
     public void createCustomer(CustomerModel customer) throws UserException
     {
-        String SQL = "INSERT INTO `carportdb`.`customers` "
-                + "(`customer_name`, "
-                + "`phone`, "
-                + "`email`, "
-                + "`password`, "
-                + "`registered`) "
-                + "VALUES "
-                + "(?, "
-                + "?, "
-                + "?, "
-                + "?, "
+        String SQL = "INSERT INTO `carportdb`.`customers`\n"
+                + "(`customer_name`,\n"
+                + "`phone`,\n"
+                + "`email`,\n"
+                + "`password`,\n"
+                + "`registered`)\n"
+                + "VALUES\n"
+                + "(?,\n"
+                + "?,\n"
+                + "?,\n"
+                + "?,\n"
                 + "?);";
         try (DatabaseConnector open_dbc = dbc.open())
         {
