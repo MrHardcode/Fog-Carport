@@ -25,6 +25,7 @@ public class UserMapper
         dbc.setDataSource(ds);
     }
 
+    /* CUSTOMER */
     // <editor-fold defaultstate="collapsed" desc="Log in a customer">
     /**
      * Login Method.
@@ -121,49 +122,6 @@ public class UserMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get an employee">
-    /**
-     * Get an Order.
-     *
-     * @param id of the Order.
-     * @return OrderModel
-     * @throws data.exceptions.UserException
-     */
-    public EmployeeModel getEmployee(int id) throws UserException
-    {
-
-        String SQL = "SELECT `employees`.`emp_email`, `roles`.`role` "
-                + "FROM `carportdb`.`employees` "
-                + "INNER JOIN `carportdb`.`roles` "
-                + "ON `employees`.`id_role` = `roles`.`id_role` "
-                + "WHERE `employees`.`id_employee` = ?;";
-
-        try (DatabaseConnector open_dbc = dbc.open())
-        {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next())
-            {
-                EmployeeModel employee = new EmployeeModel();
-                employee.setId(id);
-                employee.setEmail(rs.getString("emp_email"));
-                employee.setRole(rs.getString("role"));
-                return employee;
-            } else
-            {
-                throw new UserException("Could not get info about employee from database.");
-            }
-
-        } catch (SQLException ex)
-        {
-            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
-        }
-
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Create customer">
     /**
      * Create Customer Method.
@@ -215,6 +173,7 @@ public class UserMapper
     }
     //</editor-fold>
 
+    /* EMPLOYEE */ 
     // <editor-fold defaultstate="collapsed" desc="Create Employee">
     /**
      * Create Employee Method.
@@ -252,6 +211,50 @@ public class UserMapper
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Get an employee">
+    /**
+     * Get an Order.
+     *
+     * @param id of the Order.
+     * @return OrderModel
+     * @throws data.exceptions.UserException
+     */
+    public EmployeeModel getEmployee(int id) throws UserException
+    {
+
+        String SQL = "SELECT `employees`.`emp_email`, `roles`.`role` "
+                + "FROM `carportdb`.`employees` "
+                + "INNER JOIN `carportdb`.`roles` "
+                + "ON `employees`.`id_role` = `roles`.`id_role` "
+                + "WHERE `employees`.`id_employee` = ?;";
+
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                EmployeeModel employee = new EmployeeModel();
+                employee.setId(id);
+                employee.setEmail(rs.getString("emp_email"));
+                employee.setRole(rs.getString("role"));
+                return employee;
+            } else
+            {
+                throw new UserException("Could not get info about employee from database.");
+            }
+
+        } catch (SQLException ex)
+        {
+            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
+        }
+
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Log in an employee">
     public EmployeeModel empLogin(String email, String password) throws UserException
     {
 
@@ -281,4 +284,5 @@ public class UserMapper
             throw new UserException(ex.getMessage());
         }
     }
+    // </editor-fold>
 }
