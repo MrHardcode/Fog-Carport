@@ -133,6 +133,8 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
         <!-- Button to submit -->
         <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>
