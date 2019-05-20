@@ -64,6 +64,10 @@
     </tbody>
 </table>
 
+<c:if test="${not empty employee}">
+    <p> Vejledende salgspris: ${suggestedprice}</p>
+</c:if>
+
 
 <c:if test="${order.status != 'Finalized'}">
     <div class="d-flex p-2">
@@ -77,18 +81,18 @@
 <c:if test="${order.status != 'Awaiting' 
               && order.status != 'Processing'
               && order.status != 'Accepted'}">
-    <div class="d-flex p-2 justify-content-center">
-        <form method="POST" action="FrontController"  class="">
-           <input type="hidden" name="command" value="viewPartslist">   
-          <input type="hidden" name="orderid" value="${order.id}"> 
-            <button type="submit" class="btn btn-primary">Se Stykliste</button>
-        </form>
+      <div class="d-flex p-2 justify-content-center">
+          <form method="POST" action="FrontController"  class="">
+              <input type="hidden" name="command" value="viewPartslist">   
+              <input type="hidden" name="orderid" value="${order.id}"> 
+              <button type="submit" class="btn btn-primary">Se Stykliste</button>
+          </form>
 
-        <form method="POST" action="FrontController" class="" style="margin-left: 10px">
-            <input type="hidden" name="command" value="viewSVG">  
-          <input type="hidden" name="orderid" value="${order.id}"> 
-            <button type="submit" class="btn btn-primary">Se Tegninger</button>
-        </form>
-    </div>
+          <form method="POST" action="FrontController" class="" style="margin-left: 10px">
+              <input type="hidden" name="command" value="viewSVG">  
+              <input type="hidden" name="orderid" value="${order.id}"> 
+              <button type="submit" class="btn btn-primary">Se Tegninger</button>
+          </form>
+      </div>
 </c:if>
 

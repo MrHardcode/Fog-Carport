@@ -17,6 +17,7 @@ import logic.Calculations.ShedLogic;
 import logic.drawings.SVGDrawingBase;
 import logic.drawings.SVGDrawingRaisedRoof;
 import logic.drawings.SVGDrawingShed;
+import logic.Calculations.PriceCalculator;
 
 public class LogicFacadeImpl implements LogicFacade
 {
@@ -219,6 +220,12 @@ public class LogicFacadeImpl implements LogicFacade
     @Override
     public EmployeeModel empLogin(String name, String password) throws UserException {
         return DataFacadeImpl.getInstance().empLogin(name, password);
+    }
+
+    @Override
+    public int getSuggestedRetailPrice(PartslistModel partsList) {
+        PriceCalculator pricecalc = new PriceCalculator();
+        return pricecalc.getSuggestedRetailPrice(partsList);
     }
 
 }

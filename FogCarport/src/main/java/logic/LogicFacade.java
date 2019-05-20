@@ -53,5 +53,7 @@ public interface LogicFacade
     public void payOrder(int id) throws DataException;
     
     public EmployeeModel empLogin(String email, String password) throws UserException;
+    
+    public int getSuggestedRetailPrice(PartslistModel partsList);
 
 }
