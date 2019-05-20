@@ -229,13 +229,13 @@ function prepareShedMenu() {
         }
     }
 
-    function fillDropDownShedFloor() {
-        floorOptions.options[1] = new Option("Alm. planke", 55);
-    }
+//    function fillDropDownShedFloor() {
+//        floorOptions.options[1] = new Option("Alm. planke", 55);
+//    }
 
-    function fillDropDownShedWall() {
-        wallOptions.options[1] = new Option("Eg", 50);
-    }
+//    function fillDropDownShedWall() {
+//        wallOptions.options[1] = new Option("Egetræ", 50);
+//    }
 }
 
 function clearShedDimensionsMenu() {

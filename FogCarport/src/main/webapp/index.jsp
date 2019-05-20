@@ -43,6 +43,6 @@
         <!-- SWEETALERT JS -->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <!-- CUSTOM JS -->
-        <script src="javascript/global.js" type="text/javascript"></script>
+        <script src="javascript/global.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

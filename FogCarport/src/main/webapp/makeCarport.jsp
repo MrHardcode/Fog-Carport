@@ -1,4 +1,5 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="d-flex justify-content-center" >
     <!-- Form start -->
     <form action="FrontController" method="POST" id="carport-form" accept-charset=utf-8>
@@ -69,11 +70,17 @@
             <div class="form-group">
                 <label for="ShedInputFloor">Gulv</label>
                 <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
+                    <c:forEach var="item" items="${shedFloorParts}">
+                        <option value="${item.getID()}">${item.getName()}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div class="form-group">
                 <label for="ShedInputWall">Beklædning</label>
                 <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
+                    <c:forEach var="item" items="${shedWallParts}">
+                        <option value="${item.getID()}">${item.getName()}</option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
