@@ -1,8 +1,10 @@
 package presentation;
 
 import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import data.models.CustomerModel;
+import data.models.EmployeeModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,14 +17,15 @@ import logic.LogicFacadeImpl;
 
 /**
  *
- * @author 
+ * @author
  */
 @WebServlet(name = "FrontController", urlPatterns =
-{
-    "/FrontController"
-})
+        {
+            "/FrontController"
+        })
 public class FrontController extends HttpServlet
 {
+
     private LogicFacade logic = LogicFacadeImpl.getInstance();
     private static final long serialVersionUID = 1L;
 
@@ -31,17 +34,18 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response); // Throws Illegal State Exception that isn't handled.
+            validateSession(request, response);
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (LoginException | AlgorithmException ex)
+
+        } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
             request.setAttribute("target", "homepage");
             request.setAttribute("message", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } 
+        }
     }
 
     /*
@@ -50,28 +54,30 @@ public class FrontController extends HttpServlet
     then they will get logged out. 
     Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
     
-    TO DO - ADD CREATE USER PAGE TO THIS. CURRENTLY ONLY CHECKING FOR LOGIN PAGE.
      */
-    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws LoginException, ServletException, IOException
+    private void validateSession(HttpServletRequest request, HttpServletResponse response) throws UserException, ServletException, IOException
     {
         // GET SESSION.
         HttpSession session = request.getSession();
         // GET CUSTOMER OBJECT.
         CustomerModel customer = (CustomerModel) session.getAttribute("customer");
-        // IF USER IS NOT ON THE LOGIN PAGE AND THE CUSTOMER OBJECT IS NULL.
-        if (!"login".equals(request.getParameter("command")) && customer == null)
+        EmployeeModel employee = (EmployeeModel) session.getAttribute("employee");
+        // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
+        String command = request.getParameter("command");
+        String link = request.getParameter("link");
+        if (customer == null && employee == null 
+                && !"login".equals(command) && !"login".equals(link)
+                && !"createUser".equals(command) && !"createUser".equals(link)
+                && !"homepage".equals(command) && !"homepage".equals(link)
+                && !"makeCarport".equals(command))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
-            // SEND USER TO LOGIN PAGE.
-            request.setAttribute("target", "login");
-            // ERRORMESSAGE SHOWN TO USER.
-            request.setAttribute("message", "You should log in.");
             // FORWARD USER.
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            throw new UserException("Du skal være logget ind.");
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

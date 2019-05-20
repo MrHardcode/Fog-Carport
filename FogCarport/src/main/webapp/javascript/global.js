@@ -8,8 +8,8 @@ function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
     for (let i = 240; i < 750; i = i + 30) {
-        lengthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
-        widthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
+        lengthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
+        widthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
     }
 }
 ;
@@ -102,7 +102,7 @@ function prepareTileMenu()
         roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
         roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
         for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + roofTileOptions.valueOf(i) + '">' + roofTileOptions.get(i) + '</option>';
+            tileOption.innerHTML += '<option value="' + i + '">' + roofTileOptions.get(i) + '</option>';
         }
 
     }
@@ -175,8 +175,8 @@ let wallOptions = document.getElementById("shed-wall");
 function prepareShedMenu() {
 
     //Getting the given dimensions of the carport
-    let carportLength = document.getElementById("input-length").value;
-    let carportWidth = document.getElementById("input-width").value;
+    let carportLength = (document.getElementById("input-length").value)/10;
+    let carportWidth = (document.getElementById("input-width").value)/10;
 
     //Creating arrays used in the fillDropDownShedDimensions() method
     let shedLength = createShedDimensions(carportLength);

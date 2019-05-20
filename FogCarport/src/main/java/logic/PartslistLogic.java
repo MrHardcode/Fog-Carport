@@ -1,7 +1,8 @@
 package logic;
 
 import data.databaseAccessObjects.mappers.OrderMapper;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -25,9 +26,10 @@ class PartslistLogic
         return instance;
     }
     
-    PartslistModel getBOM() throws LoginException {
+    PartslistModel getBOM() throws UserException, DataException {
         PartslistModel bom = new PartslistModel();
-        OrderModel order = OrderMapper.getInstance().getOrder(2);
+        
+//        OrderModel order = OrderMapper.getInstance().getOrder(2);
         
         
         
@@ -47,7 +49,7 @@ class PartslistLogic
     Rem - 45 x 195 - Spærtræ
     Stolpe - 100x100 - Trykimprægneret
      */
-    PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
+    PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws UserException
     {
         boolean hasShed = false;
         int _height = 0;
@@ -57,7 +59,7 @@ class PartslistLogic
         if (height == null || length == null || width == null || height.isEmpty() || length.isEmpty() || width.isEmpty())
         {
             // Should maybe be something like a ShopException. 
-            throw new LoginException("Input fields can't be empty.");
+            throw new UserException("Input fields can't be empty.");
         }
         else // If inputs are okay, we change string to int.
         {
@@ -81,7 +83,7 @@ class PartslistLogic
         if (_height < 2000 || _height > 3000 || _length < 2400 || _length > 7200 || _width < 2400 || _width > 7200)
         {
             // Should maybe be something like a ShopException.
-            throw new LoginException("Fields have to be within bounds.");
+            throw new UserException("Fields have to be within bounds.");
         }
         else // Else create the partslist
         {

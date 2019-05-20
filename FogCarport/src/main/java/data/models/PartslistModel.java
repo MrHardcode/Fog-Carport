@@ -162,4 +162,12 @@ public class PartslistModel
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        return "PartslistModel{" + "billOfMaterials=" + billOfMaterials + ", totalprice=" + totalprice + ", rafterCount=" + rafterCount + ", lathRowCount=" + lathRowCount + ", tileCount=" + tileCount + ", topTileCount=" + topTileCount + ", postPosSideOne=" + postPosSideOne + ", postPosSideTwo=" + postPosSideTwo + ", postPosRear=" + postPosRear + '}';
+    }
+    
+    
+
 }

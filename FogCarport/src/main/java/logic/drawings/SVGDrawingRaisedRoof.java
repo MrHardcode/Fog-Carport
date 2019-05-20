@@ -5,7 +5,8 @@
  */
 package logic.drawings;
 
-import data.exceptions.LoginException;
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 import logic.Calculations.RoofRaisedCalc;
@@ -16,7 +17,7 @@ import logic.Calculations.RoofRaisedCalc;
  */
 public class SVGDrawingRaisedRoof {
 
-    public String getRaisedRoofDrawing(OrderModel order) throws LoginException {
+    public String getRaisedRoofDrawing(OrderModel order) throws DataException, AlgorithmException {
         RoofRaisedCalc calc = new RoofRaisedCalc();
         PartslistModel roofRaisedBOM = calc.getRoofRaisedMaterials(order);
 
@@ -33,10 +34,10 @@ public class SVGDrawingRaisedRoof {
 
         StringBuilder stb = new StringBuilder();
 
-        String startSVG = "<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
+        String startSVG = ""; //"<svg " + "width=\"" + (roofLength + svgExtraPadding) + "\" " + "height=\"" + (roofWidth + svgExtraPadding) + "\">\n";
         String outerRoofBorder = " <rect x=\"" + halfPadding + "\" y=\"" + halfPadding + "\" width=\"" + roofLength + "\" height=\"" + roofWidth + "\" "
                 + "style=\"fill:none; stroke:red; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0\" />\n";
-        String endSVG = "</svg>";
+        String endSVG = ""; //"</svg>";
 
         stb.append(startSVG);
         stb.append(outerRoofBorder);
