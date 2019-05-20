@@ -68,7 +68,7 @@
     <p> Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
     <p> Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
     <p hidden id="costprice">${costprice}</p>
-    <input type="number" id="varpriceinput">
+    <input id="varpriceinput">
     <p> Dækningsgrad for tilbudspris: <span id="varpricemargin"> </span> %</p>
 
     <br>
