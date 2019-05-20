@@ -12,11 +12,11 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 public class HikariDS
 {
-    private static final String IP = "207.154.233.238";
-    private static final int PORT = 3306;
-    private static final String DATABASE = "carportdb";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "1234";
+    private static final String IP = "207.154.233.238"; // 207.154.233.238
+    private static final int PORT = 3306; // 3306
+    private static final String DATABASE = "carportdb"; // carportdb
+    private static final String USERNAME = "admin"; // admin
+    private static final String PASSWORD = "1234"; // 1234
     private static final String URL = "jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE + "?autoReconnect=true&useSSL=false";
 
     private static HikariDataSource dataSource;

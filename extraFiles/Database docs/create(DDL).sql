@@ -19,7 +19,7 @@ CREATE TABLE `carportdb`.`customers` (
   `customer_name` VARCHAR(45) NOT NULL,
   `phone` INT(10) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
-  `password` VARCHAR(30) NOT NULL,
+  `password` VARCHAR(30) NOT NULL DEFAULT '',
   `registered` BOOLEAN DEFAULT false,
   PRIMARY KEY (`id_customer`),
   UNIQUE INDEX `id_customer_UNIQUE` (`id_customer` ASC) VISIBLE,

@@ -176,6 +176,12 @@ public class UserMapper
      */
     public void createCustomer(CustomerModel customer) throws UserException
     {
+        int registered;
+        if (customer.isRegistered()){
+            registered = 1;
+        } else {
+            registered = 0;
+        }
         String SQL = "INSERT INTO `carportdb`.`customers`\n"
                 + "(`customer_name`,\n"
                 + "`phone`,\n"
@@ -195,7 +201,7 @@ public class UserMapper
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
             ps.setString(4, customer.getPassword());
-            ps.setBoolean(5, customer.isRegistered());
+            ps.setInt(5, registered);
             ps.executeUpdate();
             ResultSet resultSet = ps.getGeneratedKeys();
             if (resultSet.next())
