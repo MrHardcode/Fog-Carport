@@ -1,7 +1,7 @@
 /*
  *  
  */
-package data.databaseAccessObjects;
+package data.databaseAccessObjects.dataSources;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

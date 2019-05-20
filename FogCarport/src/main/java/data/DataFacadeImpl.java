@@ -1,7 +1,7 @@
 package data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import data.databaseAccessObjects.HikariDS;
+import data.databaseAccessObjects.dataSources.HikariDS;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
