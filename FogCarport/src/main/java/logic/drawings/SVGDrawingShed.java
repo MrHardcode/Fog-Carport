@@ -13,7 +13,8 @@ public class SVGDrawingShed
 {
 
     private final int postdistance = 310; // in cm.
-
+    private static int arrowHeadCounter = 0;
+    
     public SVGDrawingShed()
     {
     }
@@ -145,16 +146,17 @@ public class SVGDrawingShed
      */
     String getArrow(int beginX, int beginY, int endX, int endY)
     {
+        ++arrowHeadCounter;
         // The Arrow.
         String SVG = " "
                 + "<defs>\n"
-                + "    <marker id=\"beginArrow\" \n"
+                + "    <marker id=\"beginArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"0\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
                 + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
                 + "    </marker>\n"
-                + "    <marker id=\"endArrow\" \n"
+                + "    <marker id=\"endArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"8\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
@@ -163,8 +165,8 @@ public class SVGDrawingShed
                 + "</defs>\n"
                 + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
                 + "	style=\"stroke:#006600;\n"
-                + "	marker-start: url(#beginArrow);\n"
-                + "   marker-end: url(#endArrow);\"/>"
+                + "	marker-start: url(#beginArrow" + arrowHeadCounter + ");\n"
+                + "   marker-end: url(#endArrow" + arrowHeadCounter + ");\"/>"
                 + " ";
 
         return SVG;

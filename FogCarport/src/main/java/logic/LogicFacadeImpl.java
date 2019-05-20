@@ -164,20 +164,20 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order)
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order, int extraDistance)
     {
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
         String SVG = "";
-        SVG += base.getWidthArrow();
+        SVG += base.getWidthArrow(extraDistance);
         return SVG;
     }
 
     @Override
-    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order)
+    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order, int extraDistance)
     {
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
         String SVG = "";
-        SVG += base.getWidthLabel();
+        SVG += base.getWidthLabel(extraDistance);
         return SVG;
     }
 

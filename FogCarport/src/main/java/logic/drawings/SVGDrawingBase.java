@@ -16,6 +16,7 @@ public class SVGDrawingBase
     ArrayList postsSideOne = new ArrayList();
     ArrayList postsSideTwo = new ArrayList();
     ArrayList postsRear = new ArrayList();
+    private static int arrowHeadCounter = 500;
 
     public SVGDrawingBase(OrderModel order, PartslistModel bom)
     {
@@ -83,16 +84,17 @@ public class SVGDrawingBase
         int beginY = cWidth + 20 + extraWidth;
         int endX = cLength;
         int endY = cWidth + 20 + extraWidth;
+        ++arrowHeadCounter;
         // The Arrow.
         String SVG = " "
                 + "<defs>\n"
-                + "    <marker id=\"beginArrow\" \n"
+                + "    <marker id=\"beginArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"0\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
                 + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
                 + "    </marker>\n"
-                + "    <marker id=\"endArrow\" \n"
+                + "    <marker id=\"endArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"8\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
@@ -101,28 +103,33 @@ public class SVGDrawingBase
                 + "</defs>\n"
                 + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
                 + "	style=\"stroke:#006600;\n"
-                + "	marker-start: url(#beginArrow);\n"
-                + "   marker-end: url(#endArrow);\"/>"
+                + "	marker-start: url(#beginArrow" + arrowHeadCounter + ");\n"
+                + "   marker-end: url(#endArrow" + arrowHeadCounter + ");\"/>"
                 + " ";
         
         return SVG;
     }
     
-    public String getWidthArrow(){
-        // The Arrow.
+    public String getWidthArrow(int extraDistance){
+        int extraWidth = 0;
+        if (extraDistance > 0)
+        {
+            extraWidth = 60;
+        }
         int beginX = cLength + 20;
         int beginY = 0;
         int endX = cLength + 20;
-        int endY = cWidth;
+        int endY = cWidth + extraWidth;
+        ++arrowHeadCounter;
         String SVG = " "
                 + "<defs>\n"
-                + "    <marker id=\"beginArrow\" \n"
+                + "    <marker id=\"beginArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"0\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
                 + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
                 + "    </marker>\n"
-                + "    <marker id=\"endArrow\" \n"
+                + "    <marker id=\"endArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"8\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
@@ -131,18 +138,23 @@ public class SVGDrawingBase
                 + "</defs>\n"
                 + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
                 + "	style=\"stroke:#006600;\n"
-                + "	marker-start: url(#beginArrow);\n"
-                + "   marker-end: url(#endArrow);\"/>"
+                + "	marker-start: url(#beginArrow" + arrowHeadCounter + ");\n"
+                + "   marker-end: url(#endArrow" + arrowHeadCounter + ");\"/>"
                 + " ";
         
         return SVG;
     }
     
-    public String getWidthLabel()
+    public String getWidthLabel(int extraDistance)
     {
+        int extraWidth = 0;
+        if (extraDistance > 0)
+        {
+            extraWidth = 60;
+        }
         int x = cLength + 25;
         int y= cWidth / 2;
-        int distance = cWidth;
+        int distance = cWidth + extraWidth;
         String SVG = "";
         // The text
         SVG += " <text x=\"" + x + "\" y=\"" + y + "\" fill=\"black\"\">" + distance + "cm" + "</text> "; 
