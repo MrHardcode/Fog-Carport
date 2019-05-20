@@ -28,10 +28,6 @@ public class viewPartslist extends Command {
         OrderModel order = logic.getOrder(orderID);
         PartslistModel partslist = logic.getPartslistModel(order);
         
-        if (order == null || partslist == null) 
-        {
-            throw new UserException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
-        }
         request.setAttribute("partslistbom", partslist);
         request.setAttribute("ID", orderID);
         return "partslist";
