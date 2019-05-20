@@ -15,7 +15,8 @@ import javax.sql.DataSource;
  *
  * @author
  */
-public class UserMapper {
+public class UserMapper
+{
 
     private DatabaseConnector dbc = new DatabaseConnector();
 
@@ -24,6 +25,7 @@ public class UserMapper {
         dbc.setDataSource(ds);
     }
 
+    /* CUSTOMER */
     // <editor-fold defaultstate="collapsed" desc="Log in a customer">
     /**
      * Login Method.
@@ -39,23 +41,33 @@ public class UserMapper {
      */
     public CustomerModel login(String email, String password) throws UserException
     {
-        String SQL = "SELECT customer_name, id_customer, phone FROM customers WHERE email=? AND password=?;";
+        String SQL = "SELECT customer_name, id_customer, phone, registered FROM customers WHERE email=? AND password=?;";
         try (DatabaseConnector open_dbc = dbc.open())
         {
             PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int id = rs.getInt("id_customer");
-                CustomerModel customer = new CustomerModel();
-                customer.setPhone(rs.getInt("phone"));
-                customer.setName(rs.getString("customer_name"));
-                customer.setId(id);
-                customer.setEmail(email);
-                customer.setPassword(password);
-                return customer;
-            } else {
+            if (rs.next())
+            {
+                boolean registered = rs.getBoolean("registered");
+                if (registered == true)
+                {
+                    int id = rs.getInt("id_customer");
+                    CustomerModel customer = new CustomerModel();
+                    customer.setRegistered(registered);
+                    customer.setPhone(rs.getInt("phone"));
+                    customer.setName(rs.getString("customer_name"));
+                    customer.setId(id);
+                    customer.setEmail(email);
+                    customer.setPassword(password);
+                    return customer;
+                } else
+                {
+                    throw new UserException("Could not validate customer");
+                }
+            } else
+            {
                 throw new UserException("Could not validate customer");
             }
 
@@ -94,7 +106,10 @@ public class UserMapper {
                 customer.setEmail(rs.getString("email"));
                 customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
-
+                if (!customer.getPassword().equals(""))
+                {
+                    customer.setRegistered(true);
+                }
                 return customer;
             } else
             {
@@ -102,10 +117,89 @@ public class UserMapper {
             }
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage()); 
+            throw new DataException(ex.getMessage());
         }
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Create customer">
+    /**
+     * Create Customer Method.
+     *
+     * Inputs a Customer into the SQL database.
+     *
+     * @param customer
+     * @throws UserException Custom Exception. Caught in FrontController. Sends
+     * User back to index.jsp.
+     */
+    public void createCustomer(CustomerModel customer) throws UserException
+    {
+        int registered;
+        if (customer.isRegistered()){
+            registered = 1;
+        } else {
+            registered = 0;
+        }
+        String SQL = "INSERT INTO `carportdb`.`customers` "
+                + "(`customer_name`, `phone`, `email`, `password`, `registered`) VALUES (?, ?, ?, ?, ?);";
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, customer.getName());
+            ps.setInt(2, customer.getPhone());
+            ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getPassword());
+            ps.setInt(5, registered);
+            ps.executeUpdate();
+            ResultSet resultSet = ps.getGeneratedKeys();
+            if (resultSet.next())
+            {
+                customer.setId(resultSet.getInt(1));
+            }
+        } catch (SQLException ex)
+        {
+            throw new UserException("Customer already exists: " + ex.getMessage());
+        }
+    }
+    //</editor-fold>
+
+    /* EMPLOYEE */ 
+    // <editor-fold defaultstate="collapsed" desc="Create Employee">
+    /**
+     * Create Employee Method.
+     *
+     * Inputs a Employee into the SQL database.
+     *
+     * @param employee
+     * @throws UserException Custom Exception. Caught in FrontController. Sends
+     * User back to index.jsp.
+     */
+    public void createEmployee(EmployeeModel employee) throws UserException
+    {
+        String SQL = "INSERT INTO `carportdb`.`employees`\n"
+                + "(`emp_email`,\n"
+                + "`id_role`)\n"
+                + "VALUES\n"
+                + "(?,\n"
+                + "?);";
+        try (DatabaseConnector open_dbc = dbc.open())
+        {
+            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, employee.getEmail());
+            ps.setInt(2, employee.getId_role());
+            ps.executeUpdate();
+            try (ResultSet ids = ps.getGeneratedKeys())
+            {
+                ids.next();
+                int id = ids.getInt(1);
+                employee.setId(id);
+            }
+        } catch (SQLException ex)
+        {
+            throw new UserException("Employee already exists: " + ex.getMessage());
+        }
+    }
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Get an employee">
     /**
@@ -150,81 +244,9 @@ public class UserMapper {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Create customer">
-    /**
-     * Create Customer Method.
-     *
-     * Inputs a Customer into the SQL database.
-     *
-     * @param customer
-     * @throws UserException Custom Exception. Caught in FrontController. Sends
-     * User back to index.jsp.
-     */
-    public void createCustomer(CustomerModel customer) throws UserException {
-        String SQL = "INSERT INTO `carportdb`.`customers` "
-                + "(`customer_name`, "
-                + "`phone`, "
-                + "`email`, "
-                + "`password`) "
-                + "VALUES "
-                + "(?, "
-                + "?, "
-                + "?, "
-                + "?);";
-        try (DatabaseConnector open_dbc = dbc.open())
-        {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, customer.getName());
-            ps.setInt(2, customer.getPhone());
-            ps.setString(3, customer.getEmail());
-            ps.setString(4, customer.getPassword());
-            ps.executeUpdate();
-            ResultSet resultSet = ps.getGeneratedKeys();
-            if (resultSet.next())
-            {
-                customer.setId(resultSet.getInt(1));
-            }
-        } catch (SQLException ex) {
-            throw new UserException("Customer already exists: " + ex.getMessage());
-        }
-    }
-    //</editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Create Employee">
-    /**
-     * Create Employee Method.
-     *
-     * Inputs a Employee into the SQL database.
-     *
-     * @param employee
-     * @throws UserException Custom Exception. Caught in FrontController. Sends
-     * User back to index.jsp.
-     */
-    public void createEmployee(EmployeeModel employee) throws UserException {
-        String SQL = "INSERT INTO `carportdb`.`employees`\n"
-                + "(`emp_email`,\n"
-                + "`id_role`)\n"
-                + "VALUES\n"
-                + "(?,\n"
-                + "?);";
-        try (DatabaseConnector open_dbc = dbc.open())
-        {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, employee.getEmail());
-            ps.setInt(2, employee.getId_role());
-            ps.executeUpdate();
-            try (ResultSet ids = ps.getGeneratedKeys()) {
-                ids.next();
-                int id = ids.getInt(1);
-                employee.setId(id);
-            }
-        } catch (SQLException ex) {
-            throw new UserException("Employee already exists: " + ex.getMessage());
-        }
-    }
-    //</editor-fold>
-
-    public EmployeeModel empLogin(String email, String password) throws UserException {
+    // <editor-fold defaultstate="collapsed" desc="Log in an employee">
+    public EmployeeModel empLogin(String email, String password) throws UserException
+    {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
         try (DatabaseConnector open_dbc = dbc.open())
@@ -233,8 +255,9 @@ public class UserMapper {
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
+
+            if (rs.next())
+            {
                 int id_emp = rs.getInt("id_employee");
                 int id_role = rs.getInt("id_role");
                 EmployeeModel employee = new EmployeeModel();
@@ -242,11 +265,14 @@ public class UserMapper {
                 employee.setId_role(id_role);
                 employee.setId(id_emp);
                 return employee;
-            } else {
+            } else
+            {
                 throw new UserException("Could not validate employee");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new UserException(ex.getMessage());
         }
     }
+    // </editor-fold>
 }
