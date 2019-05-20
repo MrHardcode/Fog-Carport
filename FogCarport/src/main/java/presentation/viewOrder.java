@@ -44,6 +44,7 @@ public class viewOrder extends Command {
         request.setAttribute("employee", logic.getEmployee(order.getId_employee()));
         
         request.setAttribute("suggestedprice", logic.getSuggestedRetailPrice(partslist));
+        request.setAttribute("costprice", partslist.getTotalprice());
 
         return "viewOrder";
     }

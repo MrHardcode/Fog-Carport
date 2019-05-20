@@ -64,8 +64,15 @@
     </tbody>
 </table>
 
-<div class="d-flex p-2">
-    <p> Vejledende salgspris: ${suggestedprice}</p>
+<div class="p-2">
+    <p> Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
+    <p> Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
+    <p hidden id="costprice">${costprice}</p>
+    <input type="number" id="varpriceinput">
+    <p> Dækningsgrad for tilbudspris: <span id="varpricemargin"> </span> %</p>
+
+    <br>
+    <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
 </div>
 
 
