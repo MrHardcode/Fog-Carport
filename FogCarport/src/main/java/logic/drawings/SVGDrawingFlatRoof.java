@@ -13,19 +13,17 @@ import logic.Calculations.RoofFlatCalc;
 public class SVGDrawingFlatRoof
 {
 
-    public String getRaisedRoofDrawing(OrderModel order) throws AlgorithmException, DataException
+    public String getFlatRoofDrawing(OrderModel order) throws AlgorithmException, DataException
     {
         StringBuilder stb = new StringBuilder();
         RoofFlatCalc calc = new RoofFlatCalc();
         PartslistModel bom = calc.calculateFlatRoofStructure(order);
 
-        int svgExtraPadding = 100;
-        int halfPadding = (svgExtraPadding / 2);
         int roofLength = order.getLength() / 10; //mm to cm conversion
         int roofWidth = (order.getWidth() + 100) / 10; //5cm extension per width + cm conversion
         int rafterCount = bom.getRafterCount();
 
-        //roof border
+        //roof border (stern, bargeboard here)
         String outerRoofBorder = " <rect width=\"" + roofLength + "\" height=\"" + roofWidth + "\" \n"
                 + "style=\"stroke:black; stroke-width:1; fill-opacity:0; stroke-opacity:1\" />\n";
 

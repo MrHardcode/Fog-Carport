@@ -18,8 +18,7 @@
             int roofLength = o.getLength() / 10; //mm to cm conversion
             int roofWidth = (o.getWidth() + 100) / 10; //5cm extension per width + cm conversion
             int rafterCount = 15; //need to set on partslistmodel
-            int bandLength = roofLength-(o.getShed_length()/10);
-            int bandPosition = roofWidth/2;
+            int bandLength = roofLength-(o.getShed_length()/10); //shed end
 
             int svgExtraPadding = 100;
             int halfPadding = 50;
@@ -38,7 +37,7 @@
 
         <%
             int rafterDist = roofLength / (rafterCount - 1);
-            int rafterPlacement = 0; //place one every 500mm
+            int rafterPlacement = 0; 
             for (int i = 0; i < rafterCount; i++)
             {
         %>
