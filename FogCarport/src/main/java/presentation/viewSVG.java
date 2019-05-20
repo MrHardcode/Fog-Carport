@@ -32,21 +32,17 @@ public class viewSVG extends Command
         OrderModel order = logic.getOrder(orderID);
         PartslistModel bom = logic.getPartslistModel(order);
         
-        if (order == null || bom == null){
-            throw new UserException("You can't view drawing if you haven't generated the partslist first. See Issue #86");
-        }
-        
         String svgbase = logic.getSVGbase(bom, order);
         request.setAttribute("svgbase", svgbase);
         
         String svgbaseArrowLength = logic.getSVGbaseArrowLength(bom, order, 0);
-        String svgbaseArrowLengthExtra = logic.getSVGbaseArrowLength(bom, order, 15);
+        String svgbaseArrowLengthExtra = logic.getSVGbaseArrowLength(bom, order, order.getIncline());
         String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order, 0);
         String svgbaseArrowWidthExtra = logic.getSVGbaseArrowWidth(bom, order, order.getIncline());
         String svgbaseLabelWidth = logic.getSVGbaseLabelWidth(bom, order, 0);
         String svgbaseLabelWidthExtra = logic.getSVGbaseLabelWidth(bom, order, order.getIncline());
         String svgbaseLabelLength = logic.getSVGbaseLabelLength(bom, order, 0);
-        String svgbaseLabelLengthExtra = logic.getSVGbaseLabelLength(bom, order, 10);
+        String svgbaseLabelLengthExtra = logic.getSVGbaseLabelLength(bom, order, order.getIncline());
         
         request.setAttribute("svgbaseArrowWidth", svgbaseArrowWidth);
         request.setAttribute("svgbaseArrowWidthExtra", svgbaseArrowWidthExtra);
@@ -61,6 +57,7 @@ public class viewSVG extends Command
         String svgroof = logic.getSVGroof(order);
         request.setAttribute("svgroof", svgroof);
         
+        request.setAttribute("ID", orderID);
         return "viewSVG";
     }
 
