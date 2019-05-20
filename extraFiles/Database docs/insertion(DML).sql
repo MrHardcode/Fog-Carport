@@ -27,7 +27,7 @@ INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES (
 Creating 100 customers. This was generated here: https://www.generatedata.com/
 Taking use of default values (auto_increment) for >id_customer<. */
 ALTER TABLE `carportdb`.`customers` AUTO_INCREMENT = 1; /* Ensuring we start from 1*/
-INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Testy McTest","1234","test@test","1234", true);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Test Customer","1234","test@test","1234", true);
 
 
 /*
