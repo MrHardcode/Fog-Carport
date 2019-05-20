@@ -29,7 +29,7 @@ public class DataFacadeImpl implements DataFacade
         if (instance == null)
         {
             instance = new DataFacadeImpl();
-            dataSource = HikariDS.getDataSource();
+            dataSource = HikariDS.getDataSource(); // Change here if you want another DataSource from dataSources folder.
         }
         return instance;
     }
