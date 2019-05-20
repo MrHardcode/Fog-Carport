@@ -116,6 +116,23 @@
             </div>
         </div>
         
+        <h2 class="h2 form-group justify-content-center">Opret bruger (valgfrit)</h2>
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check-skur" name="createCustomerAccount" value="y">
+                <label class="form-check-label" for="CheckSkur">Jeg vil gerne have en bruger</label>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Adgangskode</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
+                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm" required>
+            </div>
+            
+        </div>
+
         <!-- Button to submit -->
         <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>
