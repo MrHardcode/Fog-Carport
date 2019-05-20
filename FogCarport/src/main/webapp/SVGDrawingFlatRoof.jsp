@@ -13,41 +13,42 @@
             o.setLength(7800);
             o.setWidth(6000);
             o.setRoof_tiles_id(28);
+            o.setShed_length(2000);
 
             int roofLength = o.getLength() / 10; //mm to cm conversion
             int roofWidth = (o.getWidth() + 100) / 10; //5cm extension per width + cm conversion
-            int rafterCount = 6; //need to set on partslistmodel
-            
+            int rafterCount = 15; //need to set on partslistmodel
+            int bandLength = roofLength-(o.getShed_length()/10);
+            int bandPosition = roofWidth/2;
+
             int svgExtraPadding = 100;
             int halfPadding = 50;
         %>
     </head>
 
     <body>
-        <p>test</p>
         <!-- svg to fit elements inside -->
-        <svg width="<%=(roofLength + svgExtraPadding) %>" height="<%=(roofWidth + svgExtraPadding) %>" >
+        <svg width="<%=(roofLength + svgExtraPadding)%>" height="<%=(roofWidth + svgExtraPadding)%>" >
             <!--<rect x="<%=halfPadding%>" y="<%=halfPadding%>" width="<%=roofLength%>" height="<%= roofWidth%>"
             style="fill:none; stroke:red; stroke-width:1; fill-opacity:1.0; stroke-opacity:1.0"/> -->
-        
+
         <!-- Outline of roof ends (fascias, bargeboards here) --> 
-        <rect x="50" y="50" width="<%=roofLength %>" height="<%= roofWidth %>" 
+        <rect width="<%=roofLength%>" height="<%= roofWidth%>" 
               style="stroke:black; stroke-width:1; fill-opacity:0; stroke-opacity:1" />
 
-       
-        <% 
+        <%
             int rafterDist = roofLength / (rafterCount - 1);
-            int rafterPlacement = 50; //place one every 50cm/500mm
-            for (int i = 0; i <= rafterCount; i++) {
-                %>
-            <rect x="<%=rafterPlacement %>" y="<%=halfPadding%>" width="<%=roofLength %>" height="<%= roofWidth %>"
-                    style="fill:none; stroke:black; stroke-width:1"/>
-                    <%
-            rafterPlacement += 
-                    rafterDist;
-        }
-            %> 
-       
+            int rafterPlacement = 0; //place one every 500mm
+            for (int i = 0; i < rafterCount; i++)
+            {
+        %>
+        <rect x="<%=rafterPlacement%>" width=".5%" height="<%=roofWidth%>" fill="gray" />
+        <%
+                rafterPlacement += rafterDist;
+                }
+        %>
+        <line x1="<%=rafterDist %>" y1="0" x2="<%=bandLength %>" y2="<%=roofWidth %>" style="stroke: black; stroke-dasharray:20,10" />
+        <line x1="<%=rafterDist %>" y1="<%=roofWidth %>" x2="<%=bandLength %>" y2="<%=0 %>" style="stroke: black; stroke-dasharray:20,10" />
         </svg>
     </body>
 </html>
