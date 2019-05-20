@@ -105,7 +105,7 @@ public class UserMapper
                 customer.setEmail(rs.getString("email"));
                 customer.setPhone(rs.getInt("phone"));
                 customer.setPassword(rs.getString("password"));
-                if (!customer.getPassword().equals(" "))
+                if (!customer.getPassword().equals(""))
                 {
                     customer.setRegistered(true);
                 }

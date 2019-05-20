@@ -32,6 +32,8 @@ public class createUser extends Command
         String phone = request.getParameter("phonenumber");
         customer.setPhone(v.validateInteger(phone, "Phone number"));
         
+        customer.setRegistered(true);
+        
         logic.createCustomer(customer);
         request.getSession().setAttribute("customer", logic.login(email, password));
         

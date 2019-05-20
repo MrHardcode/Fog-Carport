@@ -43,7 +43,7 @@ public class orderCarport extends Command
             customer_one.setAdress(adress);
             customer_one.setPhone(phonenumber);
             customer_one.setZip(zip);
-            customer_one.setPassword(" ");
+            customer_one.setPassword("");
             customer_one.setRegistered(false);
             logic.createCustomer(customer_one);
             order.setId_customer(customer_one.getId());
