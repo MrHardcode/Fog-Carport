@@ -124,11 +124,11 @@
             </div>
             <div class="form-group">
                 <label for="inputPassword">Adgangskode</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password" required>
+                <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password">
             </div>
             <div class="form-group">
                 <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
-                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm" required>
+                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm">
             </div>
             
         </div>
