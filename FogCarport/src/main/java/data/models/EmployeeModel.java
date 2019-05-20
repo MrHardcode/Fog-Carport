@@ -11,7 +11,7 @@ public class EmployeeModel
 {
     // Fields
     private int id;
-    private String name;
+    private String email;
     private String role;
     private int id_role;
     
@@ -65,9 +65,9 @@ public class EmployeeModel
      *
      * @return the value of name
      */
-    public String getName()
+    public String getEmail()
     {
-        return name;
+        return email;
     }
 
     /**
@@ -75,9 +75,9 @@ public class EmployeeModel
      *
      * @param name new value of name
      */
-    public void setName(String name)
+    public void setEmail(String email)
     {
-        this.name = name;
+        this.email = email;
     }
 
 

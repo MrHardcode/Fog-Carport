@@ -17,9 +17,52 @@ public class CustomerModel
     private String email;
     private String adress;
     private int zip;
-
+    private String password;
+    private boolean registered;
+    
     public CustomerModel()
     {
+    }
+
+    /**
+     * Get the value of registered
+     *
+     * @return the value of registered
+     */
+    public boolean isRegistered()
+    {
+        return registered;
+    }
+
+    /**
+     * Set the value of registered
+     *
+     * @param registered new value of registered
+     */
+    public void setRegistered(boolean registered)
+    {
+        this.registered = registered;
+    }
+
+    
+    /**
+     * Get the value of password
+     *
+     * @return the value of password
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @param password new value of password
+     */
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     /**

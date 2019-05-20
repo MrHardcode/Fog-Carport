@@ -2,7 +2,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -22,6 +22,7 @@ public class BaseCalc
     private final int postID = 4;
     private final int strapID = 54;
     private final int boltID = 24;
+    private final String helptext = "base"; // Used to fetch the right helptext from database.
     
     //Variables used to keep track of things in the algorithm
     private int separations = 0;
@@ -30,7 +31,7 @@ public class BaseCalc
     private ArrayList postPosRear = new ArrayList();
     
 
-    public PartslistModel addBase(OrderModel order) throws LoginException
+    public PartslistModel addBase(OrderModel order) throws DataException
     {
         PartslistModel bom = new PartslistModel();
         DataFacade db = DataFacadeImpl.getInstance();
@@ -58,10 +59,10 @@ public class BaseCalc
             int cLength, int cWidth, 
             int sLength, int sWidth, 
             boolean heavyRoof, 
-            DataFacade db) throws LoginException
+            DataFacade db) throws DataException
     {
         //97x97mm post
-        MaterialModel post = db.getMaterial(postID);
+        MaterialModel post = db.getMaterial(postID, helptext);
         int postAmount = 0;
         if (heavyRoof)
         {
@@ -74,13 +75,13 @@ public class BaseCalc
         post.setQuantity(postAmount);
         bom.addMaterial(post);
         //45x195mm rafter wood
-        MaterialModel strap = db.getMaterial(strapID);
+        MaterialModel strap = db.getMaterial(strapID, helptext);
         int strapAmount = calcStraps(cLength, cWidth, strap);
         strap.setQuantity(strapAmount);
         bom.addMaterial(strap);
         
         //10x120mm bolts
-        MaterialModel bolts = db.getMaterial(boltID);
+        MaterialModel bolts = db.getMaterial(boltID, helptext);
         int boltAmount = calcBolts(strapAmount);
         bolts.setQuantity(boltAmount);
         bom.addMaterial(bolts);

@@ -25,10 +25,6 @@
 
         <!-- Navbar include. -->
         <jsp:include page='/navbar.jsp'></jsp:include>
-            <!-- Show errormessage to the User --> 
-        <c:if test="${not empty message}">
-            <H2>Message: ${message} </h2>
-            </c:if>
 
         <!-- MASTER INCLUDE -->
         <jsp:include page='${target}.jsp'></jsp:include>
@@ -41,7 +37,7 @@
         <!-- FOOTER END -->
 
         <!-- JQUERY JS -->
-        <script src="https://code.jquery.com/jquery-3.4.0.min.js"crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js" crossorigin="anonymous"></script>
         <!-- BOOTSTRAP JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <!-- SWEETALERT JS -->
