@@ -64,9 +64,10 @@
     </tbody>
 </table>
 
-<c:if test="${not empty employee}">
+<div class="d-flex p-2">
     <p> Vejledende salgspris: ${suggestedprice}</p>
-</c:if>
+</div>
+
 
 
 <c:if test="${order.status != 'Finalized'}">
