@@ -1,7 +1,7 @@
 /*
  *  
  */
-package data.databaseAccessObjects;
+package data.databaseAccessObjects.dataSources;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 

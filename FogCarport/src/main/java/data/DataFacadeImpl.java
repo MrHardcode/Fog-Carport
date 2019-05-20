@@ -1,6 +1,7 @@
 package data;
 
-import data.databaseAccessObjects.DBCPDataSource;
+import com.zaxxer.hikari.HikariDataSource;
+import data.databaseAccessObjects.dataSources.HikariDS;
 import data.databaseAccessObjects.mappers.MaterialMapper;
 import data.databaseAccessObjects.mappers.OrderMapper;
 import data.databaseAccessObjects.mappers.UserMapper;
@@ -21,12 +22,14 @@ public class DataFacadeImpl implements DataFacade
 {
 
     private static DataFacadeImpl instance = null;
+    private static HikariDataSource dataSource = null;
 
     public synchronized static DataFacadeImpl getInstance()
     {
         if (instance == null)
         {
             instance = new DataFacadeImpl();
+            dataSource = HikariDS.getDataSource(); // Change here if you want another DataSource from dataSources folder.
         }
         return instance;
     }
@@ -35,7 +38,7 @@ public class DataFacadeImpl implements DataFacade
     public MaterialModel getMaterial(int id, String helptext) throws DataException
     {
         MaterialMapper materialMapper = new MaterialMapper();
-        materialMapper.setDataSource(DBCPDataSource.getDataSource());
+        materialMapper.setDataSource(dataSource);
         return materialMapper.getMaterial(id, helptext);
     }
 
@@ -43,7 +46,7 @@ public class DataFacadeImpl implements DataFacade
     public OrderModel getOrder(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
-        orderMapper.setDataSource(DBCPDataSource.getDataSource());
+        orderMapper.setDataSource(dataSource);
         return orderMapper.getOrder(id);
     }
 
@@ -57,7 +60,7 @@ public class DataFacadeImpl implements DataFacade
     public PartslistModel getOrderDetails(int id, String helptext) throws DataException
     {
         MaterialMapper materialMapper = new MaterialMapper();
-        materialMapper.setDataSource(DBCPDataSource.getDataSource());
+        materialMapper.setDataSource(dataSource);
         return materialMapper.getMaterials(id, helptext);
     }
 
@@ -65,7 +68,7 @@ public class DataFacadeImpl implements DataFacade
     public void createOrder(OrderModel order) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
-        orderMapper.setDataSource(DBCPDataSource.getDataSource());
+        orderMapper.setDataSource(dataSource);
         orderMapper.createOrder(order);
     }
 
@@ -73,7 +76,7 @@ public class DataFacadeImpl implements DataFacade
     public List<Integer> getAllOrderIds() throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
-        orderMapper.setDataSource(DBCPDataSource.getDataSource());
+        orderMapper.setDataSource(dataSource);
         return orderMapper.getAllOrderIds();
     }
 
@@ -81,7 +84,7 @@ public class DataFacadeImpl implements DataFacade
     public EmployeeModel getEmployee(int id) throws UserException
     {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         return userMapper.getEmployee(id);
     }
 
@@ -89,7 +92,7 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel getCustomer(int id) throws DataException
     {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         return userMapper.getCustomer(id);
     }
 
@@ -97,7 +100,7 @@ public class DataFacadeImpl implements DataFacade
     public void createCustomer(CustomerModel customer) throws UserException
     {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         userMapper.createCustomer(customer);
     }
 
@@ -105,7 +108,7 @@ public class DataFacadeImpl implements DataFacade
     public void createEmployee(EmployeeModel employee) throws UserException
     {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         userMapper.createEmployee(employee);
     }
 
@@ -113,7 +116,7 @@ public class DataFacadeImpl implements DataFacade
     public CustomerModel login(String email, String password) throws UserException
     {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         return userMapper.login(email, password);
     }
 
@@ -121,7 +124,7 @@ public class DataFacadeImpl implements DataFacade
     public List<Integer> getOrderIds(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
-        orderMapper.setDataSource(DBCPDataSource.getDataSource());
+        orderMapper.setDataSource(dataSource);
         return orderMapper.getOrderIds(id);
     }
 
@@ -129,14 +132,14 @@ public class DataFacadeImpl implements DataFacade
     public void payOrder(int id) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
-        orderMapper.setDataSource(DBCPDataSource.getDataSource());
+        orderMapper.setDataSource(dataSource);
         orderMapper.payOrder(id);
     }
 
     @Override
     public EmployeeModel empLogin(String email, String password) throws UserException {
         UserMapper userMapper = new UserMapper();
-        userMapper.setDataSource(DBCPDataSource.getDataSource());
+        userMapper.setDataSource(dataSource);
         return userMapper.empLogin(email, password);
     }
 
