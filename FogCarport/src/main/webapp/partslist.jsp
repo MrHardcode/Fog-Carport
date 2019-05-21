@@ -20,6 +20,7 @@
     </thead>
 
     <tbody>
+        <!-- Table Row for each Material in the Partslist. -->
         <c:forEach var="material" items="${partslistbom.billOfMaterials}">
             <tr>
                 <td contenteditable='true'>${material.quantity}</td>
@@ -37,9 +38,11 @@
 </table>
 <!-- END OF BOM -->
 
+<!-- Price of the partslist -->
 Total Price: ${partslistbom.totalprice}
 
 <br>
+<!-- Button to go back to viewOrder -->
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="">
         <input type="hidden" name="command" value="viewOrder">   

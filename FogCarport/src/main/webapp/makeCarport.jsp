@@ -2,7 +2,7 @@
 <div class="d-flex justify-content-center" >
     <!-- Form start -->
     <form action="FrontController" method="POST" id="carport-form" accept-charset=utf-8>
-
+        <!-- command = makeCarport -->
         <input type="hidden" name="command" value="makeCarport">
 
         <h1 class="h1">Bestil Carport</h1>
@@ -55,22 +55,27 @@
 
         <!-- Shed menu part -->
         <div hidden id="carport-shed-div">
+            <!-- Headline -->
             <h1 class="h1">Byg skur</h1>
+            <!-- Length of the shed -->
             <div class="form-group">
                 <label for="ShedInputLength">Længde i cm</label>
                 <select class="form-control" id="shed-length" name="shed-length"><option selected="selected" value="">Vælg længde</option>
                 </select>
             </div>
+            <!-- Width of the shed -->
             <div class="form-group">
                 <label for="ShedInputWidth">Bredde i cm</label>
                 <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
                 </select>
             </div>
+            <!-- Type of wood used for the shed floor. -->
             <div class="form-group">
                 <label for="ShedInputFloor">Gulv</label>
                 <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
                 </select>
             </div>
+            <!-- Type of wood used for the shed walls. -->
             <div class="form-group">
                 <label for="ShedInputWall">Beklædning</label>
                 <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
@@ -78,13 +83,16 @@
             </div>
         </div>
 
+        <!-- Headline -->
         <h1 class="h1">Kunde info</h1>
         <!-- Customer info -->
         <div class="form-row">
+            <!-- Adress -->
             <div class="form-group col-md-8">
                 <label for="inputAddress">Adresse</label>
                 <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
             </div>
+            <!-- Zipcode -->
             <div class="form-group col-md-4">
                 <label for="inputZip">Postnummer</label>
                 <input type="number" class="form-control" id="inputZip" placeholder="Postnummer" name="zip" required>
