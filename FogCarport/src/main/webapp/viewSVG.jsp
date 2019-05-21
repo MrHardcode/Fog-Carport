@@ -32,7 +32,19 @@
             </svg>
             </g>
             <g class="card-text collapse multi-collapse multiCollapse2">
-            <svg x="50" y="21.5" >${svgroof}</svg>
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="50" y="21.5" >
+                    ${svgroof}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="98">
+                    ${svgroof}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
+            
             <svg x="100" y="100">
             ${svgbaseArrowLengthExtra}
             ${svgbaseLabelWidthExtra}
