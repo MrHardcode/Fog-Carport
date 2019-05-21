@@ -2,8 +2,22 @@
 
 /*----------------- OrderValidation JS -----------------  */
 
-document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
+//document.addEventListener("DOMContentLoaded", calculateOperationMargin);
+//document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
 
+// added to only run calculateOperationMarginSuggestedPrice() when window is command=viewOrder
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+        calculateOperationMarginSuggestedPrice();
+    }
+    fillDropdownsDimensions();
+});
+if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+    let varpriceinput = document.getElementById("varpriceinput");
+    varpriceinput.addEventListener("keyup", function () {
+        calculateOperationsMarignVariblePrice();
+    });
+}
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
@@ -175,8 +189,8 @@ let wallOptions = document.getElementById("shed-wall");
 function prepareShedMenu() {
 
     //Getting the given dimensions of the carport
-    let carportLength = (document.getElementById("input-length").value)/10;
-    let carportWidth = (document.getElementById("input-width").value)/10;
+    let carportLength = (document.getElementById("input-length").value) / 10;
+    let carportWidth = (document.getElementById("input-width").value) / 10;
 
     //Creating arrays used in the fillDropDownShedDimensions() method
     let shedLength = createShedDimensions(carportLength);
@@ -252,4 +266,18 @@ function clearShedDimensionsMenu() {
     for (u = 0; u < width; u++) {
         widthOptions.remove(1);
     }
+}
+
+function calculateOperationMarginSuggestedPrice() {
+    let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
+    let costprice = document.getElementById("costprice").innerHTML;
+    let operationMargin = parseFloat(((suggestedprice / costprice) * 100) - 100).toFixed(1);
+    document.getElementById("operationmargin").innerHTML = operationMargin;
+}
+function calculateOperationsMarignVariblePrice() {
+    let varprice = document.getElementById("varpriceinput").value;
+    let costprice = document.getElementById("costprice").innerHTML;
+
+    let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
+    document.getElementById("varpricemargin").innerHTML = varOperationMargin;
 }

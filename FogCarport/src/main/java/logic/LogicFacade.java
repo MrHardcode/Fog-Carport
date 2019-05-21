@@ -152,5 +152,7 @@ public interface LogicFacade
      * @throws UserException
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
+    
+    public int getSuggestedRetailPrice(PartslistModel partsList);
 
 }
