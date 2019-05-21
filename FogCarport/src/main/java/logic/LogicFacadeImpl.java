@@ -15,6 +15,7 @@ import logic.Calculations.RoofFlatCalc;
 import logic.Calculations.RoofRaisedCalc;
 import logic.Calculations.ShedLogic;
 import logic.drawings.SVGDrawingBase;
+import logic.drawings.SVGDrawingFlatRoof;
 import logic.drawings.SVGDrawingRaisedRoof;
 import logic.drawings.SVGDrawingShed;
 
@@ -47,7 +48,6 @@ public class LogicFacadeImpl implements LogicFacade
 //    {
 //        return PartslistLogic.getInstance().getBOM();
 //    }
-
     @Override
     public List<Integer> getAllOrderIds() throws DataException
     {
@@ -112,7 +112,8 @@ public class LogicFacadeImpl implements LogicFacade
             // Add flat roof
             RoofFlatCalc flatroof = new RoofFlatCalc();
             partslistmodel.addPartslist(flatroof.calculateFlatRoofStructure(order));
-        } else
+        }
+        else
         {
             // Add raised roof
             RoofRaisedCalc raisedroof = new RoofRaisedCalc();
@@ -134,7 +135,7 @@ public class LogicFacadeImpl implements LogicFacade
 
         // #1 NESTED SVG FOR SOME PADDING: 
         SVG += " <svg x=\"100\" y=\"100\"> ";
-        
+
         // SHED ALSO HAS ITS OWN NESTING WITHIN. NOW SHED IS RELATIVE TO NEST #1
         if (order.getShed_width() != 0 && order.getShed_length() != 0 && order.getShed_walls_id() != 0)
         {
@@ -144,7 +145,7 @@ public class LogicFacadeImpl implements LogicFacade
         // ADD BASE DRAWING
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
         SVG += base.getBaseDrawing(order);
-        
+
         // #1 NESTING END 
         SVG += " </svg> ";
 
@@ -153,7 +154,7 @@ public class LogicFacadeImpl implements LogicFacade
 
         return SVG;
     }
-    
+
     @Override
     public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance)
     {
@@ -164,20 +165,20 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order)
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order, int extraDistance)
     {
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
         String SVG = "";
-        SVG += base.getWidthArrow();
+        SVG += base.getWidthArrow(extraDistance);
         return SVG;
     }
 
     @Override
-    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order)
+    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order, int extraDistance)
     {
         SVGDrawingBase base = new SVGDrawingBase(order, bom);
         String SVG = "";
-        SVG += base.getWidthLabel();
+        SVG += base.getWidthLabel(extraDistance);
         return SVG;
     }
 
@@ -189,13 +190,21 @@ public class LogicFacadeImpl implements LogicFacade
         SVG += base.getLengthLabel(extraDistance);
         return SVG;
     }
-    
+
     // Mother method that calls all the partslist SVG drawings for shed and base.
     @Override
     public String getSVGroof(OrderModel order) throws DataException, AlgorithmException
     {
-        SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();
-        return roof.getRaisedRoofDrawing(order);
+        if (order.getIncline() == 0)
+        {
+            SVGDrawingFlatRoof roof = new SVGDrawingFlatRoof();
+            return roof.getFlatRoofDrawing(order);
+        }
+        else
+        {
+            SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();
+            return roof.getRaisedRoofDrawing(order);
+        }
     }
 
     @Override
@@ -217,7 +226,8 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public EmployeeModel empLogin(String name, String password) throws UserException {
+    public EmployeeModel empLogin(String name, String password) throws UserException
+    {
         return DataFacadeImpl.getInstance().empLogin(name, password);
     }
 

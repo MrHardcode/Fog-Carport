@@ -80,12 +80,15 @@ public class RoofFlatCalc
 
     /* Calculations */
     private int amountOfScrews; //total amount of screws needed
+    private int rafterCount;
 
     /* Imports */
     private final DataFacade DAO; //data accessor
+    
 
     public RoofFlatCalc()
     {
+        rafterCount = 0;
         amountOfScrews = 0;
         this.DAO = DataFacadeImpl.getInstance();
     }
@@ -101,12 +104,13 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException, AlgorithmException
     {
-        PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
+       PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
         roofMaterials.addPartslist(calculateDependantParts(order));
 
+        roofMaterials.setRafterCount(rafterCount); //needed for svg
         return roofMaterials;
     }
 
@@ -120,7 +124,7 @@ public class RoofFlatCalc
      * @return returns partslistmodel of main parts
      * @throws DataException
      */
-    protected PartslistModel calculateMainParts(OrderModel order) throws DataException 
+    protected PartslistModel calculateMainParts(OrderModel order) throws DataException
     {
         /* Initialize partslist to return */
         PartslistModel mainMaterials = new PartslistModel();
@@ -156,7 +160,7 @@ public class RoofFlatCalc
      * @return returns partlistmodel of items needed
      * @throws DataException
      */
-    protected PartslistModel calculateRafters(OrderModel order) throws DataException 
+    protected PartslistModel calculateRafters(OrderModel order) throws DataException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel rafters = new PartslistModel();
@@ -188,11 +192,12 @@ public class RoofFlatCalc
         if (rafterLengthRemainder > 0) //if there is less than 500mm to the end of the roof, add another rafter.
         {
             rafterLengthRemainder = Math.ceil(rafterLengthRemainder);
-            rafterTotalAmount = (int) rafterLengthRemainder;
+            rafterTotalAmount += (int) rafterLengthRemainder;
         }
 
         /* Update quantities */
         rafter.setQuantity(rafterTotalAmount);
+        rafterCount = rafterTotalAmount; //needed for SVG
 
         /* Update price */
         rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
@@ -296,7 +301,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    protected PartslistModel calculateBargeboard(OrderModel order) throws DataException 
+    protected PartslistModel calculateBargeboard(OrderModel order) throws DataException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel bargeboards = new PartslistModel();
@@ -344,7 +349,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    protected PartslistModel calculateBand(OrderModel order) throws DataException 
+    protected PartslistModel calculateBand(OrderModel order) throws DataException
     {
         PartslistModel bandParts = new PartslistModel();
         int bandAmount = 1; //used to determine band quantity. we always want one.
@@ -395,7 +400,7 @@ public class RoofFlatCalc
      * fittings.
      * @return returns a list of materials (to later add to bill of materials)
      */
-    protected PartslistModel calculateFittings(PartslistModel rafters) throws DataException 
+    protected PartslistModel calculateFittings(PartslistModel rafters) throws DataException
     {
         /* Rafter amount */
         int rafterAmount = rafters.getBillOfMaterials().get(0).getQuantity(); //hackish solution.
@@ -526,9 +531,9 @@ public class RoofFlatCalc
 
         /* Calculation begin */
         int largeQty = (remainingLength / tileLargeLength); //amount of large tiles for length
-        
+
         double remainderLength = (remainingLength % tileLargeLength); //any leftover space?
-        remainderLength /= tileSmallLength; 
+        remainderLength /= tileSmallLength;
 
         int smallQty = 0;
         if (remainderLength > 0)
@@ -538,7 +543,7 @@ public class RoofFlatCalc
         //We now have amount of tiles for one length
         //Lets calculate for the width too.
         int totalAmountLarge = (remainingWidth / tileLargeWidth) * largeQty; //Math.ceil not needed, due to the 200mm overlap we always have excessive amount.
-        int totalAmountSmall = (remainingWidth / tileSmallWidth) * smallQty; 
+        int totalAmountSmall = (remainingWidth / tileSmallWidth) * smallQty;
 
         /* Update quantities */
         tileLarge.setQuantity((int) totalAmountLarge);
@@ -555,7 +560,7 @@ public class RoofFlatCalc
         tileLarge.setHelptext("tagplader monteres på spær");
         tileSmall.setHelptext("tagplader monteres på spær");
         tileScrews.setHelptext("Skruer til tagplader");
-        
+
         /* Add to <partslistmodel> */
         tileAndTileAccessories.addMaterial(tileLarge);
         tileAndTileAccessories.addMaterial(tileSmall);
