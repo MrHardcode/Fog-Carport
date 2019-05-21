@@ -67,14 +67,21 @@ function prepareInclineMenu() {
 }
 ;
 
+/* get and disable roof tile selection */
 let tileOption = document.getElementById("roof-tiles");
 tileOption.disabled = true;//by default we disable the tile selection
 
+/* When selection of incline changes, delete deprecated data from tile-selection dropdown */
+inclineOptions.addEventListener("change", function () {
+    clearOptions(document.getElementById("roof-tiles"));
+});
 
-
+/* When incline option is selected, check selected option */
 inclineOptions.addEventListener("change", function () {
     checkInclineMenuState();
 });
+
+
 
 let inclineOptionsChoice = document.getElementById("roof-inclines").selected;
 
@@ -96,6 +103,8 @@ function prepareTileMenu()
 {
     if (inclineOptions.selectedIndex == 1) //plastic, flat roof
     {
+        let jsAtt = '${flatRoofParts}';
+        
 //        let flatRoofOptions = {
 //            '28': 'Plastmo Ecolite (Blåtonet)'
 //        };
@@ -120,8 +129,15 @@ function prepareTileMenu()
         }
 
     }
-    //need to fix: add makeCarport as a command
     //set roof materials on the request attributes.
+}
+
+/*Remove all but the first option */
+function clearOptions(dropdownmenu)
+{
+    while (dropdownmenu.length > 1) {
+        dropdownmenu.remove(1);
+    }
 }
 
 
