@@ -3,9 +3,11 @@
  */
 package presentation;
 
+import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.OrderModel;
+import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -18,7 +20,7 @@ public class payOrder extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException 
+    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException 
     {
 
         Validation validation = new Validation();
@@ -31,6 +33,7 @@ public class payOrder extends Command
         
         // Get an order by id from database.
         OrderModel order = logic.getOrder(id);
+        PartslistModel partslist = logic.getPartslistModel(order);
         
         // Place values used by viewOrder on request.
         request.setAttribute("order", order);
@@ -39,6 +42,9 @@ public class payOrder extends Command
         request.setAttribute("shedfloor", logic.getMaterial(order.getShed_floor_id(), "shed").getDescription());
         request.setAttribute("customer", logic.getCustomer(order.getId_customer()));
         request.setAttribute("employee", logic.getEmployee(order.getId_employee()));
+        
+        request.setAttribute("suggestedprice", logic.getSuggestedRetailPrice(partslist));
+        request.setAttribute("costprice", partslist.getTotalprice());
 
         return "viewOrder";
     }
