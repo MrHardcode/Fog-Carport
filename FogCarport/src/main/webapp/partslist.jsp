@@ -15,7 +15,6 @@
             <th scope="col">Længde i mm.</th>
             <th scope="col">Bredde i mm.</th>
             <th scope="col">Højde i mm.</th> 
-            <th scope="col">Pris</th> 
         </tr>
     </thead>
 
@@ -29,7 +28,6 @@
                 <td contenteditable='true'>${material.length}</td>
                 <td contenteditable='true'>${material.width}</td>
                 <td contenteditable='true'>${material.height}</td>
-                <td contenteditable='true'>${material.price}</td>
             </tr>
         </c:forEach>
     </tbody>
