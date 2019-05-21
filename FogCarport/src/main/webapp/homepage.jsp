@@ -13,11 +13,13 @@
     <!-- Form start -->
     <form action="FrontController" method="POST" id="carport-form" accept-charset=utf-8>
 
+        <!-- makeCarport command -->
         <input type="hidden" name="command" value="makeCarport">
 
+        <!-- Headline -->
         <h1 class="h1">Bestil Carport</h1>
 
-        <!-- Carport Height 
+        <!-- Carport Height (Deprecated - Was used for the simple carport partslist, which is no longer used. Was part of the first sprint.)
         <div class="form-group">
             <label for="InputHeight">Hï¿½jde i cm</label>
             <input type="number"class="form-control" id="input-height" placeholder="Indtast hï¿½jde" name="height">
@@ -25,7 +27,7 @@
         </div> -->
 
         <!-- Carport Length 
-        <input type="number" class="form-control" id="input-length" placeholder="Indtast lï¿½ngde" name="length"> -->
+        <input type="number" class="form-control" id="input-length" placeholder="Indtast lï¿½ngde" name="length"> Deprecated - We used to use input field instead of dropdown. -->
         <div class="form-group">
             <label for="InputLength">Længde i cm</label>
             <select class="form-control" id="input-length" name="length"><option selected="selected" value="">Vælg længde</option>              
@@ -34,7 +36,7 @@
         </div>
 
         <!-- Carport Width 
-        <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width"> -->
+        <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width"> Deprecated - We used to use input field instead of dropdown. -->
         <div class="form-group">
             <label for="InputWidth">Bredde i cm</label>
             <select class="form-control" id="input-width" name="width"><option selected="selected" value="">Vælg bredde</option>
@@ -66,67 +68,82 @@
 
         <!-- Shed menu part -->
         <div hidden id="carport-shed-div">
+            <!-- Headline for shed -->
             <h1 class="h1">Byg skur</h1>
+            <!-- Shed length -->
             <div class="form-group">
                 <label for="ShedInputLength">Længde i cm</label>
                 <select class="form-control" id="shed-length" name="shed-length"><option selected="selected" value="">Vælg længde</option>
                 </select>
             </div>
+            <!-- Shed width -->
             <div class="form-group">
                 <label for="ShedInputWidth">Bredde i cm</label>
                 <select class="form-control" id="shed-width" name="shed-width"><option selected="selected" value="">Vælg bredde</option>
                 </select>
             </div>
+            <!-- Type of wood used for the shed floor -->
             <div class="form-group">
                 <label for="ShedInputFloor">Gulv</label>
                 <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
                 </select>
             </div>
+            <!-- Type of wood used for the shed walls -->
             <div class="form-group">
                 <label for="ShedInputWall">Beklædning</label>
                 <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
                 </select>
             </div>
         </div>
-
+        
+        <!-- Headline, contact info -->
         <h1 class="h1 form-group justify-content-center">Kontakt info</h1>
         <!-- Customer info -->
         <div class="form-group">
+            <!-- Email -->
             <div class="form-group">
                 <label for="inputEmail">E-mail (Dette bliver dit brugernavn)</label>
                 <input type="email" class="form-control" id="inputEmail" placeholder="Eksempel@mail.dk" name="email" required>
             </div>
+            <!-- Name -->
             <div class="form-group">
                 <label for="inputName">Navn</label>
                 <input type="text" class="form-control" id="inputName" placeholder="Navn" name="name" required>
             </div>
+            <!-- Adress -->
             <div class="form-group">
                 <label for="inputAddress">Adresse</label>
                 <input type="text" class="form-control" id="inputAddress" placeholder="Adresse" name="adress" required>
             </div>
         </div>
         <div class="form-row">
+            <!-- Phone number -->
             <div class="form-group col-md-8">
                 <label for="inputPhoneNumber">Telefon</label>
                 <input type="number" class="form-control" id="inputPhoneNumber" placeholder="Telefonnummer" name="phonenumber" required>
             </div>
+            <!-- Zipcode -->
             <div class="form-group col-md-4">
                 <label for="inputZip">Postnummer</label>
                 <input type="number" class="form-control" id="inputZip" placeholder="Postnummer" name="zip" required>
             </div>
         </div>
 
+        <!-- If the customer wants a login, so they can see their order. -->
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
             Jeg vil gerne have en bruger
         </button>
 
         <div class="collapse" id="passwordcollapse">
+            <!-- Headline - create login (optional) -->
             <h2 class="h2 form-group justify-content-center">Opret bruger (valgfrit)</h2>
             <div class="form-group">
+                <!-- Password -->
                 <div class="form-group">
                     <label for="inputPassword">Adgangskode</label>
                     <input type="password" class="form-control" id="inputPassword" placeholder="********" name="password">
                 </div>
+                <!-- Repeat password -->
                 <div class="form-group">
                     <label for="inputPasswordConfirm">Angiv adgangskode igen</label>
                     <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="********" name="password-confirm">
