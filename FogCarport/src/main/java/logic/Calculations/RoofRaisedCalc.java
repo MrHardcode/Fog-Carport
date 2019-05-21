@@ -374,6 +374,7 @@ public class RoofRaisedCalc {
                 if (calcList.get(i).getID() == returnList.get(j).getID()) {
                     int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();
                     returnList.get(j).setQuantity(qunatity);
+                    returnBOM.setTotalprice((calcList.get(i).getQuantity()* (int) Math.ceil(returnList.get(j).getPrice())) + returnBOM.getTotalprice());
                     quantityAdded = true;
                 }
             }
