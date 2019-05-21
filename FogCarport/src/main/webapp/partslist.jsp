@@ -35,7 +35,10 @@
 </table>
 <!-- END OF BOM -->
 
+<!-- show total price if employee-->
+<c:if test= "${not empty sessionScope.employee}"> 
 Total Price: ${partslistbom.totalprice}
+</c:if>
 
 <br>
 <div class="d-flex justify-content-center">
