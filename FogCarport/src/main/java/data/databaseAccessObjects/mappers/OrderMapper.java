@@ -39,9 +39,9 @@ public class OrderMapper
         String SQL = "SELECT * FROM `carportdb`.`orders`"
                 + " WHERE `orders`.`id_order` = ?";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -70,7 +70,8 @@ public class OrderMapper
                 throw new DataException("Could not get info about order from database.");
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
 
@@ -82,9 +83,10 @@ public class OrderMapper
      * Create an order. Inputs an order into the Database.
      *
      * @param order you want to input into the SQL database.
-     * @throws DataException 
+     * @throws DataException
      */
-    public void createOrder(OrderModel order) throws DataException {
+    public void createOrder(OrderModel order) throws DataException
+    {
         // SQL STATEMENT
         String SQL = "INSERT INTO `carportdb`.`orders` "
                 + " (`build_adress`, `build_zipcode`, `status`, `width`, `length`, "
@@ -92,9 +94,10 @@ public class OrderMapper
                 + "`shed_floor_id`, `customer_id`, `employee_id`)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
             ps.setString(1, order.getBuild_adress());
             ps.setInt(2, order.getBuild_zipcode());
             ps.setString(3, order.getStatus());
@@ -115,7 +118,8 @@ public class OrderMapper
                 int id = resultSet.getInt(1);
                 order.setId(id);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new DataException(ex.getMessage());
         }
     }
@@ -127,24 +131,28 @@ public class OrderMapper
      * the salesman.
      *
      * @return
-     * @throws DataException 
+     * @throws DataException
      */
-    public List<Integer> getAllOrderIds() throws DataException {
+    public List<Integer> getAllOrderIds() throws DataException
+    {
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
-        List<Integer> ids = new ArrayList<>();
-        try (DatabaseConnector open_dbc = dbc.open())
+
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+            List<Integer> ids = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next())
             {
                 Integer id = rs.getInt("id_order");
                 ids.add(id);
             }
-        }catch(SQLException ex){
+            return ids;
+        } catch (SQLException ex)
+        {
             throw new DataException(ex.getMessage());
         }
-        return ids;
+
     }
     // </editor-fold>
 
@@ -154,15 +162,17 @@ public class OrderMapper
      *
      * @param id
      * @return
-     * @throws DataException 
+     * @throws DataException
      */
-    public List<Integer> getOrderIds(int id) throws DataException {
+    public List<Integer> getOrderIds(int id) throws DataException
+    {
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
-        List<Integer> ids = new ArrayList<>();
-        try (DatabaseConnector open_dbc = dbc.open())
-        {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        {
+
+            List<Integer> ids = new ArrayList<>();
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -171,10 +181,12 @@ public class OrderMapper
                 Integer tempid = rs.getInt("id_order");
                 ids.add(tempid);
             }
-        } catch(SQLException ex) {
+            return ids;
+        } catch (SQLException ex)
+        {
             throw new DataException(ex.getMessage());
         }
-        return ids;
+
     }
     // </editor-fold>
 
@@ -182,9 +194,9 @@ public class OrderMapper
     public void payOrder(int id) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -197,4 +209,3 @@ public class OrderMapper
     }
     //</editor-fold>
 }
-

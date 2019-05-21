@@ -32,20 +32,46 @@
             </svg>
             </g>
             <g class="card-text collapse multi-collapse multiCollapse2">
-            <svg x="50" y="21.5" >${svgroof}</svg>
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="50" y="21.5" >
+                    ${svgroof}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="98">
+                    ${svgroof}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
+            
             <svg x="100" y="100">
             ${svgbaseArrowLengthExtra}
-            ${svgbaseLabelWidth}
-            ${svgbaseArrowWidth}
+            ${svgbaseLabelWidthExtra}
             ${svgbaseLabelLengthExtra}
             </svg>
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="100" y="70">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="100">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
             </g>
             </svg>
         </p>
     </div>
 </div>
-
 <br>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-secondary" href="FrontController?command=link&link=viewOrder">Tilbage til din valgte ordre </a>
+    <form method="POST" action="FrontController"  class="">
+        <input type="hidden" name="command" value="viewOrder">   
+        <input type="hidden" name="orderid" value="${ID}"> 
+        <button type="submit" class="btn btn-primary">Tilbage til din valgte ordre</button>
+    </form>
 </div>
