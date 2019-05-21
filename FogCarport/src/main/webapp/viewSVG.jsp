@@ -2,19 +2,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<!-- Headline -->
 <div class="container w-100">
-
     <h1 class="my-4">Tegninger af Carport.
         <small>Tag og Underkonstruktion.</small>
     </h1>
 </div>
-<!-- /.container -->
 
+<!-- The SVG drawings of the carport -->
 <div>
-    <p>
+    <p> 
+        <!-- Using bootstrap collapse -->
         <a class="btn btn-primary" data-toggle="collapse" href=".multiCollapse1" role="button" 
            aria-expanded="true" aria-controls="multiCollapse1">Show base</a>
-        
+
         <button class="btn btn-primary" type="button" data-toggle="collapse" 
                 data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
                 aria-controls="multiCollapse2,.collapseOne">Show roof</button>
@@ -44,7 +45,7 @@
                     </svg>
                 </c:otherwise>
             </c:choose>
-            
+
             <svg x="100" y="100">
             ${svgbaseArrowLengthExtra}
             ${svgbaseLabelWidthExtra}
@@ -67,7 +68,10 @@
         </p>
     </div>
 </div>
+<!-- END OF SVG DRAWING -->
+
 <br>
+<!-- Button to go back to viewOrder -->
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="">
         <input type="hidden" name="command" value="viewOrder">   
