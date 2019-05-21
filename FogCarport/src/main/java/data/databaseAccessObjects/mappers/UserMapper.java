@@ -42,9 +42,10 @@ public class UserMapper
     public CustomerModel login(String email, String password) throws UserException
     {
         String SQL = "SELECT customer_name, id_customer, phone, registered FROM customers WHERE email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -90,9 +91,9 @@ public class UserMapper
     {
         String SQL = "SELECT * FROM carportdb.customers WHERE id_customer = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -134,17 +135,22 @@ public class UserMapper
      */
     public void createCustomer(CustomerModel customer) throws UserException
     {
+        // Doing this registered thing, because we use tinyint to represent boolean. 1 for true, 0 for false.
         int registered;
-        if (customer.isRegistered()){
+        if (customer.isRegistered())
+        {
             registered = 1;
-        } else {
+        } else
+        {
             registered = 0;
         }
+
         String SQL = "INSERT INTO `carportdb`.`customers` "
                 + "(`customer_name`, `phone`, `email`, `password`, `registered`) VALUES (?, ?, ?, ?, ?);";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
             ps.setString(1, customer.getName());
             ps.setInt(2, customer.getPhone());
             ps.setString(3, customer.getEmail());
@@ -163,7 +169,7 @@ public class UserMapper
     }
     //</editor-fold>
 
-    /* EMPLOYEE */ 
+    /* EMPLOYEE */
     // <editor-fold defaultstate="collapsed" desc="Create Employee">
     /**
      * Create Employee Method.
@@ -182,9 +188,10 @@ public class UserMapper
                 + "VALUES\n"
                 + "(?,\n"
                 + "?);";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
             ps.setString(1, employee.getEmail());
             ps.setInt(2, employee.getId_role());
             ps.executeUpdate();
@@ -218,9 +225,10 @@ public class UserMapper
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -249,9 +257,10 @@ public class UserMapper
     {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();

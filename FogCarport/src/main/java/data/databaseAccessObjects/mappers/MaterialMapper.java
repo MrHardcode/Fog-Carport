@@ -31,14 +31,16 @@ public class MaterialMapper
      * @return name of the category.
      * @throws DataException
      */
-    public String getCategory(int id) throws DataException {
+    public String getCategory(int id) throws DataException
+    {
         String SQL = "SELECT `category`.`category_name`\n"
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -62,20 +64,21 @@ public class MaterialMapper
      * @param id of the Material.
      * @param helptext
      * @return MaterialModel
-     * @throws DataException 
+     * @throws DataException
      */
-    public MaterialModel getMaterial(int id, String helptext) throws DataException {
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
+    {
         MaterialModel material = new MaterialModel();
 
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_"+helptext+" \n"
+        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_" + helptext + " \n"
                 + "FROM materials \n"
                 + "INNER JOIN `category` \n"
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
                 + "WHERE `materials`.`id_material` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             material.setID(id);
 
             ps.setInt(1, id);
@@ -104,7 +107,7 @@ public class MaterialMapper
                 String categoryname = rs.getString("category_name");
                 material.setCategory(categoryname);
 
-                String help_text = rs.getString("helptext_"+helptext);
+                String help_text = rs.getString("helptext_" + helptext);
                 material.setHelptext(help_text);
             }
         } catch (SQLException ex)
@@ -125,13 +128,15 @@ public class MaterialMapper
      * @return name of the category.
      * @throws DataException
      */
-    public String getOrderDetailsCategory(int id) throws DataException {
+    public String getOrderDetailsCategory(int id) throws DataException
+    {
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
+
             String category = "";
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -157,22 +162,25 @@ public class MaterialMapper
      * @return List of MaterialModel.
      * @throws DataException
      */
-    public PartslistModel getMaterials(int id, String helptext) throws DataException {
+    public PartslistModel getMaterials(int id, String helptext) throws DataException
+    {
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open())
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-            PreparedStatement ps = open_dbc.preparedStatement(SQL);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 MaterialModel material = getMaterial(rs.getInt("id_material"), helptext);
                 materials.addMaterial(material);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             // Should most likely be another exception.
             throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
         }
