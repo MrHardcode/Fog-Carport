@@ -64,21 +64,24 @@
     </tbody>
 </table>
 
-<div class="p-2">
-    <p> Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
+<div class="card">
+    <div class="card-body">
+        <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
+        <c:if test= "${sessionScope.employee != null}"> 
+            <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
+        </div>  
+        <div class="card-body">
+            <p hidden id="costprice">${costprice}</p>
+            <p>Beregn dækningsgrad for ny pris</p>
+            <input id="varpriceinput" placeholder="Ny pris">
+            <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
+            <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
+        </div>
+    </c:if>
 </div>
+</div>        
 
-<c:if test= "${sessionScope.employee != null}"> 
-    <div class="p-2">
-        <p> Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
-        <p hidden id="costprice">${costprice}</p>
-        <input id="varpriceinput">
-        <p> Dækningsgrad for tilbudspris: <span id="varpricemargin"> </span> %</p>
 
-        <br>
-        <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
-    </div>
-</c:if>
 
 
 <c:if test="${order.status != 'Finalized'}">
