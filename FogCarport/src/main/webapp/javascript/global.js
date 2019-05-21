@@ -276,8 +276,12 @@ function calculateOperationMarginSuggestedPrice() {
 }
 function calculateOperationsMarignVariblePrice() {
     let varprice = document.getElementById("varpriceinput").value;
+    if(varprice < 1 || isNaN(varprice)){
+        document.getElementById("varpricemargin").innerHTML = '';
+        return;
+    }
     let costprice = document.getElementById("costprice").innerHTML;
 
     let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
-}
+    }
