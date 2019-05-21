@@ -15,6 +15,9 @@
             <th scope="col">Længde i mm.</th>
             <th scope="col">Bredde i mm.</th>
             <th scope="col">Højde i mm.</th> 
+            <c:if test= "${not empty sessionScope.employee}"> 
+            <th scope="col">Pris</th> 
+            </c:if>
         </tr>
     </thead>
 
@@ -28,6 +31,9 @@
                 <td contenteditable='true'>${material.length}</td>
                 <td contenteditable='true'>${material.width}</td>
                 <td contenteditable='true'>${material.height}</td>
+                <c:if test= "${not empty sessionScope.employee}"> 
+                <td contenteditable='true'>${material.price}</td>
+                </c:if>
             </tr>
         </c:forEach>
     </tbody>
