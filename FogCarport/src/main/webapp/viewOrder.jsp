@@ -66,15 +66,19 @@
 
 <div class="p-2">
     <p> Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
-    <p> Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
-    <p hidden id="costprice">${costprice}</p>
-    <input id="varpriceinput">
-    <p> Dækningsgrad for tilbudspris: <span id="varpricemargin"> </span> %</p>
-
-    <br>
-    <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
 </div>
 
+<c:if test= "${sessionScope.employee != null}"> 
+    <div class="p-2">
+        <p> Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
+        <p hidden id="costprice">${costprice}</p>
+        <input id="varpriceinput">
+        <p> Dækningsgrad for tilbudspris: <span id="varpricemargin"> </span> %</p>
+
+        <br>
+        <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
+    </div>
+</c:if>
 
 
 <c:if test="${order.status != 'Finalized'}">
