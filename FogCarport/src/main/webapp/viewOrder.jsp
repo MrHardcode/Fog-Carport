@@ -67,7 +67,7 @@
 <div class="card">
     <div class="card-body">
         <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
-        <c:if test= "${sessionScope.employee != null}"> 
+        <c:if test= "${not empty sessionScope.employee}"> 
             <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
         </div>  
         <div class="card-body">
