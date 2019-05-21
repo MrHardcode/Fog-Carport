@@ -94,11 +94,18 @@ public interface LogicFacade
      *
      * @param bom bill of materials. PartslistModel. Contains required info.
      * @param order of the carport.
-     * @return HTML String that draws the carport.
+     * @return HTML String that draws the base of the carport.
      */
     public String getSVGbase(PartslistModel bom, OrderModel order);
 
-    
+    /**
+     * Get the drawing of the roof of the carport. We use SVG.
+     *
+     * @param order of the carport.
+     * @return HTML String that draws the roof.
+     * @throws DataException
+     * @throws AlgorithmException
+     */
     public String getSVGroof(OrderModel order) throws DataException, AlgorithmException;
 
     public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance);
