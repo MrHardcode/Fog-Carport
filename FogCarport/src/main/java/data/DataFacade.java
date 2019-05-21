@@ -53,20 +53,75 @@ public interface DataFacade
      */
     public List<Integer> getAllOrderIds() throws DataException;
 
+    /**
+     * Get an employee from the database.
+     *
+     * @param id of the employee in the database.
+     * @return EmployeeModel
+     * @throws UserException
+     */
     public EmployeeModel getEmployee(int id) throws UserException;
 
+    /**
+     * Get a customer from the database.
+     *
+     * @param id of the customer in the database.
+     * @return CustomerModel
+     * @throws DataException
+     */
     public CustomerModel getCustomer(int id) throws DataException;
 
+    /**
+     * Input a customer into the database.
+     *
+     * @param customer you want to input into database.
+     * @throws UserException
+     */
     public void createCustomer(CustomerModel customer) throws UserException;
 
+    /**
+     * Input an employee into the database.
+     *
+     * @param employee you want to input into database.
+     * @throws UserException
+     */
     public void createEmployee(EmployeeModel employee) throws UserException;
 
+    /**
+     * Validate customer.
+     *
+     * @param email of the customer.
+     * @param password of the customer.
+     * @return CustomerModel
+     * @throws UserException
+     */
     public CustomerModel login(String email, String password) throws UserException;
 
+    /**
+     * Get all ids of all orders for a customer.
+     *
+     * @param id of the customer.
+     * @return List of ids of orders.
+     * @throws DataException
+     */
     public List<Integer> getOrderIds(int id) throws DataException;
 
+    /**
+     * Update status on an order in the database to be paid.
+     *
+     * @param id of the order in the database.
+     * @throws DataException
+     */
     public void payOrder(int id) throws DataException;
 
+    /**
+     * Validate Employee
+     *
+     * @param email of the employee
+     * @param password of the employee
+     * @return EmployeeModel
+     * @throws UserException
+     */
     public EmployeeModel empLogin(String email, String password) throws UserException;
 
 }
