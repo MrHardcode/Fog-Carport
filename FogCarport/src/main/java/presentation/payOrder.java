@@ -3,7 +3,6 @@
  */
 package presentation;
 
-
 import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -13,28 +12,29 @@ import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
 /**
- * View a single order.
+ * Pay for a single order and view the same order after payment
  *
  * @author
  */
-public class viewOrder extends Command {
-
-    public viewOrder() {
-    }
+public class payOrder extends Command
+{
 
     @Override
-
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException
+    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException 
     {
-
 
         Validation validation = new Validation();
         int id = validation.validateInteger(request.getParameter("orderid"), "Order id");
-
-        // Get an order by id from database and partslist.
+        
+        // Pay for order with given id.
+        logic.payOrder(id);
+        
+        //Making the viewOrder-page ready again after the payment update:
+        
+        // Get an order by id from database.
         OrderModel order = logic.getOrder(id);
         PartslistModel partslist = logic.getPartslistModel(order);
-
+        
         // Place values used by viewOrder on request.
         request.setAttribute("order", order);
         request.setAttribute("tile", logic.getMaterial(order.getRoof_tiles_id(), "roof").getDescription());

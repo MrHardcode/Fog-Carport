@@ -7,10 +7,10 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -32,6 +32,7 @@ public class RoofFlatCalcTest
 
     DataFacade DAO;
     OrderModel testOrder;
+    private final String helptext = "roof";
 
     public RoofFlatCalcTest()
     {
@@ -229,8 +230,8 @@ public class RoofFlatCalcTest
         PartslistModel expResult = new PartslistModel();
         PartslistModel result = instance.calculateBand(testOrder);
 
-        MaterialModel expBand = DAO.getMaterial(23);
-        MaterialModel expScrews = DAO.getMaterial(21);
+        MaterialModel expBand = DAO.getMaterial(23, helptext);
+        MaterialModel expScrews = DAO.getMaterial(21, helptext);
 
         expBand.setQuantity(2);
         expScrews.setQuantity(1);

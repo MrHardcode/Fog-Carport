@@ -9,7 +9,7 @@
                         <div class="col-md-9 col-lg-8 mx-auto">
                             <!-- HEADLINE -->
                             <h3 class="login-heading mb-4">Fog Carporte - Login</h3>
-                            <form action="FrontController">
+                            <form method="POST" action="FrontController">
 
                                 <!-- COMMAND -->
                                 <input type="hidden" name="command" value="login">

@@ -1,7 +1,8 @@
 package presentation;
 
 import data.exceptions.AlgorithmException;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
@@ -27,6 +28,9 @@ abstract class Command
         commands.put("login", new login()); // From login.jsp. Log the Customer in.
         commands.put("createUser", new createUser()); // Make a new Customer
         commands.put("makeCarportForm", new makeCarportForm()); //Form for creating a new carport order.
+        commands.put("logOut", new LogOut()); // Log out customer, clear session, return to homepage.
+        commands.put("payOrder", new payOrder()); //Pay for a single order (change status to finalized)
+
     }
 
     static Command from(HttpServletRequest request)
@@ -40,6 +44,6 @@ abstract class Command
     }
 
     abstract String execute(HttpServletRequest request, LogicFacade logic)
-            throws LoginException, AlgorithmException;
+            throws UserException, DataException, AlgorithmException;
 
 }

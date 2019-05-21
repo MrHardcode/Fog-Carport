@@ -20,7 +20,7 @@
     </thead>
 
     <tbody>
-        <c:forEach var="material" items="${bom.billOfMaterials}">
+        <c:forEach var="material" items="${partslistbom.billOfMaterials}">
             <tr>
                 <td contenteditable='true'>${material.quantity}</td>
                 <td contenteditable='true'>${material.ID}</td>
@@ -37,9 +37,13 @@
 </table>
 <!-- END OF BOM -->
 
-Total Price: ${bom.totalprice}
+Total Price: ${partslistbom.totalprice}
 
 <br>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-secondary " href="FrontController?command=link&link=viewOrder">Tilbage til din valgte ordre </a>
+    <form method="POST" action="FrontController"  class="">
+        <input type="hidden" name="command" value="viewOrder">   
+        <input type="hidden" name="orderid" value="${ID}"> 
+        <button type="submit" class="btn btn-primary">Tilbage til din valgte ordre</button>
+    </form>
 </div>

@@ -5,7 +5,7 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
-import data.exceptions.LoginException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -23,6 +23,7 @@ import org.junit.Test;
 public class ShedLogicTest
 {
     private DataFacade db; 
+    private final String helptext = "roof";
     
     public ShedLogicTest()
     {
@@ -147,20 +148,20 @@ public class ShedLogicTest
         
         System.out.println("addFloor");
         PartslistModel bom = new PartslistModel();
-        MaterialModel floor = db.getMaterial(50);
+        MaterialModel floor = db.getMaterial(50, helptext);
         int length = 3500;
         int width = 2000;
         ShedLogic instance = new ShedLogic();
         instance.addFloor(bom, floor, length, width, db);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         bom = new PartslistModel();
-        floor = db.getMaterial(50);
+        floor = db.getMaterial(50, helptext);
         instance.addFloor(bom, floor, 3500, 2100, db);
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
         
         bom = new PartslistModel();
-        floor = db.getMaterial(50);
+        floor = db.getMaterial(50, helptext);
         instance.addFloor(bom, floor, 3600, 2100, db);
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
         
@@ -218,7 +219,7 @@ public class ShedLogicTest
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
         instance.addDoorMaterials(bom, db);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
@@ -249,7 +250,7 @@ public class ShedLogicTest
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
         instance.posts(length, order, width, db, bom);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
@@ -277,7 +278,7 @@ public class ShedLogicTest
         int side = 3;
         ShedLogic instance = new ShedLogic();
         instance.reglar(width, db, bom, side);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         
         int expected = 6;
@@ -290,7 +291,7 @@ public class ShedLogicTest
      * Test of addScrews method, of class ShedLogic.
      */
     @Test
-    public void testAddScrews() throws LoginException
+    public void testAddScrews() throws Exception
     {
         PartslistModel test = new PartslistModel();
         MaterialModel tscrews = new MaterialModel();
@@ -304,12 +305,12 @@ public class ShedLogicTest
         
         System.out.println("addScrews");
         PartslistModel bom = new PartslistModel();
-        MaterialModel screws = db.getMaterial(26);
+        MaterialModel screws = db.getMaterial(26, helptext);
         int packamount = 400;
         int screwamount = 401;
         ShedLogic instance = new ShedLogic();
         instance.addScrews(bom, screws, packamount, screwamount);
-        assertEquals(test, bom);
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
         int expectedpacks = 1;
         packamount = 100;
@@ -323,8 +324,8 @@ public class ShedLogicTest
      *
      * @throws data.exceptions.LoginException
      */
-    @Test(expected = LoginException.class)
-    public void testAddShedNull() throws LoginException
+    @Test(expected = DataException.class)
+    public void testAddShedNull() throws DataException
     {
         OrderModel order = null;
         PartslistModel model = new PartslistModel();

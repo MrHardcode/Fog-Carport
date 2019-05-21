@@ -7,30 +7,71 @@
     <h1 class="my-4">Tegninger af Carport.
         <small>Tag og Underkonstruktion.</small>
     </h1>
-
-    <div class="card h-100">
-        <div class="card-body">
-            <h4 class="card-title">
-                <p>Underkonstruktion</p>
-            </h4>
-            <p class="card-text">${svgbase}</p>
-        </div>
-    </div>
-    <br>
-    <div class="card h-100">
-        <div class="card-body">
-            <h4 class="card-title">
-                <p>Taget</p>
-            </h4>
-            <p class="card-text">${svgroof}</p>
-        </div>
-    </div>
-
 </div>
 <!-- /.container -->
 
-
+<div>
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href=".multiCollapse1" role="button" 
+           aria-expanded="true" aria-controls="multiCollapse1">Show base</a>
+        
+        <button class="btn btn-primary" type="button" data-toggle="collapse" 
+                data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
+                aria-controls="multiCollapse2,.collapseOne">Show roof</button>
+    </p>
+    <div class="row card">
+        <p>
+            <svg width="900" height="900">
+            <g id="accordion1" class="accordion card-text collapse multi-collapse multiCollapse1">
+            ${svgbase}
+            <svg x="100" y="100" id="collapseOne" class="collapseOne collapse show" data-parent="#accordion1">
+            ${svgbaseArrowWidth}
+            ${svgbaseArrowLength}
+            ${svgbaseLabelWidth}
+            ${svgbaseLabelLength}
+            </svg>
+            </g>
+            <g class="card-text collapse multi-collapse multiCollapse2">
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="50" y="21.5" >
+                    ${svgroof}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="98">
+                    ${svgroof}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
+            
+            <svg x="100" y="100">
+            ${svgbaseArrowLengthExtra}
+            ${svgbaseLabelWidthExtra}
+            ${svgbaseLabelLengthExtra}
+            </svg>
+            <c:choose>
+                <c:when test="${incline > 0}">
+                    <svg x="100" y="70">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:when>
+                <c:otherwise>
+                    <svg x="100" y="100">
+                    ${svgbaseArrowWidthExtra}
+                    </svg>
+                </c:otherwise>
+            </c:choose>
+            </g>
+            </svg>
+        </p>
+    </div>
+</div>
 <br>
 <div class="d-flex justify-content-center">
-    <a class="btn btn-secondary " href="FrontController?command=link&link=viewOrder">Tilbage til din valgte ordre </a>
+    <form method="POST" action="FrontController"  class="">
+        <input type="hidden" name="command" value="viewOrder">   
+        <input type="hidden" name="orderid" value="${ID}"> 
+        <button type="submit" class="btn btn-primary">Tilbage til din valgte ordre</button>
+    </form>
 </div>

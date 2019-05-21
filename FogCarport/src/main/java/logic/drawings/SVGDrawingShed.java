@@ -13,7 +13,8 @@ public class SVGDrawingShed
 {
 
     private final int postdistance = 310; // in cm.
-
+    private static int arrowHeadCounter = 0;
+    
     public SVGDrawingShed()
     {
     }
@@ -42,7 +43,7 @@ public class SVGDrawingShed
                 + " y=\"" + ((carportLength) - (shedLength)) + "\" \n"
                 + " width=\"" + (shedWidth) + "\" \n"
                 + " height=\"" + (shedLength) + "\" \n"
-                + " style=\"stroke:black;stroke-dasharray:10,5;stroke-width:5;fill-opacity:0.1;stroke-opacity:1\" />\n";
+                + " style=\"stroke:black;stroke-dasharray:10,5;stroke-width:3;fill-opacity:0.1;stroke-opacity:1\" />\n";
 
         // Posts from corner to the edge.
         if (shedWidth != carportWidth)
@@ -61,8 +62,8 @@ public class SVGDrawingShed
             //Post at the corner
             SVG += "<rect x=\"" + (((carportWidth) - (shedWidth))) + "\" \n"
                     + "y=\"" + ((carportLength) - (shedLength)) + "\" \n"
-                    + "width=\"15\" height=\"15\" \n"
-                    + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n";
+                    + "width=\"7\" height=\"7\" \n"
+                    + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n";
         }
         // Closing tag
         SVG += "        </svg>";
@@ -104,8 +105,8 @@ public class SVGDrawingShed
                 // The post
                 SVG += " <rect x=\"" + ((carportWidth - shedWidth) + postwidth) + "\" \n" // Places posts 213cm instead of 310cm. Now they are spread even and nice.
                         + "y=\"" + (carportLength - shedLength) + "\" \n"
-                        + "width=\"15\" height=\"15\" \n"
-                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+                        + "width=\"7\" height=\"7\" \n"
+                        + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
 
@@ -127,8 +128,8 @@ public class SVGDrawingShed
 
                 SVG += " <rect x=\"" + (carportWidth - shedWidth) + "\" \n"
                         + "y=\"" + ((carportLength - shedLength) + postlength) + "\" \n"
-                        + "width=\"15\" height=\"15\" \n"
-                        + "style=\"stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:1\" />\n ";
+                        + "width=\"7\" height=\"7\" \n"
+                        + "style=\"stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\" />\n ";
             }
         }
         return SVG;
@@ -145,16 +146,17 @@ public class SVGDrawingShed
      */
     String getArrow(int beginX, int beginY, int endX, int endY)
     {
+        ++arrowHeadCounter;
         // The Arrow.
         String SVG = " "
                 + "<defs>\n"
-                + "    <marker id=\"beginArrow\" \n"
+                + "    <marker id=\"beginArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"0\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
                 + "        <path d=\"M0,4 L8,0 L8,8 L0,4\" style=\"fill: #000000s;\" />\n"
                 + "    </marker>\n"
-                + "    <marker id=\"endArrow\" \n"
+                + "    <marker id=\"endArrow" + arrowHeadCounter + "\" \n"
                 + "    	markerWidth=\"9\" markerHeight=\"9\" \n"
                 + "    	refX=\"8\" refY=\"4\" \n"
                 + "    	orient=\"auto\">\n"
@@ -163,8 +165,8 @@ public class SVGDrawingShed
                 + "</defs>\n"
                 + "<line x1=\"" + beginX + "\"  y1=\"" + beginY + "\" x2=\"" + endX + "\"   y2=\"" + endY + "\" \n"
                 + "	style=\"stroke:#006600;\n"
-                + "	marker-start: url(#beginArrow);\n"
-                + "   marker-end: url(#endArrow);\"/>"
+                + "	marker-start: url(#beginArrow" + arrowHeadCounter + ");\n"
+                + "   marker-end: url(#endArrow" + arrowHeadCounter + ");\"/>"
                 + " ";
 
         return SVG;

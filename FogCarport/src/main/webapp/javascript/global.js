@@ -2,14 +2,28 @@
 
 /*----------------- OrderValidation JS -----------------  */
 
-document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
+//document.addEventListener("DOMContentLoaded", calculateOperationMargin);
+//document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
 
+// added to only run calculateOperationMarginSuggestedPrice() when window is command=viewOrder
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+        calculateOperationMarginSuggestedPrice();
+    }
+    fillDropdownsDimensions();
+});
+if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+    let varpriceinput = document.getElementById("varpriceinput");
+    varpriceinput.addEventListener("keyup", function () {
+        calculateOperationsMarignVariblePrice();
+    });
+}
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
     for (let i = 240; i < 750; i = i + 30) {
-        lengthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
-        widthOption.innerHTML += '<option value="' + i + '">' + i + ' cm</option>';
+        lengthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
+        widthOption.innerHTML += '<option value="' + (i * 10) + '">' + i + ' cm</option>';
     }
 }
 ;
@@ -111,7 +125,7 @@ function prepareTileMenu()
         roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
         roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
         for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + roofTileOptions.valueOf(i) + '">' + roofTileOptions.get(i) + '</option>';
+            tileOption.innerHTML += '<option value="' + i + '">' + roofTileOptions.get(i) + '</option>';
         }
 
     }
@@ -191,8 +205,8 @@ let wallOptions = document.getElementById("shed-wall");
 function prepareShedMenu() {
 
     //Getting the given dimensions of the carport
-    let carportLength = document.getElementById("input-length").value;
-    let carportWidth = document.getElementById("input-width").value;
+    let carportLength = (document.getElementById("input-length").value) / 10;
+    let carportWidth = (document.getElementById("input-width").value) / 10;
 
     //Creating arrays used in the fillDropDownShedDimensions() method
     let shedLength = createShedDimensions(carportLength);
@@ -268,4 +282,18 @@ function clearShedDimensionsMenu() {
     for (u = 0; u < width; u++) {
         widthOptions.remove(1);
     }
+}
+
+function calculateOperationMarginSuggestedPrice() {
+    let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
+    let costprice = document.getElementById("costprice").innerHTML;
+    let operationMargin = parseFloat(((suggestedprice / costprice) * 100) - 100).toFixed(1);
+    document.getElementById("operationmargin").innerHTML = operationMargin;
+}
+function calculateOperationsMarignVariblePrice() {
+    let varprice = document.getElementById("varpriceinput").value;
+    let costprice = document.getElementById("costprice").innerHTML;
+
+    let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
+    document.getElementById("varpricemargin").innerHTML = varOperationMargin;
 }
