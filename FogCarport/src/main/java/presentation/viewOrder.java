@@ -45,7 +45,18 @@ public class viewOrder extends Command {
         
         request.setAttribute("suggestedprice", logic.getSuggestedRetailPrice(partslist));
         request.setAttribute("costprice", partslist.getTotalprice());
+        
+        //if finalPrice was set during this request
+        if (request.getParameterMap().containsKey("finalPrice"))
+        {
+            int finalPrice = validation.validateInteger(request.getParameter("finalPrice"), "Pris felt");
+            //save finalprice to order here
+            request.setAttribute("priceOffer", finalPrice);
+            //then the above line can probably be deleted or changed with:
+            //request.setAttribute("priceOffer", order.getFinalPrice);
+        }
 
+        
         return "viewOrder";
     }
 

@@ -11,15 +11,18 @@
             <th scope="col">Antal</th>
             <th scope="col">Vare Nummer</th>
             <th scope="col">Vare Beskrivelse</th>
-            <th scope="col">Hjælpe Tekst</th>
-            <th scope="col">Længde i mm.</th>
+            <th scope="col">Hjï¿½lpe Tekst</th>
+            <th scope="col">Lï¿½ngde i mm.</th>
             <th scope="col">Bredde i mm.</th>
-            <th scope="col">Højde i mm.</th> 
-            <th scope="col">Pris</th> 
+            <th scope="col">Hï¿½jde i mm.</th> 
+                <c:if test= "${not empty sessionScope.employee}"> 
+                <th scope="col">Pris</th> 
+                </c:if>
         </tr>
     </thead>
 
     <tbody>
+        <!-- Table Row for each Material in the Partslist. -->
         <c:forEach var="material" items="${partslistbom.billOfMaterials}">
             <tr>
                 <td contenteditable='true'>${material.quantity}</td>
@@ -29,7 +32,9 @@
                 <td contenteditable='true'>${material.length}</td>
                 <td contenteditable='true'>${material.width}</td>
                 <td contenteditable='true'>${material.height}</td>
-                <td contenteditable='true'>${material.price}</td>
+                <c:if test= "${not empty sessionScope.employee}"> 
+                    <td contenteditable='true'>${material.price}</td>
+                </c:if>
             </tr>
         </c:forEach>
     </tbody>
@@ -37,9 +42,13 @@
 </table>
 <!-- END OF BOM -->
 
-Total Price: ${partslistbom.totalprice}
+<!-- show total price if employee-->
+<c:if test= "${not empty sessionScope.employee}"> 
+    Pris: ${partslistbom.totalprice}
+</c:if>
 
 <br>
+<!-- Button to go back to viewOrder -->
 <div class="d-flex justify-content-center">
     <form method="POST" action="FrontController"  class="">
         <input type="hidden" name="command" value="viewOrder">   

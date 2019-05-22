@@ -31,9 +31,11 @@ public class login extends Command
         String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
         try{
+            /* Log in customer */
             CustomerModel customer = logic.login(email, password);
             request.getSession().setAttribute("customer", customer);
         } catch(UserException ux){
+            /* if customer login fails, try to log in Employee instead */
             EmployeeModel employee = logic.empLogin(email, password);
             request.getSession().setAttribute("employee", employee);
         }

@@ -65,16 +65,16 @@ public class UserMapper
                     return customer;
                 } else
                 {
-                    throw new UserException("Could not validate customer");
+                    throw new UserException("Kunden eksisterer ikke i databasen.");
                 }
             } else
             {
-                throw new UserException("Could not validate customer");
+                throw new UserException("Kunden eksisterer ikke i databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage());
+            throw new UserException("Fejl i forbindelse til databasen.");
         }
     }
     // </editor-fold>
@@ -114,11 +114,11 @@ public class UserMapper
                 return customer;
             } else
             {
-                throw new DataException("Could not retrieve customer info.");
+                throw new DataException("Kunne ikke skaffe kunde-info.");
             }
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Fejl i forbindelse til databasen.");
         }
     }
     // </editor-fold>
@@ -164,7 +164,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new UserException("Customer already exists: " + ex.getMessage());
+            throw new UserException("Kunden eksisterer allerede i databasen.");
         }
     }
     //</editor-fold>
@@ -203,7 +203,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new UserException("Employee already exists: " + ex.getMessage());
+            throw new UserException("Den ansatte eksisterer allerede i databasen.");
         }
     }
     //</editor-fold>
@@ -246,7 +246,7 @@ public class UserMapper
 
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new UserException("Kunne ikke skaffe den ansatte fra databasen.");
         }
 
     }
@@ -276,11 +276,11 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Could not validate employee");
+                throw new UserException("Kunne ikke validere den ansatte.");
             }
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage());
+            throw new UserException("Der er opstået en fejl i forbindelsen til databasen.");
         }
     }
     // </editor-fold>

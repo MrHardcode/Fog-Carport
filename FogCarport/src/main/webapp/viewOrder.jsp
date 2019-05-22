@@ -38,7 +38,7 @@
     </tbody>
 </table>
 
-<!-- Show Customer and Employee -->
+<!-- Show info about the Customer and Employee who are tied to the order. -->
 <table class="table table-hover">
     <thead>
         <tr>
@@ -66,16 +66,26 @@
 
 <div class="card">
     <div class="card-body">
-        <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
+        <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
+        <c:if test= "${not empty priceOffer}">
+            <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
+            <c:if test= "${not empty sessionScope.employee}"> 
+                <p>Dækningsgrad for tilbudspris: <span id="operationmargin"> </span> %</p>
+            </c:if>
+        </c:if>
         <c:if test= "${not empty sessionScope.employee}"> 
             <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
         </div>  
         <div class="card-body">
-            <p hidden id="costprice">${costprice}</p>
-            <p>Beregn dækningsgrad for ny pris</p>
-            <input id="varpriceinput" placeholder="Ny pris">
-            <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
-            <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
+            <h5>Afgiv tilbud?</h5>
+            <p>Indkøbspris: <span id="costprice">${costprice} </span> DKK</p>
+            <form method="POST" action="FrontController">
+                <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
+                <input type="hidden" name="command" value="viewOrder">  
+                <input type="hidden" name="orderid" value="${order.id}">
+                <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
+                <button type="submit" class="btn btn-primary">Send tilbud</button>
+            </form>
         </div>
     </c:if>
 </div>
@@ -83,6 +93,7 @@
 
 
 
+<!-- Button to pay for the order -->
 <c:if test="${order.status != 'Finalized'}">
     <div class="d-flex p-2">
         <form action="FrontController"  class="">
@@ -92,6 +103,7 @@
         </form>
     </div>
 </c:if>
+<!-- Button to see partslist and drawings if you've paid for the order. -->
 <c:if test="${order.status != 'Awaiting' 
               && order.status != 'Processing'
               && order.status != 'Accepted'}">
