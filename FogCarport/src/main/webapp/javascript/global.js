@@ -20,6 +20,13 @@ if (window.location.toString().indexOf("command=viewOrder") !== -1) {
     });
 }
 
+// Added to only run the SVG-related JS when command=viewSVG
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.toString().indexOf("command=viewSVG") !== -1) {
+        checkRadioButtons();
+    }
+});
+
 //////another option?
 ////document.addEventListener('load', function () {
 ////    checkPriceOffer();
@@ -248,8 +255,6 @@ function prepareShedMenu() {
     }
 
     fillDropDownShedDimensions();
-    fillDropDownShedFloor();
-    fillDropDownShedWall();
 
     function fillDropDownShedDimensions() {
         //This enhanced loop creates a new option in the select for the shed-dimensions
@@ -304,4 +309,46 @@ function checkPriceOffer()
         suggestedPrice.style.setProperty("color", "red");
         //suggestedPrice.innerHTML = '<del>' + suggestedPrice.value + '</del>';
     }
+}
+
+/*----------------- ViewSVG JS -----------------  */
+
+function checkRadioButtons() {
+    let toggleBaseShow = document.getElementById("radio-base-show");
+    let toggleBaseHide = document.getElementById('radio-base-hide');
+
+    let toggleRoofShow = document.getElementById('radio-roof-show');
+    let toggleRoofHide = document.getElementById('radio-roof-hide');
+
+    let baseButton = document.getElementById('base-toggle-access');
+    let roofButton = document.getElementById('roof-toggle-access');
+
+
+    toggleBaseShow.addEventListener("click", function () {
+        if (!toggleBaseShow.classList.contains("active"))
+        {
+            baseButton.click();
+        }
+    });
+    
+    toggleBaseHide.addEventListener("click", function () {
+        if (!toggleBaseHide.classList.contains("active"))
+        {
+            baseButton.click();
+        }
+    });
+    
+    toggleRoofShow.addEventListener("click", function () {
+        if (!toggleRoofShow.classList.contains("active"))
+        {
+            roofButton.click();
+        }
+    });
+    
+    toggleRoofHide.addEventListener("click", function () {
+        if (!toggleRoofHide.classList.contains("active"))
+        {
+            roofButton.click();
+        }
+    });
 }
