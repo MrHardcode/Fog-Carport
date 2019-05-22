@@ -58,9 +58,9 @@
         </tr>
     </tbody>
 </table>
-
-<div class="card">
-    <div class="card-body">
+<hr>
+<div class="d-flex flex-column pl-5 mt-5 mb-3">
+    <div>
         <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
         <c:if test= "${not empty priceOffer}">
             <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
@@ -70,8 +70,10 @@
         </c:if>
         <c:if test= "${not empty sessionScope.employee}"> 
             <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
-        </div>  
-        <div class="card-body">
+        </c:if>
+    </div>  
+    <c:if test= "${not empty sessionScope.employee}">
+        <div class="mt-4">
             <h5>Afgiv tilbud?</h5>
             <p>Indkøbspris: <span id="costprice">${costprice} </span> DKK</p>
             <form method="POST" action="FrontController">
@@ -84,7 +86,6 @@
         </div>
     </c:if>
 </div>
-
 
 
 
