@@ -66,14 +66,21 @@
 
 <div class="card">
     <div class="card-body">
-        <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
+        <c:choose> 
+            <c:when test="${order.status == 'Finalized'}">
+                <p>Ordren er betalt: <span id="paidPrice">${order.price}</span> DKK</p>
+            </c:when>
+            <c:otherwise>
+                <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
+            </c:otherwise>
+        </c:choose>
         <c:if test= "${not empty priceOffer}">
             <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
             <c:if test= "${not empty sessionScope.employee}"> 
                 <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
             </c:if>
         </c:if>
-        <c:if test= "${not empty sessionScope.employee}"> 
+        <c:if test= "${not empty sessionScope.employee && order.status != 'Finalized'}"> 
             <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
         </div>  
         <div class="card-body">
@@ -99,6 +106,15 @@
         <form action="FrontController"  class="">
             <input type="hidden" name="command" value="payOrder">
             <input type="hidden" name="orderid" value="${order.id}">
+            <!-- Set reduced price if exists, else normal price -->
+            <c:choose> 
+                <c:when test="${not empty priceOffer}">
+                    <input type="hidden" name="price" value="${priceOffer}">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" name="price" value="${suggestedprice}">
+                </c:otherwise>
+            </c:choose>
             <button type="submit" class="btn btn-primary">Betal ordre</button>
         </form>
     </div>
