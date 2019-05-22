@@ -19,6 +19,21 @@ if (window.location.toString().indexOf("command=viewOrder") !== -1) {
         calculateOperationsMarignVariblePrice();
     });
 }
+
+//////another option?
+////document.addEventListener('load', function () {
+////    checkPriceOffer();
+////});
+////
+//////third option?
+////let priceOffer = document.getElementById("priceoffer");
+////if (priceOffer)
+////{
+////    let suggestedPrice = document.getElementById("suggestedretailprice");
+////    suggestedPrice.style.setProperty("text-decoration", "line-through");
+////    suggestedPrice.style.setProperty("color", "red");
+////}
+
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
