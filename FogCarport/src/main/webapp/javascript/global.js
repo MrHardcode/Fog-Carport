@@ -5,34 +5,21 @@
 //document.addEventListener("DOMContentLoaded", calculateOperationMargin);
 //document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
 
-// added to only run calculateOperationMarginSuggestedPrice() when window is command=viewOrder
+// instead of window.location we check if a page-specific element exists before 
+// methods are called
 document.addEventListener("DOMContentLoaded", function () {
-    if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+    if (document.getElementById("varpriceinput") !== null) {
         calculateOperationMarginSuggestedPrice();
+        checkPriceOffer(); // should also be inside this check
     }
-    checkPriceOffer(); //cannot properly add this to above function(?)
     fillDropdownsDimensions();
 });
-if (window.location.toString().indexOf("command=viewOrder") !== -1) {
+if (document.getElementById("varpriceinput") !== null) {
     let varpriceinput = document.getElementById("varpriceinput");
     varpriceinput.addEventListener("keyup", function () {
         calculateOperationsMarignVariblePrice();
     });
 }
-
-//////another option?
-////document.addEventListener('load', function () {
-////    checkPriceOffer();
-////});
-////
-//////third option?
-////let priceOffer = document.getElementById("priceoffer");
-////if (priceOffer)
-////{
-////    let suggestedPrice = document.getElementById("suggestedretailprice");
-////    suggestedPrice.style.setProperty("text-decoration", "line-through");
-////    suggestedPrice.style.setProperty("color", "red");
-////}
 
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
@@ -288,10 +275,23 @@ function calculateOperationMarginSuggestedPrice() {
 }
 function calculateOperationsMarignVariblePrice() {
     let varprice = document.getElementById("varpriceinput").value;
+    if(varprice < 1 || isNaN(varprice)){
+        document.getElementById("varpricemargin").innerHTML = '';
+        return;
+    }
     let costprice = document.getElementById("costprice").innerHTML;
 
     let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
+}
+
+// new method called in checkPriceOffer, to set the margin in "Dækningsgrad for tilbudspris:"
+// after checkPriceOffer have run
+function calculateOperationMarginFinalOfferPrice() {
+    let finalOfferPrice = document.getElementById("priceoffer").innerHTML;
+    let costprice = document.getElementById("costprice").innerHTML;
+    let finalOfferoperationMargin = parseFloat(((finalOfferPrice / costprice) * 100) - 100).toFixed(1);
+    document.getElementById("offerpricemargin").innerHTML = finalOfferoperationMargin;
 }
 
 function checkPriceOffer()
@@ -302,6 +302,6 @@ function checkPriceOffer()
         let suggestedPrice = document.getElementById("suggestedretailprice");
         suggestedPrice.style.setProperty("text-decoration", "line-through");
         suggestedPrice.style.setProperty("color", "red");
-        //suggestedPrice.innerHTML = '<del>' + suggestedPrice.value + '</del>';
+        calculateOperationMarginFinalOfferPrice();
     }
 }

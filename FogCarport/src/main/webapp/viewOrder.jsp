@@ -70,7 +70,7 @@
         <c:if test= "${not empty priceOffer}">
             <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
             <c:if test= "${not empty sessionScope.employee}"> 
-                <p>Dækningsgrad for tilbudspris: <span id="operationmargin"> </span> %</p>
+                <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
             </c:if>
         </c:if>
         <c:if test= "${not empty sessionScope.employee}"> 
