@@ -232,6 +232,9 @@
     border-color: black;
 }
 
+.borderleft{
+    border-left: 1px solid #dee2e6;
+}
 /*----------------- OTHER CSS -----------------  */
 body
 {

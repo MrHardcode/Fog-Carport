@@ -27,7 +27,9 @@
         <jsp:include page='/navbar.jsp'></jsp:include>
 
         <!-- MASTER INCLUDE -->
-        <jsp:include page='${target}.jsp'></jsp:include>
+        <div class="container">
+            <jsp:include page='${target}.jsp'></jsp:include>
+        </div>
 
         <!-- FOOTER -->
         <div class="footer">
