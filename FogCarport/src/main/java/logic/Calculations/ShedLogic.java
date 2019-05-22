@@ -53,7 +53,7 @@ public class ShedLogic
         PartslistModel bom = new PartslistModel();
         if (order == null)
         {
-            throw new DataException("Order is null.");
+            throw new DataException("Ordren er tom.");
         }
         if (order.getShed_walls_id() == 0 || 
                 order.getShed_length() == 0 || 
