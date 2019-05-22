@@ -11,10 +11,10 @@
             <th scope="col">Antal</th>
             <th scope="col">Vare Nummer</th>
             <th scope="col">Vare Beskrivelse</th>
-            <th scope="col">Hjï¿½lpe Tekst</th>
-            <th scope="col">Lï¿½ngde i mm.</th>
+            <th scope="col">Hjælpe Tekst</th>
+            <th scope="col">Længde i mm.</th>
             <th scope="col">Bredde i mm.</th>
-            <th scope="col">Hï¿½jde i mm.</th> 
+            <th scope="col">Højde i mm.</th> 
                 <c:if test= "${not empty sessionScope.employee}"> 
                 <th scope="col">Pris</th> 
                 </c:if>
