@@ -18,33 +18,34 @@ import org.junit.Test;
 
 /**
  *
- * @author 
+ * @author
  */
 public class ShedLogicTest
 {
-    private DataFacade db; 
+
+    private DataFacade db;
     private final String helptext = "roof";
-    
+
     public ShedLogicTest()
     {
     }
-    
+
     @BeforeClass
     public static void setUpClass()
     {
     }
-    
+
     @AfterClass
     public static void tearDownClass()
     {
     }
-    
+
     @Before
     public void setUp()
     {
         db = new DataFacadeImpl();
     }
-    
+
     @After
     public void tearDown()
     {
@@ -56,8 +57,9 @@ public class ShedLogicTest
     @Test
     public void testSimpleShed()
     {
+        System.out.println("Test of simpleShed method in ShedLogic.java");
         PartslistModel test = new PartslistModel();
-        
+
         // <editor-fold defaultstate="collapsed" desc="Materials for test.">
         /* Screws and misc. */
         MaterialModel stalddørsgreb = new MaterialModel(75, "Stalddørsgreb", "Stalddørsgreb 50x75", 1, 0, 0);
@@ -110,8 +112,7 @@ public class ShedLogicTest
         løsholt240.setPrice(112);
         test.addMaterial(løsholt240);
         //</editor-fold>
-        
-        System.out.println("simpleShed");
+
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
         instance.simpleShed(bom);
@@ -124,6 +125,9 @@ public class ShedLogicTest
     @Test
     public void testAddFloor() throws Exception
     {
+        System.out.println("Test of addFloor method in ShedLogic.java");
+        
+        /* ARRANGE */
         PartslistModel test = new PartslistModel();
         MaterialModel eg = new MaterialModel();
         eg.setID(50);
@@ -136,7 +140,7 @@ public class ShedLogicTest
         eg.setCategory("wood");
         eg.setQuantity(10); // TBD
         test.addMaterial(eg);
-        
+
         MaterialModel tscrews = new MaterialModel();
         tscrews.setID(27);
         tscrews.setDescription("4,5x50mm Skruer (300 stk)");
@@ -145,37 +149,47 @@ public class ShedLogicTest
         tscrews.setCategory("miscellaneous");
         tscrews.setQuantity(1);
         test.addMaterial(tscrews);
-        
-        System.out.println("addFloor");
+
         PartslistModel bom = new PartslistModel();
-        MaterialModel floor = db.getMaterial(50, helptext);
         int length = 3500;
         int width = 2000;
         ShedLogic instance = new ShedLogic();
+        
+        /* ACT */
+        MaterialModel floor = db.getMaterial(50, helptext); 
         instance.addFloor(bom, floor, length, width, db);
-        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
+        /* ASSERT */
+        assertEquals(test.getTotalprice(), bom.getTotalprice()); 
+
+        /* ARRANGE */
         bom = new PartslistModel();
         floor = db.getMaterial(50, helptext);
+        /* ACT */
         instance.addFloor(bom, floor, 3500, 2100, db);
+        /* ASSERT */
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
-        
+
+        /* ARRANGE */
         bom = new PartslistModel();
         floor = db.getMaterial(50, helptext);
+        /* ACT */
         instance.addFloor(bom, floor, 3600, 2100, db);
+        /* ASSERT */
         assertEquals(11, bom.getBillOfMaterials().get(0).getQuantity());
-        
-        
+
     }
 
     /**
      * Test of addDoorMaterials method, of class ShedLogic.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAddDoorMaterials() throws Exception
     {
-        System.out.println("addDoorMaterials");
-        
+        System.out.println("Test of addDoor method in ShedLogic.java");
+
+        /* ARRANGE */
         // <editor-fold defaultstate="collapsed" desc="Materials for test.">
         PartslistModel test = new PartslistModel();
         MaterialModel stalddørsgreb = new MaterialModel();
@@ -189,7 +203,7 @@ public class ShedLogicTest
         stalddørsgreb.setCategory("miscellaneous");
         stalddørsgreb.setQuantity(1);
         test.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.
-        
+
         MaterialModel laegte = new MaterialModel(); // 38x73mm taglægte.
         laegte.setID(12);
         laegte.setDescription("38x73 mm. taglægte T1");
@@ -201,8 +215,7 @@ public class ShedLogicTest
         laegte.setCategory("wood");
         laegte.setQuantity(1);
         test.addMaterial(laegte); // for the backside of the door.
-        
-        
+
         MaterialModel hængsel = new MaterialModel();
         hængsel.setID(18);
         hængsel.setDescription("T-hængsel 390mm");
@@ -215,19 +228,26 @@ public class ShedLogicTest
         hængsel.setQuantity(2);
         test.addMaterial(hængsel); // T-hængsel for the door.
         // </editor-fold>
-        
+
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
+        
+        /* ACT */
         instance.addDoorMaterials(bom, db);
+        /* ASSERT */ 
         assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
      * Test of posts method, of class ShedLogic.
+     * @throws java.lang.Exception
      */
     @Test
     public void testPosts() throws Exception
     {
+        System.out.println("Test of posts method in ShedLogic.java");
+        
+        /* ARRANGE */
         PartslistModel test = new PartslistModel();
         MaterialModel post = new MaterialModel();
         post.setID(4);
@@ -240,8 +260,7 @@ public class ShedLogicTest
         post.setCategory("wood");
         post.setQuantity(3);
         test.addMaterial(post);
-        
-        System.out.println("posts");
+
         int length = 3600;
         int width = 3600;
         OrderModel order = new OrderModel();
@@ -249,16 +268,23 @@ public class ShedLogicTest
         order.setWidth(7200);
         PartslistModel bom = new PartslistModel();
         ShedLogic instance = new ShedLogic();
+        
+        /* ACT */
         instance.posts(length, order, width, db, bom);
+        /* ASSERT */
         assertEquals(test.getTotalprice(), bom.getTotalprice());
     }
 
     /**
      * Test of reglar method, of class ShedLogic.
+     * @throws java.lang.Exception
      */
     @Test
     public void testReglar() throws Exception
     {
+        System.out.println("Test of reglar method in ShedLogic.java");
+        
+        /* ARRANGE */
         PartslistModel test = new PartslistModel();
         MaterialModel reglar = new MaterialModel();
         reglar.setID(7);
@@ -271,28 +297,36 @@ public class ShedLogicTest
         reglar.setCategory("wood");
         reglar.setQuantity(3);
         test.addMaterial(reglar);
-        
-        System.out.println("reglar");
+
         int width = 3100;
         PartslistModel bom = new PartslistModel();
         int side = 3;
         ShedLogic instance = new ShedLogic();
+        
+        /* ACT */
         instance.reglar(width, db, bom, side);
+        /* ASSERT */
         assertEquals(test.getTotalprice(), bom.getTotalprice());
-        
-        
+
+        /* ARRANGE */
         int expected = 6;
         bom = new PartslistModel();
+        /* ACT */
         instance.reglar(3500, db, bom, 3);
+        /* ASSERT */
         assertEquals(expected, bom.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
      * Test of addScrews method, of class ShedLogic.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAddScrews() throws Exception
     {
+        System.out.println("Test of addScrews method in ShedLogic.java");
+        
+        /* ARRANGE */
         PartslistModel test = new PartslistModel();
         MaterialModel tscrews = new MaterialModel();
         tscrews.setID(26);
@@ -302,27 +336,32 @@ public class ShedLogicTest
         tscrews.setCategory("miscellaneous");
         tscrews.setQuantity(2);
         test.addMaterial(tscrews);
-        
-        System.out.println("addScrews");
+
         PartslistModel bom = new PartslistModel();
         MaterialModel screws = db.getMaterial(26, helptext);
         int packamount = 400;
         int screwamount = 401;
         ShedLogic instance = new ShedLogic();
-        instance.addScrews(bom, screws, packamount, screwamount);
-        assertEquals(test.getTotalprice(), bom.getTotalprice());
         
+        /* ACT */
+        instance.addScrews(bom, screws, packamount, screwamount);
+        /* ASSERT */
+        assertEquals(test.getTotalprice(), bom.getTotalprice());
+
+        /* ARRANGE */
         int expectedpacks = 1;
         packamount = 100;
         screwamount = 100;
         bom = new PartslistModel();
+        /* ACT */
         instance.addScrews(bom, screws, packamount, screwamount);
+        /* ASSERT */
         assertEquals(expectedpacks, bom.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
-     *
-     * @throws data.exceptions.LoginException
+     * Null test.
+     * @throws data.exceptions.DataException
      */
     @Test(expected = DataException.class)
     public void testAddShedNull() throws DataException
@@ -332,5 +371,5 @@ public class ShedLogicTest
         ShedLogic instance = new ShedLogic();
         model = instance.addShed(order);
     }
-    
+
 }

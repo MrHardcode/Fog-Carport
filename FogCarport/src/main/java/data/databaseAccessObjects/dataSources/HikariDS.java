@@ -7,7 +7,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
- *
+ * HikariCP.
+ * https://github.com/brettwooldridge/HikariCP
  * @author 
  */
 public class HikariDS
@@ -34,6 +35,10 @@ public class HikariDS
         dataSource = new HikariDataSource(config);
     }
 
+    /**
+     * 
+     * @return HikariDataSource
+     */
     public static HikariDataSource getDataSource()
     {
         return dataSource;
