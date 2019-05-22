@@ -5,10 +5,12 @@
 //document.addEventListener("DOMContentLoaded", calculateOperationMargin);
 //document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
 
+// instead of window.location we check if a page-specific element exists before 
+// methods are called
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("varpriceinput") !== null) {
         calculateOperationMarginSuggestedPrice();
-        checkPriceOffer(); 
+        checkPriceOffer(); // should also be inside this check
     }
     fillDropdownsDimensions();
 });
@@ -287,6 +289,9 @@ function calculateOperationsMarignVariblePrice() {
     let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
 }
+
+// new method called in checkPriceOffer, to set the margin in "Dækningsgrad for tilbudspris:"
+// after checkPriceOffer have run
 function calculateOperationMarginFinalOfferPrice() {
     let finalOfferPrice = document.getElementById("priceoffer").innerHTML;
     let costprice = document.getElementById("costprice").innerHTML;
