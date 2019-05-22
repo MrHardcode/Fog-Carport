@@ -84,6 +84,8 @@ inclineOptions.addEventListener("change", function () {
 
 
 let inclineOptionsChoice = document.getElementById("roof-inclines").selected;
+let flatroof = document.getElementsByClassName("flat-roof");
+let raisedroof = document.getElementsByClassName("raised-roof");
 
 function checkInclineMenuState() {
     //I am using double == instead of triple === on purpose 
@@ -103,8 +105,9 @@ function prepareTileMenu()
 {
     if (inclineOptions.selectedIndex == 1) //plastic, flat roof
     {
-        let jsAtt = '${flatRoofParts}';
-        
+        for (let i = 0; i < flatroof.length; i++) {
+            tileOption.innerHTML += flatroof[i].value;
+        }
 //        let flatRoofOptions = {
 //            '28': 'Plastmo Ecolite (Blåtonet)'
 //        };
@@ -112,7 +115,7 @@ function prepareTileMenu()
 //        let keys = Object.keys(foo);
 //        keys.forEach(tileOption.innerHTML += '<option value="' + keys.push()+ '">' + roofInclineOptions[i] + '&#176</option>');
 
-        tileOption.innerHTML += '<option value="' + 28 + '">' + "Plastmo Ecolite (Blåtonet)" + '</option>';
+//        tileOption.innerHTML += '<option value="' + 28 + '">' + "Plastmo Ecolite (Blåtonet)" + '</option>';
 
     } else // raised roof.
     {
