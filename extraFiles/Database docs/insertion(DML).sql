@@ -162,13 +162,13 @@ INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`,
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x200mm alm. planke (Eg)', '30', '200', '3600', '55', 'Stk', '1', 'Til gulvet i skuret');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x250mm alm. planke (Eg)', '30', '250', '4800', '75', 'Stk', '1', 'Til gulvet i skuret');
 /* More options for beklædning & gavl */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt', '25', '200', '2400', '35', 'Stk', '3', 'Til gavlen');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt', '25', '200', '3200', '47.5', 'Stk', '3', 'Til gavlen');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '2400', '35', 'Stk', '3', 'Til gavlen');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '3200', '47.5', 'Stk', '3', 'Til gavlen');
 
 /* More options for remme & spær */
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '6000', '45', 'Stk', '1'); /*forgotten in initial push, adding here to avoid ID increment */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt', '25', '200', '3600', '37.25', 'Stk', '1', 'Understernbrædder til for & bagende');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt', '25', '200', '5400', '42.75', 'Stk', '1', 'Understernbrædder til siderne');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '3600', '37.25', 'Stk', '1', 'Understernbrædder til for & bagende');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '5400', '42.75', 'Stk', '1', 'Understernbrædder til siderne');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '3600', '36', 'Stk', '1', 'Oversternbrædder til forendern');
 INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '5400', '39.95', 'Stk', '1', 'Oversternbrædder til siderne');
 

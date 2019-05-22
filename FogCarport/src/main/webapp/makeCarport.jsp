@@ -1,4 +1,5 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="d-flex justify-content-center" >
     <!-- Form start -->
     <form action="FrontController" method="POST" id="carport-form" accept-charset=utf-8>
@@ -40,13 +41,26 @@
         </div>
 
         <!-- Roof type dependant on roof incline-->
+        
         <div class="form-group">
             <label for="flatRoofInput">Tagtype</label>
             <select class="form-control" id="roof-tiles" name="roof_tiles_id">
-                <option selected="selected" value="">Vælg tagtype</option>
+                <option selected="selected" value="">Vælg Tagtype</option>
             </select>
         </div>
-
+        
+        <!-- Hidden elements used by JS to populate the menus -->
+        <div class="all-roof-options" hidden="hidden">
+            <c:forEach var="option" items="${flatRoofParts}">
+                <input class="flat-roof-id" value="${option.getID()}">
+                <input class="flat-roof-name" value="${option.getDescription()}">
+            </c:forEach>
+            <c:forEach var="option" items="${raisedRoofParts}">
+                <input class="raised-roof-id" value="${option.getID()}">
+                <input class="raised-roof-name" value="${option.getDescription()}">
+            </c:forEach>
+        </div>
+        
         <!-- Checkbox -->
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="check-skur" name="shed" value="y">
@@ -73,12 +87,18 @@
             <div class="form-group">
                 <label for="ShedInputFloor">Gulv</label>
                 <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
+                    <c:forEach var="item" items="${shedFloorParts}">
+                        <option value="${item.getID()}">${item.getName()}</option>
+                    </c:forEach>
                 </select>
             </div>
             <!-- Type of wood used for the shed walls. -->
             <div class="form-group">
                 <label for="ShedInputWall">Beklædning</label>
                 <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
+                    <c:forEach var="item" items="${shedWallParts}">
+                        <option value="${item.getID()}">${item.getName()}</option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
