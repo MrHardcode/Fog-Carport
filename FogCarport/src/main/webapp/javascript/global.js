@@ -84,8 +84,10 @@ inclineOptions.addEventListener("change", function () {
 
 
 let inclineOptionsChoice = document.getElementById("roof-inclines").selected;
-let flatroof = document.getElementsByClassName("flat-roof");
-let raisedroof = document.getElementsByClassName("raised-roof");
+let flatroofid = document.getElementsByClassName("flat-roof-id");
+let flatroofname = document.getElementsByClassName("flat-roof-name");
+let raisedroofid = document.getElementsByClassName("raised-roof-id");
+let raisedroofname = document.getElementsByClassName("raised-roof-name");
 
 function checkInclineMenuState() {
     //I am using double == instead of triple === on purpose 
@@ -105,32 +107,14 @@ function prepareTileMenu()
 {
     if (inclineOptions.selectedIndex == 1) //plastic, flat roof
     {
-        for (let i = 0; i < flatroof.length; i++) {
-            tileOption.innerHTML += flatroof[i].value;
+        for (let i = 0; i < flatroofid.length; i++) {
+            tileOption.innerHTML += '<option value="' + flatroofid[i].value + '">' + flatroofname[i].value + '</option>';
         }
-//        let flatRoofOptions = {
-//            '28': 'Plastmo Ecolite (Blåtonet)'
-//        };
-//
-//        let keys = Object.keys(foo);
-//        keys.forEach(tileOption.innerHTML += '<option value="' + keys.push()+ '">' + roofInclineOptions[i] + '&#176</option>');
-
-//        tileOption.innerHTML += '<option value="' + 28 + '">' + "Plastmo Ecolite (Blåtonet)" + '</option>';
-
     } else // raised roof.
     {
-        let roofTileOptions = new Map();
-        roofTileOptions.set(33, "B & C Dobbelt Tagsten (Sort)");
-        roofTileOptions.set(34, "B & C Dobbelt Tagsten (Grå)");
-        roofTileOptions.set(35, "Eternit Tagsten(Teglrød)");
-        roofTileOptions.set(36, "B & C Dobbelt Tagsten (Rød)");
-        roofTileOptions.set(37, "B & C Dobbelt Tagsten (Blå)");
-        roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
-        roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
-        for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + i + '">' + roofTileOptions.get(i) + '</option>';
+        for (let i = 0; i < raisedroofid.length; i++) {
+            tileOption.innerHTML += '<option value="' + raisedroofid[i].value + '">' + raisedroofname[i].value + '</option>';
         }
-
     }
     //set roof materials on the request attributes.
 }
