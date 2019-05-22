@@ -95,7 +95,8 @@ public class SVGDrawingShed
                 double tempint = (double) (shedWidth * postplacement); // 0.333333 * 640 = 213
                 int postwidth = (int) tempint;
 
-                // The Arrow.
+                // The Arrow. All the seemingly random numbers are simply to place the arrows and labels correctly. 
+                // Had to do a lot of adjusting to get it right. 
                 if (i == 0)
                 {                   // beginX     beginY         endX                     endY 
                     SVG += getArrow(((carportWidth - shedWidth)), (carportLength - shedLength) - 15, ((carportWidth - shedWidth) + postwidth), (carportLength - shedLength) - 15);

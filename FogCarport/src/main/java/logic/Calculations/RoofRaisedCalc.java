@@ -280,7 +280,7 @@ public class RoofRaisedCalc {
      */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
         if(materials.size() < 1 || materials.get(0).getLength() < 1){
-            throw new AlgorithmException("Materiallist not of valid size or materials without length dimension");
+            throw new AlgorithmException("Materialelisten er af forkert længde eller indeholder materialer uden længde dimensioner.");
         }
         
         PartslistModel calcParts = new PartslistModel();
@@ -374,6 +374,7 @@ public class RoofRaisedCalc {
                 if (calcList.get(i).getID() == returnList.get(j).getID()) {
                     int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();
                     returnList.get(j).setQuantity(qunatity);
+                    returnBOM.setTotalprice((calcList.get(i).getQuantity()* (int) Math.ceil(returnList.get(j).getPrice())) + returnBOM.getTotalprice());
                     quantityAdded = true;
                 }
             }
@@ -398,6 +399,7 @@ public class RoofRaisedCalc {
      * @param incline
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
     protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel rafterBOM = new PartslistModel();
@@ -435,6 +437,7 @@ public class RoofRaisedCalc {
      * @param incline
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
     protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException, AlgorithmException {
         PartslistModel fasciaBOM = new PartslistModel();
@@ -469,6 +472,7 @@ public class RoofRaisedCalc {
      * @param incline
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
     protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException, AlgorithmException {
         PartslistModel lathsBOM = new PartslistModel();
@@ -515,6 +519,7 @@ public class RoofRaisedCalc {
      * @param order
      * @return PartslistModel
      * @throws DataException
+     * @throws data.exceptions.AlgorithmException
      */
     protected PartslistModel generateCladding(OrderModel order) throws DataException, AlgorithmException {
 

@@ -60,6 +60,7 @@ public class UserMapperTest
     {
         System.out.println("Test of login and createCustomer in UserMapper");
 
+        /* ARRANGE */
         int id = 1;
         String name = "testuser";
         int phone = 112;
@@ -81,10 +82,12 @@ public class UserMapperTest
         customer.setPassword(password);
         customer.setRegistered(true);
 
+        /* ACT */ 
         userMapper.createCustomer(customer);
 
         CustomerModel validatedCustomer = userMapper.login(email, password);
 
+        /* ASSERT */
         assertEquals(id, validatedCustomer.getId());
         assertEquals(true, validatedCustomer.isRegistered());
         assertEquals(name, validatedCustomer.getName());

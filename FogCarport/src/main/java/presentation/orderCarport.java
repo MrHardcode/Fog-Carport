@@ -26,11 +26,14 @@ public class orderCarport extends Command
         OrderModel order = new OrderModel();
         CustomerModel customer = (CustomerModel) request.getSession().getAttribute("customer");
 
+        /* if customer is not null, that means customer is on session, which means customer is logged in, which means we can just get the ID from the CustomerModel on session */
         if (customer != null)
         {
             // CUSTOMER
             order.setId_customer(customer.getId());
-        } else if (request.getParameter("password") != null && !request.getParameter("password").isEmpty())
+        }
+        /* Customer wants a log in, so we create a customer with passwords and registered as true. */
+        else if (request.getParameter("password") != null && !request.getParameter("password").isEmpty())
         {
             String password = validation.validatePassword(request.getParameter("password"), request.getParameter("password-confirm"), "Password");
             String email = validation.validateString(request.getParameter("email"), "Email");
@@ -48,7 +51,9 @@ public class orderCarport extends Command
             customer_one.setRegistered(true);
             logic.createCustomer(customer_one);
             order.setId_customer(customer_one.getId());
-        } else
+        } 
+        /* User doesn't want or need a customer in database they can log in on, but we still need to create the customer in the database so we have the contact info */
+        else
         {
             String email = validation.validateString(request.getParameter("email"), "Email");
             String name = validation.validateString(request.getParameter("name"), "Navn");

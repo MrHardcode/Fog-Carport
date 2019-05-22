@@ -67,12 +67,12 @@ public class OrderMapper
                 return order;
             } else
             {
-                throw new DataException("Could not get info about order from database.");
+                throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
         }
 
     }
@@ -120,7 +120,7 @@ public class OrderMapper
             }
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke oprette ordren i databasen.");
         }
     }
     // </editor-fold>
@@ -150,7 +150,7 @@ public class OrderMapper
             return ids;
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke skaffe alle ordrerne.");
         }
 
     }
@@ -184,7 +184,7 @@ public class OrderMapper
             return ids;
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke skaffe ordrerne for dig fra databasen.");
         }
 
     }
@@ -203,7 +203,7 @@ public class OrderMapper
 
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke betale ordren.");
         }
 
     }

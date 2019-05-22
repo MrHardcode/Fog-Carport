@@ -51,8 +51,7 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe materialet med id: "+id+"'s kategori fra databasen.");
         }
     }
     // </editor-fold>
@@ -112,8 +111,7 @@ public class MaterialMapper
             }
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() 
+            throw new DataException("Kunne ikke skaffe materialet med id: "+id+" fra databasen."); 
         }
 
         return material;
@@ -147,8 +145,7 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe ordren med id: "+id+"'s kategori fra databasen.");
         }
     }
     // </editor-fold>
@@ -181,8 +178,7 @@ public class MaterialMapper
             }
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe materialerne med order id: "+id+" fra databasen.");
         }
         return materials;
     }
