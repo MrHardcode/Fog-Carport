@@ -245,14 +245,6 @@ function prepareShedMenu() {
             widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], shedWidth[j] * 10);
         }
     }
-
-//    function fillDropDownShedFloor() {
-//        floorOptions.options[1] = new Option("Alm. planke", 55);
-//    }
-
-//    function fillDropDownShedWall() {
-//        wallOptions.options[1] = new Option("Egetræ", 50);
-//    }
 }
 
 function clearShedDimensionsMenu() {

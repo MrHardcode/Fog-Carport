@@ -49,7 +49,7 @@
             </select>
         </div>
         
-        <!-- Hidden elements used to by JS to populate the menus -->
+        <!-- Hidden elements used by JS to populate the menus -->
         <div class="all-roof-options" hidden="hidden">
             <c:forEach var="option" items="${flatRoofParts}">
                 <input class="flat-roof-id" value="${option.getID()}">
@@ -84,7 +84,7 @@
                 <label for="ShedInputFloor">Gulv</label>
                 <select class="form-control" id="shed-floor" name="shed-floor-id"><option selected="selected" value="">Vælg gulv</option>
                     <c:forEach var="item" items="${shedFloorParts}">
-                        <option value="${item.getID()}">${item.getName()} </option>
+                        <option value="${item.getID()}">${item.getName()}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -92,7 +92,7 @@
                 <label for="ShedInputWall">Beklædning</label>
                 <select class="form-control" id="shed-wall" name="shed-wall-id"><option selected="selected" value="">Vælg beklædning</option>
                     <c:forEach var="item" items="${shedWallParts}">
-                        <option value="${item.getID()}">${item.getName()} </option>
+                        <option value="${item.getID()}">${item.getName()}</option>
                     </c:forEach>
                 </select>
             </div>
