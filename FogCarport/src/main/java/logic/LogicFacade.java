@@ -136,12 +136,13 @@ public interface LogicFacade
     public List<Integer> getOrderIds(int id) throws DataException;
 
     /**
-     * Update status on an order in the database to be paid.
+     * Update status and set price paid on an order in the database to be paid.
      *
      * @param id of the order in the database.
+     * @param price the price of the order to be set in the database.
      * @throws DataException
      */
-    public void payOrder(int id) throws DataException;
+    public void payOrder(int id, double price) throws DataException;
 
     /**
      * Validate Employee
@@ -154,5 +155,15 @@ public interface LogicFacade
     public EmployeeModel empLogin(String email, String password) throws UserException;
     
     public int getSuggestedRetailPrice(PartslistModel partsList);
+    
+    /**
+     * 
+     * Update price field on order in database
+     * 
+     * @param id id of the order
+     * @param price price to update to
+     * @throws DataException 
+     */
+    public void updateOrderPrice(int id, double price) throws DataException;
 
 }

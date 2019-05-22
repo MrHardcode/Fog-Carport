@@ -25,9 +25,10 @@ public class payOrder extends Command
 
         Validation validation = new Validation();
         int id = validation.validateInteger(request.getParameter("orderid"), "Order id");
+        double price = validation.validateDouble(request.getParameter("price"), "Order pris");
         
-        // Pay for order with given id.
-        logic.payOrder(id);
+        // Pay for order with given id and set price in db.
+        logic.payOrder(id, price);
         
         //Making the viewOrder-page ready again after the payment update:
         
@@ -45,6 +46,7 @@ public class payOrder extends Command
         
         request.setAttribute("suggestedprice", logic.getSuggestedRetailPrice(partslist));
         request.setAttribute("costprice", partslist.getTotalprice());
+        request.setAttribute("price", price);
 
         return "viewOrder";
     }
