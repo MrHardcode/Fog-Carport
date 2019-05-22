@@ -38,7 +38,7 @@
     </tbody>
 </table>
 
-<!-- Show Customer and Employee -->
+<!-- Show info about the Customer and Employee who are tied to the order. -->
 <table class="table table-hover">
     <thead>
         <tr>
@@ -83,6 +83,7 @@
 
 
 
+<!-- Button to pay for the order -->
 <c:if test="${order.status != 'Finalized'}">
     <div class="d-flex p-2">
         <form action="FrontController"  class="">
@@ -92,6 +93,7 @@
         </form>
     </div>
 </c:if>
+<!-- Button to see partslist and drawings if you've paid for the order. -->
 <c:if test="${order.status != 'Awaiting' 
               && order.status != 'Processing'
               && order.status != 'Accepted'}">
