@@ -30,7 +30,7 @@ public class Validation
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new UserException(name + " may not be empty.");
+            throw new UserException(name + " må ikke være tom.");
         } else
         {
             try
@@ -39,10 +39,40 @@ public class Validation
                 return length;
             } catch (NumberFormatException ex)
             {
-                throw new UserException(name + " has to be an integer.");
+                throw new UserException(name + " skal være et heltal.");
             }
         }
     }
+    
+    /**
+     * Validate a Double input from user. 
+     * 
+     * Checks if the double input is null, empty and actually a double.
+     * To be used by command implementation classes. 
+     * @param validate String input from user, that is supposed to be a double afterwards.
+     * @param name of the thing you want to validate.
+     * @return double
+     * @throws UserException 
+     */
+    public double validateDouble(String validate, String name) throws UserException
+    {
+        if (validate == null || validate.isEmpty())
+        {
+            throw new UserException(name + " må ikke være tom.");
+        } else
+        {
+            try
+            {
+                double length = Double.parseDouble(validate);
+                return length;
+            } catch (NumberFormatException ex)
+            {
+                throw new UserException(name + " er indtastet forkert.");
+            }
+        }
+    }
+    
+    
 
     /**
      * Validate a String input from user.
@@ -58,7 +88,7 @@ public class Validation
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new UserException(name + " may not be empty.");
+            throw new UserException(name + " må ikke være tom.");
         } else
         {
             return validate;
@@ -81,11 +111,11 @@ public class Validation
     {
         if (password == null || password.isEmpty() || password2 == null || password2.isEmpty())
         {
-            throw new UserException(name + " must not be empty");
+            throw new UserException(name + " må ikke være tom.");
         }
         if (!password.equals(password2))
         {
-            throw new UserException("Please type in matching passwords");
+            throw new UserException("Indtast venligst ens passwords.");
         }
         return password;
     }
