@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.location.toString().indexOf("command=viewOrder") !== -1) {
         calculateOperationMarginSuggestedPrice();
     }
+    checkPriceOffer(); //cannot properly add this to above function(?)
     fillDropdownsDimensions();
 });
 if (window.location.toString().indexOf("command=viewOrder") !== -1) {
@@ -18,6 +19,21 @@ if (window.location.toString().indexOf("command=viewOrder") !== -1) {
         calculateOperationsMarignVariblePrice();
     });
 }
+
+//////another option?
+////document.addEventListener('load', function () {
+////    checkPriceOffer();
+////});
+////
+//////third option?
+////let priceOffer = document.getElementById("priceoffer");
+////if (priceOffer)
+////{
+////    let suggestedPrice = document.getElementById("suggestedretailprice");
+////    suggestedPrice.style.setProperty("text-decoration", "line-through");
+////    suggestedPrice.style.setProperty("color", "red");
+////}
+
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
@@ -268,6 +284,7 @@ function clearShedDimensionsMenu() {
     }
 }
 
+/*----------------- ViewOrder JS -----------------  */
 function calculateOperationMarginSuggestedPrice() {
     let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
     let costprice = document.getElementById("costprice").innerHTML;
@@ -280,4 +297,16 @@ function calculateOperationsMarignVariblePrice() {
 
     let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
+}
+
+function checkPriceOffer()
+{
+    let priceOffer = document.getElementById("priceoffer");
+    if (priceOffer)
+    {
+        let suggestedPrice = document.getElementById("suggestedretailprice");
+        suggestedPrice.style.setProperty("text-decoration", "line-through");
+        suggestedPrice.style.setProperty("color", "red");
+        //suggestedPrice.innerHTML = '<del>' + suggestedPrice.value + '</del>';
+    }
 }
