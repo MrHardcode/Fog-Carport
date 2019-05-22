@@ -83,16 +83,27 @@ function prepareInclineMenu() {
 }
 ;
 
+/* get and disable roof tile selection */
 let tileOption = document.getElementById("roof-tiles");
 tileOption.disabled = true;//by default we disable the tile selection
 
+/* When selection of incline changes, delete deprecated data from tile-selection dropdown */
+inclineOptions.addEventListener("change", function () {
+    clearOptions(document.getElementById("roof-tiles"));
+});
 
-
+/* When incline option is selected, check selected option */
 inclineOptions.addEventListener("change", function () {
     checkInclineMenuState();
 });
 
+
+
 let inclineOptionsChoice = document.getElementById("roof-inclines").selected;
+let flatroofid = document.getElementsByClassName("flat-roof-id");
+let flatroofname = document.getElementsByClassName("flat-roof-name");
+let raisedroofid = document.getElementsByClassName("raised-roof-id");
+let raisedroofname = document.getElementsByClassName("raised-roof-name");
 
 function checkInclineMenuState() {
     //I am using double == instead of triple === on purpose 
@@ -112,32 +123,24 @@ function prepareTileMenu()
 {
     if (inclineOptions.selectedIndex == 1) //plastic, flat roof
     {
-//        let flatRoofOptions = {
-//            '28': 'Plastmo Ecolite (Blåtonet)'
-//        };
-//
-//        let keys = Object.keys(foo);
-//        keys.forEach(tileOption.innerHTML += '<option value="' + keys.push()+ '">' + roofInclineOptions[i] + '&#176</option>');
-
-        tileOption.innerHTML += '<option value="' + 28 + '">' + "Plastmo Ecolite (Blåtonet)" + '</option>';
-
+        for (let i = 0; i < flatroofid.length; i++) {
+            tileOption.innerHTML += '<option value="' + flatroofid[i].value + '">' + flatroofname[i].value + '</option>';
+        }
     } else // raised roof.
     {
-        let roofTileOptions = new Map();
-        roofTileOptions.set(33, "B & C Dobbelt Tagsten (Sort)");
-        roofTileOptions.set(34, "B & C Dobbelt Tagsten (Grå)");
-        roofTileOptions.set(35, "Eternit Tagsten(Teglrød)");
-        roofTileOptions.set(36, "B & C Dobbelt Tagsten (Rød)");
-        roofTileOptions.set(37, "B & C Dobbelt Tagsten (Blå)");
-        roofTileOptions.set(38, "B & C Dobbelt Tagsten (Sortblå)");
-        roofTileOptions.set(39, "B & C Dobbelt Tagsten (Sunlux)");
-        for (let i = 33; i <= 39; i++) {
-            tileOption.innerHTML += '<option value="' + i + '">' + roofTileOptions.get(i) + '</option>';
+        for (let i = 0; i < raisedroofid.length; i++) {
+            tileOption.innerHTML += '<option value="' + raisedroofid[i].value + '">' + raisedroofname[i].value + '</option>';
         }
-
     }
-    //need to fix: add makeCarport as a command
     //set roof materials on the request attributes.
+}
+
+/*Remove all but the first option */
+function clearOptions(dropdownmenu)
+{
+    while (dropdownmenu.length > 1) {
+        dropdownmenu.remove(1);
+    }
 }
 
 
@@ -257,14 +260,6 @@ function prepareShedMenu() {
         for (j in shedWidth) {
             widthOptions.options[widthOptions.options.length] = new Option(shedWidth[j], shedWidth[j] * 10);
         }
-    }
-
-    function fillDropDownShedFloor() {
-        floorOptions.options[1] = new Option("Alm. planke", 55);
-    }
-
-    function fillDropDownShedWall() {
-        wallOptions.options[1] = new Option("Eg", 50);
     }
 }
 
