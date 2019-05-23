@@ -194,7 +194,7 @@ public class OrderMapper
     // <editor-fold defaultstate="collapsed" desc="Pay an order. Update "status"">
     public void payOrder(int id, double price) throws DataException
     {
-        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = '?' WHERE (`id_order` = '?');";
+        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);";
         try (DatabaseConnector open_dbc = dbc.open();
                 PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
