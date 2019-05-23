@@ -14,11 +14,14 @@
     float: left;
     border-left: solid 1px;
 }
+.nav-color{
+    background-color: #e6eaf2;
+}
 
 #errormessage a /* any links (text) within the error message */
 {
 
-    color: red;
+    color: #0062ff;
 }
 #errormessage
 {
@@ -136,7 +139,7 @@
 }
 
 .bg-image {
-    background-image: url('https://i.imgur.com/yrztSID.png?1');
+    background-image: url('https://i.imgur.com/SjWU6vl.png'); 
     background-size: cover;
     background-position: center;
 }
@@ -150,6 +153,18 @@
     letter-spacing: 0.05rem;
     padding: 0.75rem 1rem;
     border-radius: 2rem;
+}
+
+.btnlogincolor{
+    color: #224070;
+    border-color: #224070;
+    background-color: white;
+}
+
+.btnlogincolor:hover{
+    color: white;
+    background-color: #224070;
+    border-color: #224070;
 }
 
 .form-label-group {
@@ -237,6 +252,14 @@
     display: inline-block;
 }
 
+/*----------------- partslist.JSP CSS -----------------*/
+.table .thead-dark th {
+    color: #e5e6e8;
+    background-color: #263e63;
+    border-color:#384459;
+}
+
+
 /*----------------- ViewOrder.JSP CSS -----------------*/
 
 #priceoffer
@@ -246,8 +269,71 @@
     border-color: black;
 }
 
+.borderleft{
+    border-left: 1px solid #dee2e6;
+}
 /*----------------- OTHER CSS -----------------  */
 body
 {
     padding-bottom: 5%;
+}
+
+/*----------------- VIEW ALL ORDERS -----------------  */
+
+.listbtn{
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    border-radius: 20px;
+    background-color: #224070;
+}
+
+.btn-outline-secondary:hover {
+    
+    background-color: #224070;
+    border-color: #224070;
+}
+
+.btn-outline-secondary {
+    
+    color: #224070;
+    border-color: #224070;
+}
+.headlinecolor{
+    color: #2a2b2d;
+}
+
+.marginright20{
+    margin-right: 20%;
+}
+.marginleft15{
+    margin-left: 15%;
+}
+
+.margintop{
+    margin-top: 56px;
+}
+
+.infobox{
+    color: #224070;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #224070;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px; 
+}
+
+.infoboxorderview{
+    color: #2b2c33;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #7a7a7a;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px; 
 }
