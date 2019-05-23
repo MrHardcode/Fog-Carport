@@ -198,7 +198,6 @@ public class OrderMapper
         try (DatabaseConnector open_dbc = dbc.open();
                 PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-
             ps.setDouble(1, price);
             ps.setInt(2, id);
             ps.executeUpdate();
@@ -214,7 +213,7 @@ public class OrderMapper
     // <editor-fold defaultstate="collapsed" desc="Update order price.">
     public void updateOrderPrice(int id, double price) throws DataException
     {
-        String SQL = "UPDATE `carportdb`.`orders` SET `price` = '?' WHERE (`id_order` = '?');";
+        String SQL = "UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);";
         try (DatabaseConnector open_dbc = dbc.open();
                 PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
