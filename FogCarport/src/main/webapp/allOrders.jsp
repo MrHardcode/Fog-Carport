@@ -3,23 +3,41 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!-- Headline --> 
-<div class="d-flex justify-content-center">
-    <h1>All Orders</h1>
-</div>
+<div class="d-flex flex-row mt-5">
+    <div class="marginright20">
+        <c:if test= "${not empty sessionScope.employee}">
+            <div class="d-flex flex-column pl-5 mt-5 mb-3">
+                <p>Loginoplysninger</p>
+                <p class="mb-0">Medarbejdernummer: ${employee.id}</p>
+                <p class="mb-0">Medarbejder kontaktmail: ${employee.email}</p>
+            </div>
+        </c:if>
+        <c:if test= "${not empty sessionScope.customer}">
+            <div class="d-flex flex-column pl-5 mt-5 mb-3">
+                <p>Kundeoplysninger</p>
+                <p class="mb-0">${customer.name}</p>
+                <p class="mb-0">${customer.phone}</p>
+                <p class="mb-0">${customer.email}</p>
+                <p class="mb-0">Kundenummer: ${customer.id}</p>
+            </div>
+        </c:if>
+    </div>
+    <div class="d-flex flex-column">
+            <h1>Ordreoversigt</h1>
+        <!-- Make sure the content is on the center of the screen. -->
 
-<!-- Make sure the content is on the center of the screen. -->
-<div class="d-flex justify-content-center w-100">
+        <!-- Make sure the buttons are shown below each other. -->
+        <div class="d-flex flex-column">
 
-    <!-- Make sure the buttons are shown below each other. -->
-    <div class="btn-group-vertical w-50">
+            <!-- 
+            For each order id: Show a button that takes you to the viewOrder page for that Order. 
+            Using in-line CSS to put 2px between each button.
+            -->
 
-        <!-- 
-        For each order id: Show a button that takes you to the viewOrder page for that Order. 
-        Using in-line CSS to put 2px between each button.
-        -->
-        <c:forEach var="id" items="${ids}"> 
-            <a type="submit" class="btn btn-primary btn-lg btn-block active" style="margin-top: 2px" href="FrontController?command=viewOrder&orderid=${id}">ID: ${id}</a>
-        </c:forEach>
+            <c:forEach var="id" items="${ids}"> 
+                <button type="button" class="btn btn-outline-secondary mb-1" onclick="window.location.href = 'FrontController?command=viewOrder&orderid=${id}'">Ordrenr: ${id}</button>
+            </c:forEach>
 
+        </div>
     </div>
 </div>
