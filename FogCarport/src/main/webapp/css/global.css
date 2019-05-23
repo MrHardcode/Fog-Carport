@@ -252,6 +252,14 @@
     display: inline-block;
 }
 
+/*----------------- partslist.JSP CSS -----------------*/
+.table .thead-dark th {
+    color: #e5e6e8;
+    background-color: #263e63;
+    border-color:#384459;
+}
+
+
 /*----------------- ViewOrder.JSP CSS -----------------*/
 
 #priceoffer

@@ -4,9 +4,8 @@
 
 <!-- Headline -->
 <div class="container w-100">
-    <h1 class="my-4">Tegninger af Carport.
-        <small>Tag og Underkonstruktion.</small>
-    </h1>
+    <h1 class="my-4">Tegninger af Carport.</h1>
+    <h4 class="my-4"> Tag og Underkonstruktion.</h4>
 </div>
 
 <!-- The SVG drawings of the carport -->
@@ -103,6 +102,6 @@
     <form method="POST" action="FrontController"  class="">
         <input type="hidden" name="command" value="viewOrder">   
         <input type="hidden" name="orderid" value="${ID}"> 
-        <button type="submit" class="btn btn-primary">Tilbage til din valgte ordre</button>
+        <button type="submit" class="btn btn-outline-secondary mb-1">Tilbage til din valgte ordre</button>
     </form>
 </div>
