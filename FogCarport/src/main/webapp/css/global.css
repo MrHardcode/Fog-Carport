@@ -279,7 +279,31 @@ body
     color: #224070;
     border-color: #224070;
 }
+.headlinecolor{
+    color: #224070;
+}
 
 .marginright20{
     margin-right: 20%;
+}
+.marginleft15{
+    margin-left: 15%;
+}
+
+.margintop{
+    margin-top: 56px;
+}
+
+.infobox{
+    color: #224070;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #224070;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    
+    
 }
