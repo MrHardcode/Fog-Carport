@@ -4,7 +4,7 @@
 
 <!-- Show a single order -->
 <div class="d-flex flex-row justify-content-between mt-5 mb-3">
-    <div class="pl-5">
+    <div>
         <p>Kunde informationer</p>
         <p class="mb-0">Kundenummer: ${customer.id}</p>
         <p class="mb-0">${order.build_adress} ${order.build_zipcode}</p>
@@ -13,7 +13,7 @@
         <p class="mb-0">${customer.email}</p>
 
     </div>
-    <div class="pr-5">
+    <div>
         <p class="mb-0">Fog Trælast og Byggecenter</p>
         <p>Ordre information</p>
         <p class="mb-0">Medarbejdernummer: ${employee.id}</p>
@@ -59,7 +59,7 @@
     </tbody>
 </table>
 <hr>
-<div class="d-flex flex-column pl-5 mt-5 mb-3">
+<div class="d-flex flex-column pl-5 mt-5 mb-3 infoboxorderview">
     <div>
         <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
         <c:if test= "${not empty priceOffer}">

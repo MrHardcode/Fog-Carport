@@ -303,7 +303,17 @@ body
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 20px;
-    padding-top: 20px;
-    
-    
+    padding-top: 20px; 
+}
+
+.infoboxorderview{
+    color: #2b2c33;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #7a7a7a;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px; 
 }
