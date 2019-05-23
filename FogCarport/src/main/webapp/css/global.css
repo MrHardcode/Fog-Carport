@@ -223,6 +223,20 @@
     width: 500px;
 }
 
+/*----------------- ViewSVG.JSP CSS -----------------*/
+
+#SVGdiv{
+    padding: 10px;
+}
+
+.toggleButtons{
+    width: 300px;
+}
+
+.toggleGroup{
+    display: inline-block;
+}
+
 /*----------------- ViewOrder.JSP CSS -----------------*/
 
 #priceoffer

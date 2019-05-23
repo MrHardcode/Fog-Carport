@@ -10,20 +10,47 @@
 </div>
 
 <!-- The SVG drawings of the carport -->
-<div>
-    <p> 
-        <!-- Using bootstrap collapse -->
-        <a class="btn btn-primary" data-toggle="collapse" href=".multiCollapse1" role="button" 
-           aria-expanded="true" aria-controls="multiCollapse1">Show base</a>
+<div id="SVGdiv">
+    <div class="toggleGroup">
+        <h5 class="col-md-2">BASE</h5>
+        <div class="toggleButtons btn-group col-md-2">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="radio-base-show" class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Show
+                </label>
+                <label id="radio-base-hide" class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Hide
+                </label>
+            </div>
+        </div>
+    </div>
 
-        <button class="btn btn-primary" type="button" data-toggle="collapse" 
+    <div class="toggleGroup">
+        <h5 class="col-md-2">ROOF</h5>
+        <div class="toggleButtons btn-group col-md-5">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="radio-roof-show" class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off" checked> Show
+                </label>
+                <label id="radio-roof-hide" class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option4" autocomplete="off"> Hide
+                </label>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Using bootstrap collapse -->
+        <a id="base-toggle-access" class="" role="button" data-toggle="collapse" href=".multiCollapse1"
+           aria-expanded="true" aria-controls="multiCollapse1" hidden="hidden">Show base</a>
+
+        <button id="roof-toggle-access" class="" type="button" data-toggle="collapse" 
                 data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
-                aria-controls="multiCollapse2,.collapseOne">Show roof</button>
-    </p>
+                aria-controls="multiCollapse2,.collapseOne" hidden="hidden">Show roof</button>
+        
     <div class="row card">
         <p>
             <svg width="900" height="900">
-            <g id="accordion1" class="accordion card-text collapse multi-collapse multiCollapse1">
+            <g id="accordion1" class="accordion card-text collapse show multi-collapse multiCollapse1">
             ${svgbase}
             <svg x="100" y="100" id="collapseOne" class="collapseOne collapse show" data-parent="#accordion1">
             ${svgbaseArrowWidth}

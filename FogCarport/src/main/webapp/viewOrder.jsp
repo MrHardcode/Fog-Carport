@@ -110,7 +110,7 @@
               <button type="submit" class="btn btn-primary">Se Stykliste</button>
           </form>
 
-          <form method="POST" action="FrontController" class="" style="margin-left: 10px">
+          <form method="GET" action="FrontController" class="" style="margin-left: 10px">
               <input type="hidden" name="command" value="viewSVG">  
               <input type="hidden" name="orderid" value="${order.id}"> 
               <button type="submit" class="btn btn-primary">Se Tegninger</button>
