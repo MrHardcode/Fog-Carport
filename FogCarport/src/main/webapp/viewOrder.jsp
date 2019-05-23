@@ -75,7 +75,7 @@
             </c:otherwise>
         </c:choose>
         <c:if test= "${not empty priceOffer}">
-            <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
+            <p>Tilbudspris: <span id="priceOffer">${priceOffer}</span> DKK</p>
             <c:if test= "${not empty sessionScope.employee}"> 
                 <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
             </c:if>
