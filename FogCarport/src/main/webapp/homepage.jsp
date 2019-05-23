@@ -130,7 +130,7 @@
         </div>
 
         <!-- If the customer wants a login, so they can see their order. -->
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
+        <button class="btn btn-outline-secondary mb-1" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
             Jeg vil gerne have en bruger
         </button>
 
@@ -153,7 +153,7 @@
         <br>
         <br>
         <!-- Button to submit -->
-        <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
+        <button type="submit" class="btn btn-outline-secondary mb-1 disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>
     <!-- Form end -->
 </div>

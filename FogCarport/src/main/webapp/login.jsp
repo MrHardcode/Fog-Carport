@@ -27,8 +27,8 @@
                                     <label for="inputPassword">Password</label>
                                 </div>
 
-                                <!-- BUTTON -->
-                                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">
+                                <!-- BUTTON-->
+                                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2 btnlogincolor" type="submit">
                                     Log ind
                                 </button>
 
