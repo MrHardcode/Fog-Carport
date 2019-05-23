@@ -232,6 +232,11 @@
     border-color: black;
 }
 
+#paidPrice
+{
+    border-bottom: 3px double;
+}
+
 /*----------------- OTHER CSS -----------------  */
 body
 {
