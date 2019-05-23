@@ -34,7 +34,7 @@ public class viewOrder extends Command
         // Get an order by id from database and partslist.
         OrderModel order = logic.getOrder(id);
         PartslistModel partslist = logic.getPartslistModel(order);
-        double suggestedPrice = logic.getSuggestedRetailPrice(partslist);
+        double suggestedPrice = (double) logic.getSuggestedRetailPrice(partslist);
                 
         //if finalPrice was set during this request
         //(finalPrice is the new price offer from the salesman)
