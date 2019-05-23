@@ -4,7 +4,7 @@
 <!--Main text area, "welcome", centered -->
 <div id="mainText">
     <h2>Velkommen til Fog Quickbyg</h2>
-    <h6>Vi gør dine carport drømme til virkelighed</h6>
+    <h6>Vi gør dine carportdrømme til virkelighed</h6>
     <br><br>
 </div>
 
@@ -29,7 +29,7 @@
         <!-- Carport Length 
         <input type="number" class="form-control" id="input-length" placeholder="Indtast lï¿½ngde" name="length"> Deprecated - We used to use input field instead of dropdown. -->
         <div class="form-group">
-            <label for="InputLength">Længde i cm</label>
+            <label for="InputLength">Længde</label>
             <select class="form-control" id="input-length" name="length"><option selected="selected" value="">Vælg længde</option>              
             </select>
             <p hidden class="text-error-color text-error-size">Længde skal være mellem 240cm og 720cm</p>
@@ -38,7 +38,7 @@
         <!-- Carport Width 
         <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width"> Deprecated - We used to use input field instead of dropdown. -->
         <div class="form-group">
-            <label for="InputWidth">Bredde i cm</label>
+            <label for="InputWidth">Bredde</label>
             <select class="form-control" id="input-width" name="width"><option selected="selected" value="">Vælg bredde</option>
             </select>
             <p hidden class="text-error-color text-error-size">Bredde skal være mellem 240cm og 720cm</p>
@@ -48,10 +48,10 @@
         <div class="form-group">
             <label for="roofIncline">Taghældning</label>
             <select class="form-control" id="roof-inclines" name="incline">
-                <option selected="selected" value="">Vælg Taghældning</option>
+                <option selected="selected" value="">Vælg taghældning</option>
             </select>
         </div>
-
+        
         <!-- Roof type dependant on roof incline-->
         <div class="form-group">
             <label for="flatRoofInput">Tagtype</label>
@@ -97,7 +97,7 @@
         </div>
         
         <!-- Headline, contact info -->
-        <h1 class="h1 form-group justify-content-center">Kontakt info</h1>
+        <h1 class="h1 form-group justify-content-center">Kontaktinfo</h1>
         <!-- Customer info -->
         <div class="form-group">
             <!-- Email -->
