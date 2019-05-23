@@ -41,7 +41,7 @@ public class viewOrder extends Command {
             int userID2 = user.getId();
             if (userID1 != userID2)
             {
-                throw new UserException("You do not have permission to view this order");
+                throw new UserException("Du har ikke tilladelse til at se denne ordre");
             }
         }
         
