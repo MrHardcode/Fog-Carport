@@ -74,7 +74,7 @@ public class FrontController extends HttpServlet
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
             // FORWARD USER.
-            throw new UserException("Du skal være logget ind.");
+            throw new UserException("Du er ikke logget ind");
         }
     }
 
