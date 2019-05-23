@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang = "en">
     <head>
+        <link rel="icon" type="image/png" href="resources/favicon.png" />
         <base href="${pageContext.request.contextPath}/" />
         <!-- meta tags -->
         <meta charset="utf-8">
