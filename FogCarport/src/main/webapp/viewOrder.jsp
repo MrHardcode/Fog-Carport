@@ -81,7 +81,7 @@
                 <input type="hidden" name="command" value="viewOrder">  
                 <input type="hidden" name="orderid" value="${order.id}">
                 <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
-                <button type="submit" class="btn btn-primary">Send tilbud</button>
+                <button type="submit" class="btn btn-outline-secondary mb-1">Send tilbud</button>
             </form>
         </div>
     </c:if>
@@ -95,7 +95,7 @@
         <form action="FrontController"  class="">
             <input type="hidden" name="command" value="payOrder">
             <input type="hidden" name="orderid" value="${order.id}">
-            <button type="submit" class="btn btn-primary">Betal ordre</button>
+            <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
         </form>
     </div>
 </c:if>
@@ -107,13 +107,13 @@
           <form method="POST" action="FrontController"  class="">
               <input type="hidden" name="command" value="viewPartslist">   
               <input type="hidden" name="orderid" value="${order.id}"> 
-              <button type="submit" class="btn btn-primary">Se Stykliste</button>
+              <button type="submit" class="btn btn-outline-secondary mb-1">Se Stykliste</button>
           </form>
 
           <form method="GET" action="FrontController" class="" style="margin-left: 10px">
               <input type="hidden" name="command" value="viewSVG">  
               <input type="hidden" name="orderid" value="${order.id}"> 
-              <button type="submit" class="btn btn-primary">Se Tegninger</button>
+              <button type="submit" class="btn btn-outline-secondary mb-1">Se Tegninger</button>
           </form>
       </div>
 </c:if>
