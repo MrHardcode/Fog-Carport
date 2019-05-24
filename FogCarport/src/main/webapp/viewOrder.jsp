@@ -111,7 +111,13 @@
                     <input type="hidden" name="price" value="${suggestedprice}">
                 </c:otherwise>
             </c:choose>
-            <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
+                <c:if test="${not empty sessionScope.customer}">
+                    <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
+                </c:if>
+                <c:if test="${not empty sessionScope.employee}">
+                    <p>Ved kontant betaling eller betling via bankoverførsel, så bekræft modtagelse af betaling</p>
+                    <button type="submit" class="btn btn-outline-secondary mb-1">Bekræft modtagelse af betaling</button>
+                </c:if>
         </form>
     </div>
 </c:if>
