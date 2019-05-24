@@ -10,7 +10,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("varpriceinput") !== null) {
         calculateOperationMarginSuggestedPrice();
-        checkPriceOffer(); // should also be inside this check
+    }
+    if (document.getElementById("suggestedretailprice") !== null){
+        checkPriceOffer(); 
     }
     fillDropdownsDimensions();
 });
