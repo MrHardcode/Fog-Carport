@@ -9,8 +9,8 @@
 </div>
 
 <!-- The SVG drawings of the carport -->
-<div id="SVGdiv">
-    <div class="toggleGroup">
+<div class="SVGdiv">
+    <div class="toggleGroup SVGdiv">
         <h5 class="col-md-2">BASE</h5>
         <div class="toggleButtons btn-group col-md-2">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="toggleGroup">
+    <div class="toggleGroup SVGdiv">
         <h5 class="col-md-2">ROOF</h5>
         <div class="toggleButtons btn-group col-md-5">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
