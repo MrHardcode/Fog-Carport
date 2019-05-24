@@ -43,11 +43,21 @@ public class FrontController extends HttpServlet
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
-        } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
+        } catch (UserException | DataException | AlgorithmException ex)
         {
-            request.setAttribute("target", "homepage");
-            request.setAttribute("message", ex.getMessage());
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            try
+            {
+                Command action = Command.from(request);
+                String target = action.execute(request, logic);
+                request.setAttribute("target", target);
+                request.setAttribute("message", ex.getMessage());
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } catch (UserException | DataException | AlgorithmException ex1)
+            {
+                request.setAttribute("target", "login");
+                request.setAttribute("message", ex.getMessage());
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
         }
     }
 
