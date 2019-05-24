@@ -35,21 +35,32 @@ public class viewOrder extends Command
         OrderModel order = logic.getOrder(id);
         PartslistModel partslist = logic.getPartslistModel(order);
         double suggestedPrice = (double) logic.getSuggestedRetailPrice(partslist);
-                
-        //if finalPrice was set during this request
-        //(finalPrice is the new price offer from the salesman)
-        if (request.getParameterMap().containsKey("finalPrice"))
+
+
+        
+        
+        if (request.getParameterMap().containsKey("finalPrice")) //if finalPrice was set by an Employee during this request
         {
+            //(finalPrice is the new price offer from the salesman)
             int finalPrice = validation.validateInteger(request.getParameter("finalPrice"), "Pris felt");
             logic.updateOrderPrice(id, finalPrice);
             order.setPrice(finalPrice);
-            request.setAttribute("priceOffer", finalPrice);
+            
+        }
+
+        if (order.getStatus().equals("Finalized")) //if order is already done, ignore all else
+        {
         }
         else if (order.getPrice() == -1) //else if there was NOT set a new offer && order price is still set to -1
-        //-1 is the default price value in database
         {
-            logic.updateOrderPrice(id, suggestedPrice);
+            //-1 is the default price value in database
+            logic.updateOrderPrice(id, suggestedPrice); //set suggested as default price
             order.setPrice(suggestedPrice);
+        }
+        else if (order.getPrice() != suggestedPrice)
+        {
+            //show special price offer
+            request.setAttribute("priceOffer", order.getPrice());
         }
 
         // Place values used by viewOrder on request.
