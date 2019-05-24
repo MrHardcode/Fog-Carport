@@ -31,6 +31,7 @@ public class HikariDS
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.setMaxLifetime(60000);
 
         dataSource = new HikariDataSource(config);
     }
