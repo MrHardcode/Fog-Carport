@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang = "en">
     <head>
+        <link rel="icon" type="image/png" href="resources/favicon.png" />
         <base href="${pageContext.request.contextPath}/" />
         <!-- meta tags -->
         <meta charset="utf-8">
@@ -27,7 +28,9 @@
         <jsp:include page='/navbar.jsp'></jsp:include>
 
         <!-- MASTER INCLUDE -->
-        <jsp:include page='${target}.jsp'></jsp:include>
+        <div class="container">
+            <jsp:include page='${target}.jsp'></jsp:include>
+        </div>
 
         <!-- FOOTER -->
         <div class="footer">

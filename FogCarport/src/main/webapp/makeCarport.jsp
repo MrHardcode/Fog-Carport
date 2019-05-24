@@ -120,7 +120,7 @@
         </div>
 
         <!-- Button to submit -->
-        <button type="submit" class="btn btn-primary disabled" id="submit-btn" disabled>Bestil tilbud</button>
+        <button type="submit" class="btn btn-outline-secondary mb-1 disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>
     <!-- Form end -->
 </div>
