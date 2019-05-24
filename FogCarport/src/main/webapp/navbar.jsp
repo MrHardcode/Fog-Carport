@@ -5,7 +5,7 @@
 
 <!-- Navigation -->
 <div id="myNavBar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light nav-color">
 
         <!-- Brand Logo / Name -->
         <a class="navbar-brand" href="FrontController?command=link&link=homepage">

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang = "en">
     <head>
+        <link rel="icon" type="image/png" href="resources/favicon.png" />
         <base href="${pageContext.request.contextPath}/" />
         <!-- meta tags -->
         <meta charset="utf-8">
@@ -27,7 +28,9 @@
         <jsp:include page='/navbar.jsp'></jsp:include>
 
         <!-- MASTER INCLUDE -->
-        <jsp:include page='${target}.jsp'></jsp:include>
+        <div class="container">
+            <jsp:include page='${target}.jsp'></jsp:include>
+        </div>
 
         <!-- FOOTER -->
         <div class="footer">
@@ -43,6 +46,6 @@
         <!-- SWEETALERT JS -->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <!-- CUSTOM JS -->
-        <script src="javascript/global.js" type="text/javascript"></script>
+        <script src="javascript/global.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

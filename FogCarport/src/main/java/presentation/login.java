@@ -3,9 +3,11 @@
  */
 package presentation;
 
+import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
@@ -24,22 +26,42 @@ public class login extends Command
     }
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException
+    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
     {
         Validation validation = new Validation();
         String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 
         String password = validation.validateString(request.getParameter("password"), "Password"); // Get the password from the Parameters
 
+        CustomerModel customer = null;
+        EmployeeModel employee = null;
         try{
             /* Log in customer */
-            CustomerModel customer = logic.login(email, password);
+            customer = logic.login(email, password);
             request.getSession().setAttribute("customer", customer);
+            
         } catch(UserException ux){
             /* if customer login fails, try to log in Employee instead */
-            EmployeeModel employee = logic.empLogin(email, password);
+            employee = logic.empLogin(email, password);
             request.getSession().setAttribute("employee", employee);
         }
-        return "homepage";
+        
+        if (customer != null) {
+
+            List<Integer> ids = logic.getOrderIds(customer.getId());
+
+            if (ids.isEmpty())
+            {
+                request.setAttribute("message", "You have no Orders. Orders show up here when you make one.");
+            }
+
+            request.setAttribute("ids", ids);
+        }
+        else if(employee != null){
+            List<Integer> allOrders = logic.getAllOrderIds();
+            request.setAttribute("ids", allOrders);
+        }
+
+        return "allOrders";
 
     }
 
