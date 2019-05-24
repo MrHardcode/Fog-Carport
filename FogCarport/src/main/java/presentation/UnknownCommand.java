@@ -15,7 +15,7 @@ class UnknownCommand extends Command
     {
         /* If there is nothing in the "target" attribute, send user to homepage. */
         if (request.getAttribute("target") == null){
-            return "homepage";
+            return "";
         } else {
             return (String) request.getAttribute("target");
         }

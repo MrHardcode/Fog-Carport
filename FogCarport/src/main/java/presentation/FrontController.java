@@ -20,9 +20,9 @@ import logic.LogicFacadeImpl;
  * @author
  */
 @WebServlet(name = "FrontController", urlPatterns =
-        {
-            "/FrontController"
-        })
+{
+    "/FrontController"
+})
 public class FrontController extends HttpServlet
 {
 
@@ -34,7 +34,10 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response);
+            if (request.getAttribute("target") != null)
+            {
+                validateSession(request, response);
+            }
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -65,7 +68,7 @@ public class FrontController extends HttpServlet
         // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
         String command = request.getParameter("command");
         String link = request.getParameter("link");
-        if (customer == null && employee == null 
+        if (customer == null && employee == null
                 && !"login".equals(command) && !"login".equals(link)
                 && !"createUser".equals(command) && !"createUser".equals(link)
                 && !"homepage".equals(command) && !"homepage".equals(link)
