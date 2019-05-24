@@ -31,9 +31,9 @@ public class HikariDS
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config.setMaxLifetime(60000); // 1 minute
-        config.setIdleTimeout(60000); // 1 minute
-        config.setMaximumPoolSize(4); // 10 default
+        config.setMaxLifetime(60000); // 1 minute, 30 minutes default
+        config.setIdleTimeout(60000); // 1 minute, 10 minutes default
+        config.setMaximumPoolSize(3); // 10 default
         config.setMinimumIdle(2); // Default same as maximumpoolsize.
 
         dataSource = new HikariDataSource(config);
