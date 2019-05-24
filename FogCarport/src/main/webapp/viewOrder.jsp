@@ -106,7 +106,7 @@
         <form action="FrontController"  class="">
             <input type="hidden" name="command" value="payOrder">
             <input type="hidden" name="orderid" value="${order.id}">
-            <!-- Set reduced price if exists, else normal price -->
+            <!-- Pay reduced price if exists, else normal price -->
             <c:choose> 
                 <c:when test="${not empty priceOffer}">
                     <input type="hidden" name="price" value="${priceOffer}">
@@ -120,9 +120,7 @@
     </div>
 </c:if>
 <!-- Button to see partslist and drawings if you've paid for the order. -->
-<c:if test="${order.status != 'Awaiting' 
-              && order.status != 'Processing'
-              && order.status != 'Accepted'}">
+<c:if test="${order.status == 'Finalized'}">
       <div class="d-flex p-2 justify-content-center">
           <form method="POST" action="FrontController"  class="">
               <input type="hidden" name="command" value="viewPartslist">   

@@ -36,16 +36,12 @@ public class viewOrder extends Command
         PartslistModel partslist = logic.getPartslistModel(order);
         double suggestedPrice = (double) logic.getSuggestedRetailPrice(partslist);
 
-
-        
-        
         if (request.getParameterMap().containsKey("finalPrice")) //if finalPrice was set by an Employee during this request
         {
             //(finalPrice is the new price offer from the salesman)
             int finalPrice = validation.validateInteger(request.getParameter("finalPrice"), "Pris felt");
             logic.updateOrderPrice(id, finalPrice);
             order.setPrice(finalPrice);
-            
         }
 
         if (order.getStatus().equals("Finalized")) //if order is already done, ignore all else
