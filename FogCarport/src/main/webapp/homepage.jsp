@@ -16,7 +16,7 @@
 
         <h1 class="h1">Bestil Carport</h1>
 
-        <!-- Carport Height - From Sprint 1 - Simple Partslist
+        <!-- Carport Height - From Sprint 1 - Simple Partslist - (Deprecated - Was used for the simple carport partslist, which is no longer used. Was part of the first sprint.
         <div class="form-group">
             <label for="InputHeight">Hï¿½jde i cm</label>
             <input type="number"class="form-control" id="input-height" placeholder="Indtast hï¿½jde" name="height">
