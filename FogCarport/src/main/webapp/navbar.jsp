@@ -24,6 +24,11 @@
                     <a class="nav-link" href="FrontController?command=link&link=partslist">Stykliste </a>
                 </li>
                 -->
+                <c:if test="${empty sessionScope.customer and empty sessionScope.employee}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
+                    </li>
+                </c:if>
                 <c:if test="${not empty sessionScope.customer}">
                     <li class="nav-item">
                         <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
