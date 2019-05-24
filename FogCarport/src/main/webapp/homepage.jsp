@@ -77,7 +77,7 @@
 
         <!-- Shed menu part -->
         <div hidden id="carport-shed-div">
-            <!-- Headline -->
+            <!-- Headline for shed-->
             <h1 class="h1">Byg skur</h1>
             <!-- Length of the shed -->
             <div class="form-group">
