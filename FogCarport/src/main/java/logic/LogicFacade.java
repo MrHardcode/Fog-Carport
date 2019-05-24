@@ -154,6 +154,11 @@ public interface LogicFacade
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
     
+    /**
+     * Returns 150% of the partslist total price as a int value
+     * @param partsList partslist in question
+     * @return int
+     */
     public int getSuggestedRetailPrice(PartslistModel partsList);
     
     /**
