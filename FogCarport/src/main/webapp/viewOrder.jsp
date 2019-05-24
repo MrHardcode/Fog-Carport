@@ -111,18 +111,35 @@
                     <input type="hidden" name="price" value="${suggestedprice}">
                 </c:otherwise>
             </c:choose>
-                <c:if test="${not empty sessionScope.customer}">
-                    <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
-                </c:if>
-                <c:if test="${not empty sessionScope.employee}">
-                    <p>Ved kontant betaling eller betling via bankoverførsel, så bekræft modtagelse af betaling</p>
-                    <button type="submit" class="btn btn-outline-secondary mb-1">Bekræft modtagelse af betaling</button>
-                </c:if>
+            <c:if test="${not empty sessionScope.customer}">
+                <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
+            </c:if>
+            <c:if test="${not empty sessionScope.employee}">
+                <p>Ved kontant betaling eller betling via bankoverførsel, så bekræft modtagelse af betaling</p>
+                <button type="submit" class="btn btn-outline-secondary mb-1">Bekræft modtagelse af betaling</button>
+            </c:if>
         </form>
     </div>
 </c:if>
 <!-- Button to see partslist and drawings if you've paid for the order. -->
-<c:if test="${order.status == 'Finalized'}">
+<c:if test="${not empty sessionScope.customer}">
+    <c:if test="${order.status == 'Finalized'}">
+        <div class="d-flex p-2 justify-content-center">
+            <form method="POST" action="FrontController"  class="">
+                <input type="hidden" name="command" value="viewPartslist">   
+                <input type="hidden" name="orderid" value="${order.id}"> 
+                <button type="submit" class="btn btn-outline-secondary mb-1">Se Stykliste</button>
+            </form>
+
+            <form method="GET" action="FrontController" class="" style="margin-left: 10px">
+                <input type="hidden" name="command" value="viewSVG">  
+                <input type="hidden" name="orderid" value="${order.id}"> 
+                <button type="submit" class="btn btn-outline-secondary mb-1">Se Tegninger</button>
+            </form>
+        </div>
+    </c:if>
+</c:if>
+<c:if test="${not empty sessionScope.employee}">
     <div class="d-flex p-2 justify-content-center">
         <form method="POST" action="FrontController"  class="">
             <input type="hidden" name="command" value="viewPartslist">   
