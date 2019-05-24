@@ -44,7 +44,16 @@
                 </c:if>
                 <!-- END navbar left float-->
             </ul> 
-            
+            <!-- START navbar center float -->
+            <ul class="nav navbar-nav navbar-center">
+                <li id ="errormessage" class="nav-item">
+                    <!-- Show errormessage to the User --> 
+                    <c:if test="${not empty message}">
+                        <a class="nav-link active" >  Besked: ${message} </a>
+                    </c:if>
+                </li>
+                <!-- END navbar center float -->
+            </ul>
             <!-- login button -->
             <c:if test="${empty customer && empty employee}">
                 <!-- START navbar RIGHT float-->

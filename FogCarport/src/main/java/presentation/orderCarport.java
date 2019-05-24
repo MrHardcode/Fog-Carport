@@ -135,7 +135,7 @@ public class orderCarport extends Command
         request.setAttribute("message", "Carport bestilt.");
 
         // SEND USER BACK TO HOMEPAGE
-        return "homepage";
+        return "makeCarportForm";
     }
 
 }

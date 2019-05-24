@@ -30,7 +30,7 @@ public class Validation
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new UserException(name + " may not be empty.");
+            throw new UserException(name + " må ikke være tom.");
         } else
         {
             try
@@ -39,7 +39,7 @@ public class Validation
                 return length;
             } catch (NumberFormatException ex)
             {
-                throw new UserException(name + " has to be an integer.");
+                throw new UserException(name + " skal være et heltal.");
             }
         }
     }
@@ -58,7 +58,7 @@ public class Validation
     {
         if (validate == null || validate.isEmpty())
         {
-            throw new UserException(name + " may not be empty.");
+            throw new UserException(name + " må ikke være tom.");
         } else
         {
             return validate;
@@ -81,11 +81,11 @@ public class Validation
     {
         if (password == null || password.isEmpty() || password2 == null || password2.isEmpty())
         {
-            throw new UserException(name + " must not be empty");
+            throw new UserException(name + " må ikke være tom.");
         }
         if (!password.equals(password2))
         {
-            throw new UserException("Please type in matching passwords");
+            throw new UserException("Indtast to ens passwords.");
         }
         return password;
     }
