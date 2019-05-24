@@ -41,6 +41,13 @@ function fillDropdownsDimensions() {
 
 let inputlength = document.getElementById("input-length");
 let inputwidth = document.getElementById("input-width");
+let inputincline = document.getElementById("roof-inclines");
+let inputrooftiles = document.getElementById("roof-tiles");
+let inputadress = document.getElementById("inputAddress");
+let inputname = document.getElementById("inputName");
+let inputemail = document.getElementById("inputEmail");
+let inputphone = document.getElementById("inputPhoneNumber");
+let inputzip = document.getElementById("inputZip");
 let submit = document.getElementById("submit-btn");
 
 inputlength.addEventListener("change", function () {
@@ -54,6 +61,7 @@ function ValidateCarportInput() {
 
     let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
     let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+    let inputRoofInclineValue = ;
 
     if (inputLengthValue !== "" && inputWidthValue !== "") {
         submit.classList.remove("disabled");
