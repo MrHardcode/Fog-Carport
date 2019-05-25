@@ -208,9 +208,6 @@ public class RoofFlatCalc
         /* Update price */
         rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
 
-        /* Update helptext */
-        rafter.setHelptext("Spær, monteres på rem");
-
         /* Add to <partslistmodel> */
         rafters.addMaterial(rafter);
 
@@ -252,12 +249,6 @@ public class RoofFlatCalc
         fasciaLengthTop.setQuantity(fasciaLengthTop.getQuantity() * 2); //2 lengths
         fasciaWidthBottom.setQuantity(fasciaWidthBottom.getQuantity() * 2); //2 widths
         //fasciaWidthTop is not updated, as we only add top fascia to the front, not the back. (due to water draining)
-
-        /* Set helptext */
-        fasciaLengthBottom.setHelptext("understernbrædder til siderne");
-        fasciaLengthTop.setHelptext("oversternbrædder til siderne");
-        fasciaWidthBottom.setHelptext("understernbrædder til for- & bagende");
-        fasciaWidthTop.setHelptext("oversternbrædder til forenden");
 
         /* Add parts together */
         fascias.addMaterial(fasciaLengthBottom);
@@ -335,11 +326,6 @@ public class RoofFlatCalc
         boardsLength.setPrice(boardsLength.getQuantity() * boardsLength.getPrice());
         boardsWidth.setPrice(boardsWidth.getQuantity() * boardsWidth.getPrice());
 
-        /* Update helptext */
-        boardsLength.setHelptext("vandbrædt på stern i sider");
-        boardsWidth.setHelptext("vandbrædt på stern i forende");
-        boardScrews.setHelptext("Til montering af stern & vandbrædt");
-
         /* Add to <partslistmodel> */
         bargeboards.addMaterial(boardsLength);
         bargeboards.addMaterial(boardsWidth);
@@ -388,9 +374,7 @@ public class RoofFlatCalc
 
         /* update price */
         band.setPrice(band.getQuantity() * band.getPrice());
-        /* Update helptext */
-        band.setHelptext("Til vindkryds på spær");
-        bandScrews.setHelptext("Til montering af universalbeslag + hulbånd");
+
         /* add to PartslistModel */
         bandParts.addMaterial(band);
         bandParts.addMaterial(bandScrews);
@@ -437,11 +421,6 @@ public class RoofFlatCalc
         fittingRight.setPrice((fittingRight.getPrice() * fittingRight.getQuantity()));
         fittingLeft.setPrice((fittingLeft.getPrice() * fittingLeft.getQuantity()));
         //setScrewPrice 
-
-        /* Update helptext */
-        fittingRight.setHelptext("Til montering	af spær	på rem");
-        fittingLeft.setHelptext("Til montering	af spær	på rem");
-        fittingScrews.setHelptext("Til montering af universalbeslag + hulbånd");
 
         /* Add to PartsListModel */
         fittingsAndScrews.addMaterial(fittingRight);
