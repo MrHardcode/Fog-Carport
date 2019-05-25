@@ -112,7 +112,7 @@
         </div>
 
         <!-- IF LOGGED IN --> 
-        <c:if test="${not empty sessionScope.customer}">
+        <c:if test="${not empty sessionScope.customer or not empty sessionScope.employee}">
             <!-- Headline -->
             <h1 class="h1">Kunde info</h1>
             <!-- Customer info -->
@@ -130,7 +130,7 @@
             </div>
         </c:if>
         <!-- IF NOT LOGGED IN --> 
-        <c:if test="${empty sessionScope.customer}">
+        <c:if test="${empty sessionScope.customer and empty sessionScope.employee}">
             <!-- Headline, contact info -->
             <h1 class="h1 form-group justify-content-center">Kontaktinfo</h1>
             <!-- Customer info -->
