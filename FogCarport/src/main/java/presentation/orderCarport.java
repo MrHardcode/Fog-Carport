@@ -132,7 +132,7 @@ public class orderCarport extends Command
         logic.createOrder(order);
 
         // SET MESSAGE TO USER THAT ORDER WAS SUCCESSFULL
-        request.setAttribute("message", "Carport succesfully ordered.");
+        request.setAttribute("message", "Din ordre er afgivet.");
 
         // SEND USER BACK TO HOMEPAGE
         return "homepage";

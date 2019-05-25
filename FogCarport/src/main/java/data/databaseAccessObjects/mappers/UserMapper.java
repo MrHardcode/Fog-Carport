@@ -241,7 +241,7 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Could not get info about employee from database.");
+                throw new UserException("Kunne ikke skaffe den ansatte fra databasen.");
             }
 
         } catch (SQLException ex)
