@@ -51,7 +51,7 @@ public class RoofFlatCalc
 
     /* Rules */
     private int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
-    private int plasticRoofOverlapStandard = 200; //20cm overlap between two tiles
+    private int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
     private int plastictileScrewsStandard = 12;
     private int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
     private int rafterFittingScrewStandard = 9;
@@ -550,8 +550,6 @@ public class RoofFlatCalc
         int largeQty = 0;
         int smallQty = 0;
         //length
-        largeQty++; //We always want 1 large and go from there
-        remainingLength -= tileLargeLength;
         while (remainingLength >= 0)
         {
             if (remainingLength >= tileLargeLength)
@@ -559,7 +557,7 @@ public class RoofFlatCalc
                 largeQty++;
                 remainingLength -= tileLargeLength;
             }
-            else if (remainingLength > tileSmallLength)
+            else if (remainingLength >= tileSmallLength)
             {
                 smallQty++;
                 remainingLength -= tileSmallLength;
@@ -568,18 +566,18 @@ public class RoofFlatCalc
             {
                 //edge case: if we are still not at 0, but the remaining length is smaller than the smallest tile
                 smallQty++;
-                remainingLength-= tileSmallLength;
+                remainingLength -= tileSmallLength;
             }
         }
-        
+
         //We now have amount of tiles for one length
         //Lets calculate for the width too.
         int totalAmountLarge = (remainingWidth / tileLargeWidth) * largeQty; //Math.ceil not needed, due to the 200mm overlap we always have excessive amount.
         int totalAmountSmall = (remainingWidth / tileSmallWidth) * smallQty;
 
         /* Update quantities */
-        tileLarge.setQuantity((int) totalAmountLarge);
-        tileSmall.setQuantity((int) totalAmountSmall);
+        tileLarge.setQuantity(totalAmountLarge);
+        tileSmall.setQuantity(totalAmountSmall);
         //need to update screws too (see rules)
         tileScrews.setQuantity(3);
 
@@ -587,7 +585,7 @@ public class RoofFlatCalc
         tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
         tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
         tileScrews.setPrice(tileScrews.getQuantity() * tileScrews.getPrice());
-        
+
         /* Update quantity */
         tileOptions.addMaterial(tileLarge);
         tileOptions.addMaterial(tileSmall);
