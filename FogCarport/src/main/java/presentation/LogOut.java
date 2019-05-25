@@ -23,7 +23,7 @@ public class LogOut extends Command
         {
             session.invalidate(); //invalidate current session
             request.setAttribute("target", "login"); //send user to login page
-            request.setAttribute("message", "Du er nu logget ud");
+            request.setAttribute("message", "Du er nu logget ud.");
             //request.getRequestDispatcher("index.jsp");
             //return "login";
         }

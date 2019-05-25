@@ -476,7 +476,7 @@ public class RoofFlatCalc
                 dependantParts.addPartslist(calculateFeltRoof(order));
                 break;
             default:
-                throw new AlgorithmException("Error #1: No suitable roof ID selected");
+                throw new AlgorithmException("Fejl: Forkert tagmateriale valgt. Du valgte: " + roofSelection);
         }
         return dependantParts;
     }
@@ -578,7 +578,7 @@ public class RoofFlatCalc
      */
     protected PartslistModel calculateFeltRoof(OrderModel order)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Ikke understøttet endnu."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
