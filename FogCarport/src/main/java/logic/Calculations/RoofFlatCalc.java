@@ -40,7 +40,7 @@ import data.models.PartslistModel;
  * !Outermost parts must extend 5cm beyond its Spær to account for water
  * drainage.
  *
- * !Roof tiles have a 2 'wave' overlay (20cm) & 12 screws per cm^2.
+ * !Roof tiles have a 2 'wave' overlay (20cm) & 12 screws per tile.
  *
  * Tagpap roofing: Size dependant calculation
  *
@@ -54,11 +54,15 @@ public class RoofFlatCalc
     //<editor-fold defaultstate="collapsed" desc="ALGORITHM RULES">
     private final int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
     private final int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
-    private final int plastictileScrewsStandard = 12;
+    private final int plasticTileScrewsStandard = 12;
+    private final int plasticTileScrewsPackSize = 200;
     private final int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
-    private final int rafterFittingScrewStandard = 9;
+    private final int fittingScrewStandard = 9;
+    private final int fittingScrewsPackSize = 250;
     private final int bargeboardScrewStandard = 4;
+    private final int bargeboardScrewsPackSize = 200;
     private final int bandScrewStandard = 2;
+    private final int bandScrewsPackSize = 250;
     private final String helptext = "roof"; // Used to fetch the right helptext from database.
     // </editor-fold>
 
@@ -84,9 +88,7 @@ public class RoofFlatCalc
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="INSTANCE FIELDS">
-    /* Calculations */
-    int amountOfScrews; //total amount of screws needed
-    int rafterCount;
+    int rafterCount; //needed for svg
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="IMPORTS">
@@ -96,7 +98,6 @@ public class RoofFlatCalc
     public RoofFlatCalc()
     {
         rafterCount = 0;
-        amountOfScrews = 0;
         this.DAO = DataFacadeImpl.getInstance();
     }
 
@@ -115,17 +116,16 @@ public class RoofFlatCalc
         {
             throw new AlgorithmException("Ordren er ikke udfyldt korrekt.");
         }
+
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
         roofMaterials.addPartslist(calculateDependantParts(order));
 
-        roofMaterials.setRafterCount(rafterCount); //needed for svg
+        roofMaterials.setRafterCount(rafterCount); //set rafterCount on BoM
         return roofMaterials;
     }
-    
-    
 
     /**
      *
@@ -137,7 +137,7 @@ public class RoofFlatCalc
      * @return returns partslistmodel of main parts
      * @throws DataException
      */
-    protected PartslistModel calculateMainParts(OrderModel order) throws DataException
+    protected PartslistModel calculateMainParts(OrderModel order) throws DataException, AlgorithmException
     {
         /* Initialize partslist to return */
         PartslistModel mainMaterials = new PartslistModel();
@@ -147,7 +147,7 @@ public class RoofFlatCalc
         PartslistModel fascias = calculateFascias(order);
         PartslistModel bargeboards = calculateBargeboard(order);
         PartslistModel bands = calculateBand(order);
-        PartslistModel fittings = calculateFittings(rafters);
+        PartslistModel fittings = calculateFittings(rafterCount);
 
         /* Add items to partslist */
         mainMaterials.addPartslist(rafters);
@@ -305,7 +305,7 @@ public class RoofFlatCalc
      * @param order
      * @return
      */
-    protected PartslistModel calculateBargeboard(OrderModel order) throws DataException
+    protected PartslistModel calculateBargeboard(OrderModel order) throws DataException, AlgorithmException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel bargeboards = new PartslistModel();
@@ -313,7 +313,6 @@ public class RoofFlatCalc
         /* Get MaterialModel to return */
         MaterialModel boardsLength = DAO.getMaterial(bargeboardLengthID, helptext);
         MaterialModel boardsWidth = DAO.getMaterial(bargeboardWidthID, helptext);
-        MaterialModel boardScrews = DAO.getMaterial(bargeboardScrewsID, helptext);
 
         /* Initialize variables */
         int length = order.getLength();
@@ -326,7 +325,6 @@ public class RoofFlatCalc
         //We have now calculated the quantity needed by dimension, but need to multiply by carport sides.
         /* Update quantities */
         boardsLength.setQuantity(boardsLength.getQuantity() * 2); //two lengths
-        boardScrews.setQuantity(1); //pack of 200
         //boardsWidth is not updated, as there only are bargeboards for the front.
 
         /* Update price */
@@ -336,7 +334,11 @@ public class RoofFlatCalc
         /* Add to <partslistmodel> */
         bargeboards.addMaterial(boardsLength);
         bargeboards.addMaterial(boardsWidth);
-        bargeboards.addMaterial(boardScrews);
+
+        //calculate screws and add
+        int boardLengthScrews = boardsLength.getQuantity() * bargeboardScrewStandard; //4 screws per board
+        int boardsWidthScrews = boardsWidth.getQuantity() * bargeboardScrewStandard; //4 screws per board
+        bargeboards.addMaterial(getScrews(bargeboardScrewsID, bargeboardScrewsPackSize, (boardLengthScrews + boardsWidthScrews)));
 
         /* Return <partslistmodel>*/
         return bargeboards;
@@ -346,16 +348,17 @@ public class RoofFlatCalc
      * calculate hulbånd for carport roof
      *
      * @param order
+     * @throws data.exceptions.DataException
      * @return
+     * @throws data.exceptions.AlgorithmException
      */
-    protected PartslistModel calculateBand(OrderModel order) throws DataException
+    protected PartslistModel calculateBand(OrderModel order) throws DataException, AlgorithmException
     {
         PartslistModel bandParts = new PartslistModel();
         int bandAmount = 1; //used to determine band quantity. we always want one.
 
         /*get MaterialModel to return */
         MaterialModel band = DAO.getMaterial(bandID, helptext);
-        MaterialModel bandScrews = DAO.getMaterial(bandScrewsID, helptext);
 
         /* Calculation begin */
         int bandLength = band.getLength(); //10000mm (10m)
@@ -376,15 +379,16 @@ public class RoofFlatCalc
 
         /* update quantities */
         band.setQuantity(bandAmount);
-        bandScrews.setQuantity(1); // 250 a package
-        //screws calculation too (2 pr. spær crossed)
 
         /* update price */
         band.setPrice(band.getQuantity() * band.getPrice());
 
         /* add to PartslistModel */
         bandParts.addMaterial(band);
-        bandParts.addMaterial(bandScrews);
+
+        //calculate screws and add
+        int bandScrewsAmount = (rafterCount * bandScrewStandard) * band.getQuantity(); //2 screws per rafter per band.
+        bandParts.addMaterial(getScrews(bandScrewsID, bandScrewsPackSize, bandScrewsAmount));
 
         /* Return PartslistModel */
         return bandParts;
@@ -393,47 +397,36 @@ public class RoofFlatCalc
     /**
      * calculate universalbeslag & screws for carport roof
      *
-     * @param rafters partslistmodel of rafters. need quantity to calculate
+     * @param rafterCount int amount of rafters. need quantity to calculate
      * fittings.
      * @return returns a list of materials (to later add to bill of materials)
      */
-    protected PartslistModel calculateFittings(PartslistModel rafters) throws DataException
+    protected PartslistModel calculateFittings(int rafterCount) throws DataException, AlgorithmException
     {
-        /* Rafter amount */
-        int rafterAmount = rafters.getBillOfMaterials().get(0).getQuantity(); //hackish solution.
-
         /*PartsListModel to return */
         PartslistModel fittingsAndScrews = new PartslistModel();
 
-        /* Get standards */
-        int screwStandard = rafterFittingScrewStandard; //9
-
         /* Calculation begin */
-        int fittingsAmount = rafterAmount;
-        //int screwAmount = (fittingsAmount*screwStandard); //9 screws per fitting
-
-        /* Get materials from database */
+ /* Get materials from database */
         MaterialModel fittingRight = DAO.getMaterial(fittingRightID, helptext);
         MaterialModel fittingLeft = DAO.getMaterial(fittingLeftID, helptext);
-        MaterialModel fittingScrews = DAO.getMaterial(fittingScrewsID, helptext);
-        //amountOfScrews += (fittingsAmount * screwAmount);
 
         /* update quantities */
-        fittingRight.setQuantity(fittingsAmount);
-        fittingLeft.setQuantity(fittingsAmount);
-        fittingScrews.setQuantity(1); //1 pack is 250
-        //setScrewQty 
+        fittingRight.setQuantity(rafterCount);
+        fittingLeft.setQuantity(rafterCount);
 
         /* update price */
         fittingRight.setPrice((fittingRight.getPrice() * fittingRight.getQuantity()));
         fittingLeft.setPrice((fittingLeft.getPrice() * fittingLeft.getQuantity()));
-        //setScrewPrice 
 
         /* Add to PartsListModel */
         fittingsAndScrews.addMaterial(fittingRight);
         fittingsAndScrews.addMaterial(fittingLeft);
-        fittingsAndScrews.addMaterial(fittingScrews);
-        //addScrews 
+
+        //calculate screws and add
+        int fittingsScrewAmountRight = fittingRight.getQuantity() * fittingScrewStandard; //9 screws per fitting
+        int fittingsScrewAmountLeft = fittingLeft.getQuantity() * fittingScrewStandard; //9 screws per fitting
+        fittingsAndScrews.addMaterial(getScrews(fittingScrewsID, fittingScrewsPackSize, (fittingsScrewAmountRight + fittingsScrewAmountLeft)));
 
         /* Return PartsListModel */
         return fittingsAndScrews;
@@ -480,7 +473,7 @@ public class RoofFlatCalc
      * @return
      * @throws DataException
      */
-    protected PartslistModel calculatePlasticRoof(OrderModel order) throws DataException
+    protected PartslistModel calculatePlasticRoof(OrderModel order) throws DataException, AlgorithmException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel plasticRoof = new PartslistModel();
@@ -499,7 +492,7 @@ public class RoofFlatCalc
      * @return
      * @throws DataException
      */
-    protected PartslistModel calculatePlasticTiles(OrderModel order) throws DataException
+    protected PartslistModel calculatePlasticTiles(OrderModel order) throws DataException, AlgorithmException
     {
         /* Set up return <partslistmodel>*/
         PartslistModel tileAndTileAccessories = new PartslistModel();
@@ -520,12 +513,11 @@ public class RoofFlatCalc
      * @return returns tileOptions
      * @throws DataException
      */
-    private PartslistModel calculatePlasticTileQuantity(OrderModel order, PartslistModel tileOptions) throws DataException
+    private PartslistModel calculatePlasticTileQuantity(OrderModel order, PartslistModel tileOptions) throws DataException, AlgorithmException
     {
         /* Get MaterialModel to return */
         MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID, helptext); //109x6000
         MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID, helptext); //109x3600
-        MaterialModel tileScrews = DAO.getMaterial(plasticTileScrewID, helptext);
 
         /* Set up variables */
         int remainingLength = order.getLength();
@@ -571,20 +563,55 @@ public class RoofFlatCalc
         /* Update quantities */
         tileLarge.setQuantity(totalAmountLarge);
         tileSmall.setQuantity(totalAmountSmall);
-        //need to update screws too (see rules)
-        tileScrews.setQuantity(3);
 
         /* Update price */
         tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
         tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
-        tileScrews.setPrice(tileScrews.getQuantity() * tileScrews.getPrice());
 
         /* Update quantity */
         tileOptions.addMaterial(tileLarge);
         tileOptions.addMaterial(tileSmall);
-        tileOptions.addMaterial(tileScrews);
+
+        //calculate screws and add
+        int tileScrewLarge = tileLarge.getQuantity() * plasticTileScrewsStandard;
+        int tileScrewSmall = tileSmall.getQuantity() * plasticTileScrewsStandard;
+        tileOptions.addMaterial(getScrews(plasticTileScrewID, plasticTileScrewsPackSize, (tileScrewLarge + tileScrewSmall)));
 
         return tileOptions;
+    }
+
+    /**
+     * Calculates amount of screws needed for a roof part, adds them to a
+     * materialmodel and returns it.
+     *
+     * @param screwID ID of screw
+     * @param screwPackSize Qty of screws in one pack
+     * @param screwAmount a combination of screwStandard and their modifier. For
+     * fitting screws it would be (screwStandard*fittingAmount) = (9*x)=9x
+     * @return returns materialmodel (screws)
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected MaterialModel getScrews(int screwID, int screwPackSize, int screwAmount) throws DataException, AlgorithmException
+    {//21, 250, (9*15)=135
+        if (screwAmount < 1)
+        {
+            throw new AlgorithmException("ScrewCounter error: Amount of screws were wrongly calculated");
+        }
+
+        //calculation
+        int totalScrewPacks = (int) Math.ceil((double) screwAmount / (double) screwPackSize);
+
+        //get material
+        MaterialModel screws = DAO.getMaterial(screwID, helptext);
+
+        //set screw quantity
+        screws.setQuantity(totalScrewPacks);
+
+        //set screw price
+        screws.setPrice(screws.getQuantity() * screws.getPrice());
+
+        return screws;
     }
 
     /**
@@ -606,7 +633,7 @@ public class RoofFlatCalc
      */
     protected PartslistModel calculateFeltTiles(OrderModel order)
     {
-        return null;
+        throw new UnsupportedOperationException("Ikke understøttet endnu."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
