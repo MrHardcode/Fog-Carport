@@ -7,6 +7,7 @@ import logic.LogicFacade;
 /**
  * Unknown Command. Throws Exception.
  */
+@Deprecated
 class UnknownCommand extends Command
 {
 

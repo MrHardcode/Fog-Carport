@@ -84,7 +84,7 @@ public class makeCarportForm extends Command
         request.setAttribute("shedWallParts", shedWallParts.getBillOfMaterials());
 
         /* return */
-        return "makeCarport";
+        return "homepage";
     }
 
 }

@@ -135,7 +135,7 @@ public class orderCarport extends Command
         request.setAttribute("message", "Din ordre er afgivet.");
 
         // SEND USER BACK TO HOMEPAGE
-        return "homepage";
+        return "orderSuccess";
     }
 
 }
