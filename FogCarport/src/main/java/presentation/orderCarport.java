@@ -33,7 +33,8 @@ public class orderCarport extends Command
             order.setId_customer(customer.getId());
         }
         /* Customer wants a log in, so we create a customer with passwords and registered as true. */
-        else if (request.getParameter("password") != null && !request.getParameter("password").isEmpty())
+        else if (request.getParameter("password") != null && !request.getParameter("password").isEmpty() 
+                && request.getParameter("password-confirm") != null && !request.getParameter("password-confirm").isEmpty())
         {
             String password = validation.validatePassword(request.getParameter("password"), request.getParameter("password-confirm"), "Password");
             String email = validation.validateString(request.getParameter("email"), "Email");
