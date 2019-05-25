@@ -54,15 +54,17 @@ public class RoofFlatCalc
     //<editor-fold defaultstate="collapsed" desc="ALGORITHM RULES">
     private final int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
     private final int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
-    private final int plasticTileScrewsStandard = 12;
-    private final int plasticTileScrewsPackSize = 200;
+    private final int plasticTileScrewsStandard = 12; //12 per tile
+    private final int plasticTileScrewsPackSize = 200; //200 a pack
     private final int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
-    private final int fittingScrewStandard = 9;
-    private final int fittingScrewsPackSize = 250;
-    private final int bargeboardScrewStandard = 4;
-    private final int bargeboardScrewsPackSize = 200;
-    private final int bandScrewStandard = 2;
-    private final int bandScrewsPackSize = 250;
+    private final int fittingScrewStandard = 9; //9 screws per fitting
+    private final int fittingScrewsPackSize = 250; //250 a pack
+    private final int bargeboardScrewStandard = 4; //4 pr board
+    private final int bargeboardScrewsPackSize = 200; //200 a pack
+    private final int bandScrewStandard = 2; //2 screws per rafter per band
+    private final int bandScrewsPackSize = 250; //250 a pack
+    private final int fasciaScrewStandard = 4; //4 pr board
+    private final int fasciaScrewsPackSize = 200; //200 a pack
     private final String helptext = "roof"; // Used to fetch the right helptext from database.
     // </editor-fold>
 
@@ -82,6 +84,7 @@ public class RoofFlatCalc
     private final int fasciaLengthBottomID = 56; //25x200x5400
     private final int fasciaWidthTopID = 57; //25x125x3600
     private final int fasciaLengthTopID = 58; //25x125x5400
+    private final int fasciaScrewsID = 20; //200 a pack
     private final int bargeboardLengthID = 59;
     private final int bargeboardWidthID = 60;
     private final int bargeboardScrewsID = 20; //200 a pack
@@ -200,7 +203,7 @@ public class RoofFlatCalc
         }
         /* Now we need to calculate amount of rows needed for the whole roof */
         double rafterTotalAmount = ((length / rafterWidthStandard)) * (int) rafterWidthCount; //we need to take the rule into account: 1 rafter pr 500mm
-        double rafterLengthRemainder = (double)(length % rafterWidthStandard) / rafterLength;
+        double rafterLengthRemainder = (double) (length % rafterWidthStandard) / rafterLength;
 
         if (rafterLengthRemainder > 0) //if there is less than 500mm to the end of the roof, add another rafter.
         {
@@ -229,7 +232,7 @@ public class RoofFlatCalc
      * @return
      * @throws DataException
      */
-    protected PartslistModel calculateFascias(OrderModel order) throws DataException
+    protected PartslistModel calculateFascias(OrderModel order) throws DataException, AlgorithmException
     {
         /* Set up return PartslistModel */
         PartslistModel fascias = new PartslistModel();
@@ -268,6 +271,17 @@ public class RoofFlatCalc
         {
             material.setPrice(material.getPrice() * material.getQuantity());
         });
+
+        //calculate screws and add
+        int fasciaWidthTopScrews = fasciaWidthTop.getQuantity() * fasciaScrewStandard; //4 screws per board
+        int fasciaWidthBottomScrews = fasciaWidthBottom.getQuantity() * fasciaScrewStandard; //4 screws per board
+        int fasciaLengthTopScrews = fasciaLengthTop.getQuantity() * fasciaScrewStandard; //4 screws per board
+        int fasciaLengthBottomScrews = fasciaLengthBottom.getQuantity() * fasciaScrewStandard; //4 screws per board
+        fascias.addMaterial(getScrews(fasciaScrewsID, fasciaScrewsPackSize,
+                (fasciaWidthTopScrews
+                + fasciaWidthBottomScrews
+                + fasciaLengthTopScrews
+                + fasciaLengthBottomScrews)));
 
         /* return partslist */
         return fascias;
