@@ -104,7 +104,7 @@ public class RoofFlatCalcTest
         PartslistModel result = instance.calculateRafters(order);
         System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
 
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16);
+        assertEquals(16,result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -133,7 +133,7 @@ public class RoofFlatCalcTest
         instance.rafterCount = 0;
         PartslistModel result = instance.calculateRafters(order);
 
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 31);
+        assertEquals(31, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -160,7 +160,7 @@ public class RoofFlatCalcTest
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateRafters(order);
         System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 46);
+        assertEquals(46, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -197,11 +197,11 @@ public class RoofFlatCalcTest
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateFascias(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4); //fasciaLengthBottom
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 4); //fasciaLengthTop
-        assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 4); //fasciaWidthBottom
-        assertEquals(result.getBillOfMaterials().get(3).getQuantity(), 2); //fasciaWidthTop
-        assertEquals(result.getBillOfMaterials().get(4).getQuantity(), 1); //fascia screws
+        assertEquals(4, result.getBillOfMaterials().get(0).getQuantity()); //fasciaLengthBottom
+        assertEquals(4, result.getBillOfMaterials().get(1).getQuantity()); //fasciaLengthTop
+        assertEquals(4, result.getBillOfMaterials().get(2).getQuantity()); //fasciaWidthBottom
+        assertEquals(2, result.getBillOfMaterials().get(3).getQuantity()); //fasciaWidthTop
+        assertEquals(1, result.getBillOfMaterials().get(4).getQuantity()); //fascia screws
     }
 
     /**
@@ -229,8 +229,8 @@ public class RoofFlatCalcTest
         PartslistModel result = instance.calculateBargeboard(order);
         System.out.println("bargeboard 1: " + result.getBillOfMaterials().get(0));
         System.out.println("bargeboard 2: " + result.getBillOfMaterials().get(1));
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 2);
+        assertEquals(4, result.getBillOfMaterials().get(0).getQuantity());
+        assertEquals(2, result.getBillOfMaterials().get(1).getQuantity());
     }
 
     /**
@@ -257,9 +257,9 @@ public class RoofFlatCalcTest
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel rafters = instance.calculateRafters(testOrder);
         PartslistModel result = instance.calculateFittings(rafterCount);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16); //right
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 16); //left
-        assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 2); //screws
+        assertEquals(16, result.getBillOfMaterials().get(0).getQuantity()); //right
+        assertEquals(16, result.getBillOfMaterials().get(1).getQuantity()); //left
+        assertEquals(2, result.getBillOfMaterials().get(2).getQuantity()); //screws
     }
 
     /**
@@ -290,7 +290,6 @@ public class RoofFlatCalcTest
 
         expBand.setQuantity(2);
         expScrews.setQuantity(1);
-        expBand.setPrice(expBand.getQuantity() * expBand.getPrice());
         expBand.setHelptext("Til vindkryds på spær");
         expScrews.setHelptext("Til montering af universalbeslag + toplægte");
 
@@ -326,7 +325,7 @@ public class RoofFlatCalcTest
         instance.rafterCount = rafterCount;
         order.setShed_length(6000);
         PartslistModel result = instance.calculateBand(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 1);
+        assertEquals(1, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -355,7 +354,7 @@ public class RoofFlatCalcTest
         order.setLength(12102);
         PartslistModel result = instance.calculateBand(order);
 
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 3);
+        assertEquals(3, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -384,8 +383,8 @@ public class RoofFlatCalcTest
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculatePlasticTiles(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 6);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 6);
+        assertEquals(6, result.getBillOfMaterials().get(0).getQuantity());
+        assertEquals(6, result.getBillOfMaterials().get(1).getQuantity());
     }
 
     /**
@@ -403,7 +402,7 @@ public class RoofFlatCalcTest
         RoofFlatCalc instance = new RoofFlatCalc();
         instance.rafterCount = rafterCount;
         MaterialModel result = instance.getScrews(screwID, screwPackSize, screwAmount);
-        assertEquals(result.getQuantity(), 2);
+        assertEquals(2, result.getQuantity());
     }
 
     /**
