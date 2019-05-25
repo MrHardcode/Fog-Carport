@@ -257,8 +257,9 @@
     color: #e5e6e8;
     background-color: #263e63;
     border-color:#384459;
+    position: sticky;
+    top: 0px;
 }
-
 
 /*----------------- ViewOrder.JSP CSS -----------------*/
 
