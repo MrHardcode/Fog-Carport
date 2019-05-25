@@ -185,6 +185,8 @@ public class RoofFlatCalcTest
      * There are two types of materials, length being the most important.
      *
      * The lengths (5400, 3600) are handled by the algorithm.
+     * 
+     * Screws: Board total is (4+4+4+2) = 14. 4 screws per board equals 56. 1 pack contains 200, so screw quantity is 1.
      *
      * @throws java.lang.Exception
      */
@@ -199,6 +201,7 @@ public class RoofFlatCalcTest
         assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 4); //fasciaLengthTop
         assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 4); //fasciaWidthBottom
         assertEquals(result.getBillOfMaterials().get(3).getQuantity(), 2); //fasciaWidthTop
+        assertEquals(result.getBillOfMaterials().get(4).getQuantity(), 1); //fascia screws
     }
 
     /**
@@ -227,7 +230,6 @@ public class RoofFlatCalcTest
         System.out.println("bargeboard 1: " + result.getBillOfMaterials().get(0));
         System.out.println("bargeboard 2: " + result.getBillOfMaterials().get(1));
         assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4);
-
         assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 2);
     }
 
@@ -243,6 +245,8 @@ public class RoofFlatCalcTest
      * partslistmodel position 1 = left
      *
      * (position 3 = screws)
+     * 
+     * Screws: 32 fittings. 9 screws per fitting equals 288 screws. 250 a pack means 2 packs.
      *
      * @throws java.lang.Exception
      */
@@ -253,8 +257,9 @@ public class RoofFlatCalcTest
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel rafters = instance.calculateRafters(testOrder);
         PartslistModel result = instance.calculateFittings(rafterCount);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 16);
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16); //right
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 16); //left
+        assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 2); //screws
     }
 
     /**
