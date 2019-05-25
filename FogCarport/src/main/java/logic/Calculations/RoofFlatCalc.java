@@ -215,9 +215,6 @@ public class RoofFlatCalc
         rafter.setQuantity((int) rafterTotalAmount);
         rafterCount = (int) rafterTotalAmount; //needed for SVG
 
-        /* Update price */
-        rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
-
         /* Add to <partslistmodel> */
         rafters.addMaterial(rafter);
 
@@ -265,12 +262,6 @@ public class RoofFlatCalc
         fascias.addMaterial(fasciaLengthTop);
         fascias.addMaterial(fasciaWidthBottom);
         fascias.addMaterial(fasciaWidthTop);
-
-        /* Update prices */
-        fascias.getBillOfMaterials().forEach((material) ->
-        {
-            material.setPrice(material.getPrice() * material.getQuantity());
-        });
 
         //calculate screws and add
         int fasciaWidthTopScrews = fasciaWidthTop.getQuantity() * fasciaScrewStandard; //4 screws per board
@@ -341,10 +332,6 @@ public class RoofFlatCalc
         boardsLength.setQuantity(boardsLength.getQuantity() * 2); //two lengths
         //boardsWidth is not updated, as there only are bargeboards for the front.
 
-        /* Update price */
-        boardsLength.setPrice(boardsLength.getQuantity() * boardsLength.getPrice());
-        boardsWidth.setPrice(boardsWidth.getQuantity() * boardsWidth.getPrice());
-
         /* Add to <partslistmodel> */
         bargeboards.addMaterial(boardsLength);
         bargeboards.addMaterial(boardsWidth);
@@ -394,9 +381,6 @@ public class RoofFlatCalc
         /* update quantities */
         band.setQuantity(bandAmount);
 
-        /* update price */
-        band.setPrice(band.getQuantity() * band.getPrice());
-
         /* add to PartslistModel */
         bandParts.addMaterial(band);
 
@@ -428,10 +412,6 @@ public class RoofFlatCalc
         /* update quantities */
         fittingRight.setQuantity(rafterCount);
         fittingLeft.setQuantity(rafterCount);
-
-        /* update price */
-        fittingRight.setPrice((fittingRight.getPrice() * fittingRight.getQuantity()));
-        fittingLeft.setPrice((fittingLeft.getPrice() * fittingLeft.getQuantity()));
 
         /* Add to PartsListModel */
         fittingsAndScrews.addMaterial(fittingRight);
@@ -578,10 +558,6 @@ public class RoofFlatCalc
         tileLarge.setQuantity(totalAmountLarge);
         tileSmall.setQuantity(totalAmountSmall);
 
-        /* Update price */
-        tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
-        tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
-
         /* Update quantity */
         tileOptions.addMaterial(tileLarge);
         tileOptions.addMaterial(tileSmall);
@@ -621,9 +597,6 @@ public class RoofFlatCalc
 
         //set screw quantity
         screws.setQuantity(totalScrewPacks);
-
-        //set screw price
-        screws.setPrice(screws.getQuantity() * screws.getPrice());
 
         return screws;
     }
