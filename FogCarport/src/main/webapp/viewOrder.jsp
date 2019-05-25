@@ -22,7 +22,7 @@
         <p>Status: ${order.status}</p>
     </div>
 </div>
-<table class="table table-hover">
+<table class="table">
     <thead>
         <tr>
             <th class="text-center" rowspan="1" colspan="4">Carport</th>
