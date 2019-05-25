@@ -60,7 +60,7 @@ public class RoofFlatCalcTest
         testOrder.setWidth(6000);
         testOrder.setShed_length(2100);
         testOrder.setShed_width(5300);
-        testOrder.setRoof_tiles_id(28); //plastic tiles
+        testOrder.setRoof_tiles_id(29); //plastic tiles
     }
 
     @After
@@ -301,7 +301,7 @@ public class RoofFlatCalcTest
     /**
      * Test of calculatePlasticTiles method, of class RoofFlatCalc.
      *
-     * Explanation: order is 7800 long, 6100 wide. (Width is +100 due to tile
+     * Explanation: order is 7900 long, 6100 wide. (Width is +100 due to tile
      * extension) the tiles are respectively 5800x890 & 3400x890 (-200 due to
      * tile overlap)
      *
