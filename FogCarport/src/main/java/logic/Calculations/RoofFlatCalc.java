@@ -110,6 +110,10 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException, AlgorithmException
     {
+        if (order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() != 0)
+        {
+            throw new AlgorithmException("Ordren er ikke udfyldt korrekt.");
+        }
         PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
