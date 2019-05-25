@@ -51,7 +51,7 @@ public class login extends Command
 
             if (ids.isEmpty())
             {
-                request.setAttribute("message", "You have no Orders. Orders show up here when you make one.");
+                request.setAttribute("message", "Ingen ordrer fundet. Når du engang har bestilt, vil din ordre vises her.");
             }
 
             request.setAttribute("ids", ids);

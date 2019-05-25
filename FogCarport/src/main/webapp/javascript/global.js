@@ -281,7 +281,7 @@ function calculateOperationMarginSuggestedPrice() {
 }
 function calculateOperationsMarignVariblePrice() {
     let varprice = document.getElementById("varpriceinput").value;
-    if(varprice < 1 || isNaN(varprice)){
+    if (varprice < 1 || isNaN(varprice)) {
         document.getElementById("varpricemargin").innerHTML = '';
         return;
     }
@@ -331,21 +331,21 @@ function checkRadioButtons() {
             baseButton.click();
         }
     });
-    
+
     toggleBaseHide.addEventListener("click", function () {
         if (!toggleBaseHide.classList.contains("active"))
         {
             baseButton.click();
         }
     });
-    
+
     toggleRoofShow.addEventListener("click", function () {
         if (!toggleRoofShow.classList.contains("active"))
         {
             roofButton.click();
         }
     });
-    
+
     toggleRoofHide.addEventListener("click", function () {
         if (!toggleRoofHide.classList.contains("active"))
         {
