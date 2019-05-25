@@ -84,7 +84,6 @@ public class RoofFlatCalc
 
     /* Imports */
     private final DataFacade DAO; //data accessor
-    
 
     public RoofFlatCalc()
     {
@@ -104,7 +103,7 @@ public class RoofFlatCalc
      */
     public PartslistModel calculateFlatRoofStructure(OrderModel order) throws DataException, AlgorithmException
     {
-       PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
+        PartslistModel roofMaterials = new PartslistModel(); //items to be returned to master list
         /* calculate always needed (independent) items */
         roofMaterials.addPartslist(calculateMainParts(order));
         /* calculate items based on type of roof tile */
@@ -512,6 +511,24 @@ public class RoofFlatCalc
         /* Set up return <partslistmodel>*/
         PartslistModel tileAndTileAccessories = new PartslistModel();
 
+        /* calculation done with helper method */
+        calculatePlasticTileQuantity(order, tileAndTileAccessories);
+
+        /* Return <partslistmodel>*/
+        return tileAndTileAccessories;
+    }
+
+    /**
+     * Helper method to calculate the plastic tile quantity for an order
+     *
+     * @param order order in question
+     * @param tileOptions the partslistmodel to add materials to and later
+     * return
+     * @return returns tileOptions
+     * @throws DataException
+     */
+    private PartslistModel calculatePlasticTileQuantity(OrderModel order, PartslistModel tileOptions) throws DataException
+    {
         /* Get MaterialModel to return */
         MaterialModel tileLarge = DAO.getMaterial(plasticTileLargeID, helptext); //109x6000
         MaterialModel tileSmall = DAO.getMaterial(plasticTileSmallID, helptext); //109x3600
@@ -519,7 +536,6 @@ public class RoofFlatCalc
 
         /* Set up variables */
         int remainingLength = order.getLength();
-
         //take into account that we need a 5cm extension per width for water drainage.
         int remainingWidth = order.getWidth() + (plasticRoofExtensionStandard * 2); //50mm (5cm) for 2 sides of the carport = 100mm (10cm) extra width for the whole carport.
 
@@ -530,16 +546,32 @@ public class RoofFlatCalc
         int tileSmallWidth = (tileSmall.getWidth()) - plasticRoofOverlapStandard; //-200mm for overlap
 
         /* Calculation begin */
-        int largeQty = (remainingLength / tileLargeLength); //amount of large tiles for length
-
-        double remainderLength = (remainingLength % tileLargeLength); //any leftover space?
-        remainderLength /= tileSmallLength;
-
+        //The idea here is to calculate a "row" first (length) and then calculate the amount of rows needed for full roof coverage. (length+width)
+        int largeQty = 0;
         int smallQty = 0;
-        if (remainderLength > 0)
+        //length
+        largeQty++; //We always want 1 large and go from there
+        remainingLength -= tileLargeLength;
+        while (remainingLength >= 0)
         {
-            smallQty = (int) Math.ceil(remainderLength); //amount of small tiles
+            if (remainingLength >= tileLargeLength)
+            {
+                largeQty++;
+                remainingLength -= tileLargeLength;
+            }
+            else if (remainingLength > tileSmallLength)
+            {
+                smallQty++;
+                remainingLength -= tileSmallLength;
+            }
+            else if (remainingLength > 0 && remainingLength < tileSmallLength)
+            {
+                //edge case: if we are still not at 0, but the remaining length is smaller than the smallest tile
+                smallQty++;
+                remainingLength-= tileSmallLength;
+            }
         }
+        
         //We now have amount of tiles for one length
         //Lets calculate for the width too.
         int totalAmountLarge = (remainingWidth / tileLargeWidth) * largeQty; //Math.ceil not needed, due to the 200mm overlap we always have excessive amount.
@@ -555,19 +587,13 @@ public class RoofFlatCalc
         tileLarge.setPrice(tileLarge.getQuantity() * tileLarge.getPrice());
         tileSmall.setPrice(tileSmall.getQuantity() * tileSmall.getPrice());
         tileScrews.setPrice(tileScrews.getQuantity() * tileScrews.getPrice());
+        
+        /* Update quantity */
+        tileOptions.addMaterial(tileLarge);
+        tileOptions.addMaterial(tileSmall);
+        tileOptions.addMaterial(tileScrews);
 
-        /* Update helptext */
-        tileLarge.setHelptext("tagplader monteres på spær");
-        tileSmall.setHelptext("tagplader monteres på spær");
-        tileScrews.setHelptext("Skruer til tagplader");
-
-        /* Add to <partslistmodel> */
-        tileAndTileAccessories.addMaterial(tileLarge);
-        tileAndTileAccessories.addMaterial(tileSmall);
-        tileAndTileAccessories.addMaterial(tileScrews);
-
-        /* Return <partslistmodel>*/
-        return tileAndTileAccessories;
+        return tileOptions;
     }
 
     /**
