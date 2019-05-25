@@ -122,8 +122,7 @@
     </div>
 </c:if>
 <!-- Button to see partslist and drawings if you've paid for the order. -->
-<c:if test="${not empty sessionScope.customer}">
-    <c:if test="${order.status == 'Finalized'}">
+<c:if test="${not empty sessionScope.customer && order.status == 'Finalized'}">
         <div class="d-flex p-2 justify-content-center">
             <form method="POST" action="FrontController"  class="">
                 <input type="hidden" name="command" value="viewPartslist">   
@@ -137,7 +136,6 @@
                 <button type="submit" class="btn btn-outline-secondary mb-1">Se Tegninger</button>
             </form>
         </div>
-    </c:if>
 </c:if>
 <c:if test="${not empty sessionScope.employee}">
     <div class="d-flex p-2 justify-content-center">

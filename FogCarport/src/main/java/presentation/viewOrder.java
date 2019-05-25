@@ -1,6 +1,3 @@
-/*
- *  
- */
 package presentation;
 
 import data.exceptions.AlgorithmException;
