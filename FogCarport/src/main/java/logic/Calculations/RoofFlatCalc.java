@@ -8,6 +8,7 @@ import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 
+//<editor-fold defaultstate="collapsed" desc="Javadoc explanation">
 /**
  * This class handles materials needed for a flat roof on the carport.
  *
@@ -46,6 +47,7 @@ import data.models.PartslistModel;
  * Lægter: To be determined (only applied to felt roof (tagpap))
  *
  */
+//</editor-fold>
 public class RoofFlatCalc
 {
 
