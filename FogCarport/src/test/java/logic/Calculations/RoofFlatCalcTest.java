@@ -77,13 +77,20 @@ public class RoofFlatCalcTest
     /**
      * Test of calculateRafters method, of class RoofFlatCalc.
      *
-     * Explanation: (!!the actual width is 6100)
+     * Explanation:
      *
      * This is simple. We add one rafter per 500mm width.
      *
      * The order length perfectly matches up to the material length - 6m.
      *
-     * (6000/500)=12.
+     * rafterCount = 1.
+     *
+     * Amount of rows = Length/lengthRule = (7800/500)=15.6 = 15.
+     *
+     * However, we check for the remainder and see that there is .6, so we add
+     * another one.
+     *
+     * Total 16.
      *
      * @throws java.lang.Exception
      */
@@ -97,7 +104,36 @@ public class RoofFlatCalcTest
         PartslistModel result = instance.calculateRafters(order);
         System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
 
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16);
+    }
+
+    /**
+     * Test of calculateRafters method, of class RoofFlatCalc.
+     *
+     * Explanation: Detailed explanation above, but the difference here is that
+     * we have a width above 6000.
+     *
+     * Since there is only 1 material, and it only covers 6000mm, we have to get
+     * another one. For every instance. Which is basically ((the above
+     * method)*2)
+     * 
+     * Since length is the same we do (15*2)+1. 
+     * 
+     * The one is for the 1 in width (6001).
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testCalculateRaftersWidth6001() throws Exception
+    {
+        System.out.println("CalculateRaftersWidth6001");
+        OrderModel order = testOrder;
+        order.setWidth(6001);
+        RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = 0;
+        PartslistModel result = instance.calculateRafters(order);
+
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 31);
     }
 
     /**
@@ -109,20 +145,22 @@ public class RoofFlatCalcTest
      *
      * They only have 1 rafter available and they do not customize the length.
      *
-     * Basically, whenever the width is longer than the rafter length (6000) we
-     * multiply by 2.
+     * We calculate one rafter per width 6000m.
+     * 
+     * Since length is the same we have (15*3)+1 = 46. (the 1 is extra for the 1 in 12001)
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testCalculateRaftersOddWidth() throws Exception
+    public void testCalculateRaftersWidth12001() throws Exception
     {
-        System.out.println("calculateRaftersOddWidth");
+        System.out.println("CalculateRaftersWidth12001");
         OrderModel order = testOrder;
-        order.setWidth(8525);
+        order.setWidth(12001);
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateRafters(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 30);
+        System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 46);
     }
 
     /**
@@ -215,8 +253,8 @@ public class RoofFlatCalcTest
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel rafters = instance.calculateRafters(testOrder);
         PartslistModel result = instance.calculateFittings(rafterCount);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 15);
+        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 16);
+        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 16);
     }
 
     /**

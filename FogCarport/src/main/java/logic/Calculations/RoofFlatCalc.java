@@ -199,8 +199,8 @@ public class RoofFlatCalc
             rafterWidthCount += (int) rafterWidthRemainder; //this is the total amount of rafters for full width coverage.
         }
         /* Now we need to calculate amount of rows needed for the whole roof */
-        int rafterTotalAmount = (length / rafterWidthStandard) * (int) rafterWidthCount; //we need to take the rule into account: 1 rafter pr 500mm
-        double rafterLengthRemainder = (length % rafterWidthStandard) / rafterLength;
+        double rafterTotalAmount = ((length / rafterWidthStandard)) * (int) rafterWidthCount; //we need to take the rule into account: 1 rafter pr 500mm
+        double rafterLengthRemainder = (double)(length % rafterWidthStandard) / rafterLength;
 
         if (rafterLengthRemainder > 0) //if there is less than 500mm to the end of the roof, add another rafter.
         {
@@ -209,8 +209,8 @@ public class RoofFlatCalc
         }
 
         /* Update quantities */
-        rafter.setQuantity(rafterTotalAmount);
-        rafterCount = rafterTotalAmount; //needed for SVG
+        rafter.setQuantity((int) rafterTotalAmount);
+        rafterCount = (int) rafterTotalAmount; //needed for SVG
 
         /* Update price */
         rafter.setPrice(rafter.getQuantity() * rafter.getPrice());
