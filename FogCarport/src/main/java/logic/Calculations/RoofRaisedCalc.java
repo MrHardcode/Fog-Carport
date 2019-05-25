@@ -90,7 +90,7 @@ public class RoofRaisedCalc {
      */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
         if(order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() <= 0){
-            throw new AlgorithmException("Order is null or possible division by zero, order length, width & incline cannot be zero or less than zero");
+            throw new AlgorithmException("Ordren er ikke udfyldt korrekt. Der bliver muligvis divideret med 0 eller der er indtastet felter med værdier på 0 eller mindre.");
         }
         PartslistModel roofRaisedBOM = new PartslistModel();
 

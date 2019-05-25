@@ -45,8 +45,8 @@ public class FrontController extends HttpServlet
 
         } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
-            request.setAttribute("target", "login");
-            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("target", "errorMessage");
+            request.setAttribute("errormessage", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }

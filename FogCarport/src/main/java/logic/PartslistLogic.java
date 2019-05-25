@@ -58,7 +58,7 @@ class PartslistLogic
         if (height == null || length == null || width == null || height.isEmpty() || length.isEmpty() || width.isEmpty())
         {
             // Should maybe be something like a ShopException. 
-            throw new UserException("Input fields can't be empty.");
+            throw new UserException("Input felterne må ikke være tomme.");
         }
         else // If inputs are okay, we change string to int.
         {
@@ -82,7 +82,7 @@ class PartslistLogic
         if (_height < 2000 || _height > 3000 || _length < 2400 || _length > 7200 || _width < 2400 || _width > 7200)
         {
             // Should maybe be something like a ShopException.
-            throw new UserException("Fields have to be within bounds.");
+            throw new UserException("Input felterne skal være indenfor kravene");
         }
         else // Else create the partslist
         {
