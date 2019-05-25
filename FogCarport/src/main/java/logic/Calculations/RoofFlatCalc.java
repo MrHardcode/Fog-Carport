@@ -49,38 +49,43 @@ import data.models.PartslistModel;
 public class RoofFlatCalc
 {
 
-    /* Rules */
-    private int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
-    private int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
-    private int plastictileScrewsStandard = 12;
-    private int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
-    private int rafterFittingScrewStandard = 9;
-    private int bargeboardScrewStandard = 4;
-    private int bandScrewStandard = 2;
+    //<editor-fold defaultstate="collapsed" desc="Algorithm Rules">
+    private final int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
+    private final int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
+    private final int plastictileScrewsStandard = 12;
+    private final int rafterWidthStandard = 500; //1 rafter per 500mm (50cm)
+    private final int rafterFittingScrewStandard = 9;
+    private final int bargeboardScrewStandard = 4;
+    private final int bandScrewStandard = 2;
     private final String helptext = "roof"; // Used to fetch the right helptext from database.
+    // </editor-fold>
 
-    /* database material IDs (height|width|length)*/
-    private int plasticTileSmallID = 29; //0x109x3600
-    private int plasticTileLargeID = 28; //0x109x6000
-    private int plasticTileScrewID = 22; //200 pcs. a pack
-    private int bandScrewsID = 21; //250 pcs. a pack
-    private int bandID = 23; //0x0x10000
-    private int fittingScrewsID = 21; //250 pcs. a pack
-    private int fittingLeftID = 16;
-    private int fittingRightID = 15;
-    private int rafterSmallID = 5; // 45x195x4800 (UNUSED CUSTOM ITEM (OUTSIDE SCOPE))
-    private int rafterLargeID = 54; //45x195x6000
-    private int fasciaWidthBottomID = 55; //25x200x3600
-    private int fasciaLengthBottomID = 56; //25x200x5400
-    private int fasciaWidthTopID = 57; //25x125x3600
-    private int fasciaLengthTopID = 58; //25x125x5400
-    private int bargeboardLengthID = 59;
-    private int bargeboardWidthID = 60;
-    private int bargeboardScrewsID = 20; //200 a pack
+    //<editor-fold defaultstate="collapsed" desc="Database material IDs">
+    /* (height|width|length)*/
+    private final int plasticTileSmallID = 29; //0x109x3600
+    private final int plasticTileLargeID = 28; //0x109x6000
+    private final int plasticTileScrewID = 22; //200 pcs. a pack
+    private final int bandScrewsID = 21; //250 pcs. a pack
+    private final int bandID = 23; //0x0x10000
+    private final int fittingScrewsID = 21; //250 pcs. a pack
+    private final int fittingLeftID = 16;
+    private final int fittingRightID = 15;
+    private final int rafterSmallID = 5; // 45x195x4800 (UNUSED CUSTOM ITEM (OUTSIDE SCOPE))
+    private final int rafterLargeID = 54; //45x195x6000
+    private final int fasciaWidthBottomID = 55; //25x200x3600
+    private final int fasciaLengthBottomID = 56; //25x200x5400
+    private final int fasciaWidthTopID = 57; //25x125x3600
+    private final int fasciaLengthTopID = 58; //25x125x5400
+    private final int bargeboardLengthID = 59;
+    private final int bargeboardWidthID = 60;
+    private final int bargeboardScrewsID = 20; //200 a pack
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Inner class calculation variables">
     /* Calculations */
     private int amountOfScrews; //total amount of screws needed
     private int rafterCount;
+    //</editor-fold>
 
     /* Imports */
     private final DataFacade DAO; //data accessor
