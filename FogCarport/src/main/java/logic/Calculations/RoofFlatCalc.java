@@ -8,7 +8,7 @@ import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
 
-//<editor-fold defaultstate="collapsed" desc="Javadoc explanation">
+//<editor-fold defaultstate="collapsed" desc="JAVADOC EXPLANATION">
 /**
  * This class handles materials needed for a flat roof on the carport.
  *
@@ -51,7 +51,7 @@ import data.models.PartslistModel;
 public class RoofFlatCalc
 {
 
-    //<editor-fold defaultstate="collapsed" desc="Algorithm Rules">
+    //<editor-fold defaultstate="collapsed" desc="ALGORITHM RULES">
     private final int plasticRoofExtensionStandard = 50; //5cm extension beyond carport length
     private final int plasticRoofOverlapStandard = 100; //20cm overlap between two tiles means 10cm PER tile
     private final int plastictileScrewsStandard = 12;
@@ -62,7 +62,7 @@ public class RoofFlatCalc
     private final String helptext = "roof"; // Used to fetch the right helptext from database.
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Database material IDs">
+    //<editor-fold defaultstate="collapsed" desc="DATABASE IDs (MATERIALS)">
     /* (height|width|length)*/
     private final int plasticTileSmallID = 29; //0x109x3600
     private final int plasticTileLargeID = 28; //0x109x6000
@@ -83,14 +83,15 @@ public class RoofFlatCalc
     private final int bargeboardScrewsID = 20; //200 a pack
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Inner class calculation variables">
+    //<editor-fold defaultstate="collapsed" desc="INSTANCE FIELDS">
     /* Calculations */
-    private int amountOfScrews; //total amount of screws needed
-    private int rafterCount;
+    int amountOfScrews; //total amount of screws needed
+    int rafterCount;
     //</editor-fold>
 
-    /* Imports */
+    //<editor-fold defaultstate="collapsed" desc="IMPORTS">
     private final DataFacade DAO; //data accessor
+    //</editor-fold>
 
     public RoofFlatCalc()
     {
@@ -123,6 +124,8 @@ public class RoofFlatCalc
         roofMaterials.setRafterCount(rafterCount); //needed for svg
         return roofMaterials;
     }
+    
+    
 
     /**
      *
