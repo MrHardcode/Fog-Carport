@@ -69,12 +69,12 @@
                     <!-- greeting -->
                     <c:if test="${not empty customer}">
                         <li id ="greeting" class="nav-item">
-                            <a class="nav-link active" >  Logget ind som: ${customer.name} </a>
+                            <a class="nav-link active" >  Logget ind som: <strong>${customer.name}</strong> </a>
                         </li>
                     </c:if>
                     <c:if test="${not empty employee}">
                         <li id ="greeting" class="nav-item">
-                            <a class="nav-link active" >  Logget ind som: ${employee.email} </a>
+                            <a class="nav-link active" >  Logget ind som: <strong>${employee.email}</strong> </a>
                         </li>
                     </c:if>
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
