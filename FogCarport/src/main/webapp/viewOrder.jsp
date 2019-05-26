@@ -83,7 +83,7 @@
 
             <div class="mt-4">
                 <h5>Afgiv tilbud?</h5>
-                <p>Indkøbspris: <span id="costprice">${costprice} </span> DKK</p>
+                <p>Indkøbspris: <span id="costprice">$<fmt:formatNumber value="${costprice}" type="currency" currencySymbol=""/> </span> DKK</p>
                 <form method="POST" action="FrontController">
                     <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
                     <input type="hidden" name="command" value="viewOrder">  
