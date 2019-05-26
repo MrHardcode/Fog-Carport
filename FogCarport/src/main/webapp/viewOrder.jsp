@@ -23,7 +23,12 @@
         <p class="mb-0">Medarbejdernummer: ${employee.id}</p>
         <p class="mb-0">Medarbejder kontaktmail: ${employee.email}</p>
         <p class="mb-0">Ordrenummer: ${order.id}</p>
-        <p>Status: ${order.status}</p>
+        <c:if test="${order.status != 'Finalized'}">
+            <p>Status: Færdigbehandlet</p>
+        </c:if>
+        <c:if test="${order.status != 'Awaiting'}">
+            <p>Status: Afventer betaling</p>
+        </c:if>
     </div>
 </div>
 <table class="table">

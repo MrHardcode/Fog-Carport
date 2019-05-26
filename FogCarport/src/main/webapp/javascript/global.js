@@ -57,67 +57,171 @@ let widthOptions = document.getElementById("shed-width");
 let floorOptions = document.getElementById("shed-floor");
 let wallOptions = document.getElementById("shed-wall");
 
-
-inputlength.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputwidth.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputincline.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputrooftiles.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputadress.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputname.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputemail.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputphone.addEventListener("change", function () {
-    validateCarportInput();
-});
-inputzip.addEventListener("change", function () {
-    validateCarportInput();
-});
-lengthOptions.addEventListener("change", function () {
-    validateShedInput();
-});
-widthOptions.addEventListener("change", function () {
-    validateShedInput();
-});
-floorOptions.addEventListener("change", function () {
-    validateShedInput();
-});
-wallOptions.addEventListener("change", function () {
-    validateShedInput();
-});
-
 let shedCheckBox = document.getElementById("check-skur");
 shedCheckBox.addEventListener("click", function(){
     if (shedCheckBox.checked === false)
     {
-        validateCarportInput();
+        validateInputNoShed();
     }
     else
     {
-        validateShedInput();
+        validateAllInput();
     }
 });
 
-function validateShedInput() {
+inputlength.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputwidth.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputincline.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputrooftiles.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputadress.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputname.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputemail.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputphone.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+inputzip.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+lengthOptions.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+widthOptions.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+floorOptions.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+wallOptions.addEventListener("change", function () {
+    if (shedCheckBox.checked === false)
+    {
+        validateInputNoShed();
+    }
+    else
+    {
+        validateAllInput();
+    }
+});
+
+function validateAllInput() {
     let lengthOptionsValue = lengthOptions.options[lengthOptions.selectedIndex].value;
     let widthOptionsValue = widthOptions.options[widthOptions.selectedIndex].value;
     let floorOptionsValue = floorOptions.options[floorOptions.selectedIndex].value;
     let wallOptionsValue = wallOptions.options[wallOptions.selectedIndex].value;
+    let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
+    let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+    let inputInclineValue = inputincline.options[inputincline.selectedIndex].value;
+    let inputRooftilesValue = inputrooftiles.options[inputrooftiles.selectedIndex].value;
+    let inputAdressValue = inputadress.value;
+    let inputNameValue = inputname.value;
+    let inputEmailValue = inputemail.value;
+    let inputPhoneValue = inputphone.value;
+    let inputZipValue = inputzip.value;
 
-    if (lengthOptionsValue !== "" && widthOptionsValue !== "" &&
-            floorOptionsValue !== "" && wallOptionsValue !== "") {
+    if (inputLengthValue !== "" && inputWidthValue !== "" &&
+            inputInclineValue !== "" && inputRooftilesValue !== "" &&
+            inputAdressValue !== "" && inputNameValue !== "" &&
+            inputEmailValue !== "" && inputPhoneValue !== "" &&
+            inputZipValue !== "" && lengthOptionsValue !== "" && 
+            widthOptionsValue !== "" && floorOptionsValue !== "" && 
+            wallOptionsValue !== "") {
         submit.classList.remove("disabled");
         submit.removeAttribute("disabled");
     } else {
@@ -126,7 +230,7 @@ function validateShedInput() {
     }
 }
 
-function validateCarportInput() {
+function validateInputNoShed() {
 
     let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
     let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
