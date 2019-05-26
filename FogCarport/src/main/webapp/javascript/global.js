@@ -678,8 +678,8 @@ function clearShedDimensionsMenu() {
 
 /*----------------- ViewOrder JS -----------------  */
 function calculateOperationMarginSuggestedPrice() {
-    let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
-    let costprice = document.getElementById("costprice").innerHTML;
+    let suggestedprice = parseFloat(document.getElementById("suggestedretailprice").innerHTML);
+    let costprice = parseFloat(document.getElementById("costprice").innerHTML);
     let operationMargin = parseFloat(((suggestedprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("operationmargin").innerHTML = operationMargin;
 }
@@ -709,7 +709,7 @@ function checkPriceOffer()
     let priceOffer = document.getElementById("priceoffer");
     if (priceOffer)
     {
-        let suggestedPrice = document.getElementById("suggestedretailprice");
+        let suggestedPrice = document.getElementById("suggestedretailpriceTOSTRING");
         suggestedPrice.style.setProperty("text-decoration", "line-through");
         suggestedPrice.style.setProperty("color", "red");
         calculateOperationMarginFinalOfferPrice();
