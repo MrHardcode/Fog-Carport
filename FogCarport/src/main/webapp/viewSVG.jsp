@@ -12,15 +12,15 @@
 <div class="SVGdiv">
     <div class="toggleGroup SVGdiv">
         <center>
-        <h5>BASE</h5>
+        <h5>Underkonstruktion</h5>
         </center>
         <div class="btn-group col-md-2">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-base-show" class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Show
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> VIS
                 </label>
                 <label id="radio-base-hide" class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Hide
+                    <input type="radio" name="options" id="option2" autocomplete="off"> GEM
                 </label>
             </div>
         </div>
@@ -28,15 +28,15 @@
 
     <div class="toggleGroup SVGdiv">
         <center>
-        <h5>ROOF</h5>
+        <h5>Tagkonstruktion</h5>
         </center>
         <div class="btn-group col-md-5">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-roof-show" class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" autocomplete="off" checked> Show
+                    <input type="radio" name="options" id="option3" autocomplete="off" checked> VIS
                 </label>
                 <label id="radio-roof-hide" class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option4" autocomplete="off"> Hide
+                    <input type="radio" name="options" id="option4" autocomplete="off"> GEM
                 </label>
             </div>
         </div>
