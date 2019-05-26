@@ -107,12 +107,13 @@ public interface DataFacade
     public List<Integer> getOrderIds(int id) throws DataException;
 
     /**
-     * Update status on an order in the database to be paid.
+     * Update status and set paid price on an order in the database to be paid.
      *
      * @param id of the order in the database.
+     * @param price the price of the order to be set in the database.
      * @throws DataException
      */
-    public void payOrder(int id) throws DataException;
+    public void payOrder(int id, double price) throws DataException;
 
     /**
      * Validate Employee
@@ -123,5 +124,7 @@ public interface DataFacade
      * @throws UserException
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
+    
+    public void updateOrderPrice(int id, double price) throws DataException;
 
 }

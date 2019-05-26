@@ -277,6 +277,11 @@
     border-color: black;
 }
 
+#paidPrice
+{
+    border-bottom: 3px double;
+}
+
 .borderleft{
     border-left: 1px solid #dee2e6;
 }

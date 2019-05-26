@@ -76,6 +76,7 @@ CREATE TABLE `carportdb`.`orders` (
   `shed_floor_id` INT NOT NULL DEFAULT 50,
   `customer_id` INT NOT NULL,
   `employee_id` INT NOT NULL,
+  `price` DOUBLE NULL DEFAULT -1,
   PRIMARY KEY (`id_order`),
   UNIQUE INDEX `id_order_UNIQUE` (`id_order` ASC) VISIBLE,
   INDEX `roof_tiles_id_idx` (`roof_tiles_id` ASC) VISIBLE,
