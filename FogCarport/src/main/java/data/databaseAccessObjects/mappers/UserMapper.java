@@ -276,7 +276,7 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Kunne ikke validere den ansatte.");
+                throw new UserException("Kunne ikke validere brugeren.");
             }
         } catch (SQLException ex)
         {
