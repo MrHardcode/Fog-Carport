@@ -11,7 +11,7 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 /**
- *
+ * Database connector that takes in the dataSource that is in use
  * @author
  */
 public class DatabaseConnector implements AutoCloseable
