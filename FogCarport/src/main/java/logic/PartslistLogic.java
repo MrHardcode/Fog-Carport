@@ -7,6 +7,9 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 
 /**
+ * THIS IS DEPRECATED AND NOT IN PRODUCTION OR DEVELOPMENT. THIS CLASS WAS USED
+ * TO CALCULATE A SIMPLE CARPORT IN THE BEGINNING OF THIS PROJECT. 
+ * 
  * Calculates the partslist. Maybe some of this should be in seperate classes?
  * Like, divide shed, roof and bottom into 3 classes once we reach the advanced
  * algorithm.
