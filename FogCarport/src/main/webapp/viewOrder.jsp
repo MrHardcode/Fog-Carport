@@ -1,4 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
+<fmt:setLocale value="da_DK"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -63,7 +65,7 @@
     <div>
         <c:choose> 
             <c:when test="${order.status == 'Finalized'}">
-                <p>Ordren er betalt: <span id="paidPrice">${order.price}</span> DKK</p>
+                <p>Ordren er betalt: <span id="paidPrice"><fmt:formatNumber value="${order.price}" type="currency" currencySymbol=""/></span> DKK</p>
             </c:when>
             <c:otherwise>
                 <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
