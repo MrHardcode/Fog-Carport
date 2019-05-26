@@ -1,5 +1,8 @@
 <!--The following tag is the JSTL tag-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- JSTL formatNumber tag -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
+<fmt:setLocale value="da_DK"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -38,7 +41,8 @@
                 <td>${material.width}</td>
                 <td>${material.height}</td>
                 <c:if test= "${not empty sessionScope.employee}"> 
-                    <td>${material.price}</td>
+                    <td><span id="singlePriceTOSTRING"><fmt:formatNumber value="${material.price}" type="currency" currencySymbol=""/></span></td>
+                    <p id="singlePrice" hidden> ${material.price}</p>
                 </c:if>
             </tr>
         </c:forEach>

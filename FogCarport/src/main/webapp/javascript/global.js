@@ -50,156 +50,328 @@ let inputemail = document.getElementById("inputEmail");
 let inputphone = document.getElementById("inputPhoneNumber");
 let inputzip = document.getElementById("inputZip");
 let submit = document.getElementById("submit-btn");
+let password = document.getElementById("newPassword");
+let passwordInput = document.getElementById("inputPassword");
+let passwordInputConfirm = document.getElementById("inputPasswordConfirm");
+let loggedIn = document.getElementById("greeting");
 //Shed options
 let lengthOptions = document.getElementById("shed-length");
 let widthOptions = document.getElementById("shed-width");
 let floorOptions = document.getElementById("shed-floor");
 let wallOptions = document.getElementById("shed-wall");
 
+if (password !== null)
+{
+    password.addEventListener("click", function () {
+        if (!password.classList.contains("show"))
+        {
+            passwordInput.value = "";
+            passwordInputConfirm.value = "";
+        }
+    });
+}
+
 let shedCheckBox = document.getElementById("check-skur");
-shedCheckBox.addEventListener("click", function(){
+shedCheckBox.addEventListener("click", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 
 inputlength.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 inputwidth.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 inputincline.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 inputrooftiles.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 inputadress.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
-inputname.addEventListener("change", function () {
-    if (shedCheckBox.checked === false)
-    {
-        validateInputNoShed();
-    }
-    else
-    {
-        validateAllInput();
-    }
-});
-inputemail.addEventListener("change", function () {
-    if (shedCheckBox.checked === false)
-    {
-        validateInputNoShed();
-    }
-    else
-    {
-        validateAllInput();
-    }
-});
-inputphone.addEventListener("change", function () {
-    if (shedCheckBox.checked === false)
-    {
-        validateInputNoShed();
-    }
-    else
-    {
-        validateAllInput();
-    }
-});
+if (inputname !== null)
+{
+    inputname.addEventListener("change", function () {
+        if (shedCheckBox.checked === false)
+        {
+            if (loggedIn === null)
+            {
+                validateInputNoShedNotLoggedIn();
+            } else
+            {
+                validateInputNoShedLoggedIn();
+            }
+        } else
+        {
+            if (loggedIn === null)
+            {
+                validateAllInputNotLoggedIn();
+            } else
+            {
+                validateAllInputLoggedIn();
+            }
+        }
+    });
+    inputemail.addEventListener("change", function () {
+        if (shedCheckBox.checked === false)
+        {
+            if (loggedIn === null)
+            {
+                validateInputNoShedNotLoggedIn();
+            } else
+            {
+                validateInputNoShedLoggedIn();
+            }
+        } else
+        {
+            if (loggedIn === null)
+            {
+                validateAllInputNotLoggedIn();
+            } else
+            {
+                validateAllInputLoggedIn();
+            }
+        }
+    });
+    inputphone.addEventListener("change", function () {
+        if (shedCheckBox.checked === false)
+        {
+            if (loggedIn === null)
+            {
+                validateInputNoShedNotLoggedIn();
+            } else
+            {
+                validateInputNoShedLoggedIn();
+            }
+        } else
+        {
+            if (loggedIn === null)
+            {
+                validateAllInputNotLoggedIn();
+            } else
+            {
+                validateAllInputLoggedIn();
+            }
+        }
+    });
+}
 inputzip.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 lengthOptions.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 widthOptions.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 floorOptions.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 wallOptions.addEventListener("change", function () {
     if (shedCheckBox.checked === false)
     {
-        validateInputNoShed();
-    }
-    else
+        if (loggedIn === null)
+        {
+            validateInputNoShedNotLoggedIn();
+        } else
+        {
+            validateInputNoShedLoggedIn();
+        }
+    } else
     {
-        validateAllInput();
+        if (loggedIn === null)
+        {
+            validateAllInputNotLoggedIn();
+        } else
+        {
+            validateAllInputLoggedIn();
+        }
     }
 });
 
-function validateAllInput() {
+function validateAllInputNotLoggedIn() {
     let lengthOptionsValue = lengthOptions.options[lengthOptions.selectedIndex].value;
     let widthOptionsValue = widthOptions.options[widthOptions.selectedIndex].value;
     let floorOptionsValue = floorOptions.options[floorOptions.selectedIndex].value;
@@ -229,7 +401,33 @@ function validateAllInput() {
     }
 }
 
-function validateInputNoShed() {
+function validateAllInputLoggedIn() {
+    let lengthOptionsValue = lengthOptions.options[lengthOptions.selectedIndex].value;
+    let widthOptionsValue = widthOptions.options[widthOptions.selectedIndex].value;
+    let floorOptionsValue = floorOptions.options[floorOptions.selectedIndex].value;
+    let wallOptionsValue = wallOptions.options[wallOptions.selectedIndex].value;
+    let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
+    let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+    let inputInclineValue = inputincline.options[inputincline.selectedIndex].value;
+    let inputRooftilesValue = inputrooftiles.options[inputrooftiles.selectedIndex].value;
+    let inputAdressValue = inputadress.value;
+    let inputZipValue = inputzip.value;
+
+    if (inputLengthValue !== "" && inputWidthValue !== "" &&
+            inputInclineValue !== "" && inputRooftilesValue !== "" &&
+            inputAdressValue !== "" &&
+            inputZipValue !== "" && lengthOptionsValue !== "" && 
+            widthOptionsValue !== "" && floorOptionsValue !== "" && 
+            wallOptionsValue !== "") {
+        submit.classList.remove("disabled");
+        submit.removeAttribute("disabled");
+    } else {
+        submit.classList.add("disabled");
+        submit.setAttribute("disabled", "disabled");
+    }
+}
+
+function validateInputNoShedNotLoggedIn() {
 
     let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
     let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
@@ -245,6 +443,27 @@ function validateInputNoShed() {
             inputInclineValue !== "" && inputRooftilesValue !== "" &&
             inputAdressValue !== "" && inputNameValue !== "" &&
             inputEmailValue !== "" && inputPhoneValue !== "" &&
+            inputZipValue !== "") {
+        submit.classList.remove("disabled");
+        submit.removeAttribute("disabled");
+    } else {
+        submit.classList.add("disabled");
+        submit.setAttribute("disabled", "disabled");
+    }
+}
+
+function validateInputNoShedLoggedIn() {
+
+    let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
+    let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+    let inputInclineValue = inputincline.options[inputincline.selectedIndex].value;
+    let inputRooftilesValue = inputrooftiles.options[inputrooftiles.selectedIndex].value;
+    let inputAdressValue = inputadress.value;
+    let inputZipValue = inputzip.value;
+
+    if (inputLengthValue !== "" && inputWidthValue !== "" &&
+            inputInclineValue !== "" && inputRooftilesValue !== "" &&
+            inputAdressValue !== "" &&
             inputZipValue !== "") {
         submit.classList.remove("disabled");
         submit.removeAttribute("disabled");
@@ -461,8 +680,8 @@ function clearShedDimensionsMenu() {
 // following two methods calculate the margin on the suggested orderprice and the 
 // variable price-input-field the emplyee can access. 
 function calculateOperationMarginSuggestedPrice() {
-    let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
-    let costprice = document.getElementById("costprice").innerHTML;
+    let suggestedprice = parseFloat(document.getElementById("suggestedretailprice").innerHTML);
+    let costprice = parseFloat(document.getElementById("costprice").innerHTML);
     let operationMargin = parseFloat(((suggestedprice / costprice) * 100) - 100).toFixed(1);
     document.getElementById("operationmargin").innerHTML = operationMargin;
 }
@@ -492,7 +711,7 @@ function checkPriceOffer()
     let priceOffer = document.getElementById("priceoffer");
     if (priceOffer)
     {
-        let suggestedPrice = document.getElementById("suggestedretailprice");
+        let suggestedPrice = document.getElementById("suggestedretailpriceTOSTRING");
         suggestedPrice.style.setProperty("text-decoration", "line-through");
         suggestedPrice.style.setProperty("color", "red");
         calculateOperationMarginFinalOfferPrice();

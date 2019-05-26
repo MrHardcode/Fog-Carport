@@ -155,7 +155,7 @@
             </div>
 
             <!-- If the customer wants a login, so they can see their order. -->
-            <button class="btn btn-outline-secondary mb-1" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
+            <button id="newPassword" class="btn btn-outline-secondary mb-1" type="button" data-toggle="collapse" data-target="#passwordcollapse" aria-expanded="false" aria-controls="collapseExample" name="createCustomerAccount" value="y">
                 Jeg vil gerne have en bruger
             </button>
 
