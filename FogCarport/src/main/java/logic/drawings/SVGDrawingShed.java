@@ -3,6 +3,7 @@ package logic.drawings;
 import data.models.OrderModel;
 
 /**
+ * Generates the shed drawing in form of a String of SVG elements.
  *
  * @author
  */
@@ -11,7 +12,7 @@ public class SVGDrawingShed
 
     private final int postdistance = 310; // Default distance between two posts in the shed in cm.
     private static int arrowHeadCounter = 0;
-    
+
     /**
      * Get a SVG drawing of the shed.
      *
