@@ -73,38 +73,43 @@
     <div>
         <c:choose> 
             <c:when test="${order.status == 'Finalized'}">
+                <!-- if order is paid -->
                 <p>Ordren er betalt: <span id="paidPriceTOSTRING"><fmt:formatNumber value="${order.price}" type="currency" currencySymbol=""/></span> DKK</p>
                 <p id="paidPrice" hidden> ${order.price}</p>
             </c:when>
             <c:otherwise>
+                <!-- if order is not paid -->
                 <p>Vejledende salgspris: <span id="suggestedretailpriceTOSTRING"><fmt:formatNumber value="${suggestedprice}" type="currency" currencySymbol=""/></span> DKK</p>
                 <p id="suggestedretailprice" hidden> ${suggestedprice}</p>
+
+                <c:if test= "${not empty priceOffer}">
+                    <!-- show offer if exists-->
+                    <p>Tilbudspris: <span id="priceofferTOSTRING"><strong><fmt:formatNumber value="${priceOffer}" type="currency" currencySymbol=""/></span></strong> DKK</p>
+                    <p id="priceoffer" hidden> ${priceOffer}</p>
+                </c:if>
+                <c:if test= "${not empty sessionScope.employee}"> 
+                    <!-- If employee, show margin-->
+                    <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"></span>%</p>
+                    <c:if test= "${not empty priceOffer && not empty sessionScope.employee}"> 
+                        <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span>%</p>
+                    </c:if>
+                    <c:if test="${order.status != 'Finalized'}">
+                        <div class="mt-4">
+                            <h5>Afgiv tilbud</h5>
+                            <p>Indkøbspris: <span id="costpriceTOSTRING"><fmt:formatNumber value="${costprice}" type="currency" currencySymbol=""/></span> DKK</p>
+                            <p id="costprice" hidden> ${costprice}</p>
+                            <form method="POST" action="FrontController">
+                                <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
+                                <input type="hidden" name="command" value="viewOrder">  
+                                <input type="hidden" name="orderid" value="${order.id}">
+                                <p> Dækningsgrad: <span id="varpricemargin"></span>%</p>
+                                <button type="submit" class="btn btn-outline-secondary mb-1">Send tilbud</button>
+                            </form>
+                        </div>
+                    </c:if>
+                </c:if>
             </c:otherwise>
         </c:choose>
-
-        <c:if test= "${not empty priceOffer}">
-            <p>Tilbudspris: <span id="priceofferTOSTRING"><fmt:formatNumber value="${priceOffer}" type="currency" currencySymbol=""/></span> DKK</p>
-            <p id="priceoffer" hidden> ${priceOffer}</p>
-            <c:if test= "${not empty sessionScope.employee}"> 
-                <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
-            </c:if>
-        </c:if>
-        <c:if test= "${not empty sessionScope.employee && order.status != 'Finalized'}"> 
-            <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"></span>%</p>
-
-            <div class="mt-4">
-                <h5>Afgiv tilbud?</h5>
-                <p>Indkøbspris: <span id="costpriceTOSTRING"><fmt:formatNumber value="${costprice}" type="currency" currencySymbol=""/></span> DKK</p>
-                <p id="costprice" hidden> ${costprice}</p>
-                <form method="POST" action="FrontController">
-                    <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
-                    <input type="hidden" name="command" value="viewOrder">  
-                    <input type="hidden" name="orderid" value="${order.id}">
-                    <p> Dækningsgrad: <span id="varpricemargin"></span>%</p>
-                    <button type="submit" class="btn btn-outline-secondary mb-1">Send tilbud</button>
-                </form>
-            </div>
-        </c:if>
     </div> 
 </div>
 
