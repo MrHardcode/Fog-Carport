@@ -9,7 +9,6 @@ package data.models;
  */
 public class EmployeeModel
 {
-    // Fields
     private int id;
     private String email;
     private String role;
@@ -19,6 +18,7 @@ public class EmployeeModel
     {
     }
 
+    //<editor-fold defaultstate="collapsed" desc="getId_role">
     /**
      * Get the value of id_role
      *
@@ -28,7 +28,9 @@ public class EmployeeModel
     {
         return id_role;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setId_role">
     /**
      * Set the value of id_role
      *
@@ -38,7 +40,9 @@ public class EmployeeModel
     {
         this.id_role = id_role;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getRole">
     /**
      * Get the value of role
      *
@@ -48,7 +52,9 @@ public class EmployeeModel
     {
         return role;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setRole">
     /**
      * Set the value of role
      *
@@ -58,8 +64,9 @@ public class EmployeeModel
     {
         this.role = role;
     }
+    //</editor-fold>
 
-
+    //<editor-fold defaultstate="collapsed" desc="getEmail">
     /**
      * Get the value of name
      *
@@ -69,7 +76,9 @@ public class EmployeeModel
     {
         return email;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setEmail">
     /**
      * Set the value of name
      *
@@ -79,8 +88,9 @@ public class EmployeeModel
     {
         this.email = email;
     }
+    //</editor-fold>
 
-
+    //<editor-fold defaultstate="collapsed" desc="getId">
     /**
      * Get the value of id
      *
@@ -90,7 +100,9 @@ public class EmployeeModel
     {
         return id;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setId">
     /**
      * Set the value of id
      *
@@ -100,5 +112,6 @@ public class EmployeeModel
     {
         this.id = id;
     }
+    //</editor-fold>
 
 }
