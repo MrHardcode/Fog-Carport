@@ -16,12 +16,12 @@ import javax.sql.DataSource;
 public class MaterialMapper
 {
 
-//    private DatabaseConnector dbc = new DatabaseConnector();
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
     private DataSource ds;
 
     public void setDataSource(DataSource ds)
     {
-//        dbc.setDataSource(ds);
+//        dbc.setDataSource(ds); Old way we did it.
         this.ds = ds;
     }
 
@@ -40,7 +40,7 @@ public class MaterialMapper
                 + "WHERE `category`.`id_category` = ?;";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             String category = "";
@@ -78,7 +78,7 @@ public class MaterialMapper
                 + "WHERE `materials`.`id_material` = ?;";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             material.setID(id);
 
@@ -134,7 +134,7 @@ public class MaterialMapper
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             String category = "";
@@ -169,7 +169,7 @@ public class MaterialMapper
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();

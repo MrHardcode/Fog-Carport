@@ -97,7 +97,7 @@ public class OrderMapper
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, order.getBuild_adress());
@@ -140,7 +140,7 @@ public class OrderMapper
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             List<Integer> ids = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
@@ -171,7 +171,7 @@ public class OrderMapper
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             List<Integer> ids = new ArrayList<>();
@@ -197,7 +197,7 @@ public class OrderMapper
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);";
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setDouble(1, price);
             ps.setInt(2, id);
@@ -216,7 +216,7 @@ public class OrderMapper
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);";
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL);)
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setDouble(1, price);
             ps.setInt(2, id);
