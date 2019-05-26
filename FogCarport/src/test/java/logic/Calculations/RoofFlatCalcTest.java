@@ -2,6 +2,8 @@ package logic.Calculations;
 
 import data.DataFacade;
 import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.OrderModel;
 import data.models.PartslistModel;
@@ -31,15 +33,28 @@ public class RoofFlatCalcTest
 {
 
     DataFacade DAO;
-    OrderModel testOrder;
+    static OrderModel testOrder;
     private final String helptext = "roof";
+    static int rafterCount = 0;
 
-    public RoofFlatCalcTest()
+    public RoofFlatCalcTest() throws DataException
     {
+        testOrder = new OrderModel();
+        //testing the carport from the brochure:
+        //https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CP01_DUR.pdf
+        testOrder.setHeight(2100);
+        testOrder.setLength(7800);
+        testOrder.setWidth(6000);
+        testOrder.setShed_length(2100);
+        testOrder.setShed_width(5300);
+        testOrder.setRoof_tiles_id(29); //plastic tiles
+        RoofFlatCalc instance = new RoofFlatCalc();
+        instance.calculateRafters(testOrder);
+        rafterCount = instance.rafterCount; //needed for other calculations
     }
 
     @BeforeClass
-    public static void setUpClass()
+    public static void setUpClass() throws DataException
     {
     }
 
@@ -52,22 +67,12 @@ public class RoofFlatCalcTest
     public void setUp()
     {
         DAO = DataFacadeImpl.getInstance();
-        testOrder = new OrderModel();
-        //testing the carport from the brochure:
-        //https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CP01_DUR.pdf
-        testOrder.setHeight(2100);
-        testOrder.setLength(7800);
-        testOrder.setWidth(6000);
-        testOrder.setShed_length(2100);
-        testOrder.setShed_width(5300);
-        testOrder.setRoof_tiles_id(28); //plastic tiles
     }
 
     @After
     public void tearDown()
     {
     }
-
 
     /**
      * Test of calculateRafters method, of class RoofFlatCalc.
@@ -78,7 +83,14 @@ public class RoofFlatCalcTest
      *
      * The order length perfectly matches up to the material length - 6m.
      *
-     * (6000/500)=12.
+     * rafterCount = 1.
+     *
+     * Amount of rows = Length/lengthRule = (7800/500)=15.6 = 15.
+     *
+     * However, we check for the remainder and see that there is .6, so we add
+     * another one.
+     *
+     * Total 16.
      *
      * @throws java.lang.Exception
      */
@@ -88,8 +100,40 @@ public class RoofFlatCalcTest
         System.out.println("calculateRafters");
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = 0;
         PartslistModel result = instance.calculateRafters(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
+        System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
+
+        assertEquals(16,result.getBillOfMaterials().get(0).getQuantity());
+    }
+
+    /**
+     * Test of calculateRafters method, of class RoofFlatCalc.
+     *
+     * Explanation: Detailed explanation above, but the difference here is that
+     * we have a width above 6000.
+     *
+     * Since there is only 1 material, and it only covers 6000mm, we have to get
+     * another one. For every instance. Which is basically ((the above
+     * method)*2)
+     * 
+     * Since length is the same we do (15*2)+1. 
+     * 
+     * The one is for the 1 in width (6001).
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testCalculateRaftersWidth6001() throws Exception
+    {
+        System.out.println("CalculateRaftersWidth6001");
+        OrderModel order = testOrder;
+        order.setWidth(6001);
+        RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = 0;
+        PartslistModel result = instance.calculateRafters(order);
+
+        assertEquals(31, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -101,20 +145,22 @@ public class RoofFlatCalcTest
      *
      * They only have 1 rafter available and they do not customize the length.
      *
-     * Basically, whenever the width is longer than the rafter length (6000) we
-     * multiply by 2.
+     * We calculate one rafter per width 6000m.
+     * 
+     * Since length is the same we have (15*3)+1 = 46. (the 1 is extra for the 1 in 12001)
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testCalculateRaftersOddWidth() throws Exception
+    public void testCalculateRaftersWidth12001() throws Exception
     {
-        System.out.println("calculateRaftersOddWidth");
+        System.out.println("CalculateRaftersWidth12001");
         OrderModel order = testOrder;
-        testOrder.setWidth(8525);
+        order.setWidth(12001);
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateRafters(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 30);
+        System.out.println("RAFTER: " + result.getBillOfMaterials().get(0));
+        assertEquals(46, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -139,6 +185,8 @@ public class RoofFlatCalcTest
      * There are two types of materials, length being the most important.
      *
      * The lengths (5400, 3600) are handled by the algorithm.
+     * 
+     * Screws: Board total is (4+4+4+2) = 14. 4 screws per board equals 56. 1 pack contains 200, so screw quantity is 1.
      *
      * @throws java.lang.Exception
      */
@@ -149,10 +197,11 @@ public class RoofFlatCalcTest
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateFascias(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4); //fasciaLengthBottom
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 4); //fasciaLengthTop
-        assertEquals(result.getBillOfMaterials().get(2).getQuantity(), 4); //fasciaWidthBottom
-        assertEquals(result.getBillOfMaterials().get(3).getQuantity(), 2); //fasciaWidthTop
+        assertEquals(4, result.getBillOfMaterials().get(0).getQuantity()); //fasciaLengthBottom
+        assertEquals(4, result.getBillOfMaterials().get(1).getQuantity()); //fasciaLengthTop
+        assertEquals(4, result.getBillOfMaterials().get(2).getQuantity()); //fasciaWidthBottom
+        assertEquals(2, result.getBillOfMaterials().get(3).getQuantity()); //fasciaWidthTop
+        assertEquals(1, result.getBillOfMaterials().get(4).getQuantity()); //fascia screws
     }
 
     /**
@@ -178,8 +227,10 @@ public class RoofFlatCalcTest
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculateBargeboard(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 4);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 2);
+        System.out.println("bargeboard 1: " + result.getBillOfMaterials().get(0));
+        System.out.println("bargeboard 2: " + result.getBillOfMaterials().get(1));
+        assertEquals(4, result.getBillOfMaterials().get(0).getQuantity());
+        assertEquals(2, result.getBillOfMaterials().get(1).getQuantity());
     }
 
     /**
@@ -194,6 +245,8 @@ public class RoofFlatCalcTest
      * partslistmodel position 1 = left
      *
      * (position 3 = screws)
+     * 
+     * Screws: 32 fittings. 9 screws per fitting equals 288 screws. 250 a pack means 2 packs.
      *
      * @throws java.lang.Exception
      */
@@ -203,9 +256,10 @@ public class RoofFlatCalcTest
         System.out.println("calculateFittings");
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel rafters = instance.calculateRafters(testOrder);
-        PartslistModel result = instance.calculateFittings(rafters);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 15);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 15);
+        PartslistModel result = instance.calculateFittings(rafterCount);
+        assertEquals(16, result.getBillOfMaterials().get(0).getQuantity()); //right
+        assertEquals(16, result.getBillOfMaterials().get(1).getQuantity()); //left
+        assertEquals(2, result.getBillOfMaterials().get(2).getQuantity()); //screws
     }
 
     /**
@@ -227,6 +281,7 @@ public class RoofFlatCalcTest
     {
         System.out.println("calculateBand");
         RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = rafterCount;
         PartslistModel expResult = new PartslistModel();
         PartslistModel result = instance.calculateBand(testOrder);
 
@@ -235,9 +290,8 @@ public class RoofFlatCalcTest
 
         expBand.setQuantity(2);
         expScrews.setQuantity(1);
-        expBand.setPrice(expBand.getQuantity() * expBand.getPrice());
         expBand.setHelptext("Til vindkryds på spær");
-        expScrews.setHelptext("Til montering af universalbeslag + hulbånd");
+        expScrews.setHelptext("Til montering af universalbeslag + toplægte");
 
         expResult.addMaterial(expBand);
         expResult.addMaterial(expScrews);
@@ -266,10 +320,12 @@ public class RoofFlatCalcTest
     public void testCalculateBandSingle() throws Exception
     {
         System.out.println("calculateBandSingle");
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
-        testOrder.setShed_length(6000);
-        PartslistModel result = instance.calculateBand(testOrder);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 1);
+        instance.rafterCount = rafterCount;
+        order.setShed_length(6000);
+        PartslistModel result = instance.calculateBand(order);
+        assertEquals(1, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
@@ -291,17 +347,20 @@ public class RoofFlatCalcTest
     public void testCalculateBandMultiple() throws Exception
     {
         System.out.println("calculateBandMultiple");
+        OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = rafterCount;
         //shed_length = 2100
-        testOrder.setLength(12101);
-        PartslistModel result = instance.calculateBand(testOrder);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 3);
+        order.setLength(12102);
+        PartslistModel result = instance.calculateBand(order);
+
+        assertEquals(3, result.getBillOfMaterials().get(0).getQuantity());
     }
 
     /**
      * Test of calculatePlasticTiles method, of class RoofFlatCalc.
      *
-     * Explanation: order is 7800 long, 6100 wide. (Width is +100 due to tile
+     * Explanation: order is 7900 long, 6100 wide. (Width is +100 due to tile
      * extension) the tiles are respectively 5800x890 & 3400x890 (-200 due to
      * tile overlap)
      *
@@ -324,8 +383,61 @@ public class RoofFlatCalcTest
         OrderModel order = testOrder;
         RoofFlatCalc instance = new RoofFlatCalc();
         PartslistModel result = instance.calculatePlasticTiles(order);
-        assertEquals(result.getBillOfMaterials().get(0).getQuantity(), 6);
-        assertEquals(result.getBillOfMaterials().get(1).getQuantity(), 6);
+        assertEquals(6, result.getBillOfMaterials().get(0).getQuantity());
+        assertEquals(6, result.getBillOfMaterials().get(1).getQuantity());
+    }
+
+    /**
+     * Test of getScrews method, of class RoofFlatCalc.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetScrews() throws Exception
+    {
+        System.out.println("getScrews");
+        int screwID = 21;
+        int screwPackSize = 200;
+        int screwAmount = 205; //90
+        RoofFlatCalc instance = new RoofFlatCalc();
+        instance.rafterCount = rafterCount;
+        MaterialModel result = instance.getScrews(screwID, screwPackSize, screwAmount);
+        assertEquals(2, result.getQuantity());
+    }
+
+    /**
+     * Test of getScrews method, of class RoofFlatCalc. Expecting Exception
+     *
+     * @throws java.lang.Exception
+     */
+    @Test(expected = AlgorithmException.class)
+    public void testExceptionGetScrews() throws Exception
+    {
+        System.out.println("getScrewsException");
+        int screwID = 0;
+        int screwPackSize = 0;
+        int screwAmount = 0; //should throw exception
+        RoofFlatCalc instance = new RoofFlatCalc();
+        MaterialModel expResult = null; //never reaches this so it doesn't its value.
+        MaterialModel result = instance.getScrews(screwID, screwPackSize, screwAmount);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test exception throwing of wrong order info.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test(expected = AlgorithmException.class)
+    public void testExceptionCalculateFlatRoofStructure() throws Exception
+    {
+        System.out.println("CalculateFlatRoofStructureException");
+        OrderModel order = testOrder;
+        order.setIncline(5); //should throw exception, only incline 0 allowed.
+        RoofFlatCalc instance = new RoofFlatCalc();
+        PartslistModel expResult = null; //never reaches this so it doesn't its value.
+        PartslistModel result = instance.calculateFlatRoofStructure(order);
+        assertEquals(expResult, result);
     }
 
     /* NOT PLANNED TO ADD FOR NOW */
