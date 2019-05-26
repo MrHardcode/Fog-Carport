@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -14,7 +14,7 @@ public class MakeCarportForm extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
     {
         /* Initializing required variables */
 

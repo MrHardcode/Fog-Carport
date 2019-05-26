@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +14,7 @@ public class LogOut extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) 
+    public String execute(HttpServletRequest request, LogicFacade logic) 
     {
         HttpSession session = request.getSession(false); //get current session
         if (session != null)

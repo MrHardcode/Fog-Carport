@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
@@ -7,7 +7,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
-abstract class Command
+
+public abstract class Command
 {
 
     private static HashMap<String, Command> commands;
@@ -35,7 +36,7 @@ abstract class Command
 
     }
 
-    static Command from(HttpServletRequest request)
+    public static Command from(HttpServletRequest request)
     {
         String commandName = request.getParameter("command");
         if (commands == null)
@@ -45,7 +46,7 @@ abstract class Command
         return commands.getOrDefault(commandName, new MakeCarportForm());
     }
 
-    abstract String execute(HttpServletRequest request, LogicFacade logic)
+    public abstract String execute(HttpServletRequest request, LogicFacade logic)
             throws UserException, DataException, AlgorithmException;
 
 }

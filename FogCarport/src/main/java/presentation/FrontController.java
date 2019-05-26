@@ -1,5 +1,6 @@
 package presentation;
 
+import presentation.commands.Command;
 import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -51,7 +52,7 @@ public class FrontController extends HttpServlet
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
         }
-        catch (UserException e) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
+        catch (UserException e) 
         {
             request.setAttribute("target", "login"); //send user to login 
             String message = e.getMessage();
