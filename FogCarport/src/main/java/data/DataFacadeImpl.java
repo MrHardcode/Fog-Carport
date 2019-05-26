@@ -129,11 +129,11 @@ public class DataFacadeImpl implements DataFacade
     }
 
     @Override
-    public void payOrder(int id) throws DataException
+    public void payOrder(int id, double price) throws DataException
     {
         OrderMapper orderMapper = new OrderMapper();
         orderMapper.setDataSource(dataSource);
-        orderMapper.payOrder(id);
+        orderMapper.payOrder(id, price);
     }
 
     @Override
@@ -141,6 +141,14 @@ public class DataFacadeImpl implements DataFacade
         UserMapper userMapper = new UserMapper();
         userMapper.setDataSource(dataSource);
         return userMapper.empLogin(email, password);
+    }
+
+    @Override
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+        OrderMapper orderMapper = new OrderMapper();
+        orderMapper.setDataSource(dataSource);
+        orderMapper.updateOrderPrice(id, price);
     }
 
 }

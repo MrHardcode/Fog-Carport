@@ -10,7 +10,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("varpriceinput") !== null) {
         calculateOperationMarginSuggestedPrice();
-        checkPriceOffer(); // should also be inside this check
+    }
+    if (document.getElementById("suggestedretailprice") !== null){
+        checkPriceOffer(); 
     }
     fillDropdownsDimensions();
 });
@@ -41,21 +43,106 @@ function fillDropdownsDimensions() {
 
 let inputlength = document.getElementById("input-length");
 let inputwidth = document.getElementById("input-width");
+let inputincline = document.getElementById("roof-inclines");
+let inputrooftiles = document.getElementById("roof-tiles");
+let inputadress = document.getElementById("inputAddress");
+let inputname = document.getElementById("inputName");
+let inputemail = document.getElementById("inputEmail");
+let inputphone = document.getElementById("inputPhoneNumber");
+let inputzip = document.getElementById("inputZip");
 let submit = document.getElementById("submit-btn");
+//Shed options
+let lengthOptions = document.getElementById("shed-length");
+let widthOptions = document.getElementById("shed-width");
+let floorOptions = document.getElementById("shed-floor");
+let wallOptions = document.getElementById("shed-wall");
+
 
 inputlength.addEventListener("change", function () {
-    ValidateCarportInput();
+    validateCarportInput();
 });
 inputwidth.addEventListener("change", function () {
-    ValidateCarportInput();
+    validateCarportInput();
+});
+inputincline.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputrooftiles.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputadress.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputname.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputemail.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputphone.addEventListener("change", function () {
+    validateCarportInput();
+});
+inputzip.addEventListener("change", function () {
+    validateCarportInput();
+});
+lengthOptions.addEventListener("change", function () {
+    validateShedInput();
+});
+widthOptions.addEventListener("change", function () {
+    validateShedInput();
+});
+floorOptions.addEventListener("change", function () {
+    validateShedInput();
+});
+wallOptions.addEventListener("change", function () {
+    validateShedInput();
 });
 
-function ValidateCarportInput() {
+let shedCheckBox = document.getElementById("check-skur");
+shedCheckBox.addEventListener("click", function(){
+    if (shedCheckBox.checked === false)
+    {
+        validateCarportInput();
+    }
+    else
+    {
+        validateShedInput();
+    }
+});
+
+function validateShedInput() {
+    let lengthOptionsValue = lengthOptions.options[lengthOptions.selectedIndex].value;
+    let widthOptionsValue = widthOptions.options[widthOptions.selectedIndex].value;
+    let floorOptionsValue = floorOptions.options[floorOptions.selectedIndex].value;
+    let wallOptionsValue = wallOptions.options[wallOptions.selectedIndex].value;
+
+    if (lengthOptionsValue !== "" && widthOptionsValue !== "" &&
+            floorOptionsValue !== "" && wallOptionsValue !== "") {
+        submit.classList.remove("disabled");
+        submit.removeAttribute("disabled");
+    } else {
+        submit.classList.add("disabled");
+        submit.setAttribute("disabled", "disabled");
+    }
+}
+
+function validateCarportInput() {
 
     let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
     let inputWidthValue = inputwidth.options[inputwidth.selectedIndex].value;
+    let inputInclineValue = inputincline.options[inputincline.selectedIndex].value;
+    let inputRooftilesValue = inputrooftiles.options[inputrooftiles.selectedIndex].value;
+    let inputAdressValue = inputadress.value;
+    let inputNameValue = inputname.value;
+    let inputEmailValue = inputemail.value;
+    let inputPhoneValue = inputphone.value;
+    let inputZipValue = inputzip.value;
 
-    if (inputLengthValue !== "" && inputWidthValue !== "") {
+    if (inputLengthValue !== "" && inputWidthValue !== "" &&
+            inputInclineValue !== "" && inputRooftilesValue !== "" &&
+            inputAdressValue !== "" && inputNameValue !== "" &&
+            inputEmailValue !== "" && inputPhoneValue !== "" &&
+            inputZipValue !== "") {
         submit.classList.remove("disabled");
         submit.removeAttribute("disabled");
     } else {
@@ -192,12 +279,6 @@ function checkShedMenuVisibility() {
         clearShedDimensionsMenu();
     }
 }
-
-//Variables connecting the JavaScript with the .jsp-page (the selects in the shed-div)
-let lengthOptions = document.getElementById("shed-length");
-let widthOptions = document.getElementById("shed-width");
-let floorOptions = document.getElementById("shed-floor");
-let wallOptions = document.getElementById("shed-wall");
 
 
 function prepareShedMenu() {

@@ -28,12 +28,19 @@
     border-left: none;  
 }
 
+#greeting
+{
+    border-left: none;
+    border-right: solid 1px;
+}
+
 #accessbutton /* login/logout buttons */
 {
     border-left: none;
     display: block;
     float: right;
     padding-top: .30em;
+    padding-left: .50em;
 }
 
 .navbar-nav.navbar-center {
@@ -240,8 +247,8 @@
 
 /*----------------- ViewSVG.JSP CSS -----------------*/
 
-#SVGdiv{
-    padding: 10px;
+.SVGdiv{
+    padding: 6px;
 }
 
 .toggleButtons{
@@ -257,8 +264,9 @@
     color: #e5e6e8;
     background-color: #263e63;
     border-color:#384459;
+    position: sticky;
+    top: 0px;
 }
-
 
 /*----------------- ViewOrder.JSP CSS -----------------*/
 
@@ -267,6 +275,11 @@
     color:green;
     border-bottom: 3px double;
     border-color: black;
+}
+
+#paidPrice
+{
+    border-bottom: 3px double;
 }
 
 .borderleft{

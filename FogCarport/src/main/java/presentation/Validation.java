@@ -43,6 +43,36 @@ public class Validation
             }
         }
     }
+    
+    /**
+     * Validate a Double input from user. 
+     * 
+     * Checks if the double input is null, empty and actually a double.
+     * To be used by command implementation classes. 
+     * @param validate String input from user, that is supposed to be a double afterwards.
+     * @param name of the thing you want to validate.
+     * @return double
+     * @throws UserException 
+     */
+    public double validateDouble(String validate, String name) throws UserException
+    {
+        if (validate == null || validate.isEmpty())
+        {
+            throw new UserException(name + " må ikke være tom.");
+        } else
+        {
+            try
+            {
+                double length = Double.parseDouble(validate);
+                return length;
+            } catch (NumberFormatException ex)
+            {
+                throw new UserException(name + " er indtastet forkert.");
+            }
+        }
+    }
+    
+    
 
     /**
      * Validate a String input from user.
