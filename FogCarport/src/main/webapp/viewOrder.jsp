@@ -3,83 +3,96 @@
 <!DOCTYPE html>
 
 <!-- Show a single order -->
-<table class="table table-hover">
+<div class="d-flex flex-row justify-content-between mt-5 mb-3">
+    <div>
+        <p>Kunde informationer</p>
+        <p class="mb-0">Kundenummer: ${customer.id}</p>
+        <p class="mb-0">${order.build_adress} ${order.build_zipcode}</p>
+        <p class="mb-0">${customer.name}</p>
+        <p class="mb-0">${customer.phone}</p>
+        <p class="mb-0">${customer.email}</p>
+
+    </div>
+    <div>
+        <p class="mb-0">Fog Trælast og Byggecenter</p>
+        <p>Ordre information</p>
+        <p class="mb-0">Medarbejdernummer: ${employee.id}</p>
+        <p class="mb-0">Medarbejder kontaktmail: ${employee.email}</p>
+        <p class="mb-0">Ordrenummer: ${order.id}</p>
+        <p>Status: ${order.status}</p>
+    </div>
+</div>
+<table class="table">
     <thead>
         <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Adress</th>
-            <th scope="col">Zipcode</th>
-            <th scope="col">Status</th>
-            <th scope="col">Width</th>
-            <th scope="col">Length</th>
-            <th scope="col">Incline</th>
-            <th scope="col">Roof Tiles</th>
-            <th scope="col">Shed Width</th>
-            <th scope="col">Shed Length</th>
-            <th scope="col">Shed Walls</th>
-            <th scope="col">Shed Floor</th>
+            <th class="text-center" rowspan="1" colspan="4">Carport</th>
+                <c:if test= "${order.shed_width != 0}">
+                <th class="text-center borderleft" rowspan="1" colspan="4">Skur</th>
+                </c:if>
+        </tr>
+        <tr>
+            <th scope="col">Bredde</th>
+            <th scope="col">Længde</th>
+            <th scope="col">Hældning</th>
+            <th scope="col">Tagsten</th>
+                <c:if test= "${order.shed_width != 0}">
+                <th class="borderleft" scope="col">Bredde</th>
+                <th scope="col">Længde</th>
+                <th scope="col">Vægmateriale</th>
+                <th scope="col">Gulvmateriale</th>
+                </c:if>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>${order.id}</td>
-            <td>${order.build_adress}</td>
-            <td>${order.build_zipcode}</td>
-            <td>${order.status}</td>
             <td>${order.width}mm.</td>
             <td>${order.length}mm.</td>
-            <td>${order.incline}degrees.</td>
+            <td>${order.incline} grader</td>
             <td>${tile}</td>
-            <td>${order.shed_width}mm.</td>
-            <td>${order.shed_length}mm.</td>
-            <td>${shedwalls}</td>
-            <td>${shedfloor}</td>
+            <c:if test= "${order.shed_width != 0}">
+                <td>${order.shed_width}mm.</td>
+                <td>${order.shed_length}mm.</td>
+                <td>${shedwalls}</td>
+                <td>${shedfloor}</td>
+            </c:if>
         </tr>
     </tbody>
 </table>
+<hr>
+<div class="d-flex flex-column pl-5 mt-5 mb-3 infoboxorderview">
+    <div>
+        <c:choose> 
+            <c:when test="${order.status == 'Finalized'}">
+                <p>Ordren er betalt: <span id="paidPrice">${order.price}</span> DKK</p>
+            </c:when>
+            <c:otherwise>
+                <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
+            </c:otherwise>
+        </c:choose>
 
-<!-- Show info about the Customer and Employee who are tied to the order. -->
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">ID Employee</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Employee Role</th>
-            <th scope="col">ID Customer</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Customer Phone</th>
-            <th scope="col">Customer Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>${employee.id}</td>
-            <td>${employee.email}</td>
-            <td>${employee.role}</td>
-            <td>${customer.id}</td>
-            <td>${customer.name}</td>
-            <td>${customer.phone}</td>
-            <td>${customer.email}</td>
-        </tr>
-    </tbody>
-</table>
-
-<div class="card">
-    <div class="card-body">
-        <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice} </span> kr</p>
-        <c:if test= "${not empty sessionScope.employee}"> 
+        <c:if test= "${not empty priceOffer}">
+            <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
+            <c:if test= "${not empty sessionScope.employee}"> 
+                <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
+            </c:if>
+        </c:if>
+        <c:if test= "${not empty sessionScope.employee && order.status != 'Finalized'}"> 
             <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
-        </div>  
-        <div class="card-body">
-            <p hidden id="costprice">${costprice}</p>
-            <p>Beregn dækningsgrad for ny pris</p>
-            <input id="varpriceinput" placeholder="Ny pris">
-            <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
-            <button onclick="calculateOperationMarginSuggestedPrice()">TEST</button>
-        </div>
-    </c:if>
-</div>
 
+            <div class="mt-4">
+                <h5>Afgiv tilbud?</h5>
+                <p>Indkøbspris: <span id="costprice">${costprice} </span> DKK</p>
+                <form method="POST" action="FrontController">
+                    <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
+                    <input type="hidden" name="command" value="viewOrder">  
+                    <input type="hidden" name="orderid" value="${order.id}">
+                    <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
+                    <button type="submit" class="btn btn-outline-secondary mb-1">Send tilbud</button>
+                </form>
+            </div>
+        </c:if>
+    </div> 
+</div>
 
 
 
@@ -89,26 +102,56 @@
         <form action="FrontController"  class="">
             <input type="hidden" name="command" value="payOrder">
             <input type="hidden" name="orderid" value="${order.id}">
-            <button type="submit" class="btn btn-primary">Betal ordre</button>
+            <!-- Pay reduced price if exists, else normal price -->
+            <c:choose> 
+                <c:when test="${not empty priceOffer}">
+                    <input type="hidden" name="price" value="${priceOffer}">
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" name="price" value="${suggestedprice}">
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${not empty sessionScope.customer}">
+                <button type="submit" class="btn btn-outline-secondary mb-1">Betal ordre</button>
+            </c:if>
+            <c:if test="${not empty sessionScope.employee}">
+                <p>Ved kontant betaling eller betling via bankoverførsel, så bekræft modtagelse af betaling</p>
+                <button type="submit" class="btn btn-outline-secondary mb-1">Bekræft modtagelse af betaling</button>
+            </c:if>
         </form>
     </div>
 </c:if>
 <!-- Button to see partslist and drawings if you've paid for the order. -->
-<c:if test="${order.status != 'Awaiting' 
-              && order.status != 'Processing'
-              && order.status != 'Accepted'}">
-      <div class="d-flex p-2 justify-content-center">
-          <form method="POST" action="FrontController"  class="">
-              <input type="hidden" name="command" value="viewPartslist">   
-              <input type="hidden" name="orderid" value="${order.id}"> 
-              <button type="submit" class="btn btn-primary">Se Stykliste</button>
-          </form>
+<c:if test="${not empty sessionScope.customer}">
+    <c:if test="${order.status == 'Finalized'}">
+        <div class="d-flex p-2 justify-content-center">
+            <form method="POST" action="FrontController"  class="">
+                <input type="hidden" name="command" value="viewPartslist">   
+                <input type="hidden" name="orderid" value="${order.id}"> 
+                <button type="submit" class="btn btn-outline-secondary mb-1">Se Stykliste</button>
+            </form>
 
-          <form method="POST" action="FrontController" class="" style="margin-left: 10px">
-              <input type="hidden" name="command" value="viewSVG">  
-              <input type="hidden" name="orderid" value="${order.id}"> 
-              <button type="submit" class="btn btn-primary">Se Tegninger</button>
-          </form>
-      </div>
+            <form method="GET" action="FrontController" class="" style="margin-left: 10px">
+                <input type="hidden" name="command" value="viewSVG">  
+                <input type="hidden" name="orderid" value="${order.id}"> 
+                <button type="submit" class="btn btn-outline-secondary mb-1">Se Tegninger</button>
+            </form>
+        </div>
+    </c:if>
+</c:if>
+<c:if test="${not empty sessionScope.employee}">
+    <div class="d-flex p-2 justify-content-center">
+        <form method="POST" action="FrontController"  class="">
+            <input type="hidden" name="command" value="viewPartslist">   
+            <input type="hidden" name="orderid" value="${order.id}"> 
+            <button type="submit" class="btn btn-outline-secondary mb-1">Se Stykliste</button>
+        </form>
+
+        <form method="GET" action="FrontController" class="" style="margin-left: 10px">
+            <input type="hidden" name="command" value="viewSVG">  
+            <input type="hidden" name="orderid" value="${order.id}"> 
+            <button type="submit" class="btn btn-outline-secondary mb-1">Se Tegninger</button>
+        </form>
+    </div>
 </c:if>
 

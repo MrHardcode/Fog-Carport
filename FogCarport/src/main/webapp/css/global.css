@@ -14,15 +14,24 @@
     float: left;
     border-left: solid 1px;
 }
+.nav-color{
+    background-color: #e6eaf2;
+}
 
 #errormessage a /* any links (text) within the error message */
 {
-    
-    color: red;
+
+    color: #0062ff;
 }
 #errormessage
 {
-   border-left: none;  
+    border-left: none;  
+}
+
+#greeting
+{
+    border-left: none;
+    border-right: solid 1px;
 }
 
 #accessbutton /* login/logout buttons */
@@ -31,6 +40,7 @@
     display: block;
     float: right;
     padding-top: .30em;
+    padding-left: .50em;
 }
 
 .navbar-nav.navbar-center {
@@ -132,85 +142,97 @@
 /*----------------- LOGIN CSS -----------------  */
 .login,
 .image {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 .bg-image {
-  background-image: url('https://i.imgur.com/yrztSID.png?1');
-  background-size: cover;
-  background-position: center;
+    background-image: url('https://i.imgur.com/SjWU6vl.png'); 
+    background-size: cover;
+    background-position: center;
 }
 
 .login-heading {
-  font-weight: 300;
+    font-weight: 300;
 }
 
 .btn-login {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-  padding: 0.75rem 1rem;
-  border-radius: 2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+}
+
+.btnlogincolor{
+    color: #224070;
+    border-color: #224070;
+    background-color: white;
+}
+
+.btnlogincolor:hover{
+    color: white;
+    background-color: #224070;
+    border-color: #224070;
 }
 
 .form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
+    position: relative;
+    margin-bottom: 1rem;
 }
 
 .form-label-group>input,
 .form-label-group>label {
-  padding: 0.75rem 1.5rem;
-  height: auto;
-  border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    border-radius: 2rem;
 }
 
 .form-label-group>label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
-  /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  cursor: text;
-  /* Match the input under the label */
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    cursor: text;
+    /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
 }
 
 .form-label-group input::-webkit-input-placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group input:-ms-input-placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group input::-ms-input-placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group input::-moz-placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group input::placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group input:not(:placeholder-shown) {
-  padding-top: calc(1.5rem * 0.6667);
-  padding-bottom: calc(0.75rem / 3);
+    padding-top: calc(1.5rem * 0.6667);
+    padding-bottom: calc(0.75rem / 3);
 }
 
 .form-label-group input:not(:placeholder-shown)~label {
-  padding-top: calc(0.75rem / 3);
-  padding-bottom: calc(0.75rem / 3);
-  font-size: 12px;
-  color: #777;
+    padding-top: calc(0.75rem / 3);
+    padding-bottom: calc(0.75rem / 3);
+    font-size: 12px;
+    color: #777;
 }
 
 /*----------------- CREATE USER -----------------*/
@@ -223,8 +245,108 @@
     width: 500px;
 }
 
+/*----------------- ViewSVG.JSP CSS -----------------*/
+
+.SVGdiv{
+    padding: 6px;
+}
+
+.toggleButtons{
+    width: 300px;
+}
+
+.toggleGroup{
+    display: inline-block;
+}
+
+/*----------------- partslist.JSP CSS -----------------*/
+.table .thead-dark th {
+    color: #e5e6e8;
+    background-color: #263e63;
+    border-color:#384459;
+    position: sticky;
+    top: 0px;
+}
+
+/*----------------- ViewOrder.JSP CSS -----------------*/
+
+#priceoffer
+{
+    color:green;
+    border-bottom: 3px double;
+    border-color: black;
+}
+
+#paidPrice
+{
+    border-bottom: 3px double;
+}
+
+.borderleft{
+    border-left: 1px solid #dee2e6;
+}
 /*----------------- OTHER CSS -----------------  */
 body
 {
     padding-bottom: 5%;
+}
+
+/*----------------- VIEW ALL ORDERS -----------------  */
+
+.listbtn{
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    border-radius: 20px;
+    background-color: #224070;
+}
+
+.btn-outline-secondary:hover {
+    
+    background-color: #224070;
+    border-color: #224070;
+}
+
+.btn-outline-secondary {
+    
+    color: #224070;
+    border-color: #224070;
+}
+.headlinecolor{
+    color: #2a2b2d;
+}
+
+.marginright20{
+    margin-right: 20%;
+}
+.marginleft15{
+    margin-left: 15%;
+}
+
+.margintop{
+    margin-top: 56px;
+}
+
+.infobox{
+    color: #224070;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #224070;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px; 
+}
+
+.infoboxorderview{
+    color: #2b2c33;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #7a7a7a;
+    border-radius: 2px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px; 
 }

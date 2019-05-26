@@ -20,9 +20,9 @@ import logic.LogicFacadeImpl;
  * @author
  */
 @WebServlet(name = "FrontController", urlPatterns =
-        {
-            "/FrontController"
-        })
+{
+    "/FrontController"
+})
 public class FrontController extends HttpServlet
 {
 
@@ -34,7 +34,10 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            validateSession(request, response);
+            if (request.getAttribute("target") != null)
+            {
+                validateSession(request, response);
+            }
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
@@ -42,8 +45,8 @@ public class FrontController extends HttpServlet
 
         } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
-            request.setAttribute("target", "homepage");
-            request.setAttribute("message", ex.getMessage());
+            request.setAttribute("target", "errorMessage");
+            request.setAttribute("errormessage", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
@@ -65,16 +68,16 @@ public class FrontController extends HttpServlet
         // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
         String command = request.getParameter("command");
         String link = request.getParameter("link");
-        if (customer == null && employee == null 
+        if (customer == null && employee == null
                 && !"login".equals(command) && !"login".equals(link)
                 && !"createUser".equals(command) && !"createUser".equals(link)
                 && !"homepage".equals(command) && !"homepage".equals(link)
-                && !"makeCarport".equals(command))
+                && !"makeCarport".equals(command) && !"makeCarportForm".equals(command))
         {
             // INVALIDATE THE FAULTY SESSION.
             session.invalidate();
             // FORWARD USER.
-            throw new UserException("Du skal være logget ind.");
+            throw new UserException("Du er ikke logget ind");
         }
     }
 

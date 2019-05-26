@@ -63,16 +63,17 @@ public class OrderMapper
                 order.setShed_walls_id(rs.getInt("shed_walls_id"));
                 order.setShed_length(rs.getInt("shed_length"));
                 order.setShed_width(rs.getInt("shed_width"));
+                order.setPrice(rs.getDouble("price"));
 
                 return order;
             } else
             {
-                throw new DataException("Could not get info about order from database.");
+                throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
         }
 
     }
@@ -120,7 +121,7 @@ public class OrderMapper
             }
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke oprette ordren i databasen.");
         }
     }
     // </editor-fold>
@@ -150,7 +151,7 @@ public class OrderMapper
             return ids;
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke skaffe alle ordrerne.");
         }
 
     }
@@ -184,26 +185,45 @@ public class OrderMapper
             return ids;
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke skaffe ordrerne for dig fra databasen.");
         }
 
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Pay an order. Update "status"">
-    public void payOrder(int id) throws DataException
+    public void payOrder(int id, double price) throws DataException
     {
-        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized' WHERE (`id_order` = ?);";
+        String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);";
         try (DatabaseConnector open_dbc = dbc.open();
                 PreparedStatement ps = open_dbc.preparedStatement(SQL);)
         {
-
-            ps.setInt(1, id);
+            ps.setDouble(1, price);
+            ps.setInt(2, id);
             ps.executeUpdate();
 
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Kunne ikke betale ordren.");
+        }
+
+    }
+    //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Update order price.">
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+        String SQL = "UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);";
+        try (DatabaseConnector open_dbc = dbc.open();
+                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        {
+            ps.setDouble(1, price);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+
+        } catch (SQLException ex)
+        {
+            throw new DataException("Kunne ikke opdatere ordren.");
         }
 
     }

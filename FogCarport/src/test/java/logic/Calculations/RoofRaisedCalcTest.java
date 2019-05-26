@@ -60,8 +60,8 @@ public class RoofRaisedCalcTest {
         material1.setQuantity(4);
         material8.setQuantity(1);
         material10.setQuantity(1);
-        material20.setQuantity(5);        
-        
+        material20.setQuantity(5); 
+
         bomExp.addMaterial(material35);
         bomExp.addMaterial(material42);
         bomExp.addMaterial(material32);
@@ -78,7 +78,7 @@ public class RoofRaisedCalcTest {
         order.setIncline(5);
         order.setLength(2400);
         order.setRoof_tiles_id(35);
-
+        
         PartslistModel bomRes = raised.getRoofRaisedMaterials(order);
         assertEquals(bomExp, bomRes);
     }
@@ -463,7 +463,7 @@ public class RoofRaisedCalcTest {
         order.setWidth(7200);
         order.setIncline(45);
         order.setLength(7200);
-
+        
         PartslistModel bomRes = raised.getRoofStructure(order);
         assertEquals(bomExp, bomRes);
     }
@@ -705,7 +705,7 @@ public class RoofRaisedCalcTest {
         bomAdd.addMaterial(material12A);
         bomAdd.addMaterial(material30A);
         bomAdd.addMaterial(material3A);
-        
+
         raised.addPartslistWithMaterialsQuantity(bomAdd, bomRes);
         assertEquals(bomExp, bomRes);
     }

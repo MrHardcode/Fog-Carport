@@ -73,7 +73,7 @@ public class EmployeeModel
     /**
      * Set the value of name
      *
-     * @param name new value of name
+     * @param email new value of name
      */
     public void setEmail(String email)
     {

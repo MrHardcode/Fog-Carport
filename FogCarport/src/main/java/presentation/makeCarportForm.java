@@ -63,6 +63,20 @@ public class makeCarportForm extends Command
         //shed wall
         shedWallParts.addMaterial(logic.getMaterial(wallOptionOneID, "shed"));
 
+        //Modifying the names of the shed materials
+        for (int i = 0; i < shedFloorParts.getBillOfMaterials().size(); i++)
+        {
+            String des = shedFloorParts.getBillOfMaterials().get(i).getDescription();
+            String name = des.substring(des.indexOf("(") + 1, des.indexOf(")"));
+            shedFloorParts.getBillOfMaterials().get(i).setName(name);
+        }
+        for (int i = 0; i < shedWallParts.getBillOfMaterials().size(); i++)
+        {
+            String des = shedWallParts.getBillOfMaterials().get(i).getDescription();
+            String name = des.substring(des.indexOf("(") + 1, des.indexOf(")"));
+            shedWallParts.getBillOfMaterials().get(i).setName(name);
+        }
+        
         /* Set partslistmodels on their respective request attributes */
         request.setAttribute("flatRoofParts", flatRoofParts.getBillOfMaterials());
         request.setAttribute("raisedRoofParts", raisedRoofParts.getBillOfMaterials());
@@ -70,7 +84,7 @@ public class makeCarportForm extends Command
         request.setAttribute("shedWallParts", shedWallParts.getBillOfMaterials());
 
         /* return */
-        return "makeCarport";
+        return "homepage";
     }
 
 }

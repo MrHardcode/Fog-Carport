@@ -40,6 +40,6 @@
         </div>
 
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary" id="submit-btn">Opret og log ind</button>
+        <button type="submit" class="btn btn-outline-secondary mb-1" id="submit-btn">Opret og log ind</button>
     </form>
 </div>
