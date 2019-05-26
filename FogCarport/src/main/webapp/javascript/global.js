@@ -372,9 +372,9 @@ function calculateOperationsMarignVariblePrice() {
     let costprice = document.getElementById("costprice").innerHTML;
 
     let varOperationMargin = parseFloat(((varprice / costprice) * 100) - 100).toFixed(1);
-    console.log("costprice: " + costprice.constructor + costprice);
-    console.log("varprice: " + varprice.constructor + varprice);
-    console.log("varOperationMargin: " + varOperationMargin.constructor + varOperationMargin);
+//    console.log("costprice: " + costprice.constructor + costprice);
+//    console.log("varprice: " + varprice.constructor + varprice);
+//    console.log("varOperationMargin: " + varOperationMargin.constructor + varOperationMargin);
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
 }
 
@@ -392,7 +392,7 @@ function checkPriceOffer()
     let priceOffer = document.getElementById("priceoffer");
     if (priceOffer)
     {
-        let suggestedPrice = document.getElementById("suggestedretailprice");
+        let suggestedPrice = document.getElementById("suggestedretailpriceTOSTRING");
         suggestedPrice.style.setProperty("text-decoration", "line-through");
         suggestedPrice.style.setProperty("color", "red");
         calculateOperationMarginFinalOfferPrice();
