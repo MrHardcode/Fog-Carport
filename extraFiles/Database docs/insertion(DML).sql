@@ -114,11 +114,63 @@ INSERT INTO `carportdb`.`materials` (`description`, `cost_price`, `unit`, `id_ca
 INSERT INTO `carportdb`.`materials` (`description`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('B & C Rygsten (Sunlux)', '25', 'Stk', '3', 'Monteres på toplægte med medfølgende beslag');
 
 /*
+Updating custom dimensions 
+(Added after creating script. The script was created with dimensions where available, rest is set by us).
+*/
+	/* Roof tiles */
+UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '33');
+UPDATE `carportdb`.`materials` SET `width` = '1100', `length` = '570' WHERE (`id_material` = '35');
+UPDATE `carportdb`.`materials` SET `width` = '865', `length` = '2000' WHERE (`id_material` = '39');
+UPDATE `carportdb`.`materials` SET `width` = '310', `length` = '390' WHERE (`id_material` = '34');
+UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '36');
+UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '37');
+UPDATE `carportdb`.`materials` SET `width` = '310', `length` = '390' WHERE (`id_material` = '38');
+UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '40');
+UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '41');
+UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '43');
+UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '44');
+UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '45');
+UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '46');
+UPDATE `carportdb`.`materials` SET `width` = '180', `length` = '1200' WHERE (`id_material` = '42');
+
+	/* Flat roof (plastic) parts */
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '28');
+UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '29');
+
+
+/* 
+Adding custom materials 
+(These were not made by Fog, but by us. Or they were made by Fog, but found to be needed later.)
+They are added here as to not mess with the current itemIDs.
+*/
+
+/* Tagpap related materials */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Tagpap', '0', '100', '5400', '85', 'Stk', '3', 'Sømmes fast i taget');
+INSERT INTO `carportdb`.`materials` (`description`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Tagpap', '100', '3600', '62.5', 'Stk', '3', 'Sømmes fast i taget');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Træplader (Til tagpap)', '0', '0', '0', '1500', 'Pakke', '3', 'Sømmes fast i taget');
+
+/* Wooden floor planks */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x200mm alm. planke (Eg)', '30', '200', '3600', '55', 'Stk', '1', 'Til gulvet i skuret');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x250mm alm. planke (Eg)', '30', '250', '4800', '75', 'Stk', '1', 'Til gulvet i skuret');
+/* More options for beklædning & gavl */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '2400', '35', 'Stk', '3', 'Til gavlen');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '3200', '47.5', 'Stk', '3', 'Til gavlen');
+
+/* More options for remme & spær */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '6000', '45', 'Stk', '1'); /*forgotten in initial push, adding here to avoid ID increment */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '3600', '37.25', 'Stk', '1', 'Understernbrædder til for & bagende');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '5400', '42.75', 'Stk', '1', 'Understernbrædder til siderne');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '3600', '36', 'Stk', '1', 'Oversternbrædder til forendern');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '5400', '39.95', 'Stk', '1', 'Oversternbrædder til siderne');
+
+/* More options for vandbrædt */
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '5400', '37', 'Stk', '1', 'Vand bræt på vindskeder');
+INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '3600', '28', 'Stk', '1', 'Vand bræt på vindskeder');
+
+/*
 Creating orders.
 Taking use of default values (auto_increment) for >id_order<. 
 */
-
-
 
 /* Flat roof Awaiting (No shed) */
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
@@ -195,7 +247,7 @@ INSERT INTO `carportdb`.`orders`
 ('Nørgaardsvej 200', '2800', 'Awaiting', '3525', '4672', '35', '36', '2400', '2400', '10', '51', '4', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 200', '2800', 'Finalized', '4000', '6100', '45', '237', '3200', '5900', '10', '50', '4', '6');
+('Nørgaardsvej 200', '2800', 'Finalized', '4000', '6100', '45', '37', '3200', '5900', '10', '50', '4', '6');
 
 
 /*
@@ -207,64 +259,4 @@ INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALU
 INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('7800', '9999.95', '3');
 INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('13273.44', '11849.99', '4');*/
 
-/*
-Updating custom dimensions 
-(Added after creating script. The script was created with dimensions where available, rest is set by us).
-*/
-	/* Roof tiles */
-UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '33');
-UPDATE `carportdb`.`materials` SET `width` = '1100', `length` = '570' WHERE (`id_material` = '35');
-UPDATE `carportdb`.`materials` SET `width` = '865', `length` = '2000' WHERE (`id_material` = '39');
-UPDATE `carportdb`.`materials` SET `width` = '310', `length` = '390' WHERE (`id_material` = '34');
-UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '36');
-UPDATE `carportdb`.`materials` SET `width` = '300', `length` = '420' WHERE (`id_material` = '37');
-UPDATE `carportdb`.`materials` SET `width` = '310', `length` = '390' WHERE (`id_material` = '38');
-UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '40');
-UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '41');
-UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '43');
-UPDATE `carportdb`.`materials` SET `width` = '160', `length` = '850' WHERE (`id_material` = '44');
-UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '45');
-UPDATE `carportdb`.`materials` SET `width` = '140', `length` = '400' WHERE (`id_material` = '46');
-UPDATE `carportdb`.`materials` SET `width` = '180', `length` = '1200' WHERE (`id_material` = '42');
-
-	/* Flat roof (plastic) parts */
-UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '28');
-UPDATE `carportdb`.`materials` SET `width` = '1090' WHERE (`id_material` = '29');
-
-
-/* 
-Adding custom materials 
-(These were not made by Fog, but by us. Or they were made by Fog, but found to be needed later.)
-They are added here as to not mess with the current itemIDs.
-*/
-
-/* Tagpap related materials */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Tagpap', '0', '100', '5400', '85', 'Stk', '3', 'Sømmes fast i taget');
-INSERT INTO `carportdb`.`materials` (`description`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Tagpap', '100', '3600', '62.5', 'Stk', '3', 'Sømmes fast i taget');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('Træplader (Til tagpap)', '0', '0', '0', '1500', 'Pakke', '3', 'Sømmes fast i taget');
-
-/* Wooden floor planks */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x200mm alm. planke (Eg)', '30', '200', '3600', '55', 'Stk', '1', 'Til gulvet i skuret');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_shed`) VALUES ('30x250mm alm. planke (Eg)', '30', '250', '4800', '75', 'Stk', '1', 'Til gulvet i skuret');
-/* More options for beklædning & gavl */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '2400', '35', 'Stk', '3', 'Til gavlen');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200mm alm. Bræt (Birk)', '25', '200', '3200', '47.5', 'Stk', '3', 'Til gavlen');
-
-/* More options for remme & spær */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`) VALUES ('45x195 spærtræ ubh.', '45', '195', '6000', '45', 'Stk', '1'); /*forgotten in initial push, adding here to avoid ID increment */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '3600', '37.25', 'Stk', '1', 'Understernbrædder til for & bagende');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x200 mm. trykimp. Bræt (Birk)', '25', '200', '5400', '42.75', 'Stk', '1', 'Understernbrædder til siderne');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '3600', '36', 'Stk', '1', 'Oversternbrædder til forendern');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('25x125 mm. trykimp. Bræt', '25', '125', '5400', '39.95', 'Stk', '1', 'Oversternbrædder til siderne');
-
-/* More options for vandbrædt */
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '5400', '37', 'Stk', '1', 'Vand bræt på vindskeder');
-INSERT INTO `carportdb`.`materials` (`description`, `height`, `width`, `length`, `cost_price`, `unit`, `id_category`, `helptext_roof`) VALUES ('19x100mm. trykimp. Bræt', '19', '100', '3600', '28', 'Stk', '1', 'Vand bræt på vindskeder');
-
-/* More orders */
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '28', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '4100', '6500', '30', '28', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3500', '7100', '30', '28', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '2800', '4200', '30', '29', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '4100', '4100', '30', '29', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '6500', '7200', '30', '29', '3', '3', '1', '4');
+/* More custom orders */
