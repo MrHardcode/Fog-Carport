@@ -23,7 +23,7 @@ public class MaterialMapper
         dbc.setDataSource(ds);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Get Category of a Material">
+    // <editor-fold desc="Get Category of a Material">
     /**
      * Get Category.
      *
@@ -56,9 +56,9 @@ public class MaterialMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get a Material">
+    // <editor-fold desc="Get a Material">
     /**
-     * Get a Material.
+     * Get a Material based on id and helptext. 
      *
      * @param id of the Material.
      * @param helptext
@@ -118,7 +118,7 @@ public class MaterialMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get Order Details Category">
+    // <editor-fold desc="Get Order Details Category">
     /**
      * Get Order Details Category.
      *
@@ -150,9 +150,9 @@ public class MaterialMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get all Materials for an Order Details">
+    // <editor-fold desc="Get all Materials for an Order Details">
     /**
-     * Get a List of Materials.
+     * Get a List of Materials based on the id and helptext.
      *
      * @param id of the Order Details.
      * @param helptext
