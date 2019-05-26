@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
 
 /**
- * Call this from the .jsp when the advanced stuff is in place.
- *
+ * Command for creation of order and customer.
  * @author
  */
 public class orderCarport extends Command

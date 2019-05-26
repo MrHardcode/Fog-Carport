@@ -13,12 +13,14 @@ abstract class Command
     private static HashMap<String, Command> commands;
 
     /**
-     * If you make new Commands, add them to this map.
+     * This is the command from which all other CMD's are called.
+     *
+     * @param request the Http request
+     * @param response the Http response
      */
     private static void initCommands()
     {
         commands = new HashMap<>();
-//        commands.put("simpleorder", new makeCarportSimple());
         commands.put("allOrders", new viewAllOrders()); //  View all orders.
         commands.put("viewOrder", new viewOrder()); // view a single order.
         commands.put("link", new link()); // link internally.
