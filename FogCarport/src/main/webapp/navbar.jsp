@@ -71,6 +71,17 @@
             <c:if test="${not empty customer || not empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
+                    <!-- greeting -->
+                    <c:if test="${not empty customer}">
+                        <li id ="greeting" class="nav-item">
+                            <a class="nav-link active" ><strong>${customer.name}</strong></a>
+                        </li>
+                    </c:if>
+                    <c:if test="${not empty employee}">
+                        <li id ="greeting" class="nav-item">
+                            <a class="nav-link active" ><strong>${employee.email}</strong></a>
+                        </li>
+                    </c:if>
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
                         <!-- Show log out button to the User if they are logged in --> 
                         <form action="FrontController?command=logOut" method="POST"> 

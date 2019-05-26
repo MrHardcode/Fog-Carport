@@ -34,18 +34,23 @@ public class login extends Command
 
         CustomerModel customer = null;
         EmployeeModel employee = null;
-        try{
+        try
+        {
             /* Log in customer */
             customer = logic.login(email, password);
             request.getSession().setAttribute("customer", customer);
-            
-        } catch(UserException ux){
+
+        }
+        catch (UserException ux)
+        {
             /* if customer login fails, try to log in Employee instead */
             employee = logic.empLogin(email, password);
+            
             request.getSession().setAttribute("employee", employee);
         }
-        
-        if (customer != null) {
+
+        if (customer != null)
+        {
 
             List<Integer> ids = logic.getOrderIds(customer.getId());
 
@@ -56,7 +61,8 @@ public class login extends Command
 
             request.setAttribute("ids", ids);
         }
-        else if(employee != null){
+        else if (employee != null)
+        {
             List<Integer> allOrders = logic.getAllOrderIds();
             request.setAttribute("ids", allOrders);
         }
