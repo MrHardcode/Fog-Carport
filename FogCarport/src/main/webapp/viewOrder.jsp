@@ -61,6 +61,7 @@
     </tbody>
 </table>
 <hr>
+<!-- Order price and payment information--> 
 <div class="d-flex flex-column pl-5 mt-5 mb-3 infoboxorderview">
     <div>
         <c:choose> 
