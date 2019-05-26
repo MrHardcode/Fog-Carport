@@ -475,12 +475,34 @@ public class RoofRaisedCalc {
         ArrayList<MaterialModel> calcList = calcBOM.getBillOfMaterials();
         ArrayList<MaterialModel> returnList = returnBOM.getBillOfMaterials();
 
+        //<editor-fold defaultstate="collapsed" desc="PARAMETERS COMMENT">
+            /*
+            calcBOM is the partslist we wnat to add to returnBOM.
+            */
+            //</editor-fold>
         for (int i = 0; i < calcList.size(); i++) {
             if (returnList.isEmpty()) {
                 returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
                 continue;
             }
-
+            
+            //<editor-fold defaultstate="collapsed" desc="METHOD COMMENT">
+            /*
+            If the returnList is empty we add a copy of the first material in the
+            calsList.
+            
+            quantityAdded is used to see if we have added a quantity fram the calcList
+            to the returnList (this only happens if the same material is found in
+            both lists). 
+            If the material in calcList exsists in the returnList, then the qunatity
+            in the returnList and the totalPrice in the returnBOM are updated. 
+            
+            If the material in calcList does not exist in the returnList, a copy of the material
+            is added to the returnList.
+            
+            */
+            //</editor-fold>
+            
             boolean quantityAdded = false;
             for (int j = 0; j < returnList.size(); j++) {
 
