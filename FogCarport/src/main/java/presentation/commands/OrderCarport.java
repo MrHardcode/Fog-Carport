@@ -1,4 +1,4 @@
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -6,16 +6,17 @@ import data.models.CustomerModel;
 import data.models.OrderModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
+import presentation.Validation;
 
 /**
  * Command for creation of order and customer.
  * @author
  */
-public class orderCarport extends Command
+public class OrderCarport extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
     {
         Validation validation = new Validation();
         OrderModel order = new OrderModel();

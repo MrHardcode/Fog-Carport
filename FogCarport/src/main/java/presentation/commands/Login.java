@@ -1,7 +1,7 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 import data.exceptions.DataException;
 import data.exceptions.UserException;
@@ -10,6 +10,7 @@ import data.models.EmployeeModel;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
+import presentation.Validation;
 
 /**
  * Login Method. This is called after you hit "log ind" on the login.jsp. You're
@@ -18,11 +19,11 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class login extends Command
+public class Login extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
     {
         Validation validation = new Validation();
         String email = validation.validateString(request.getParameter("email"), "Email"); // Get the email from the Parameters 

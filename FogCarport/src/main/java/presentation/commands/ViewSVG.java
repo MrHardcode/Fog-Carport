@@ -1,7 +1,7 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 
 import data.exceptions.AlgorithmException;
@@ -11,18 +11,19 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
+import presentation.Validation;
 
 /**
  * Sends user from viewOrder.jsp to viewSVG.jsp.
  * @author
  */
-public class viewSVG extends Command
+public class ViewSVG extends Command
 {
 
 
     @Override
 
-    String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException, AlgorithmException
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException, AlgorithmException
 
     {
         Validation validate = new Validation();

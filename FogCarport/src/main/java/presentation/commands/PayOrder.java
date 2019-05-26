@@ -1,7 +1,7 @@
 /*
  *  
  */
-package presentation;
+package presentation.commands;
 
 import data.exceptions.AlgorithmException;
 import data.exceptions.DataException;
@@ -10,17 +10,18 @@ import data.models.OrderModel;
 import data.models.PartslistModel;
 import javax.servlet.http.HttpServletRequest;
 import logic.LogicFacade;
+import presentation.Validation;
 
 /**
  * Pay for a single order and view the same order after payment
  *
  * @author
  */
-public class payOrder extends Command
+public class PayOrder extends Command
 {
 
     @Override
-    String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException 
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException 
     {
 
         Validation validation = new Validation();
