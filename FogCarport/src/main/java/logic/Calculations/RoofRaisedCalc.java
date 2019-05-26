@@ -615,19 +615,29 @@ public class RoofRaisedCalc {
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
-        // der er altid mindts 3 rækker af lægter pr tagside (de to yderste og én nærmest toplægten)
+        //<editor-fold defaultstate="collapsed" desc="LATHROWCOUNT COMMENT">
+            /*
+            There is always atleast 3 rows of laths pr. roof side ( two outer laths
+            and the one closets to the top.
+            */
+            //</editor-fold>
         lathRowCount = 3;
         int outerLathDist = 350;
         int upperLathDist = 30;
         int minimumLathDist = 307;
 
-        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
+        //<editor-fold defaultstate="collapsed" desc="LATH COMMENT">
+            /*
+            roofSideWidth is the width from the top of the outer laths to the most
+            upper lath. 
+        
+            totalLathsLength is the length of all laths needed. So both sides of
+            the roof plus the toprow lath. The lathRowCount is updated likewise.
+            */
+            //</editor-fold>
         int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
-        // beregn antal af rækker af lægter
         lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);
-        // total længde af alle lægter lagt sammen + 1 toplægte
         int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
-        // antal af lægter i alt (begge sider af taget + toplægte
 
         lathRowCount = (lathRowCount * 2) + 1;
 
