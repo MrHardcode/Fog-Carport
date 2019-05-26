@@ -14,6 +14,7 @@ import javax.sql.DataSource;
  *
  * @author
  */
+@Deprecated // We used to use this, but not anymore.
 public class DatabaseConnector implements AutoCloseable
 {
 
