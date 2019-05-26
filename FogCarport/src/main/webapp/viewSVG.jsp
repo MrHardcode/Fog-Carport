@@ -5,51 +5,51 @@
 <!-- Headline -->
 <div>
     <h1 class="my-4">Tegninger af Carport.</h1>
-    
+
 </div>
 
 <!-- The SVG drawings of the carport -->
 <div class="SVGdiv">
     <div class="toggleGroup SVGdiv mr-5">
         <center>
-        <h5>Underkonstruktion</h5>
-        <div class="btn-group">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label id="radio-base-show" class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> VIS
-                </label>
-                <label id="radio-base-hide" class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> GEM
-                </label>
+            <h5>Underkonstruktion</h5>
+            <div class="btn-group">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label id="radio-base-show" class="btn btn-secondary active">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked> VIS
+                    </label>
+                    <label id="radio-base-hide" class="btn btn-secondary">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> GEM
+                    </label>
+                </div>
             </div>
-        </div>
         </center>
     </div>
 
     <div class="toggleGroup SVGdiv ml-5">
         <center>
-        <h5>Tagkonstruktion</h5>
-        <div class="btn-group">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label id="radio-roof-show" class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" autocomplete="off" checked> VIS
-                </label>
-                <label id="radio-roof-hide" class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option4" autocomplete="off"> GEM
-                </label>
+            <h5>Tagkonstruktion</h5>
+            <div class="btn-group">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label id="radio-roof-show" class="btn btn-secondary">
+                        <input type="radio" name="options" id="option3" autocomplete="off" checked> VIS
+                    </label>
+                    <label id="radio-roof-hide" class="btn btn-secondary active">
+                        <input type="radio" name="options" id="option4" autocomplete="off"> GEM
+                    </label>
+                </div>
             </div>
-        </div>
         </center>
     </div>
-    
-        <!-- Using bootstrap collapse -->
-        <a id="base-toggle-access" class="" role="button" data-toggle="collapse" href=".multiCollapse1"
-           aria-expanded="true" aria-controls="multiCollapse1" hidden="hidden">Show base</a>
 
-        <button id="roof-toggle-access" class="" type="button" data-toggle="collapse" 
-                data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
-                aria-controls="multiCollapse2,.collapseOne" hidden="hidden">Show roof</button>
-        
+    <!-- Using bootstrap collapse -->
+    <a id="base-toggle-access" class="" role="button" data-toggle="collapse" href=".multiCollapse1"
+       aria-expanded="true" aria-controls="multiCollapse1" hidden="hidden">Show base</a>
+
+    <button id="roof-toggle-access" class="" type="button" data-toggle="collapse" 
+            data-target=".multiCollapse2,.collapseOne" aria-expanded="false" 
+            aria-controls="multiCollapse2,.collapseOne" hidden="hidden">Show roof</button>
+
     <div class="row card">
         <p>
             <svg width="900" height="900">
