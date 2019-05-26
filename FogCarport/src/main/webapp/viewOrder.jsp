@@ -73,7 +73,7 @@
         </c:choose>
 
         <c:if test= "${not empty priceOffer}">
-            <p>Tilbudspris: <span id="priceoffer">${priceOffer}</span> DKK</p>
+            <p>Tilbudspris: <span id="priceoffer"><fmt:formatNumber value="${priceOffer}" type="currency" currencySymbol=""/></span> DKK</p>
             <c:if test= "${not empty sessionScope.employee}"> 
                 <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
             </c:if>
