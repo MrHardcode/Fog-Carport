@@ -72,12 +72,12 @@
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- greeting -->
-                    <c:if test="${not empty customer}">
+                    <c:if test="${not empty sessionScope.customer}">
                         <li id ="greeting" class="nav-item">
                             <a class="nav-link active" ><strong>${customer.name}</strong></a>
                         </li>
                     </c:if>
-                    <c:if test="${not empty employee}">
+                    <c:if test="${not empty sessionScope.employee}">
                         <li id ="greeting" class="nav-item">
                             <a class="nav-link active" ><strong>${employee.email}</strong></a>
                         </li>
