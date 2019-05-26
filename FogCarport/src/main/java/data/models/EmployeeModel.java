@@ -4,7 +4,7 @@
 package data.models;
 
 /**
- *
+ * Model of the Employee data
  * @author 
  */
 public class EmployeeModel

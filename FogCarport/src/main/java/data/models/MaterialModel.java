@@ -3,7 +3,7 @@ package data.models;
 import java.util.Objects;
 
 /**
- *
+ * Model of the material data
  * @author 
  */
 public class MaterialModel
@@ -12,19 +12,19 @@ public class MaterialModel
     private int ID;
     private String name;
     private String description;
-    private String helptext; //Not in constructor. Maybe add it to it.
+    private String helptext; 
     private int length;
     private int width;
     private int height;
-    private int quantity; //Not in constructor. Maybe add it to it.
-    private double price; // Not in constructor. 
-    private String unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
+    private int quantity; 
+    private double price;  
+    private String unit; 
     private String category;
 
-    public MaterialModel()
-    {
+    public MaterialModel(){
     }
 
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTOR: ID, name, description, height, length, width">
     /**
      * Constructor for a material to be used in construction of the carport.
      *
@@ -35,8 +35,7 @@ public class MaterialModel
      * @param length Item length
      * @param width Item width
      */
-    public MaterialModel(int ID, String name, String description, int height, int length, int width)
-    {
+    public MaterialModel(int ID, String name, String description, int height, int length, int width){
         this.ID = ID;
         this.name = name;
         this.description = description;
@@ -44,7 +43,9 @@ public class MaterialModel
         this.length = length;
         this.width = width;
     }
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTOR: ID, description, height, width, length, price, unit, category">
     /**
      * Updated constructor to fit database model.
      *
@@ -59,8 +60,7 @@ public class MaterialModel
      * @param unit
      * @param category
      */
-    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category)
-    {
+    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category){
         this.ID = ID;
         this.description = description;
         this.height = height;
@@ -70,24 +70,29 @@ public class MaterialModel
         this.unit = unit;
         this.category = category;
     }
+     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="CONSTRUCTOR: MaterialModel">
+    /**
+     * Used in raisedRoofCalculator to make a copy of the MaterialModel
+     * @param model
+     */
     public MaterialModel(MaterialModel model){
         ID = model.ID;
         name = model.name;
         description = model.description;
-        helptext = model.helptext; //Not in constructor. Maybe add it to it.
+        helptext = model.helptext; 
         length = model.length;
         width = model.width;
         height = model.height;
-        quantity = model.quantity; //Not in constructor. Maybe add it to it.
-        price = model.price; // Not in constructor. 
-        unit = model.unit; //Not in constructor. Enhed. "Pakke, stk, sæt etc"
+        quantity = model.quantity; 
+        price = model.price; 
+        unit = model.unit; 
         category = model.category;
     }
+    //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
-    
-
+    // <editor-fold defaultstate="collapsed" desc="getCategory">
     /**
      * Get the value of category
      *
@@ -97,7 +102,9 @@ public class MaterialModel
     {
         return category;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setCategory">
     /**
      * Set the value of category
      *
@@ -107,37 +114,51 @@ public class MaterialModel
     {
         this.category = category;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getID">
     public int getID()
     {
         return ID;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setID">
     public void setID(int ID)
     {
         this.ID = ID;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getName">
     public String getName()
     {
         return name;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setName">
     public void setName(String name)
     {
         this.name = name;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getDescription">
     public String getDescription()
     {
         return description;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setDescription">
     public void setDescription(String description)
     {
         this.description = description;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getPrice">
     /**
      * Get the value of price
      *
@@ -147,7 +168,9 @@ public class MaterialModel
     {
         return price;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setPrice">
     /**
      * Set the value of price
      *
@@ -157,7 +180,9 @@ public class MaterialModel
     {
         this.price = price;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getHelptext">
     /**
      * Get the value of helptext
      *
@@ -167,7 +192,9 @@ public class MaterialModel
     {
         return helptext;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getUnit">
     /**
      * Get the value of unit
      *
@@ -177,7 +204,9 @@ public class MaterialModel
     {
         return unit;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setUnit">
     /**
      * Set the value of unit
      *
@@ -187,7 +216,9 @@ public class MaterialModel
     {
         this.unit = unit;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setHelptext">
     /**
      * Set the value of helptext
      *
@@ -197,7 +228,9 @@ public class MaterialModel
     {
         this.helptext = helptext;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getQuantity">
     /**
      * Get the value of quantity
      *
@@ -207,7 +240,9 @@ public class MaterialModel
     {
         return quantity;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setQuantity">
     /**
      * Set the value of quantity
      *
@@ -217,7 +252,9 @@ public class MaterialModel
     {
         this.quantity = quantity;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getHeight">
     /**
      * Get the value of height
      *
@@ -227,7 +264,9 @@ public class MaterialModel
     {
         return height;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setHeight">
     /**
      * Set the value of height
      *
@@ -237,7 +276,9 @@ public class MaterialModel
     {
         this.height = height;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="getWidth">
     /**
      * Get the value of width
      *
@@ -247,7 +288,9 @@ public class MaterialModel
     {
         return width;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setWidth">
     /**
      * Set the value of width
      *
@@ -257,7 +300,9 @@ public class MaterialModel
     {
         this.width = width;
     }
-
+    //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="getLength">
     /**
      * Get the value of length
      *
@@ -267,7 +312,9 @@ public class MaterialModel
     {
         return length;
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="setLength">
     /**
      * Set the value of length
      *
@@ -279,13 +326,15 @@ public class MaterialModel
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="toString">
     @Override
     public String toString()
     {
         return "MaterialModel{" + "ID=" + ID + ", name=" + name + ", description=" + description + ", helptext=" + helptext + ", length=" + length + ", width=" + width + ", height=" + height + ", quantity=" + quantity + ", price=" + price + ", unit=" + unit + '}';
     }
+    //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode and equals">
+    // <editor-fold defaultstate="collapsed" desc="hashCode">
     @Override
     public int hashCode()
     {
@@ -302,7 +351,9 @@ public class MaterialModel
         hash = 41 * hash + Objects.hashCode(this.unit);
         return hash;
     }
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="equals">
     @Override
     public boolean equals(Object obj)
     {

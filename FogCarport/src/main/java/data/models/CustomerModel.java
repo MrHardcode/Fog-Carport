@@ -4,7 +4,7 @@
 package data.models;
 
 /**
- *
+ * Model of the customer data
  * @author
  */
 public class CustomerModel
