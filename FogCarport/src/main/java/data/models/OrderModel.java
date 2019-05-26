@@ -1,9 +1,8 @@
-
 package data.models;
 
 /**
  *
- * @author 
+ * @author
  */
 // simpelt orderobject - skal udviddes i den avancerede algoritme til at tage 
 // højde for kundens ønsker i forhold til materialvalg, taghældning, dimensioner
@@ -25,11 +24,12 @@ public class OrderModel
     private int incline;
     private String status;
     private int roof_tiles_id;
-    private int shed_width;    
+    private int shed_width;
     private int shed_length;
     private int shed_walls_id;
     private int shed_floor_id;
-    
+    private double price;
+
     public OrderModel()
     {
     }
@@ -61,8 +61,6 @@ public class OrderModel
         this.shed_floor_id = shed_floor_id;
     }
 
-    
-
     /**
      * Get the value of shed_walls_id
      *
@@ -82,7 +80,6 @@ public class OrderModel
     {
         this.shed_walls_id = shed_walls_id;
     }
-
 
     /**
      * Get the value of shed_length
@@ -104,7 +101,6 @@ public class OrderModel
         this.shed_length = shed_length;
     }
 
-
     /**
      * Get the value of shed_width
      *
@@ -125,7 +121,6 @@ public class OrderModel
         this.shed_width = shed_width;
     }
 
-    
     /**
      * Get the value of roof_tiles_id
      *
@@ -146,7 +141,6 @@ public class OrderModel
         this.roof_tiles_id = roof_tiles_id;
     }
 
-    
     /**
      * Get the value of height
      *
@@ -346,5 +340,26 @@ public class OrderModel
     {
         this.id_customer = id_customer;
     }
+
+    /**
+     * Get the value of price
+     *
+     * @return the value of price
+     */
+    public double getPrice()
+    {
+        return price;
+    }
+
+    /**
+     * Set the value of price
+     *
+     * @param price new value of price
+     */
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+
     // </editor-fold>
 }

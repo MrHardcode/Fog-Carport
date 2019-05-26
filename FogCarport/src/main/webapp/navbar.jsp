@@ -5,10 +5,10 @@
 
 <!-- Navigation -->
 <div id="myNavBar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light nav-color">
 
         <!-- Brand Logo / Name -->
-        <a class="navbar-brand" href="FrontController?command=link&link=homepage">
+        <a class="navbar-brand" href="FrontController?command=makeCarportForm">
             <img src="resources/fogheader.jpg" width="150" height="35" alt="fog logo image"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,6 +24,11 @@
                     <a class="nav-link" href="FrontController?command=link&link=partslist">Stykliste </a>
                 </li>
                 -->
+                <c:if test="${empty sessionScope.customer and empty sessionScope.employee}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
+                    </li>
+                </c:if>
                 <c:if test="${not empty sessionScope.customer}">
                     <li class="nav-item">
                         <a class="nav-link active" href="FrontController?command=makeCarportForm">Bestil Carport </a>
@@ -66,6 +71,17 @@
             <c:if test="${not empty customer || not empty employee}">
                 <!-- START navbar RIGHT float-->
                 <ul class="nav navbar-nav navbar-right">
+                    <!-- greeting -->
+                    <c:if test="${not empty sessionScope.customer}">
+                        <li id ="greeting" class="nav-item">
+                            <a class="nav-link active" ><strong>${customer.name}</strong></a>
+                        </li>
+                    </c:if>
+                    <c:if test="${not empty sessionScope.employee}">
+                        <li id ="greeting" class="nav-item">
+                            <a class="nav-link active" ><strong>${employee.email}</strong></a>
+                        </li>
+                    </c:if>
                     <li id="accessbutton" class="float-right"> <!-- class="nav-item" -->
                         <!-- Show log out button to the User if they are logged in --> 
                         <form action="FrontController?command=logOut" method="POST"> 

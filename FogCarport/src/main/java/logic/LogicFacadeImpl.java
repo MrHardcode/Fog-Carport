@@ -221,9 +221,9 @@ public class LogicFacadeImpl implements LogicFacade
     }
 
     @Override
-    public void payOrder(int id) throws DataException
+    public void payOrder(int id, double price) throws DataException
     {
-        DataFacadeImpl.getInstance().payOrder(id);
+        DataFacadeImpl.getInstance().payOrder(id, price);
     }
 
     @Override
@@ -236,6 +236,12 @@ public class LogicFacadeImpl implements LogicFacade
     public int getSuggestedRetailPrice(PartslistModel partsList) {
         PriceCalculator pricecalc = new PriceCalculator();
         return pricecalc.getSuggestedRetailPrice(partsList);
+    }
+
+    @Override
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+        DataFacadeImpl.getInstance().updateOrderPrice(id, price);
     }
 
 }

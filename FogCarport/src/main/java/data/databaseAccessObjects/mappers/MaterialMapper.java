@@ -1,9 +1,9 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.models.MaterialModel;
 import data.models.PartslistModel;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,11 +16,13 @@ import javax.sql.DataSource;
 public class MaterialMapper
 {
 
-    private DatabaseConnector dbc = new DatabaseConnector();
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
 
     public void setDataSource(DataSource ds)
     {
-        dbc.setDataSource(ds);
+//        dbc.setDataSource(ds); Old way we did it.
+        this.ds = ds;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get Category of a Material">
@@ -37,8 +39,8 @@ public class MaterialMapper
                 + "FROM `carportdb`.`category`\n"
                 + "WHERE `category`.`id_category` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             String category = "";
@@ -51,8 +53,7 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe materialet med id: "+id+"'s kategori fra databasen.");
         }
     }
     // </editor-fold>
@@ -76,8 +77,8 @@ public class MaterialMapper
                 + "ON `materials`.`id_category` = `category`.`id_category` \n"
                 + "WHERE `materials`.`id_material` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             material.setID(id);
 
@@ -112,8 +113,7 @@ public class MaterialMapper
             }
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() 
+            throw new DataException("Kunne ikke skaffe materialet med id: "+id+" fra databasen."); 
         }
 
         return material;
@@ -133,8 +133,8 @@ public class MaterialMapper
         String SQL = "SELECT `order_details_category`.`details_category_name`\n"
                 + "FROM `carportdb`.`order_details_category`\n"
                 + "WHERE `order_details_category`.`id_order_details_category` = ?;";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             String category = "";
@@ -147,8 +147,7 @@ public class MaterialMapper
             return category;
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe ordren med id: "+id+"'s kategori fra databasen.");
         }
     }
     // </editor-fold>
@@ -169,8 +168,8 @@ public class MaterialMapper
                 + "FROM `carportdb`.`order_details`\n"
                 + "WHERE `order_details`.`id_order_details` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -181,8 +180,7 @@ public class MaterialMapper
             }
         } catch (SQLException ex)
         {
-            // Should most likely be another exception.
-            throw new DataException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new DataException("Kunne ikke skaffe materialerne med order id: "+id+" fra databasen.");
         }
         return materials;
     }

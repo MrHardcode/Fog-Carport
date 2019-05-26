@@ -1,10 +1,10 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +18,14 @@ import javax.sql.DataSource;
 public class UserMapper
 {
 
-    private DatabaseConnector dbc = new DatabaseConnector();
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
+    
 
     public void setDataSource(DataSource ds)
     {
-        dbc.setDataSource(ds);
+//        dbc.setDataSource(ds); Old way we did it.
+        this.ds = ds;
     }
 
     /* CUSTOMER */
@@ -42,8 +45,8 @@ public class UserMapper
     public CustomerModel login(String email, String password) throws UserException
     {
         String SQL = "SELECT customer_name, id_customer, phone, registered FROM customers WHERE email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setString(1, email);
@@ -65,16 +68,16 @@ public class UserMapper
                     return customer;
                 } else
                 {
-                    throw new UserException("Could not validate customer");
+                    throw new UserException("Kunden eksisterer ikke i databasen.");
                 }
             } else
             {
-                throw new UserException("Could not validate customer");
+                throw new UserException("Kunden eksisterer ikke i databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage());
+            throw new UserException("Fejl i forbindelse til databasen.");
         }
     }
     // </editor-fold>
@@ -91,8 +94,8 @@ public class UserMapper
     {
         String SQL = "SELECT * FROM carportdb.customers WHERE id_customer = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setInt(1, id);
@@ -114,11 +117,11 @@ public class UserMapper
                 return customer;
             } else
             {
-                throw new DataException("Could not retrieve customer info.");
+                throw new DataException("Kunne ikke skaffe kunde-info.");
             }
         } catch (SQLException ex)
         {
-            throw new DataException(ex.getMessage());
+            throw new DataException("Fejl i forbindelse til databasen.");
         }
     }
     // </editor-fold>
@@ -147,8 +150,8 @@ public class UserMapper
 
         String SQL = "INSERT INTO `carportdb`.`customers` "
                 + "(`customer_name`, `phone`, `email`, `password`, `registered`) VALUES (?, ?, ?, ?, ?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, customer.getName());
@@ -164,7 +167,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new UserException("Customer already exists: " + ex.getMessage());
+            throw new UserException("Kunden eksisterer allerede i databasen.");
         }
     }
     //</editor-fold>
@@ -188,8 +191,8 @@ public class UserMapper
                 + "VALUES\n"
                 + "(?,\n"
                 + "?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, employee.getEmail());
@@ -203,7 +206,7 @@ public class UserMapper
             }
         } catch (SQLException ex)
         {
-            throw new UserException("Employee already exists: " + ex.getMessage());
+            throw new UserException("Den ansatte eksisterer allerede i databasen.");
         }
     }
     //</editor-fold>
@@ -225,8 +228,8 @@ public class UserMapper
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setInt(1, id);
@@ -241,12 +244,12 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Could not get info about employee from database.");
+                throw new UserException("Kunne ikke skaffe den ansatte fra databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage()); // ex.getMessage() Should not be in production.
+            throw new UserException("Kunne ikke skaffe den ansatte fra databasen.");
         }
 
     }
@@ -257,8 +260,8 @@ public class UserMapper
     {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setString(1, email);
@@ -276,11 +279,11 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Could not validate employee");
+                throw new UserException("Kunne ikke validere den ansatte.");
             }
         } catch (SQLException ex)
         {
-            throw new UserException(ex.getMessage());
+            throw new UserException("Der er opstået en fejl i forbindelsen til databasen.");
         }
     }
     // </editor-fold>

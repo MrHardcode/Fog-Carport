@@ -35,7 +35,7 @@ public class PartslistModel
     public void addMaterial(MaterialModel material)
     {
         this.getBillOfMaterials().add(material);
-        this.totalprice += material.getPrice();
+        this.totalprice = totalprice + ((int) Math.ceil(material.getPrice()) * material.getQuantity());
     }
 
     public void addPartslist(PartslistModel partslist)
