@@ -68,15 +68,18 @@
     <div>
         <c:choose> 
             <c:when test="${order.status == 'Finalized'}">
-                <p>Ordren er betalt: <span id="paidPrice"><fmt:formatNumber value="${order.price}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p>Ordren er betalt: <span id="paidPriceTOSTRING"><fmt:formatNumber value="${order.price}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p id="paidPrice" hidden> ${order.price}</p>
             </c:when>
             <c:otherwise>
-                <p>Vejledende salgspris: <span id="suggestedretailprice"><fmt:formatNumber value="${suggestedprice}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p>Vejledende salgspris: <span id="suggestedretailpriceTOSTRING"><fmt:formatNumber value="${suggestedprice}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p id="suggestedretailprice" hidden> ${suggestedprice}</p>
             </c:otherwise>
         </c:choose>
 
         <c:if test= "${not empty priceOffer}">
-            <p>Tilbudspris: <span id="priceoffer"><fmt:formatNumber value="${priceOffer}" type="currency" currencySymbol=""/></span> DKK</p>
+            <p>Tilbudspris: <span id="priceofferTOSTRING"><fmt:formatNumber value="${priceOffer}" type="currency" currencySymbol=""/></span> DKK</p>
+            <p id="priceoffer" hidden> ${priceOffer}</p>
             <c:if test= "${not empty sessionScope.employee}"> 
                 <p>Dækningsgrad for tilbudspris: <span id="offerpricemargin"> </span> %</p>
             </c:if>
@@ -86,7 +89,8 @@
 
             <div class="mt-4">
                 <h5>Afgiv tilbud?</h5>
-                <p>Indkøbspris: <span id="costprice"><fmt:formatNumber value="${costprice}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p>Indkøbspris: <span id="costpriceTOSTRING"><fmt:formatNumber value="${costprice}" type="currency" currencySymbol=""/></span> DKK</p>
+                <p id="costprice" hidden> ${costprice}</p>
                 <form method="POST" action="FrontController">
                     <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
                     <input type="hidden" name="command" value="viewOrder">  
