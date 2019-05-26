@@ -62,7 +62,7 @@ CREATE TABLE `carportdb`.`employees` (
     ON UPDATE CASCADE);
 
 CREATE TABLE `carportdb`.`orders` (
-  `id_order` INT NOT NULL AUTO_INCREMENT,
+  `id_order` INT(6) ZEROFILL NOT NULL AUTO_INCREMENT,
   `build_adress` VARCHAR(45) NOT NULL,
   `build_zipcode` INT NOT NULL,
   `status` VARCHAR(45) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE `carportdb`.`bills` (
   `id_bill` INT NOT NULL AUTO_INCREMENT,
   `retail_price` DOUBLE NOT NULL,
   `final_price` DOUBLE NOT NULL,
-  `id_order` INT NOT NULL,
+  `id_order` INT(6) ZEROFILL NOT NULL,
   PRIMARY KEY (`id_bill`),
   UNIQUE INDEX `id_bill_UNIQUE` (`id_bill` ASC) VISIBLE,
   INDEX `id_order_idx` (`id_order` ASC) VISIBLE,
