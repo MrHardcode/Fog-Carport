@@ -1,10 +1,10 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.exceptions.UserException;
 import data.models.CustomerModel;
 import data.models.EmployeeModel;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +18,14 @@ import javax.sql.DataSource;
 public class UserMapper
 {
 
-    private DatabaseConnector dbc = new DatabaseConnector();
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
+    
 
     public void setDataSource(DataSource ds)
     {
-        dbc.setDataSource(ds);
+//        dbc.setDataSource(ds); Old way we did it.
+        this.ds = ds;
     }
 
     /* CUSTOMER */
@@ -42,8 +45,8 @@ public class UserMapper
     public CustomerModel login(String email, String password) throws UserException
     {
         String SQL = "SELECT customer_name, id_customer, phone, registered FROM customers WHERE email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setString(1, email);
@@ -91,8 +94,8 @@ public class UserMapper
     {
         String SQL = "SELECT * FROM carportdb.customers WHERE id_customer = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setInt(1, id);
@@ -147,8 +150,8 @@ public class UserMapper
 
         String SQL = "INSERT INTO `carportdb`.`customers` "
                 + "(`customer_name`, `phone`, `email`, `password`, `registered`) VALUES (?, ?, ?, ?, ?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, customer.getName());
@@ -188,8 +191,8 @@ public class UserMapper
                 + "VALUES\n"
                 + "(?,\n"
                 + "?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, employee.getEmail());
@@ -225,8 +228,8 @@ public class UserMapper
                 + "ON `employees`.`id_role` = `roles`.`id_role` "
                 + "WHERE `employees`.`id_employee` = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setInt(1, id);
@@ -257,8 +260,8 @@ public class UserMapper
     {
 
         String SQL = "SELECT id_employee, id_role FROM employees where emp_email=? AND password=?;";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setString(1, email);
@@ -276,7 +279,7 @@ public class UserMapper
                 return employee;
             } else
             {
-                throw new UserException("Kunne ikke validere den ansatte.");
+                throw new UserException("Kunne ikke validere brugeren.");
             }
         } catch (SQLException ex)
         {

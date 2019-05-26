@@ -50,10 +50,20 @@ public class FrontController extends HttpServlet
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
-        } catch (UserException | DataException | AlgorithmException ex) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
+        }
+        catch (UserException e) // AlgorithmException should redirect user somewhere away from SVG and partslist but keep session
         {
-            request.setAttribute("target", "errorMessage");
-            request.setAttribute("errormessage", ex.getMessage());
+            request.setAttribute("target", "login"); //send user to login 
+            String message = e.getMessage();
+
+            request.setAttribute("message", message); //re-send message to target
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+        catch (DataException | AlgorithmException ex)
+        {
+            request.setAttribute("target", "errorMessage"); //send user to error page
+            String message = ex.getMessage();
+            request.setAttribute("errormessage", message); //set message as errormessage (to be properly displayed) on target
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
