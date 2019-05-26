@@ -116,9 +116,9 @@
         <form action="FrontController"  class="">
             <input type="hidden" name="command" value="payOrder">
             <input type="hidden" name="orderid" value="${order.id}">
-            <!-- Pay reduced price if exists, else normal price -->
             <c:choose> 
                 <c:when test="${not empty priceOffer}">
+                    <!-- Pay reduced price if exists, else normal price -->
                     <input type="hidden" name="price" value="${priceOffer}">
                 </c:when>
                 <c:otherwise>
