@@ -16,15 +16,7 @@
 
         <h1 class="h1">Bestil Carport</h1>
 
-        <!-- Carport Height - From Sprint 1 - Simple Partslist - (Deprecated - Was used for the simple carport partslist, which is no longer used. Was part of the first sprint.
-        <div class="form-group">
-            <label for="InputHeight">Hï¿½jde i cm</label>
-            <input type="number"class="form-control" id="input-height" placeholder="Indtast hï¿½jde" name="height">
-            <p hidden class="text-error-color text-error-size">Hï¿½jde skal vï¿½re mellem 200cm og 300cm</p>
-        </div> -->
-
-        <!-- Carport Length 
-        <input type="number" class="form-control" id="input-length" placeholder="Indtast lï¿½ngde" name="length"> -->
+        <!-- Carport Length-->
         <div class="form-group">
             <label for="InputLength">Længde i cm</label>
             <select class="form-control" id="input-length" name="length"><option selected="selected" value="">Vælg længde</option>              
@@ -32,8 +24,7 @@
             <p hidden class="text-error-color text-error-size">Længde skal være mellem 240cm og 720cm</p>
         </div>
 
-        <!-- Carport Width 
-        <input type="number" class="form-control" id="input-width" placeholder="Indtast bredde" name="width"> -->
+        <!-- Carport Width-->
         <div class="form-group">
             <label for="InputWidth">Bredde i cm</label>
             <select class="form-control" id="input-width" name="width"><option selected="selected" value="">Vælg bredde</option>
@@ -193,5 +184,4 @@
         <!-- Button to submit -->
         <button type="submit" class="btn btn-outline-secondary mb-1 disabled" id="submit-btn" disabled>Bestil tilbud</button>
     </form>
-    <!-- Form end -->
 </div>
