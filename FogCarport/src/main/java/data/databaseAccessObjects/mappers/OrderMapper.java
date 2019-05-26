@@ -1,8 +1,8 @@
 package data.databaseAccessObjects.mappers;
 
-import data.databaseAccessObjects.DatabaseConnector;
 import data.exceptions.DataException;
 import data.models.OrderModel;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +18,13 @@ import javax.sql.DataSource;
 public class OrderMapper
 {
 
-    private DatabaseConnector dbc = new DatabaseConnector();
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
 
     public void setDataSource(DataSource ds)
     {
-        dbc.setDataSource(ds);
+//        dbc.setDataSource(ds); Old way we did it.
+        this.ds = ds;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get an Order">
@@ -39,8 +41,8 @@ public class OrderMapper
         String SQL = "SELECT * FROM `carportdb`.`orders`"
                 + " WHERE `orders`.`id_order` = ?";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             ps.setInt(1, id);
@@ -68,14 +70,13 @@ public class OrderMapper
                 return order;
             } else
             {
-                throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
+                throw new DataException("Kunne ikke skaffe info om ordren med id: " + id + " fra databasen.");
             }
 
         } catch (SQLException ex)
         {
-            throw new DataException("Kunne ikke skaffe info om ordren med id: "+id+" fra databasen.");
+            throw new DataException("Kunne ikke skaffe info om ordren med id: " + id + " fra databasen.");
         }
-
     }
     // </editor-fold>
 
@@ -95,8 +96,8 @@ public class OrderMapper
                 + "`shed_floor_id`, `customer_id`, `employee_id`)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL, Statement.RETURN_GENERATED_KEYS);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))
         {
 
             ps.setString(1, order.getBuild_adress());
@@ -138,8 +139,8 @@ public class OrderMapper
     {
         String SQL = "SELECT `orders`.`id_order` FROM `carportdb`.`orders`;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             List<Integer> ids = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
@@ -169,8 +170,8 @@ public class OrderMapper
     {
         String SQL = "SELECT id_order FROM carportdb.orders WHERE customer_id = ?;";
 
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
 
             List<Integer> ids = new ArrayList<>();
@@ -195,8 +196,8 @@ public class OrderMapper
     public void payOrder(int id, double price) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setDouble(1, price);
             ps.setInt(2, id);
@@ -209,13 +210,13 @@ public class OrderMapper
 
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Update order price.">
     public void updateOrderPrice(int id, double price) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);";
-        try (DatabaseConnector open_dbc = dbc.open();
-                PreparedStatement ps = open_dbc.preparedStatement(SQL);)
+        try (Connection connection = ds.getConnection();
+                PreparedStatement ps = connection.prepareStatement(SQL))
         {
             ps.setDouble(1, price);
             ps.setInt(2, id);
