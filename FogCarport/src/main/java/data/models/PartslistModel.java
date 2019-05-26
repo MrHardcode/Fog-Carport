@@ -53,6 +53,7 @@ public class PartslistModel
         this.totalprice += partslist.getTotalprice();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Getters and setters.">
     public int getTotalprice()
     {
         return totalprice;
@@ -124,7 +125,7 @@ public class PartslistModel
     {
         this.postPosRear = postPosRear;
     }
-    
+    // </editor-fold>
     
     @Override
     public int hashCode()

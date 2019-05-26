@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic.drawings;
 
 import data.exceptions.AlgorithmException;
@@ -12,8 +7,8 @@ import data.models.PartslistModel;
 import logic.Calculations.RoofRaisedCalc;
 
 /**
- *
- * @author Camilla
+ * Creates the string with the svg for the raised roof.
+ * @author 
  */
 public class SVGDrawingRaisedRoof {
 
@@ -23,7 +18,7 @@ public class SVGDrawingRaisedRoof {
 
         int svgExtraPadding = 100;
         int halfPadding = (svgExtraPadding / 2);
-        int roofWidth = (order.getWidth() / 10) + 60; // + udhæng af tag
+        int roofWidth = (order.getWidth() / 10) + 60; // + overhang
         int roofLength = order.getLength() / 10;
         int rafterCount = roofRaisedBOM.getRafterCount();
         int lathRowCount = roofRaisedBOM.getLathRowCount();

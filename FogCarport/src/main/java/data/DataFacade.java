@@ -33,8 +33,10 @@ public interface DataFacade
      */
     public OrderModel getOrder(int id) throws DataException;
 
+    // Not used. Old code.
     public PartslistModel getBOM();
 
+    // Not used. Old code.
     public PartslistModel getOrderDetails(int id, String helptext) throws DataException;
 
     /**

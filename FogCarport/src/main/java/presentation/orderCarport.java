@@ -14,10 +14,6 @@ import logic.LogicFacade;
 public class orderCarport extends Command
 {
 
-    public orderCarport()
-    {
-    }
-
     @Override
     String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
     {

@@ -19,8 +19,6 @@ import logic.LogicFacade;
 public class viewSVG extends Command
 {
 
-    public viewSVG(){
-    }
 
     @Override
 
