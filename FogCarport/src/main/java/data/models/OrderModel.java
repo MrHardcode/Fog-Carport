@@ -3,10 +3,7 @@ package data.models;
 /**
  *
  * @author
- */
-// simpelt orderobject - skal udviddes i den avancerede algoritme til at tage 
-// højde for kundens ønsker i forhold til materialvalg, taghældning, dimensioner
-// på skur osv. 
+ */ 
 public class OrderModel
 {
 
