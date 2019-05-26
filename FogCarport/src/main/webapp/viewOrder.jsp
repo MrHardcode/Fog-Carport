@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<!-- Show a single order -->
+<!-- the two box'es in the top with customer and order information -->
 <div class="d-flex flex-row justify-content-between mt-5 mb-3">
     <div>
         <p>Kunde informationer</p>
@@ -22,6 +22,8 @@
         <p>Status: ${order.status}</p>
     </div>
 </div>
+    
+    <!--The order table-->
 <table class="table">
     <thead>
         <tr>
@@ -59,6 +61,10 @@
     </tbody>
 </table>
 <hr>
+<!--This code shows different views for customer and employee. The customer is 
+only able to see the suggested price and the offerprice (if it's exists) and can
+pay for the order. If the order is payed the customer can see the partslist- and 
+svgbuttons-->
 <div class="d-flex flex-column pl-5 mt-5 mb-3 infoboxorderview">
     <div>
         <c:choose> 
