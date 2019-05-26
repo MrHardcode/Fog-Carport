@@ -10,7 +10,6 @@ package data.models;
 public class CustomerModel
 {
 
-    // Fields
     private int id;
     private String name;
     private int phone;
@@ -24,6 +23,7 @@ public class CustomerModel
     {
     }
 
+    //<editor-fold defaultstate="collapsed" desc="isRegistered">
     /**
      * Get the value of registered
      *
@@ -33,7 +33,9 @@ public class CustomerModel
     {
         return registered;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setRegistered">
     /**
      * Set the value of registered
      *
@@ -43,8 +45,9 @@ public class CustomerModel
     {
         this.registered = registered;
     }
+    //</editor-fold>
 
-    
+    //<editor-fold defaultstate="collapsed" desc="getPassword">
     /**
      * Get the value of password
      *
@@ -54,7 +57,9 @@ public class CustomerModel
     {
         return password;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setPassword">
     /**
      * Set the value of password
      *
@@ -64,7 +69,9 @@ public class CustomerModel
     {
         this.password = password;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getZip">
     /**
      * Get the value of zip
      *
@@ -74,7 +81,9 @@ public class CustomerModel
     {
         return zip;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setZip">
     /**
      * Set the value of zip
      *
@@ -84,7 +93,9 @@ public class CustomerModel
     {
         this.zip = zip;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getAdress">
     /**
      * Get the value of adress
      *
@@ -94,7 +105,9 @@ public class CustomerModel
     {
         return adress;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setAdress">
     /**
      * Set the value of adress
      *
@@ -104,7 +117,9 @@ public class CustomerModel
     {
         this.adress = adress;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getEmail">
     /**
      * Get the value of email
      *
@@ -114,7 +129,9 @@ public class CustomerModel
     {
         return email;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setEmail">
     /**
      * Set the value of email
      *
@@ -124,7 +141,9 @@ public class CustomerModel
     {
         this.email = email;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getPhone">
     /**
      * Get the value of phone
      *
@@ -134,7 +153,9 @@ public class CustomerModel
     {
         return phone;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setPhone">
     /**
      * Set the value of phone
      *
@@ -144,7 +165,9 @@ public class CustomerModel
     {
         this.phone = phone;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getName">
     /**
      * Get the value of name
      *
@@ -154,7 +177,9 @@ public class CustomerModel
     {
         return name;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setName">
     /**
      * Set the value of name
      *
@@ -164,7 +189,9 @@ public class CustomerModel
     {
         this.name = name;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="getId">
     /**
      * Get the value of id
      *
@@ -174,7 +201,9 @@ public class CustomerModel
     {
         return id;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setId">
     /**
      * Set the value of id
      *
@@ -184,5 +213,6 @@ public class CustomerModel
     {
         this.id = id;
     }
+    //</editor-fold>
 
 }
