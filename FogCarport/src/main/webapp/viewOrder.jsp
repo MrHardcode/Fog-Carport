@@ -1,4 +1,6 @@
+<!-- JSTL Tag -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- JSTL formatNumber tag -->
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
 <fmt:setLocale value="da_DK"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
