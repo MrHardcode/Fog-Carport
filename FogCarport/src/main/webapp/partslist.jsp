@@ -6,8 +6,11 @@
 
     <thead class="thead-dark">
         <tr>
+            <c:if test= "${not empty sessionScope.employee}"> 
+                <th scope="col">Varenr.</th>
+                </c:if>
             <th scope="col">Antal</th>
-            <th scope="col">Varenr.</th>
+            <th scope="col">Enhed</th>
             <th scope="col">Beskrivelse</th>
             <th scope="col">Hjælpetekst</th>
             <th width="120" scope="col">Længde mm</th>
@@ -23,8 +26,11 @@
         <!-- Table Row for each Material in the Partslist. -->
         <c:forEach var="material" items="${partslistbom.billOfMaterials}">
             <tr>
+                <c:if test= "${not empty sessionScope.employee}"> 
+                    <td>${material.ID}</td>
+                </c:if>
                 <td>${material.quantity}</td>
-                <td>${material.ID}</td>
+                <td>${material.unit}</td>
                 <td>${material.description}</td>
                 <td>${material.helptext}</td>
                 <td>${material.length}</td>
