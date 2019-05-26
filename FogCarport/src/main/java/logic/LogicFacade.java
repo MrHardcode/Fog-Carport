@@ -21,9 +21,6 @@ public interface LogicFacade
      */
     public void createOrder(OrderModel order) throws DataException;
 
-//    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException;
-//    
-//    public PartslistModel getBOM () throws LoginException;
     /**
      * All order ids from the database.
      *
