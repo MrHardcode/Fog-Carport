@@ -3,18 +3,17 @@
 <!DOCTYPE html>
 
 <!-- Headline -->
-<div class="container w-100">
+<div>
     <h1 class="my-4">Tegninger af Carport.</h1>
-    <h4 class="my-4"> Tag og Underkonstruktion.</h4>
+    
 </div>
 
 <!-- The SVG drawings of the carport -->
 <div class="SVGdiv">
-    <div class="toggleGroup SVGdiv">
+    <div class="toggleGroup SVGdiv mr-5">
         <center>
         <h5>Underkonstruktion</h5>
-        </center>
-        <div class="btn-group col-md-2">
+        <div class="btn-group">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-base-show" class="btn btn-secondary active">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> VIS
@@ -24,13 +23,13 @@
                 </label>
             </div>
         </div>
+        </center>
     </div>
 
-    <div class="toggleGroup SVGdiv">
+    <div class="toggleGroup SVGdiv ml-5">
         <center>
         <h5>Tagkonstruktion</h5>
-        </center>
-        <div class="btn-group col-md-5">
+        <div class="btn-group">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-roof-show" class="btn btn-secondary">
                     <input type="radio" name="options" id="option3" autocomplete="off" checked> VIS
@@ -40,6 +39,7 @@
                 </label>
             </div>
         </div>
+        </center>
     </div>
     
         <!-- Using bootstrap collapse -->
