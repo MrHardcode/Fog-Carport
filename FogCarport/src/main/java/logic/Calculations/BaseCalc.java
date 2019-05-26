@@ -30,7 +30,14 @@ public class BaseCalc
     private ArrayList postPosSideTwo = new ArrayList();
     private ArrayList postPosRear = new ArrayList();
     
-
+    /**
+     * Used to get a Partslist with materials for the base construction.
+     * This method creates a Partslist with all the materials needed in the base 
+     * construction based on the details in the given order. 
+     * @param order Contains the dimensions needed to create the base
+     * @return PartslistModel
+     * @throws DataException 
+     */
     public PartslistModel addBase(OrderModel order) throws DataException
     {
         PartslistModel bom = new PartslistModel();
@@ -54,6 +61,19 @@ public class BaseCalc
         return bom;
     }
     
+    /**
+     * Used by addBase() to add the needed materials to the Partslist.
+     * This method gets materials from the DB and modifies the given Partslist 
+     * by adding the materials.
+     * @param bom PartslistModel
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param heavyRoof boolean: Whether or not the roof incline is 0 or above 0 degrees
+     * @param db DataFacade
+     * @throws DataException 
+     */
     protected void calcMaterials(
             PartslistModel bom, 
             int carportLength, int carportWidth, 
@@ -87,6 +107,16 @@ public class BaseCalc
         bom.addMaterial(bolts);
     }
 
+    /**
+     * Used by calcMaterials() to calculate the amount of Posts needed.
+     * This method calculates the amount of posts needed for the base construction. 
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed
+     */
     protected int calcPosts(int carportLength, int carportWidth, int shedLength, int shedWidth, int postDistance)
     {
         /*SVG related*/
@@ -116,6 +146,18 @@ public class BaseCalc
         return postAmount;
     }
     
+    /**
+     * Used by calcPosts(). 
+     * This method is only used in cases where the shed's width is the same 
+     * as the width of the carport. 
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
     private int calcPostsFullWidthShed(int carportLength, int carportWidth, int shedLength, int postDistance)
     {
         /*SVG related*/
@@ -217,6 +259,19 @@ public class BaseCalc
         return postAmount;
     }
     
+    /**
+     * Used by calcPosts(). 
+     * This method is only used in cases where the shed's width is shorter than 
+     * the width of the carport. 
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
     private int calcPostsOddShed(int carportLength, int carportWidth, int shedLength, int shedWidth, int postDistance)
     {
         /*SVG related*/
@@ -377,7 +432,17 @@ public class BaseCalc
         return postAmount;
     }
     
-    private int calcPostsNoShed(int cLength, int cWidth, int postDistance)
+    /**
+     * Used by calcPosts(). 
+     * This method is only used when the user has chosen a carport without a shed.
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
+    private int calcPostsNoShed(int carportLength, int carportWidth, int postDistance)
     {
         /*SVG related*/
         postPosSideOne.clear();
@@ -395,47 +460,57 @@ public class BaseCalc
         
         //Calculating the amount of posts between the corner posts in the side. 
         //+2 for the two corners. *2 since the sides are equal.
-        postAmount += (((cLength - 800) / postDistance) + 2) * 2;
+        postAmount += (((carportLength - 800) / postDistance) + 2) * 2;
         //Calculating the amount of posts between the corner posts in the rear.
         
         /*SVG related*/
-        int length = cLength - 800;
+        int length = carportLength - 800;
         int y = length / postDistance;
         for (int i = 1; i <= y; i++)
         {
             postPosSideOne.add(80 + i * (postDistance / 10));
             postPosSideTwo.add(80 + i * (postDistance / 10));
         }
-        postPosSideOne.add(cLength / 10);
-        postPosSideTwo.add(cLength / 10);
+        postPosSideOne.add(carportLength / 10);
+        postPosSideTwo.add(carportLength / 10);
         /*SVG related*/
 
         int x = postAmount;
         
-        postAmount += cWidth / postDistance;
+        postAmount += carportWidth / postDistance;
 
         x = Math.abs(x - postAmount);
-        if (cWidth % postDistance == 0)
+        if (carportWidth % postDistance == 0)
         {
             --x;
         }
         /*SVG related*/
         for (int i = 1; i <= x; i++)
         {
-            postPosRear.add(((cWidth / 10) / (x + 1)) * i);
+            postPosRear.add(((carportWidth / 10) / (x + 1)) * i);
         }
         /*SVG related*/
 
         //If cWidth % postDistance == 0 then the algorithm adds a post for a corner
         //where a post has already been places so we must remove that one extra post
-        if (cWidth % postDistance == 0)
+        if (carportWidth % postDistance == 0)
         {
             --postAmount;
         }
         return postAmount;
     }
     
-    protected int calcStraps(int cLength, int cWidth, MaterialModel strap)
+    /**
+     * Used by calcMaterials() to calculate the amount of Straps needed.
+     * This method calculates the amount of straps needed for the base construction.
+     * This method also counts the amount of times a strap has been split (this value 
+     * is used by calcBolts())
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param strap MaterialModel
+     * @return int: The amount of straps needed
+     */
+    protected int calcStraps(int carportLength, int carportWidth, MaterialModel strap)
     {
         separations = 0;
         //Amount of straps
@@ -443,11 +518,11 @@ public class BaseCalc
         boolean skipWidthCalc = false;
         //Calculating the amount of straps for the sides if the carport is shorter 
         //than a strap
-        if (cLength <= strap.getLength())
+        if (carportLength <= strap.getLength())
         {
             //If one strap can cover the whole length of both sides of the carport 
             //then we only need one strap for the sides
-            if (cLength * 2 <= strap.getLength())
+            if (carportLength * 2 <= strap.getLength())
             {
                 ++strapAmount;
             }
@@ -460,7 +535,7 @@ public class BaseCalc
         else
         {
             strapAmount += 2;
-            int restLength = cLength - strap.getLength();
+            int restLength = carportLength - strap.getLength();
             while (true)
             {
                 if (restLength < strap.getLength())
@@ -477,7 +552,7 @@ public class BaseCalc
                 ++strapAmount;
                 //If the excess part of the extra strap can cover the carport width 
                 //then we just skip the width calculation
-                if (strap.getLength() - restLength * 2 >= cWidth)
+                if (strap.getLength() - restLength * 2 >= carportWidth)
                 {
                     skipWidthCalc = true;
                     ++separations;
@@ -489,7 +564,7 @@ public class BaseCalc
                 strapAmount += 2;
                 //If the excess part of one extra strap can cover the carport width 
                 //then we just skip the width calculation
-                if ((strap.getLength() - restLength) >= cWidth)
+                if ((strap.getLength() - restLength) >= carportWidth)
                 {
                     skipWidthCalc = true;
                     ++separations;
@@ -504,12 +579,12 @@ public class BaseCalc
             ++strapAmount;
 
             //If the width is longer than one strap we add extra straps using integer division
-            if (cWidth / strap.getLength() > 0)
+            if (carportWidth / strap.getLength() > 0)
             {
-                strapAmount += cWidth / strap.getLength();
+                strapAmount += carportWidth / strap.getLength();
                 //Checking for remainders using modulus. If there is no remainder 
                 //we remove one strap
-                if (cWidth % strap.getLength() == 0)
+                if (carportWidth % strap.getLength() == 0)
                 {
                     --strapAmount;
                 }
@@ -517,7 +592,7 @@ public class BaseCalc
         }
         //If one strap is enough to cover the whole carport we set strapAmount to 1
         //This if-statement is necessary for the calculation of the bolts
-        if ((cLength * 2 + cWidth) <= strap.getLength())
+        if ((carportLength * 2 + carportWidth) <= strap.getLength())
         {
             strapAmount = 1;
             separations = 2;
@@ -525,6 +600,11 @@ public class BaseCalc
         return strapAmount;
     }
 
+    /**
+     * Used by calcMaterials() to calculate the amount of Bolts needed.
+     * @param strapAmount int: Amount of straps needed for the base construction
+     * @return int: The amount of bolts needed
+     */
     protected int calcBolts(int strapAmount)
     {
         int boltAmount = 0;
