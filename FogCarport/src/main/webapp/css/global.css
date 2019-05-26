@@ -247,8 +247,8 @@
 
 /*----------------- ViewSVG.JSP CSS -----------------*/
 
-#SVGdiv{
-    padding: 10px;
+.SVGdiv{
+    padding: 6px;
 }
 
 .toggleButtons{
