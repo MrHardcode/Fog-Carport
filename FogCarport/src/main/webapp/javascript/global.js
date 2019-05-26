@@ -2,9 +2,6 @@
 
 /*----------------- OrderValidation JS -----------------  */
 
-//document.addEventListener("DOMContentLoaded", calculateOperationMargin);
-//document.addEventListener("DOMContentLoaded", fillDropdownsDimensions);
-
 // instead of window.location we check if a page-specific element exists before 
 // methods are called
 document.addEventListener("DOMContentLoaded", function () {
@@ -14,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("suggestedretailprice") !== null){
         checkPriceOffer(); 
     }
+    // as of now this method is called on all pages, but it's shouldn't cause
+    // issues as the above are called first. 
     fillDropdownsDimensions();
 });
 if (document.getElementById("varpriceinput") !== null) {
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
+// this method fills the dimension-dropdowns in the createOrder from
 function fillDropdownsDimensions() {
     let lengthOption = document.getElementById('input-length');
     let widthOption = document.getElementById('input-width');
@@ -110,6 +109,8 @@ shedCheckBox.addEventListener("click", function(){
     }
 });
 
+// check on inputs in the shedsection. Submit-button is disabled unless inputs 
+// are valid
 function validateShedInput() {
     let lengthOptionsValue = lengthOptions.options[lengthOptions.selectedIndex].value;
     let widthOptionsValue = widthOptions.options[widthOptions.selectedIndex].value;
@@ -126,6 +127,8 @@ function validateShedInput() {
     }
 }
 
+// check on inputs in the rest of the form. Submit-button is disabled unless inputs 
+// are valid
 function validateCarportInput() {
 
     let inputLengthValue = inputlength.options[inputlength.selectedIndex].value;
@@ -187,8 +190,9 @@ let flatroofname = document.getElementsByClassName("flat-roof-name");
 let raisedroofid = document.getElementsByClassName("raised-roof-id");
 let raisedroofname = document.getElementsByClassName("raised-roof-name");
 
+// check for flat or raised roof
 function checkInclineMenuState() {
-    //I am using double == instead of triple === on purpose 
+    //we arew using double == instead of triple === on purpose 
     if (inclineOptions.selectedIndex == 0)
     {
         //document.getElementById("roof-tiles").disabled = true;
@@ -243,7 +247,7 @@ inputwidth.addEventListener("change", function () {
 });
 
 function checkMenuState() {
-    //I am using double == instead of triple === on purpose 
+    //we are using double == instead of triple === on purpose 
     if (inputlength.selectedIndex == "0" || inputwidth.selectedIndex == "0")
     {
         document.getElementById("check-skur").disabled = true;
@@ -354,6 +358,8 @@ function clearShedDimensionsMenu() {
 }
 
 /*----------------- ViewOrder JS -----------------  */
+// following two methods calculate the margin on the suggested orderprice and the 
+// variable price-input-field the emplyee can access. 
 function calculateOperationMarginSuggestedPrice() {
     let suggestedprice = document.getElementById("suggestedretailprice").innerHTML;
     let costprice = document.getElementById("costprice").innerHTML;
@@ -372,7 +378,7 @@ function calculateOperationsMarignVariblePrice() {
     document.getElementById("varpricemargin").innerHTML = varOperationMargin;
 }
 
-// new method called in checkPriceOffer, to set the margin in "Dækningsgrad for tilbudspris:"
+// called in checkPriceOffer, to set the margin in "Dækningsgrad for tilbudspris:"
 // after checkPriceOffer have run
 function calculateOperationMarginFinalOfferPrice() {
     let finalOfferPrice = document.getElementById("priceoffer").innerHTML;
