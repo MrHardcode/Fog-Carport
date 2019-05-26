@@ -52,7 +52,7 @@ public class BaseCalcTest
     private final String helptext = "base";
 
     //Collection of parameters used by the constructor to update the test values 
-    //which the test methods use
+    //which the test methods use 
     @Parameterized.Parameters
     public static Collection getTestParameters() {
         return Arrays.asList(new Object[][]{
