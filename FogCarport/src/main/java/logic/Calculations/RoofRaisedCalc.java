@@ -13,7 +13,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
+ * This class handles materials needed for a raised roof on the carport.
+ * The exposed method returns a PartslistModel with the items, which are then
+ * appended to the 'master list' ("bill of materials").
  *
+ * @see PartslistModel
  * @author
  */
 public class RoofRaisedCalc {
@@ -63,7 +67,7 @@ public class RoofRaisedCalc {
     //</editor-fold>
 
     /**
-     * Class-constructor, instantiates all instance fields.
+     * Constructor, instantiates all instance fields.
      */
     public RoofRaisedCalc() {
         DAO = DataFacadeImpl.getInstance();
@@ -84,7 +88,7 @@ public class RoofRaisedCalc {
      * PartslistModel.
      *
      * @param order
-     * @return PartslistModel
+     * @return PartslistModel roofRaisedBOM
      * @throws DataException
      * @throws data.exceptions.AlgorithmException
      */
@@ -103,6 +107,10 @@ public class RoofRaisedCalc {
         return roofRaisedBOM;
     }
 
+    /**
+     * Updates the fileds in the PartslistModel
+     * @param finalRoofBOM
+     */
     protected void updateFieldsinBOM(PartslistModel finalRoofBOM) {
         finalRoofBOM.setLathRowCount(lathRowCount);
         finalRoofBOM.setRafterCount(rafterCount);
@@ -152,20 +160,30 @@ public class RoofRaisedCalc {
         double angleRad = Math.toRadians(order.getIncline());
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        //<editor-fold defaultstate="collapsed" desc="COMMENTS">
+        /*
+        topLathDist is the distance from the rooftop to the highest lath, determinded
+        by FOG
+        
+        remaningRoofWidth is the roof width when the distance from the rooftop 
+        to the highest lath is removed. The hypotenuse is used since the roof 
+        has an incline in order to get the correct width. 
+        
+        the whileloop calculates the the amount of rows of rooftiles
+        
+        tileRowLength is the total length of all rooftiles
+        */
+        //</editor-fold>
         int topLathDist = 30;
         int tileRowCount = 0;
         int tileRowLength = 0;
-
-        // tagvidde når afstanden fra tagtoppen øverste lægte
         int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (topLathDist);
 
-        // beregn antal rækker tagsten
         while (remaningRoofWidth > 0) {
             tileRowCount = tileRowCount + 1;
             remaningRoofWidth = remaningRoofWidth - tileLength;
         }
 
-        // total længde af alle tagsten lagt sammen
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
         MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id(), helptext);
@@ -180,7 +198,7 @@ public class RoofRaisedCalc {
         materialTopTiles.setQuantity(topTileCount);
         roofTilesBOM.addMaterial(materialTopTiles);
                 
-        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext); // tagstenbinder/nakkekrog
+        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext);
         materialBinders.setQuantity(2);
         roofTilesBOM.addMaterial(materialBinders);
 
