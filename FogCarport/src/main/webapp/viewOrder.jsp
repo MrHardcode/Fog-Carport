@@ -89,7 +89,7 @@
                     <input id="varpriceinput" placeholder="Ny pris" name="finalPrice" type="number" min="0">
                     <input type="hidden" name="command" value="viewOrder">  
                     <input type="hidden" name="orderid" value="${order.id}">
-                    <p> Dækningsgrad: <span id="varpricemargin"> </span> %</p>
+                    <p> Dækningsgrad: <span id="varpricemargin"></span>%</p>
                     <button type="submit" class="btn btn-outline-secondary mb-1">Send tilbud</button>
                 </form>
             </div>
