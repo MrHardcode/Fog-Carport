@@ -68,7 +68,7 @@
                 <p>Ordren er betalt: <span id="paidPrice"><fmt:formatNumber value="${order.price}" type="currency" currencySymbol=""/></span> DKK</p>
             </c:when>
             <c:otherwise>
-                <p>Vejledende salgspris: <span id="suggestedretailprice">${suggestedprice}</span> DKK</p>
+                <p>Vejledende salgspris: <span id="suggestedretailprice"><fmt:formatNumber value="${suggestedprice}" type="currency" currencySymbol=""/></span> DKK</p>
             </c:otherwise>
         </c:choose>
 
