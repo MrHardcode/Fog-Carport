@@ -36,10 +36,10 @@ public class SVGDrawingBase
     }
 
     /**
-     * Get the base drawing for the carport
-     *
-     * @param order order in question
-     * @return returns a String with SVG-elements related to building the carport base.
+     * Used to get a String containing the SVG elements representing the 
+     * straps for the base construction.
+     * @param order OrderModel 
+     * @return String - the SVG elements for the base constructions itself
      */
     public String getBaseDrawing(OrderModel order)
     {
@@ -61,9 +61,9 @@ public class SVGDrawingBase
     }
 
     /**
-     * Get the poles for the base drawing.
-     * 
-     * @return returns a String with SVG-elements related to building the carport base poles.
+     * Used to get the SVG elements representing the poles in the base construction.
+     * This method uses the ArrayLists from the Partslist created by baseCalc.java
+     * @return String with SVG-elements related to building the carport base poles.
      */
     private String getPoles()
     {
@@ -88,17 +88,24 @@ public class SVGDrawingBase
         }
         return SVG;
     }
-
+ 
     /**
-     *
-     * @param extraDistance
-     * @return returns a String with SVG-elements related to building the arrows for the carport length
+     * Used to get an arrow showing the length of the carport.
+     * This methods needs an integer representing the incline of the roof. If the 
+     * roof has an incline above 0 then the SVG elements for the roof 
+     * will cover the arrow if the arrow isn't moved a bit away from the base SVG element
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the arrows for the carport length
      */
     public String getLengthArrow(int extraDistance)
     {
         int extraWidth = 0;
         if (extraDistance > 0)
         {
+            /*The extra width represents the "overhang" of the roof.
+            * The extra width is applied to the arrow so the arrow won't get 
+            * covered by the "roof overhang"
+            */
             extraWidth = 25;
         }
         int beginX = 0;
@@ -132,9 +139,13 @@ public class SVGDrawingBase
     }
 
     /**
-     *
-     * @param extraDistance
-     * @return returns a String with SVG-elements related to building the arrows for the carport width.
+     * Used to get an arrow showing the width of the carport.
+     * This method needs an integer representing the roof incline. If the roof 
+     * incline is above 0 degress then some extra length is applied to the arrow 
+     * so it shows the width of the roof instead of the width of the carport. 
+     * (Raised roof is always wider than the carport's base construction)
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the arrows for the carport width.
      */
     public String getWidthArrow(int extraDistance)
     {
@@ -173,9 +184,13 @@ public class SVGDrawingBase
     }
 
     /**
-     *
-     * @param extraDistance
-     * @return returns a String with SVG-elements related to building the label for the carport width
+     * Used in combination with getWidthArrow().
+     * This method returns an SVG element that displays a label for the width-arrow.
+     * This method needs an integer representing the incline of the roof of the carport. 
+     * If the incline is above 0 then the label adds "60" to its own value.
+     * Raised roof is always 60cm wider than the base construction of the carport
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the label for the carport width
      */
     public String getWidthLabel(int extraDistance)
     {
@@ -193,11 +208,15 @@ public class SVGDrawingBase
 
         return SVG;
     }
-
+ 
     /**
-     *
-     * @param extraDistance
-     * @return returns a String with SVG-elements related to building the label for the carport length
+     * Used in combination with getLengthArrow().
+     * This method returns an SVG element that displays a label for the length-arrow.
+     * This method needs an integer representing the incline of the roof of the carport.
+     * If the incline is above 0 then the label needs to be moved down slightly 
+     * so it doesn't get covered by the SVG elements for the roof.
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the label for the carport length
      */
     public String getLengthLabel(int extraDistance)
     {
