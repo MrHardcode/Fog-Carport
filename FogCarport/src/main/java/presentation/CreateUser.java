@@ -10,7 +10,7 @@ import logic.LogicFacade;
  * Create CustomerModel and input it into the database.
  * @author 
  */
-public class createUser extends Command
+public class CreateUser extends Command
 {
 
     @Override

@@ -16,7 +16,7 @@ import logic.LogicFacade;
  * Sends user from viewOrder.jsp to viewSVG.jsp.
  * @author
  */
-public class viewSVG extends Command
+public class ViewSVG extends Command
 {
 
 

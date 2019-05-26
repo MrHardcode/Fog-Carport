@@ -18,7 +18,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class login extends Command
+public class Login extends Command
 {
 
     @Override

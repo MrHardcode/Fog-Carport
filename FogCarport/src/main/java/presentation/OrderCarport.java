@@ -11,7 +11,7 @@ import logic.LogicFacade;
  * Command for creation of order and customer.
  * @author
  */
-public class orderCarport extends Command
+public class OrderCarport extends Command
 {
 
     @Override

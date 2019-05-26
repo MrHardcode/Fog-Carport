@@ -10,7 +10,7 @@ import logic.LogicFacade;
  *
  * @author 
  */
-public class makeCarportForm extends Command
+public class MakeCarportForm extends Command
 {
 
     @Override

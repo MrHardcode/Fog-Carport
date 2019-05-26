@@ -17,7 +17,7 @@ import logic.LogicFacade;
  *
  * @author
  */
-public class viewOrder extends Command
+public class ViewOrder extends Command
 {
 
     @Override
