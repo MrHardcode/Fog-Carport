@@ -80,7 +80,7 @@
             </c:if>
         </c:if>
         <c:if test= "${not empty sessionScope.employee && order.status != 'Finalized'}"> 
-            <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"> </span> %</p>
+            <p>Dækningsgrad for vejledende salgspris: <span id="operationmargin"></span>%</p>
 
             <div class="mt-4">
                 <h5>Afgiv tilbud?</h5>
