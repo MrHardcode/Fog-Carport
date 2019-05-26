@@ -11,8 +11,10 @@
 <!-- The SVG drawings of the carport -->
 <div class="SVGdiv">
     <div class="toggleGroup SVGdiv">
-        <h5 class="col-md-2">BASE</h5>
-        <div class="toggleButtons btn-group col-md-2">
+        <center>
+        <h5>BASE</h5>
+        </center>
+        <div class="btn-group col-md-2">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-base-show" class="btn btn-secondary active">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> Show
@@ -25,8 +27,10 @@
     </div>
 
     <div class="toggleGroup SVGdiv">
-        <h5 class="col-md-2">ROOF</h5>
-        <div class="toggleButtons btn-group col-md-5">
+        <center>
+        <h5>ROOF</h5>
+        </center>
+        <div class="btn-group col-md-5">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="radio-roof-show" class="btn btn-secondary">
                     <input type="radio" name="options" id="option3" autocomplete="off" checked> Show
