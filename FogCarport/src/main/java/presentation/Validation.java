@@ -115,7 +115,7 @@ public class Validation
         }
         if (!password.equals(password2))
         {
-            throw new UserException("Indtast venligst ens passwords.");
+            throw new UserException("De to passwords stemte ikke overens.");
         }
         return password;
     }

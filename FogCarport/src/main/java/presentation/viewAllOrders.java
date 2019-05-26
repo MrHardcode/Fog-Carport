@@ -34,7 +34,7 @@ public class viewAllOrders extends Command
             // Message to User if they have no orders.
             if (ids.isEmpty())
             {
-                request.setAttribute("message", "You have no Orders. Orders show up here when you make one.");
+                request.setAttribute("message", "Ingen ordrer fundet. Når du engang har bestilt, vil din ordre vises her.");
             }
             // Put them on the request so they can be shown to the Customer.
             request.setAttribute("ids", ids);
