@@ -125,6 +125,12 @@ public interface DataFacade
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
     
+    /**
+     * Update the price on a specific order
+     *
+     * @param id of the order
+     * @param price ew price
+     */
     public void updateOrderPrice(int id, double price) throws DataException;
 
 }
