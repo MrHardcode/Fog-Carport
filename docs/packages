@@ -1,0 +1,11 @@
+data.databaseAccessObjects
+data.databaseAccessObjects.dataSources
+data.databaseAccessObjects.mappers
+data
+data.exceptions
+data.models
+logic.Calculations
+logic.drawings
+logic
+presentation.commands
+presentation

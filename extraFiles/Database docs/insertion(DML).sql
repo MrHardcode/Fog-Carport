@@ -22,13 +22,22 @@ INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES (
 INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('malte@fog.dk', '2', '1234'); /* role: salesman */
 INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('test@fog.dk', '3', '1234'); /* role: testrole */
 
-
 /*
-Creating 100 customers. This was generated here: https://www.generatedata.com/
+Creating customers.
 Taking use of default values (auto_increment) for >id_customer<. */
 ALTER TABLE `carportdb`.`customers` AUTO_INCREMENT = 1; /* Ensuring we start from 1*/
-INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Test Customer","1234","test@test","1234", true);
 
+/* registered customers*/
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Test Registered","1234","test@test.dk","1234", true);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Mads Larsen","1234","Mads.larsen@hotmail.dk","1234", true);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Lars Madsen","1234","Lars.madsen@gmail.com","1234", true);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Anna Knudsen","1234","Anna.knudsen@test","1234", true);
+
+/* unregistered customers*/
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Test Unregistered","1234","test@test_unregistered.dk","1234", false);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("John Mogensen","1234","John.mogensen@hotmail.dk","1234", false);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Ib Ibsen","1234","Ib.ib@gmail.com","1234", false);
+INSERT INTO `carportdb`.`customers` (`customer_name`,`phone`,`email`,`password`, `registered`) VALUES ("Ebbe Ebsen","1234","Ebbe.ebbe@test","1234", false);
 
 /*
 Creating material categories.
@@ -108,19 +117,25 @@ INSERT INTO `carportdb`.`materials` (`description`, `cost_price`, `unit`, `id_ca
 Creating orders.
 Taking use of default values (auto_increment) for >id_order<. 
 */
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '37', '3', '3', '1', '3');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '37', '3', '3', '1', '4');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '37', '3', '3', '1', '5');
-INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES ('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '30', '37', '3', '3', '1', '5');
+
+/* Flat roof */
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
+('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '0', '29', '3', '3', '1', '3');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
+('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '0', '29', '3', '3', '1', '4');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
+('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '0', '29', '3', '3', '1', '5');
+INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
+('Nørgaardsvej 30', '2800', 'Awaiting', '3100', '7200', '0', '29', '3', '3', '1', '5');
 
 /*
 Creating bills.
 Taking use of default values (auto_increment) for >id_bill<. 
-*/
+
 INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('15600', '23211.75', '1');
 INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('21000', '25995.95', '2');
 INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('7800', '9999.95', '3');
-INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('13273.44', '11849.99', '4');
+INSERT INTO `carportdb`.`bills` (`retail_price`, `final_price`, `id_order`) VALUES ('13273.44', '11849.99', '4');*/
 
 /*
 Updating custom dimensions 
