@@ -5,8 +5,9 @@
 <fmt:setLocale value="da_DK"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<table class="table table-fixed table-bordered mt-5 table-striped">
 
+<!--Table header-->
+<table class="table table-fixed table-bordered mt-5 table-striped">
     <thead class="thead-dark">
         <tr>
             <c:if test= "${not empty sessionScope.employee}"> 

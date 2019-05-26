@@ -1,32 +1,27 @@
-/*
- *  
- */
 package logic.drawings;
 
 import data.models.OrderModel;
 
 /**
+ * Generates the shed drawing in form of a String of SVG elements.
  *
  * @author
  */
 public class SVGDrawingShed
 {
 
-    private final int postdistance = 310; // in cm.
+    private final int postdistance = 310; // Default distance between two posts in the shed in cm.
     private static int arrowHeadCounter = 0;
-    
-    public SVGDrawingShed()
-    {
-    }
 
     /**
      * Get a SVG drawing of the shed.
      *
-     * @param order
+     * @param order order in question
      * @return SVG drawing in string for html.
      */
     public String getShedDrawing(OrderModel order)
     {
+        // Converting from mm to cm.
         int carportWidth = order.getLength() / 10;
         int carportLength = order.getWidth() / 10;
         int shedWidth = order.getShed_length() / 10;
@@ -80,6 +75,7 @@ public class SVGDrawingShed
      */
     String getPole(OrderModel order, int angle)
     {
+        // Converting from mm to cm.
         int carportWidth = order.getLength() / 10;
         int carportLength = order.getWidth() / 10;
         int shedWidth = order.getShed_length() / 10;
@@ -98,7 +94,7 @@ public class SVGDrawingShed
                 // The Arrow. All the seemingly random numbers are simply to place the arrows and labels correctly. 
                 // Had to do a lot of adjusting to get it right. 
                 if (i == 0)
-                {                   // beginX     beginY         endX                     endY 
+                {                   // beginX                     beginY                              endX                                     endY 
                     SVG += getArrow(((carportWidth - shedWidth)), (carportLength - shedLength) - 15, ((carportWidth - shedWidth) + postwidth), (carportLength - shedLength) - 15);
                     SVG += getLabel((carportWidth - shedWidth) + (postwidth / 2) - 10, (carportLength - shedLength) - 20, postwidth);
                 }
@@ -122,7 +118,7 @@ public class SVGDrawingShed
 
                 // The Arrow.
                 if (i == 0)
-                {                   // beginX       beginY                  endX            endY                                
+                {                   // beginX                         beginY                          endX                              endY                                
                     SVG += getArrow((carportWidth - shedWidth) - 15, ((carportLength - shedLength)), (carportWidth - shedWidth) - 15, ((carportLength - shedLength) + postlength));
                     SVG += getLabel((carportWidth - shedWidth) - 60, (carportLength - shedLength) + (postlength / 2), postlength);
                 }

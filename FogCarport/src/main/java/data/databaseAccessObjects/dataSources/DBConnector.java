@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import javax.sql.DataSource;
 
 /**
- *
+ * NOT CURRENTLY IN USE - THIS WAS THE FIRST CONNECTION USED IN THIS PROJECT
+ * AND IS THE FALLBACK SOLUTION. 
  * @author 
  */
 public class DBConnector

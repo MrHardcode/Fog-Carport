@@ -27,7 +27,7 @@ public class OrderMapper
         this.ds = ds;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Get an Order">
+    // <editor-fold desc="Get an Order">
     /**
      * Get an Order.
      *
@@ -80,7 +80,7 @@ public class OrderMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Create an Order">
+    // <editor-fold desc="Create an Order">
     /**
      * Create an order. Inputs an order into the Database.
      *
@@ -127,7 +127,7 @@ public class OrderMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get all order ids">
+    // <editor-fold desc="Get all order ids">
     /**
      * Get all order ids. Used by the .jsp that shows a list of all orders to
      * the salesman.
@@ -158,7 +158,7 @@ public class OrderMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get all order ids for one customer">
+    // <editor-fold desc="Get all order ids for one customer">
     /**
      * Get all Order ids from one Customer.
      *
@@ -192,7 +192,7 @@ public class OrderMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Pay an order. Update "status"">
+    // <editor-fold desc="Pay an order. Update "status"">
     public void payOrder(int id, double price) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);";
@@ -210,8 +210,8 @@ public class OrderMapper
 
     }
     //</editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Update order price.">
+    
+    // <editor-fold desc="Update order price.">
     public void updateOrderPrice(int id, double price) throws DataException
     {
         String SQL = "UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);";

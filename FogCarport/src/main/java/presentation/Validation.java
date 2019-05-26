@@ -12,10 +12,6 @@ import data.exceptions.UserException;
 public class Validation
 {
 
-    public Validation()
-    {
-    }
-
     /**
      * Validate an Integer input from user. 
      * 

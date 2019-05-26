@@ -34,21 +34,6 @@ public class LogicFacadeImpl implements LogicFacade
         return instance;
     }
 
-//    /*
-//    Returns a simple partslist.
-//    Only takes into account height, width, length, and whether or not you want a shed.
-//     */
-//    @Override
-//    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException
-//    {
-//        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
-//    }
-//
-//    @Override
-//    public PartslistModel getBOM() throws LoginException
-//    {
-//        return PartslistLogic.getInstance().getBOM();
-//    }
     @Override
     public List<Integer> getAllOrderIds() throws DataException
     {
@@ -242,6 +227,25 @@ public class LogicFacadeImpl implements LogicFacade
     public void updateOrderPrice(int id, double price) throws DataException
     {
         DataFacadeImpl.getInstance().updateOrderPrice(id, price);
+    }
+    
+    /*
+    THIS IS DEPRECATED AND NOT IN PRODUCTION OR DEVELOPMENT. THIS CLASS WAS USED
+    TO CALCULATE A SIMPLE CARPORT IN THE BEGINNING OF THIS PROJECT.
+    
+    Returns a simple partslist.
+    Only takes into account height, width, length, and whether or not you want a shed.
+     */
+    @Deprecated
+    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws UserException
+    {
+        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);
+    }
+    
+    @Deprecated
+    public PartslistModel getBOM() throws UserException, DataException 
+    {
+        return PartslistLogic.getInstance().getBOM();
     }
 
 }

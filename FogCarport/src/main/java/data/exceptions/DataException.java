@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data.exceptions;
 
 /**
- *
- * @author Camilla
+ * This Exception is thrown in the data and logic layer whenever something is 
+ * wrong with the data from the databse or when a SQL-exception is caught. 
+ * @author 
  */
 public class DataException extends Exception{
      private static final long serialVersionUID = 1L;

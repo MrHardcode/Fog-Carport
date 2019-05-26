@@ -13,7 +13,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
+ * This class handles materials needed for a raised roof on the carport. The
+ * exposed method returns a PartslistModel with the items, which are then
+ * appended to the 'master list' ("bill of materials").
  *
+ * @see PartslistModel
  * @author
  */
 public class RoofRaisedCalc {
@@ -63,7 +67,7 @@ public class RoofRaisedCalc {
     //</editor-fold>
 
     /**
-     * Class-constructor, instantiates all instance fields.
+     * Constructor, instantiates all instance fields.
      */
     public RoofRaisedCalc() {
         DAO = DataFacadeImpl.getInstance();
@@ -84,25 +88,30 @@ public class RoofRaisedCalc {
      * PartslistModel.
      *
      * @param order
-     * @return PartslistModel
+     * @return PartslistModel roofRaisedBOM
      * @throws DataException
      * @throws data.exceptions.AlgorithmException
      */
     public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
-        if(order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() <= 0){
+        if (order == null || order.getLength() <= 0 || order.getWidth() <= 0 || order.getIncline() <= 0) {
             throw new AlgorithmException("Ordren er ikke udfyldt korrekt. Der bliver muligvis divideret med 0 eller der er indtastet felter med værdier på 0 eller mindre.");
         }
         PartslistModel roofRaisedBOM = new PartslistModel();
 
         roofRaisedBOM.addPartslist(getRoofTiles(order));
-        roofRaisedBOM.addPartslist(getRoofStructure(order)); 
-        roofRaisedBOM.addPartslist(generateCladding(order)); 
+        roofRaisedBOM.addPartslist(getRoofStructure(order));
+        roofRaisedBOM.addPartslist(generateCladding(order));
         roofRaisedBOM.addPartslist(getScrews());
         updateFieldsinBOM(roofRaisedBOM);
 
         return roofRaisedBOM;
     }
 
+    /**
+     * Updates the fileds in the PartslistModel
+     *
+     * @param finalRoofBOM
+     */
     protected void updateFieldsinBOM(PartslistModel finalRoofBOM) {
         finalRoofBOM.setLathRowCount(lathRowCount);
         finalRoofBOM.setRafterCount(rafterCount);
@@ -118,14 +127,14 @@ public class RoofRaisedCalc {
      * @throws DataException
      */
     protected PartslistModel getScrews() throws DataException, AlgorithmException {
-        if(screwCount < 1){
-            throw new AlgorithmException("ScrewCounter is less than 1");
+        if (screwCount < 1) {
+            throw new AlgorithmException("Skrueantal er mindre end 0");
         }
         PartslistModel screwBOM = new PartslistModel();
         int screwsPrPack = 200;
         int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);
         MaterialModel material = DAO.getMaterial(screwPacks, helptext);
-        
+
         material.setQuantity(totalScrewPacks);
         screwBOM.addMaterial(material);
 
@@ -152,35 +161,45 @@ public class RoofRaisedCalc {
         double angleRad = Math.toRadians(order.getIncline());
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
+        //<editor-fold defaultstate="collapsed" desc="COMMENTS">
+        /*
+        topLathDist is the distance from the rooftop to the highest lath, determinded
+        by FOG
+        
+        remaningRoofWidth is the roof width when the distance from the rooftop 
+        to the highest lath is removed. The hypotenuse is used since the roof 
+        has an incline in order to get the correct width. 
+        
+        the whileloop calculates the the amount of rows of rooftiles
+        
+        tileRowLength is the total length of all rooftiles
+         */
+        //</editor-fold>
         int topLathDist = 30;
         int tileRowCount = 0;
         int tileRowLength = 0;
-
-        // tagvidde når afstanden fra tagtoppen øverste lægte
         int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (topLathDist);
 
-        // beregn antal rækker tagsten
         while (remaningRoofWidth > 0) {
             tileRowCount = tileRowCount + 1;
             remaningRoofWidth = remaningRoofWidth - tileLength;
         }
 
-        // total længde af alle tagsten lagt sammen
         tileRowLength = (order.getLength() * tileRowCount) * 2;
         tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);
         MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id(), helptext);
-        
+
         materialTiles.setQuantity(tileCount);
         roofTilesBOM.addMaterial(materialTiles);
-        
+
         MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order), helptext);
 
         topTileCount = (int) Math.ceil((double) order.getLength() / (double) materialTopTiles.getLength());
 
         materialTopTiles.setQuantity(topTileCount);
         roofTilesBOM.addMaterial(materialTopTiles);
-                
-        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext); // tagstenbinder/nakkekrog
+
+        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext);
         materialBinders.setQuantity(2);
         roofTilesBOM.addMaterial(materialBinders);
 
@@ -279,11 +298,18 @@ public class RoofRaisedCalc {
      * @throws data.exceptions.AlgorithmException
      */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
-        if(materials.size() < 1 || materials.get(0).getLength() < 1){
-            throw new AlgorithmException("Materialelisten er af forkert længde eller indeholder materialer uden længde dimensioner.");
+        if (materials.size() < 1 || materials.get(0).getLength() < 1) {
+            throw new AlgorithmException("Materialelisten indeholder ingen materialer eller indeholder materialer uden længde.");
         }
-        
+
         PartslistModel calcParts = new PartslistModel();
+        //<editor-fold defaultstate="collapsed" desc="SORT COMMENT">
+        /*
+        The materials list is sorted so that the longest material is at index 0. 
+        The calculation below depends on this list being sorted in a descending 
+        order.  
+         */
+        //</editor-fold>
         Collections.sort(materials, new Comparator<MaterialModel>() {
             @Override
             public int compare(MaterialModel o1, MaterialModel o2) {
@@ -296,6 +322,13 @@ public class RoofRaisedCalc {
             }
         });
 
+        //<editor-fold defaultstate="collapsed" desc="MAP COMMENT">
+        /*
+        The quantityPrMaterial map holds all the materials with an Integer representing
+        the quantity for the given material. All quantityrepresentations is set 
+        to 0 at the beginning. 
+         */
+        //</editor-fold>
         HashMap<MaterialModel, Integer> quantityPrMaterial = new HashMap();
         for (MaterialModel material : materials) {
             quantityPrMaterial.put(material, 0);
@@ -305,10 +338,56 @@ public class RoofRaisedCalc {
         double ratioBest = -1;
         MaterialModel bestMaterial = null;
 
+        //<editor-fold defaultstate="collapsed" desc="RATIO COMMENT">
+        /*
+        The ratioBest is an integer representing how close to 1 the division 
+        restLength/material.getLength is. If this division equals 1, then 
+        the length of the material is the same as the restLength, meaning 1
+        material is enough to cover the length. 
+        If the numer is greater than 1 it means that theres is more restLength 
+        than 1 material can cover. 
+        If the number is less than 1 the restLength is shorter than the material
+        length. 
+        In the loop the ratioCurrent is calculated for the given material. 
+        
+        The ratioBest is the ratio of the best material for a given length.
+        
+         */
+        //</editor-fold>
         while (restLength > 0) {
             for (MaterialModel material : materials) {
                 double ratioCurrent = (double) restLength / (double) material.getLength();
 
+                //<editor-fold defaultstate="collapsed" desc="IF-ELSE COMMENT">
+                /*
+                The ratioBest starts at -1 for each iteration of this inner loop
+                and when it's -1 we assume that the given material is the best
+                material for the length, so bestMaterial is set to this and the
+                ratioBest is set to the ratioCurrent for this material. 
+                
+                When the ratioBest is not -1 we assume that there already is a
+                material in bestMaterial i.e. we assume that we are not looking 
+                at the first material in the list. 
+                
+                Now we have to find out if the material in materialBest is really 
+                the best or if the current material is better. This is done in the
+                two else if's (one checks for ratios over 1 and the other checks 
+                for ratios under 1).
+                
+                RatioBest is always overwitten with the ratio thats closest
+                to 1 - then we check if ratioBest is the same as ratioCurrent. If
+                that's true we know that ratioCurrent was closer to 1 than ratioBest
+                and we set the current material to be the bestMaterial. 
+                
+                In the case where ratioBest is bigger than 1 and ratioCurrent is 
+                less than 1 the best material will be the one already stored in 
+                bestMaterial as this will cover the remaining length. 
+                
+                The case where ratioBest is less than 1 and ratioCurrent is 
+                bigger than 1 will never occur because the list is sorted by 
+                material.getLength descending. 
+                 */
+                //</editor-fold>
                 if (ratioBest == -1) {
                     ratioBest = ratioCurrent;
                     bestMaterial = material;
@@ -324,6 +403,29 @@ public class RoofRaisedCalc {
                     }
                 }
             }
+            //<editor-fold defaultstate="collapsed" desc="MATERIAL QUANTITY COMMENT">
+            /*
+            After the inner loop the best material for the given length have been
+            found. Now we need to find out how many of the materials we need and 
+            remember that for later. 
+            
+            If the ratioBest is 1 or bigger, we need the amount of material equal 
+            to the floored version of that number. We don't care about the remainder, 
+            as there might be a better material for the remainder.
+            If the ratioBest is less than 1, we know that all the materials are longer 
+            than the given length. So we only need one of the best materials for
+            this length so we ceil the ratioBest (that always returns 1 in this case). 
+            
+            If the bestMaterial for the given length already have been chosen as 
+            the best material before (and thereby have a quantity bigger than 0) 
+            we don't want to overwrite that - so we set exsistingAmount to what
+            was stored in the map for that material.
+            Then the bestMaterial is added back to the map with the updated quantity.
+            
+            The length of all the bestMaterial is subtrackted from the restLength
+            and the ratioBest is reset to -1.
+            */
+            //</editor-fold>
             int materialAmount = 0;
             if (ratioBest >= 1) {
                 materialAmount = (int) Math.floor(ratioBest);
@@ -336,6 +438,17 @@ public class RoofRaisedCalc {
             restLength = restLength - (bestMaterial.getLength() * materialAmount);
             ratioBest = -1;
         }
+        
+        //<editor-fold defaultstate="collapsed" desc="PARTSLIST COMMENT">
+            /*
+            When the while-loop is done we know we have found the best materials
+            for the original length at the start of this method. 
+        
+            Now the materials with their qunatities just have to be added to the
+            partslist. To do that we look at the map and add all materials that 
+            have a value greater than 0.
+            */
+            //</editor-fold>
 
         for (MaterialModel material : materials) {
             int quantity = quantityPrMaterial.get(material);
@@ -362,19 +475,41 @@ public class RoofRaisedCalc {
         ArrayList<MaterialModel> calcList = calcBOM.getBillOfMaterials();
         ArrayList<MaterialModel> returnList = returnBOM.getBillOfMaterials();
 
+        //<editor-fold defaultstate="collapsed" desc="PARAMETERS COMMENT">
+            /*
+            calcBOM is the partslist we wnat to add to returnBOM.
+            */
+            //</editor-fold>
         for (int i = 0; i < calcList.size(); i++) {
             if (returnList.isEmpty()) {
                 returnBOM.addMaterial(new MaterialModel(calcList.get(i)));
                 continue;
             }
-
+            
+            //<editor-fold defaultstate="collapsed" desc="METHOD COMMENT">
+            /*
+            If the returnList is empty we add a copy of the first material in the
+            calsList.
+            
+            quantityAdded is used to see if we have added a quantity fram the calcList
+            to the returnList (this only happens if the same material is found in
+            both lists). 
+            If the material in calcList exsists in the returnList, then the qunatity
+            in the returnList and the totalPrice in the returnBOM are updated. 
+            
+            If the material in calcList does not exist in the returnList, a copy of the material
+            is added to the returnList.
+            
+            */
+            //</editor-fold>
+            
             boolean quantityAdded = false;
             for (int j = 0; j < returnList.size(); j++) {
 
                 if (calcList.get(i).getID() == returnList.get(j).getID()) {
                     int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();
                     returnList.get(j).setQuantity(qunatity);
-                    returnBOM.setTotalprice((calcList.get(i).getQuantity()* (int) Math.ceil(returnList.get(j).getPrice())) + returnBOM.getTotalprice());
+                    returnBOM.setTotalprice((calcList.get(i).getQuantity() * (int) Math.ceil(returnList.get(j).getPrice())) + returnBOM.getTotalprice());
                     quantityAdded = true;
                 }
             }
@@ -410,8 +545,8 @@ public class RoofRaisedCalc {
         double oppositeCath = (Math.sin(angleRad) * hypotenuse);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(rafterWood2400, helptext)); 
-        materials.add(DAO.getMaterial(rafterWood3600, helptext)); 
+        materials.add(DAO.getMaterial(rafterWood2400, helptext));
+        materials.add(DAO.getMaterial(rafterWood3600, helptext));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalWidth), rafterBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), rafterBOM);
@@ -447,9 +582,9 @@ public class RoofRaisedCalc {
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(fasciaWood4800, helptext)); 
-        materials.add(DAO.getMaterial(fasciaWood5400, helptext)); 
-        materials.add(DAO.getMaterial(fasciaWood6000, helptext)); 
+        materials.add(DAO.getMaterial(fasciaWood4800, helptext));
+        materials.add(DAO.getMaterial(fasciaWood5400, helptext));
+        materials.add(DAO.getMaterial(fasciaWood6000, helptext));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);
@@ -480,19 +615,29 @@ public class RoofRaisedCalc {
         double adjacentCath = totalWidth * 0.5;
         double hypotenuse = (adjacentCath / Math.cos(angleRad));
 
-        // der er altid mindts 3 rækker af lægter pr tagside (de to yderste og én nærmest toplægten)
+        //<editor-fold defaultstate="collapsed" desc="LATHROWCOUNT COMMENT">
+            /*
+            There is always atleast 3 rows of laths pr. roof side ( two outer laths
+            and the one closets to the top.
+            */
+            //</editor-fold>
         lathRowCount = 3;
         int outerLathDist = 350;
         int upperLathDist = 30;
         int minimumLathDist = 307;
 
-        // tagvidde når afstanden fra tagtoppen øverste lægte og afstanden mellem de to yderste lægter er trukket fra
+        //<editor-fold defaultstate="collapsed" desc="LATH COMMENT">
+            /*
+            roofSideWidth is the width from the top of the outer laths to the most
+            upper lath. 
+        
+            totalLathsLength is the length of all laths needed. So both sides of
+            the roof plus the toprow lath. The lathRowCount is updated likewise.
+            */
+            //</editor-fold>
         int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);
-        // beregn antal af rækker af lægter
         lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);
-        // total længde af alle lægter lagt sammen + 1 toplægte
         int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;
-        // antal af lægter i alt (begge sider af taget + toplægte
 
         lathRowCount = (lathRowCount * 2) + 1;
 
@@ -500,8 +645,8 @@ public class RoofRaisedCalc {
         screwCount = screwCount + (intersectionCount * 2);
 
         ArrayList<MaterialModel> materials = new ArrayList();
-        materials.add(DAO.getMaterial(lathWood5400, helptext)); 
-        materials.add(DAO.getMaterial(lathWood4200, helptext)); 
+        materials.add(DAO.getMaterial(lathWood5400, helptext));
+        materials.add(DAO.getMaterial(lathWood4200, helptext));
 
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);
 
@@ -529,13 +674,13 @@ public class RoofRaisedCalc {
         int totalCladdingLengthBack = (getCladdingMaterialCount(totalWidth, order.getIncline(), 0) + getCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;
         int totalCladdingLengh = totalCladdingLengthFront + totalCladdingLengthBack;
         claddingBoardsTotal = claddingBoardsTotal * 4;
-        
+
         ArrayList<MaterialModel> materials = new ArrayList();
         materials.add(DAO.getMaterial(claddingWood4800, helptext));
         materials.add(DAO.getMaterial(claddingWood2400, helptext));
         materials.add(DAO.getMaterial(claddingWood2100, helptext));
         addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalCladdingLengh), claddingBOM);
-        
+
         screwCount = screwCount + (claddingBoardsTotal * 4);
         return claddingBOM;
     }
@@ -565,7 +710,7 @@ public class RoofRaisedCalc {
         double angleRad = Math.toRadians(incline);
         double startAdjacentCath = totalWidth * 0.5;
         int totalCladdingLengthPrSidePrOffset = 0;
-        
+
         for (int i = cladWidth; i < startAdjacentCath; i = cladWidth) {
             cladWidth = cladWidth + materialWidth;
 

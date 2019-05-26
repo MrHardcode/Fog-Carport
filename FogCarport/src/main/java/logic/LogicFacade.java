@@ -21,9 +21,6 @@ public interface LogicFacade
      */
     public void createOrder(OrderModel order) throws DataException;
 
-//    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws LoginException;
-//    
-//    public PartslistModel getBOM () throws LoginException;
     /**
      * All order ids from the database.
      *
@@ -87,6 +84,14 @@ public interface LogicFacade
      */
     public void createEmployee(EmployeeModel employee) throws UserException;
 
+    /**
+     * Get a Partslist from an Order. Generates a partslist from the order info.
+     *
+     * @param order
+     * @return PartslistModel
+     * @throws DataException
+     * @throws AlgorithmException
+     */
     public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException;
 
     /**
@@ -153,21 +158,22 @@ public interface LogicFacade
      * @throws UserException
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
-    
+
     /**
      * Returns 150% of the partslist total price as a int value
+     *
      * @param partsList partslist in question
      * @return int
      */
     public int getSuggestedRetailPrice(PartslistModel partsList);
-    
+
     /**
-     * 
+     *
      * Update price field on order in database
-     * 
+     *
      * @param id id of the order
      * @param price price to update to
-     * @throws DataException 
+     * @throws DataException
      */
     public void updateOrderPrice(int id, double price) throws DataException;
 

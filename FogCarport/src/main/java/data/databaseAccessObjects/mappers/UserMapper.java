@@ -29,7 +29,7 @@ public class UserMapper
     }
 
     /* CUSTOMER */
-    // <editor-fold defaultstate="collapsed" desc="Log in a customer">
+    // <editor-fold desc="Log in a customer">
     /**
      * Login Method.
      *
@@ -82,7 +82,7 @@ public class UserMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get a customer">
+    // <editor-fold desc="Get a customer">
     /**
      * Get a Customer.
      *
@@ -126,7 +126,7 @@ public class UserMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Create customer">
+    // <editor-fold desc="Create customer">
     /**
      * Create Customer Method.
      *
@@ -173,7 +173,7 @@ public class UserMapper
     //</editor-fold>
 
     /* EMPLOYEE */
-    // <editor-fold defaultstate="collapsed" desc="Create Employee">
+    // <editor-fold desc="Create Employee">
     /**
      * Create Employee Method.
      *
@@ -211,7 +211,7 @@ public class UserMapper
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Get an employee">
+    // <editor-fold desc="Get an employee">
     /**
      * Get an Order.
      *
@@ -255,7 +255,7 @@ public class UserMapper
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Log in an employee">
+    // <editor-fold desc="Log in an employee">
     public EmployeeModel empLogin(String email, String password) throws UserException
     {
 

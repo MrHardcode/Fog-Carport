@@ -7,6 +7,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
+ * THIS IS THE CURRENTLY USED CONNECTION
  * HikariCP.
  * https://github.com/brettwooldridge/HikariCP
  * @author 

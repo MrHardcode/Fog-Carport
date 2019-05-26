@@ -33,8 +33,10 @@ public interface DataFacade
      */
     public OrderModel getOrder(int id) throws DataException;
 
+    // Not used. Old code.
     public PartslistModel getBOM();
 
+    // Not used. Old code.
     public PartslistModel getOrderDetails(int id, String helptext) throws DataException;
 
     /**
@@ -125,6 +127,12 @@ public interface DataFacade
      */
     public EmployeeModel empLogin(String email, String password) throws UserException;
     
+    /**
+     * Update the price on a specific order
+     *
+     * @param id of the order
+     * @param price ew price
+     */
     public void updateOrderPrice(int id, double price) throws DataException;
 
 }

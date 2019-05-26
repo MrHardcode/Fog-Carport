@@ -8,11 +8,24 @@ import logic.Calculations.RoofFlatCalc;
 
 /**
  *
+ * Generates the drawing for a flat roof.
+ * 
  * @author
  */
 public class SVGDrawingFlatRoof
 {
 
+    /**
+     *
+     * Generate the drawing of a flat roof for a specific order.
+     *
+     * @param order order in question
+     * @return returns a string of SVG elements needed to display carport with
+     * flat roof, including rafters, border (fascia+bargeboard) & hulbånd.
+     * @throws AlgorithmException throws exception if encountered during
+     * calculation.
+     * @throws DataException throws exception if encountered during calculation.
+     */
     public String getFlatRoofDrawing(OrderModel order) throws AlgorithmException, DataException
     {
         StringBuilder stb = new StringBuilder();

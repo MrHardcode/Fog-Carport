@@ -18,8 +18,6 @@ import logic.LogicFacade;
  */
 public class viewPartslist extends Command {
 
-    public viewPartslist() {
-    }
 
     @Override
 

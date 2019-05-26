@@ -12,14 +12,25 @@ import data.models.PartslistModel;
 
 /**
  * Contains logic regarding the Bill of Materials for a shed in the carport.
- *
- * @author 
+ * Adds materials needed to build a shed in the carport to the partslist.
+ *   
+ *   Going off of this with regards to assumptions.
+ *   https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
+ *   
+ *   Things to take into account: 
+ *   Width of the shed
+ *   Length of the shed
+ *   Type of wood used for the shed
+ *   Type of wood used for the floor (if they even want a floor)
+ * 
+ * @author
  */
 public class ShedLogic
 {
+
     /*
-    MATERIALS
-    */
+    MATERIALS - edit here if you want new default materials.
+     */
     private final int skruer70mm = 26; // 4,5x70mm. skruer (400 stk)
     private final int skruer50mm = 27; // 4,5x50mm Skruer (300 stk)
     private final int stalddørsgreb = 17; // Stalddørsgreb 50x75
@@ -30,76 +41,87 @@ public class ShedLogic
     private final int reglar2400 = 6; // 45x95 Reglar ubh. 240cm
     private final int reglar3600 = 7; // 45x95 Reglar ubh. 360cm
     private final int postid = 4; // 97x97 mm. trykimp. Stolpe
-    
+
+    /* 
+    Other info
+    */
     private final int postdistance = 3100; // Distance between posts.
     private final String helptext = "shed"; // indicator for what helptext to grab from database.
 
     public ShedLogic()
     {
     }
-
-    /*
-    https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
-    Going off of this with regards to assumptions.
-    I assume that this method is only called if the stuff in order regarding shed is not null.
-    Things to take into account: 
-    Width of the shed
-    Length of the shed
-    Type of wood used for the sheds "beklædning"
-    Type of wood used for the floor (if they even want a floor)
+    
+    /**
+     * Get a PartslistModel containing all materials needed to add a shed to the carport.
+     * This is the only public method in this class.
+     * @param order containing info about the shed and carport.
+     * @return PartslistModel
+     * @throws DataException 
      */
     public PartslistModel addShed(OrderModel order) throws DataException
     {
+        // The partslist we're going to return.
         PartslistModel bom = new PartslistModel();
+
+        // Guard
         if (order == null)
         {
             throw new DataException("Ordren er tom.");
         }
-        if (order.getShed_walls_id() == 0 || 
-                order.getShed_length() == 0 || 
-                order.getShed_width() == 0)
+        // If the customer doesn't want a shed.
+        if (order.getShed_walls_id() == 0
+                || order.getShed_length() == 0
+                || order.getShed_width() == 0)
         {
             return bom;
-        }   
-        
+        }
+
+        // DataFacade, so we can use it's methods and get materials.
         DataFacade db = DataFacadeImpl.getInstance();
 
-        boolean standard = false;
-        if (standard == true)
+        /* 
+        "Standard" was an old feature that is now deprecated. 
+        Used in the first sprint for the simple partslist. 
+         */
+//        boolean standard = false;
+//        if (standard == true)
+//        {
+//            simpleShed(bom);
+//        } else
+        // VARIABLES:
+        int width = order.getShed_width();
+        int length = order.getShed_length();
+
+        // The type of wood used for the walls on the shed. No quantity on it yet.
+        MaterialModel wood = db.getMaterial(order.getShed_walls_id(), helptext);
+
+        // MATERIALS NEEDED NO MATTER WHAT FOR THE DOOR
+        addDoorMaterials(bom, db);
+
+        // IF FLOOR IS CHOSEN:
+        if (order.getShed_floor_id() != 0)
         {
-            simpleShed(bom);
-        } else
-        {
-
-            // VARIABLES IF NOT STANDARD SHED:
-            int width = order.getShed_width();
-            int length = order.getShed_length();
-            MaterialModel wood = db.getMaterial(order.getShed_walls_id(), helptext);
-
-            // MATERIALS NEEDED NO MATTER WHAT - DOOR
-            addDoorMaterials(bom, db);
-
-            // IF FLOOR IS CHOSEN:
-            if (order.getShed_floor_id() != 0)
-            {
-                MaterialModel floor = db.getMaterial(order.getShed_floor_id(), helptext);
-                // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH HERE TO BOM
-                addFloor(bom, floor, length, width, db);
-            }
-
-            // AND THE REST
-            addMaterials(bom, wood, length, width, db, order);
-
+            // Get the floor-info out of the Database.
+            MaterialModel floor = db.getMaterial(order.getShed_floor_id(), helptext);
+            // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH TO THE PARTSLIST.
+            addFloor(bom, floor, length, width, db);
         }
+
+        // AND THE REST OF THE MATERIALS.
+        addMaterials(bom, wood, length, width, db, order);
 
         return bom;
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR STANDARD SHED">
     /**
-     * Materials for the standard, simple shed. Made in first sprint. Maybe we won't use this in production.
-     * @param bom 
+     * Materials for the standard, simple shed. Made in first sprint. Maybe we
+     * won't use this in production.
+     *
+     * @param bom
      */
+    @Deprecated
     void simpleShed(PartslistModel bom)
     {
         // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
@@ -171,56 +193,49 @@ public class ShedLogic
     {
         int floorwidth = floor.getWidth(); // Width of the boards used for the floor
         int floorlength = floor.getLength(); // Length of the boards used for the floor
-        
-        int woodwidthamount = width/floorwidth; // Get amount of boards needed for width of shed
+
+        int woodwidthamount = width / floorwidth; // Get amount of boards needed for width of shed
         if (width % floorwidth > 0)
         {
             woodwidthamount++; // If we need an extra to get 100% coverage.
         }
-        
-        int woodlengthamount = length/floorlength; // Get amount of boards needed for length of shed
+
+        int woodlengthamount = length / floorlength; // Get amount of boards needed for length of shed
         if (length % floorlength > 0)
         {
             woodlengthamount++; // If we need an extra to get 100% coverage.
         }
-        
-        int amountofwood = woodlengthamount*woodwidthamount; // Length * Width = amount of boards needed in total for shed floor.
+
+        int amountofwood = woodlengthamount * woodwidthamount; // Length * Width = amount of boards needed in total for shed floor.
         floor.setQuantity(amountofwood);
         bom.addMaterial(floor);
-        
+
         // 4 screws per board #27 - 300 in a pack
         int screwamount = amountofwood * 4;
         MaterialModel screws = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.
         addScrews(bom, screws, 300, screwamount);
     }
     // </editor-fold>
-   
+
     //<editor-fold defaultstate="collapsed" desc="MATERIALS FOR THE DOOR">
     /**
-     * Adds always needed materials to the Partslist. 
-     * Materials for the door, etc.
-     * 2 vandrette stivere 38x73 
-     * 2 lag beklædningsbrædder 
-     * skråstiver 
-     * lægte
-     * dørgreb - 
-     * stalddørsgreb - 
-     * #17 material hængsler 
-     * skruer til alt dette
+     * Adds always needed materials to the Partslist. Materials for the door,
+     * etc. 2 vandrette stivere 38x73 2 lag beklædningsbrædder skråstiver lægte
+     * dørgreb - stalddørsgreb - #17 material hængsler skruer til alt dette
      *
      * @param wood type of wood selected for the shed.
      * @return PartslistModel
      */
     void addDoorMaterials(PartslistModel bom, DataFacade db) throws DataException
     {
-        MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb, helptext); 
+        MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb, helptext);
         stalddørsgreb.setQuantity(1);
         bom.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.
-        
+
         MaterialModel laegte = db.getMaterial(taglægte, helptext); // 38x73mm taglægte.
         laegte.setQuantity(1);
         bom.addMaterial(laegte); // for the backside of the door.
-        
+
         MaterialModel hængsel = db.getMaterial(thængsel, helptext);
         hængsel.setQuantity(2);
         bom.addMaterial(hængsel); // T-hængsel for the door.
@@ -229,34 +244,34 @@ public class ShedLogic
 
     /**
      * Materials for the rest. 
-     * 12 brædder per 30cm. 
-     * 9 skruer per bræt. 
-     * 3x 4,5x50mm og 6x 4,5x70mm. 
-     * 1 løsholt 20 cm over jorden. 
-     * 1 løsholt 110 cm over jorden. 
-     * 1 for hver anden stolpe. 45x95 
-     * 1 ekstra løsholt i enderne, fordi den øverste i siderne er remmene 
-     * løsholter monteres i vinkelbeslag
-     * 4 beslagsskruer per beslagsflade.
+     * 12 boards per 30cm. 
+     * 9 screws per board. 
+     * 3x 4,5x50mm and 6x 4,5x70mm. 
+     * 1 reglar 20 cm above ground. 
+     * 1 reglar 110 cm above ground. 
+     * 1 reglar for every second post. 
+     * 1 extra reglar at the ends of the shed, because the top one on the sides are straps 
+     * install girders in angle brackets
+     * 4 bracket screws per bracket.
      *
-     * @param bom
-     * @param wood
-     * @param length
-     * @param width
+     * @param bom PartslistModel
+     * @param wood MaterialModel. Wood used for the sheds walls.
+     * @param length of the shed
+     * @param width of the shed
      */
     void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws DataException
     {
-        // Trykimp brædder til beklædning:
+        // pressure treated boards for the walls:
         int amountofwood = (((length + width) * 2) / wood.getWidth()) + 1; // Two length sides and two width sides and one spare board.
         wood.setQuantity(amountofwood);
         bom.addMaterial(wood);
 
-        // Adding skruer for the beklædning.
-        // Amount of Skruer 4,5x50mm used for beklædningsbrædder.
+        // Adding screws for the walls.
+        // Amount of Skruer 4,5x50mm used for the boards for the wall.
         int amountofscrews50 = 3 * amountofwood;
         MaterialModel skruer50 = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.
         addScrews(bom, skruer50, 300, amountofscrews50);
-        // Amount of Skruer 4,5x70mm used for beklædningsbrædder.
+        // Amount of Skruer 4,5x70mm used for the boards for the wall.
         int amountofscrews70 = 6 * amountofwood;
         MaterialModel skruer70 = db.getMaterial(this.skruer70mm, helptext); // 400 in one pack.
         addScrews(bom, skruer70, 400, amountofscrews70);
@@ -264,30 +279,31 @@ public class ShedLogic
         // Adding additional posts if needed
         posts(length, order, width, db, bom);
 
-        // Adding reglar. One side needs 3, and on the other side you just mount the beklædning on the rem.
+        // Adding reglar. One side needs 3, and on the other side you just mount the walls on the strap.
         int vinkelbeslagamount = reglar(width, db, bom, 3);
         vinkelbeslagamount += reglar(length, db, bom, 2);
 
-        // Vinkelbeslag #19 2 per reglar
+        // anglebrackets #19 2 per reglar
         MaterialModel vinkelbeslag = db.getMaterial(this.vinkelbeslag, helptext);
         vinkelbeslag.setQuantity(vinkelbeslagamount);
         bom.addMaterial(vinkelbeslag);
-        
-        // Beslagsskruer #21 4 per beslag
+
+        // bracket screws #21 4 per bracket
         MaterialModel beslagsskruer = db.getMaterial(this.beslagsskruer, helptext);
         int screwamount = 4 * vinkelbeslagamount;
         addScrews(bom, beslagsskruer, 100, screwamount);
-        
+
     }
 
     /**
      * Calculate the amount of posts needed extra for the shed.
+     *
      * @param length of the shed.
-     * @param order 
+     * @param order
      * @param width of the shed.
-     * @param db 
+     * @param db
      * @param bom
-     * @throws LoginException 
+     * @throws LoginException
      */
     void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws DataException
     {
@@ -301,25 +317,26 @@ public class ShedLogic
             if (length > postdistance) // We only need additional posts if the length is longer than the distance between two posts.
             {
                 int templength = length;
-                postquantity--; //one removed for the one at the rem.
+                postquantity--; //one removed for the one at the end.
                 while (templength > 0)
                 {
                     postquantity++; // Add post
                     templength -= postdistance; // Remove the distance.
                 }
             }
-            
+
             if (width > postdistance) // We only need additional posts if the width is longer than the distance between two posts.
             {
                 int tempwidth = width;
-                postquantity--; //one removed for the one at the rem.
+                postquantity--; //one removed for the one at the end.
                 while (tempwidth > 0)
                 {
                     postquantity++; // Add a post
                     tempwidth -= postdistance; // Remove the distance.
                 }
             }
-        } else {
+        } else
+        {
             postquantity++; // the one at the corner
         }
         MaterialModel post = db.getMaterial(postid, helptext);
@@ -327,25 +344,27 @@ public class ShedLogic
         bom.addMaterial(post);
     }
 
-    
     /**
      * Calculate the amount of reglar needed.
+     *
      * @param width of the side you're calculating.
      * @param db
      * @param bom
      * @param side one side needs 2, another needs 3.
      * @return amount of reglar for that side.
-     * @throws LoginException 
+     * @throws LoginException
      */
     int reglar(int width, DataFacade db, PartslistModel bom, int side) throws DataException
     {
         MaterialModel reglar;
-        if (postdistance < 2400 || width < 2400){
+        if (postdistance < 2400 || width < 2400)
+        {
             reglar = db.getMaterial(this.reglar2400, helptext); // 2400 reglar
-        } else {
+        } else
+        {
             reglar = db.getMaterial(this.reglar3600, helptext); // 3600 reglar
         }
-        int amountofreglar = side * (width/postdistance);
+        int amountofreglar = side * (width / postdistance);
         int restreglar = width % postdistance;
         if (restreglar > 0) // If customer needs ekstra.
         {
@@ -353,18 +372,20 @@ public class ShedLogic
         }
         reglar.setQuantity(amountofreglar);
         bom.addMaterial(reglar);
-        return amountofreglar * 2; // used for vinkelbeslag. Need 2 per reglar.
-    }    
-    
+        return amountofreglar * 2; // used for angle brackets. Need 2 per reglar.
+    }
+
     //<editor-fold defaultstate="collapsed" desc="CALCULATOR FOR THE SCREWS">
     /**
-     * Add screws to the partslist. 
+     * Add screws to the partslist.
+     *
      * @param bom
      * @param screws type of screw
      * @param packamount amount of screws in a pack.
      * @param screwamount amount of screws needed in total.
      */
-    void addScrews(PartslistModel bom, MaterialModel screws, int packamount, int screwamount){
+    void addScrews(PartslistModel bom, MaterialModel screws, int packamount, int screwamount)
+    {
         int restskruer = screwamount % packamount;
         int amountofpacks = screwamount / packamount;
         if (restskruer > 0)
