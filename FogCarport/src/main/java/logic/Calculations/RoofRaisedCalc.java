@@ -299,14 +299,15 @@ public class RoofRaisedCalc {
      */
     protected PartslistModel getMaterialsFromlength(ArrayList<MaterialModel> materials, int length) throws AlgorithmException {
         if (materials.size() < 1 || materials.get(0).getLength() < 1) {
-            throw new AlgorithmException("Materialelisten er af forkert længde eller indeholder materialer uden længde dimensioner.");
+            throw new AlgorithmException("Materialelisten indeholder ingen materialer eller indeholder materialer uden længde.");
         }
 
         PartslistModel calcParts = new PartslistModel();
         //<editor-fold defaultstate="collapsed" desc="SORT COMMENT">
         /*
         The materials list is sorted so that the longest material is at index 0. 
-        This is to avoid having to deal with this further down in the calculation. 
+        The calculation below depends on this list being sorted in a descending 
+        order.  
          */
         //</editor-fold>
         Collections.sort(materials, new Comparator<MaterialModel>() {
@@ -373,7 +374,7 @@ public class RoofRaisedCalc {
                 two else if's (one checks for ratios over 1 and the other checks 
                 for ratios under 1).
                 
-                RatioCurrent is always overwitten with the the ratio thats closest
+                RatioBest is always overwitten with the ratio thats closest
                 to 1 - then we check if ratioBest is the same as ratioCurrent. If
                 that's true we know that ratioCurrent was closer to 1 than ratioBest
                 and we set the current material to be the bestMaterial. 
@@ -413,7 +414,7 @@ public class RoofRaisedCalc {
             as there might be a better material for the remainder.
             If the ratioBest is less than 1, we know that all the materials are longer 
             than the given length. So we only need one of the best materials for
-            this length so we ceil the ratiobest (that always returns 1 in this case). 
+            this length so we ceil the ratioBest (that always returns 1 in this case). 
             
             If the bestMaterial for the given length already have been chosen as 
             the best material before (and thereby have a quantity bigger than 0) 
