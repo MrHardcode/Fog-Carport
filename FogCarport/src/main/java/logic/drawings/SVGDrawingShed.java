@@ -1,6 +1,3 @@
-/*
- *  
- */
 package logic.drawings;
 
 import data.models.OrderModel;
@@ -15,14 +12,10 @@ public class SVGDrawingShed
     private final int postdistance = 310; // Default distance between two posts in the shed in cm.
     private static int arrowHeadCounter = 0;
     
-    public SVGDrawingShed()
-    {
-    }
-
     /**
      * Get a SVG drawing of the shed.
      *
-     * @param order
+     * @param order order in question
      * @return SVG drawing in string for html.
      */
     public String getShedDrawing(OrderModel order)
