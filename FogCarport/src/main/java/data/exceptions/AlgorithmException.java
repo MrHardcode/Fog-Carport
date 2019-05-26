@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data.exceptions;
 
 /**
- *
- * @author Camilla
+ * This Exception is thrown in the logic layer. For example in the checks for 
+ * less than zero on a number or null-check on a list used in the calculations.
+ * @author 
  */
 public class AlgorithmException extends Exception{
      private static final long serialVersionUID = 1L;
