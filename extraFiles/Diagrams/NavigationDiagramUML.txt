@@ -8,10 +8,11 @@ state SessionInvalid {
     LavBruger : index.jsp
     Login : Login.jsp
     
-    [*] -down-> BestilCarport
+    [*] -left-> BestilCarport
+    [*] -down-> Login
     BestilCarport -down-> LavBruger
     BestilCarport --> [*] : ingen bruger lavet
-    LavBruger -down-> Login
+
     Login -down-> SessionValid : Succes og start Session
     Login --> Login: Fejl og fejlbesked
 }
@@ -53,6 +54,6 @@ state SessionValid {
             SeTegning. --> SeOrdre.
         }
     }
-    LogUd --> SessionInvalid
+    LogUd -up-> SessionInvalid
 }
 @enduml
