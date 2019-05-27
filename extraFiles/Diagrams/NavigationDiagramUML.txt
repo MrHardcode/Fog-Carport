@@ -1,0 +1,58 @@
+@startuml
+scale max 800 width
+
+title "Fog Carport Projekt - Navigations Diagram"
+
+state SessionInvalid {
+    BestilCarport : index.jsp
+    LavBruger : index.jsp
+    Login : Login.jsp
+    
+    [*] -down-> BestilCarport
+    BestilCarport -down-> LavBruger
+    BestilCarport --> [*] : ingen bruger lavet
+    LavBruger -down-> Login
+    Login -down-> SessionValid : Succes og start Session
+    Login --> Login: Fejl og fejlbesked
+}
+
+state SessionValid {
+    LogUd :
+    SessionValid --> Medarbejder
+    SessionValid --> Kunde
+
+    state Medarbejder {
+        Medarbejder --> SeAlleOrdreNAVBAR
+        SeAlleOrdreNAVBAR : allOrders.jsp
+        SeOrdre: viewOrder.jsp
+        SeStykliste: partslist.jsp
+        SeTegning: viewSVG.jsp
+        BeregnTilbudspris: Sæt tilbudspris
+        LogUd :
+        
+        SeAlleOrdreNAVBAR --> SeOrdre
+        SeOrdre --> BeregnTilbudspris : Ordre ikke betalt
+        BeregnTilbudspris --> SeOrdre
+        SeOrdre -up-> SeStykliste
+        SeOrdre -up-> SeTegning
+        SeOrdre -up-> SeOrdre : Modtag betaling
+    }
+    
+    state Kunde {
+        SeAlleOrdreNAVBAR. : allOrders.jsp
+        SeOrdre.: viewOrder.jsp
+
+        Kunde -down-> SeAlleOrdreNAVBAR.
+        SeAlleOrdreNAVBAR. --> SeOrdre.
+        SeOrdre. -down-> OrdreBetalt : Betal ordre
+        
+        state OrdreBetalt {
+            SeStykliste.: partslist.jsp
+            SeTegning.: viewSVG.jsp
+            SeStykliste. --> SeOrdre.
+            SeTegning. --> SeOrdre.
+        }
+    }
+    LogUd --> SessionInvalid
+}
+@enduml
