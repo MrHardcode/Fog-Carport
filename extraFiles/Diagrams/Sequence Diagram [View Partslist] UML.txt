@@ -1,0 +1,91 @@
+@startuml
+
+center header
+Fog Carport project
+endheader
+title "View Partslist - Sequence Diagram"
+
+
+actor User
+boundary viewOrder.jsp as order
+participant "viewPartslist\n(Command)" as partslistCMD
+participant LogicFacade as facadeL
+participant "ShedLogic" as calcShed
+participant "RoofFlatCalc" as calcFlat
+participant "RoofRaisedCalc" as calcRaised
+participant "BaseCalc" as calcBase
+
+participant DataFacade as facadeD
+participant OrderMapper as oMapper
+participant MaterialMapper as mMapper
+database carportdb as db
+boundary partslist.jsp as partslist
+
+note left of order
+has been paid
+end note
+User -> order : click "Se stykliste"
+order -> partslistCMD
+
+/'get order'/
+note right of partslistCMD
+orderID
+from request
+end note
+
+partslistCMD -> facadeL: getOrder
+facadeL -> facadeD: getOrder
+facadeD -> oMapper: getOrder
+oMapper -> db: getOrder
+
+/'return order'/
+db -> oMapper: returnOrder
+oMapper -> facadeD: returnOrder
+facadeD -> facadeL: returnOrder
+facadeL->partslistCMD: returnOrder
+
+/' get Partslist'/
+partslistCMD -> facadeL: getPartsList
+
+
+facadeL -> calcShed: getPartslist
+note right of facadeL
+if (incline == 0) RoofFlatCalc
+end note
+facadeL -> calcFlat: getPartslist
+note right of facadeL
+else RoofFlatCalc
+end note
+facadeL -> calcRaised: getPartslist
+facadeL -> calcBase: getPartslist
+
+
+
+/' get material'/
+calcShed -> facadeD: getMaterial
+calcFlat -> facadeD: getMaterial
+calcRaised -> facadeD: getMaterial
+calcBase -> facadeD: getMaterial
+facadeD -> mMapper: getMaterial
+mMapper -> db: getMaterial
+/' return material'/
+db -> mMapper: returnMaterial
+mMapper -> facadeD: returnMaterial
+facadeD -> calcShed: returnMaterial
+facadeD -> calcFlat: returnMaterial
+facadeD -> calcRaised: returnMaterial
+facadeD -> calcBase: returnMaterial
+/' return partslist'/
+calcShed -> facadeL: returnPartslist
+calcFlat -> facadeL: returnPartslist
+calcRaised -> facadeL: returnPartslist
+calcBase -> facadeL: returnPartslist
+facadeL -> partslistCMD: returnPartslist
+
+note right of partslistCMD
+set attributes
+end note
+partslistCMD -> partslist: forward user
+partslist -> User
+
+@enduml

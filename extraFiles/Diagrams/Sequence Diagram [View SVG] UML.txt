@@ -1,0 +1,174 @@
+@startuml
+
+center header
+Fog Carport project
+endheader
+title "View SVG - Sequence Diagram"
+
+actor User
+boundary viewOrder.jsp as order
+participant "ViewSVG\n(Command)" as SVGCMD
+participant LogicFacade as facadeL
+participant "calculations\n(ShedLogic)\n(RoofFlatCalc)\n(RoofRaisedCalc)\n(BaseCalc)" as calc
+participant SVGDrawingBase as SVGBase
+participant SVGDrawingShed as SVGShed
+participant SVGDrawingFlatRoof as SVGFlatRoof
+participant SVGDrawingRaisedRoof as SVGRaisedRoof
+participant DataFacade as facadeD
+participant MaterialMapper as mMapper
+participant OrderMapper as oMapper
+database carportdb as db
+boundary viewSVG.jsp as SVG
+
+note left of order
+has been paid
+end note
+User -> order : click "Se Tegninger"
+order -> SVGCMD
+
+/'get order'/
+note right of SVGCMD
+orderID
+from request
+end note
+
+SVGCMD -> facadeL: getOrder
+facadeL -> facadeD: getOrder
+facadeD -> oMapper: getOrder
+oMapper -> db: getOrder
+
+/'return order'/
+db -> oMapper: returnOrder
+oMapper -> facadeD: returnOrder
+facadeD -> facadeL: returnOrder
+facadeL->SVGCMD: returnOrder
+
+/' get partslist '/
+
+SVGCMD -> facadeL: getPartslist
+facadeL -> calc: getPartslist
+note left of calc
+if (incline == 0)
+RoofFlatCalc
+else
+RoofRaisedCalc
+end note
+calc -> facadeD: getMaterial
+facadeD -> mMapper: getMaterial
+mMapper -> db: getMaterial
+
+/' return partslist '/
+db -> mMapper: returnMaterial
+mMapper -> facadeD: returnMaterial
+facadeD -> calc: returnMaterial
+calc -> facadeL: returnPartslist
+facadeL -> SVGCMD: returnPartslist
+
+/' get SVG elements '/
+
+/' base '/
+SVGCMD -> facadeL: getSVGBase
+facadeL -> SVGBase: getSVGBase
+/' shed '/
+SVGBase -> SVGShed: getSVGShed
+SVGShed -> SVGBase: returnSVGShed
+/' return base + shed '/
+SVGBase -> facadeL: returnSVGBase
+facadeL -> SVGCMD: returnSVGBase
+
+/' arrowLength incline 0'/
+SVGCMD -> facadeL: getSVGbaseArrowLength
+note right of SVGCMD
+on 0
+end note
+facadeL -> SVGBase: getSVGbaseArrowLength
+SVGBase -> facadeL: returnSVGbaseArrowLength
+facadeL -> SVGCMD: returnSVGbaseArrowLength
+
+/' arrowLength incline x'/
+SVGCMD -> facadeL: getSvgbaseArrowLength
+note right of SVGCMD
+on incline x
+end note
+facadeL -> SVGBase: getSvgbaseArrowLength
+SVGBase -> facadeL: returnSvgbaseArrowLength
+facadeL -> SVGCMD: returnSvgbaseArrowLength
+
+/' arrowWidth incline 0'/
+SVGCMD -> facadeL: getSVGbaseArrowWidth
+note right of SVGCMD
+on 0
+end note
+facadeL -> SVGBase: getSVGbaseArrowWidth
+SVGBase -> facadeL: returnSVGbaseArrowWidth
+facadeL -> SVGCMD: returnSVGbaseArrowWidth
+
+/' arrowWidth incline x'/
+SVGCMD -> facadeL: getSvgbaseArrowWidth
+note right of SVGCMD
+on incline x
+end note
+facadeL -> SVGBase: getSvgbaseArrowWidth
+SVGBase -> facadeL: returnSvgbaseArrowWidth
+facadeL -> SVGCMD: returnSvgbaseArrowWidth
+
+/' LabelWidth incline 0'/
+SVGCMD -> facadeL: getSVGbaseLabelWidth
+note right of SVGCMD
+on 0
+end note
+facadeL -> SVGBase: getSVGbaseLabelWidth
+SVGBase -> facadeL: returnSVGbaseLabelWidth
+facadeL -> SVGCMD: returnSVGbaseLabelWidth
+
+/' labelWidth incline x'/
+SVGCMD -> facadeL: getSVGbaseLabelWidth
+note right of SVGCMD
+on incline x
+end note
+facadeL -> SVGBase: getSVGbaseLabelWidth
+SVGBase -> facadeL: returnSVGbaseLabelWidth
+facadeL -> SVGCMD: returnSVGbaseLabelWidth
+
+
+/' LabelLength incline 0'/
+SVGCMD -> facadeL: getSVGbaseLabelLength
+note right of SVGCMD
+on 0
+end note
+facadeL -> SVGBase: getSVGbaseLabelLength
+SVGBase -> facadeL: returnSVGbaseLabelLength
+facadeL -> SVGCMD: returnSVGbaseLabelLength
+
+/' labelLength incline x'/
+SVGCMD -> facadeL: getSVGbaseLabelLength
+note right of SVGCMD
+on incline x
+end note
+facadeL -> SVGBase: getSVGbaseLabelLength
+SVGBase -> facadeL: returnSVGbaseLabelLength
+facadeL -> SVGCMD: returnSVGbaseLabelLength
+
+/' roof '/
+SVGCMD -> facadeL: getSVGroof
+note left of facadeL
+if (incline == 0)
+end note
+facadeL -> SVGFlatRoof: getFlatRoofDrawing
+SVGFlatRoof -> facadeL: returnFlatRoofDrawing
+note left of facadeL
+else
+end note
+facadeL -> SVGRaisedRoof: getRaisedRoofDrawing
+SVGRaisedRoof -> facadeL: returnRaisedRoofDrawing
+facadeL -> SVGCMD: returnSVGRoof
+
+/' forward user'/
+note right of SVGCMD
+set attributes
+end note
+SVGCMD -> SVG: forward user
+SVG -> User
+
+
+@enduml
