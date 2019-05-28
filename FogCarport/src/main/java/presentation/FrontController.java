@@ -26,6 +26,7 @@ import logic.LogicFacadeImpl;
 })
 public class FrontController extends HttpServlet
 {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,17 +43,16 @@ public class FrontController extends HttpServlet
     {
         try
         {
-            if (request.getAttribute("target") != null)
-            {
-                validateSession(request);
-            }
+
+            validateSession(request);
+
             Command action = Command.from(request);
             String target = action.execute(request, logic);
             request.setAttribute("target", target);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
         }
-        catch (UserException e) 
+        catch (UserException e)
         {
             request.setAttribute("target", "login"); //send user to login 
             String message = e.getMessage();
