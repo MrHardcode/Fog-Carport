@@ -6,8 +6,9 @@
   
 Made by [4 students](https://github.com/HrBjarup/Fog-Carport/graphs/contributors) of Computer Science AP, CPHBusiness, Kgs. Lyngby, Denmark.  
 This is the repository for our third project of the second semester.  
-
-<img align="right"  src="https://i.imgur.com/OLoJ7oB.png">  
+<p float=right>
+<img align="right" src="https://i.imgur.com/OLoJ7oB.png">  
+  </p>
 
 #### Project description  
 *"(Paraphrased) A local hardware store has an application from 1999 that handles their orders for DIY Carports.  
