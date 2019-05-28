@@ -20,7 +20,8 @@ INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES (
 INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('asger@fog.dk', '2', '1234'); /* role: salesman */
 INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('camilla@fog.dk', '2', '1234'); /* role: salesman */
 INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('malte@fog.dk', '2', '1234'); /* role: salesman */
-INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('test@fog.dk', '3', '1234'); /* role: testrole */
+INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('test@fog.dk', '2', '1234'); /* role: salesman */
+INSERT INTO `carportdb`.`employees` (`emp_email`, `id_role`,`password`) VALUES ('test@fogtest.dk', '3', '1234'); /* role: testrole */
 
 /*
 Creating customers.
