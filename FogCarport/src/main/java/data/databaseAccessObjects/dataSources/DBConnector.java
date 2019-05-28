@@ -11,6 +11,7 @@ import java.util.Properties;
  * AND IS THE FALLBACK SOLUTION. 
  * @author 
  */
+@Deprecated
 public class DBConnector
 {
 
@@ -44,7 +45,7 @@ public class DBConnector
                 System.out.println("Connection correctly established to the database: " + DATABASE);
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex)
             {
-                ex.printStackTrace();
+                //ex.printStackTrace();
                 throw new SQLException(ex.getMessage());
             } 
         }
