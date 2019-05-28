@@ -14,6 +14,7 @@ import data.models.PartslistModel;
  * Like, divide shed, roof and bottom into 3 classes once we reach the advanced
  * algorithm.
  */
+@Deprecated
 class PartslistLogic
 {
 
