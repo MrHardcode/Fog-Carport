@@ -47,41 +47,64 @@ facadeL->partslistCMD: returnOrder
 /' get Partslist'/
 partslistCMD -> facadeL: getPartsList
 
-
+'/ getShed'/
 facadeL -> calcShed: getPartslist
+calcShed -> facadeD: getMaterial
+    /' get material from DB'/
+    facadeD -> mMapper: getMaterial
+    mMapper -> db: getMaterial
+    /' return material to DB '/
+    db -> mMapper: returnMaterial
+    mMapper -> facadeD: returnMaterial
+facadeD -> calcShed: returnMaterial
+calcShed -> facadeL: returnPartslist
+
 note right of facadeL
 if (incline == 0) RoofFlatCalc
 end note
+
+'/ getFlatRoof '/
 facadeL -> calcFlat: getPartslist
-note right of facadeL
-else RoofFlatCalc
-end note
-facadeL -> calcRaised: getPartslist
-facadeL -> calcBase: getPartslist
-
-
-
-/' get material'/
-calcShed -> facadeD: getMaterial
 calcFlat -> facadeD: getMaterial
-calcRaised -> facadeD: getMaterial
-calcBase -> facadeD: getMaterial
-facadeD -> mMapper: getMaterial
-mMapper -> db: getMaterial
-/' return material'/
-db -> mMapper: returnMaterial
-mMapper -> facadeD: returnMaterial
-facadeD -> calcShed: returnMaterial
+    /' get material from DB'/
+    facadeD -> mMapper: getMaterial
+    mMapper -> db: getMaterial
+    /' return material to DB '/
+    db -> mMapper: returnMaterial
+    mMapper -> facadeD: returnMaterial
 facadeD -> calcFlat: returnMaterial
-facadeD -> calcRaised: returnMaterial
-facadeD -> calcBase: returnMaterial
-/' return partslist'/
-calcShed -> facadeL: returnPartslist
 calcFlat -> facadeL: returnPartslist
+note right of facadeL
+else RoofRaisedCalc
+end note
+'/ getRaisedRoof'/
+facadeL -> calcRaised: getPartslist
+calcRaised -> facadeD: getMaterial
+    /' get material from DB'/
+    facadeD -> mMapper: getMaterial
+    mMapper -> db: getMaterial
+    /' return material to DB '/
+    db -> mMapper: returnMaterial
+    mMapper -> facadeD: returnMaterial
+facadeD -> calcRaised: returnMaterial
 calcRaised -> facadeL: returnPartslist
+
+'/ getBase'/
+facadeL -> calcBase: getPartslist
+calcBase -> facadeD: getMaterial
+    /' get material from DB'/
+    facadeD -> mMapper: getMaterial
+    mMapper -> db: getMaterial
+    /' return material to DB '/
+    db -> mMapper: returnMaterial
+    mMapper -> facadeD: returnMaterial
+facadeD -> calcBase: returnMaterial
 calcBase -> facadeL: returnPartslist
+
+/' return partslist'/
 facadeL -> partslistCMD: returnPartslist
 
+/' forward user '/
 note right of partslistCMD
 set attributes
 end note
