@@ -11,7 +11,8 @@ This is the repository for our third project of the second semester.
 
 
 #### Project description  
-*"(Paraphrased) A local hardware store has an application from 1999 that handles their orders for DIY Carports.  
+*"(Paraphrased) 
+A local hardware store has an application from 1999 that handles their orders for DIY Carports.  
 The system currently allows a salesman to handle orders based on customer wishes, but it is done manually. Develop a new application(...)"*
 
 ### Resources
