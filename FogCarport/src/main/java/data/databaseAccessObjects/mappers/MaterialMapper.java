@@ -70,18 +70,24 @@ public class MaterialMapper
     public MaterialModel getMaterial(int id, String helptext) throws DataException
     {
         MaterialModel material = new MaterialModel();
-
-        String SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_" + helptext + " \n"
-                + "FROM materials \n"
-                + "INNER JOIN `category` \n"
-                + "ON `materials`.`id_category` = `category`.`id_category` \n"
-                + "WHERE `materials`.`id_material` = ?;";
+        String SQL = "";
+        if (helptext.equals("base") || helptext.equals("roof") || helptext.equals("shed")) //this is to avoid SQL injection. ps.setString does not work with non-parameter fields.
+        {
+            SQL = "SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_" + helptext + " \n"
+                    + "FROM materials \n"
+                    + "INNER JOIN `category` \n"
+                    + "ON `materials`.`id_category` = `category`.`id_category` \n"
+                    + "WHERE `materials`.`id_material` = ?;";
+        }
+        else
+        {
+            throw new DataException("Forkert input for helptext");
+        }
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement ps = connection.prepareStatement(SQL))
+                PreparedStatement ps = connection.prepareStatement(SQL);)
         {
             material.setID(id);
-
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -163,6 +169,10 @@ public class MaterialMapper
      */
     public PartslistModel getMaterials(int id, String helptext) throws DataException
     {
+        if (!helptext.equals("base") || !helptext.equals("roof") || !helptext.equals("shed"))
+        {
+            throw new DataException("Forkert input for helptext");
+        }
         PartslistModel materials = new PartslistModel();
         String SQL = "SELECT `order_details`.`id_material`\n"
                 + "FROM `carportdb`.`order_details`\n"
