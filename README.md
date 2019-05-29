@@ -7,7 +7,7 @@
   </p>
   
 Made by Group 2, consisting of these [4 students](https://github.com/HrBjarup/Fog-Carport/graphs/contributors) of Computer Science AP, CPHBusiness, Kgs. Lyngby, Denmark.  
-This is the repository for our third project of the second semester.  
+This is the repository for our final project of the second semester.  
 
 
 #### Project description  
