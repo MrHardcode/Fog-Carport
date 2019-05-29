@@ -24,7 +24,7 @@ The system currently allows a salesman to handle orders based on customer wishes
 + [JavaDocs](https://hrbjarup.github.io/Fog-Carport/docs)
 + [Jacoco](https://hrbjarup.github.io/Fog-Carport/jacoco)
 + [Deployment](http:/www.bjarup.com)
-+ ~~[Report]()~~
++ [Report](https://github.com/HrBjarup/Fog-Carport/blob/master/extraFiles/Semesterprojekt%20-%20Fog-Rapport%20-%20Gruppe%202.pdf)
 
 ### Access  
 
