@@ -22,7 +22,7 @@ The system currently allows a salesman to handle orders based on customer wishes
 
 ### Results
 + [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
-+ [Deployment](http://207.154.233.238/fogcarport/)
++ [Deployment](http:/www.bjarup.com)
 + ~~[Report]()~~
 
 ### Access  
