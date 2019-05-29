@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseCalc.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.Calculations</a> &gt; <span class="el_source">BaseCalc.java</span></div><h1>BaseCalc.java</h1><pre class="source lang-java linenums">package logic.Calculations;
+
+import data.DataFacade;
+import data.DataFacadeImpl;
+import data.exceptions.DataException;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author 
+ */
+<span class="fc" id="L15">public class BaseCalc</span>
+{
+    //Post-rules
+<span class="fc" id="L18">    private final int postDistanceStandard = 3100;</span>
+<span class="fc" id="L19">    private final int postDistanceRaisedRoof = 2750;</span>
+    
+    //IDs of materials from DB
+<span class="fc" id="L22">    private final int postID = 4;</span>
+<span class="fc" id="L23">    private final int strapID = 54;</span>
+<span class="fc" id="L24">    private final int boltID = 24;</span>
+<span class="fc" id="L25">    private final String helptext = &quot;base&quot;; // Used to fetch the right helptext from database.</span>
+    
+    //Variables used to keep track of things in the algorithm
+<span class="fc" id="L28">    private int separations = 0;</span>
+<span class="fc" id="L29">    private ArrayList postPosSideOne = new ArrayList();</span>
+<span class="fc" id="L30">    private ArrayList postPosSideTwo = new ArrayList();</span>
+<span class="fc" id="L31">    private ArrayList postPosRear = new ArrayList();</span>
+    
+    /**
+     * Used to get a Partslist with materials for the base construction.
+     * This method creates a Partslist with all the materials needed in the base 
+     * construction based on the details in the given order. 
+     * @param order Contains the dimensions needed to create the base
+     * @return PartslistModel
+     * @throws DataException 
+     */
+    public PartslistModel addBase(OrderModel order) throws DataException
+    {
+<span class="fc" id="L43">        PartslistModel bom = new PartslistModel();</span>
+<span class="fc" id="L44">        DataFacade db = DataFacadeImpl.getInstance();</span>
+        
+<span class="fc" id="L46">        int carportLength = order.getLength();</span>
+<span class="fc" id="L47">        int carportWidth = order.getWidth();</span>
+<span class="fc" id="L48">        int shedLength = order.getShed_length();</span>
+<span class="fc" id="L49">        int shedWidth = order.getShed_width();</span>
+<span class="fc" id="L50">        boolean hasRaisedRoof = false;</span>
+        
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (order.getIncline() &gt; 0)</span>
+        {
+<span class="fc" id="L54">            hasRaisedRoof = true;</span>
+        }
+        
+<span class="fc" id="L57">        calcMaterials(bom, carportLength, carportWidth, shedLength, shedWidth, hasRaisedRoof, db);</span>
+<span class="fc" id="L58">        bom.setPostPosSideOne(postPosSideOne);</span>
+<span class="fc" id="L59">        bom.setPostPosSideTwo(postPosSideTwo);</span>
+<span class="fc" id="L60">        bom.setPostPosRear(postPosRear);</span>
+<span class="fc" id="L61">        return bom;</span>
+    }
+    
+    /**
+     * Used by addBase() to add the needed materials to the Partslist.
+     * This method gets materials from the DB and modifies the given Partslist 
+     * by adding the materials.
+     * @param bom PartslistModel
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param heavyRoof boolean: Whether or not the roof incline is 0 or above 0 degrees
+     * @param db DataFacade
+     * @throws DataException 
+     */
+    protected void calcMaterials(
+            PartslistModel bom, 
+            int carportLength, int carportWidth, 
+            int shedLength, int shedWidth, 
+            boolean heavyRoof, 
+            DataFacade db) throws DataException
+    {
+        //97x97mm post
+<span class="fc" id="L85">        MaterialModel post = db.getMaterial(postID, helptext);</span>
+<span class="fc" id="L86">        int postAmount = 0;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (heavyRoof)</span>
+        {
+<span class="fc" id="L89">            postAmount = calcPosts(carportLength, carportWidth, shedLength, shedWidth, postDistanceRaisedRoof);</span>
+        }
+        else
+        {
+<span class="fc" id="L93">            postAmount = calcPosts(carportLength, carportWidth, shedLength, shedWidth, postDistanceStandard);</span>
+        }
+<span class="fc" id="L95">        post.setQuantity(postAmount);</span>
+<span class="fc" id="L96">        bom.addMaterial(post);</span>
+        //45x195mm rafter wood
+<span class="fc" id="L98">        MaterialModel strap = db.getMaterial(strapID, helptext);</span>
+<span class="fc" id="L99">        int strapAmount = calcStraps(carportLength, carportWidth, strap);</span>
+<span class="fc" id="L100">        strap.setQuantity(strapAmount);</span>
+<span class="fc" id="L101">        bom.addMaterial(strap);</span>
+        
+        //10x120mm bolts
+<span class="fc" id="L104">        MaterialModel bolts = db.getMaterial(boltID, helptext);</span>
+<span class="fc" id="L105">        int boltAmount = calcBolts(strapAmount);</span>
+<span class="fc" id="L106">        bolts.setQuantity(boltAmount);</span>
+<span class="fc" id="L107">        bom.addMaterial(bolts);</span>
+<span class="fc" id="L108">    }</span>
+
+    /**
+     * Used by calcMaterials() to calculate the amount of Posts needed.
+     * This method calculates the amount of posts needed for the base construction. 
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed
+     */
+    protected int calcPosts(int carportLength, int carportWidth, int shedLength, int shedWidth, int postDistance)
+    {
+        /*SVG related*/
+<span class="fc" id="L123">        postPosSideOne.clear();</span>
+<span class="fc" id="L124">        postPosSideTwo.clear();</span>
+<span class="fc" id="L125">        postPosRear.clear();</span>
+        /*SVG related*/
+        
+        //Total post amount
+<span class="fc" id="L129">        int postAmount = 0;</span>
+        
+        //If the shed length is 0 because there is no shed:
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (shedLength == 0)</span>
+        {
+<span class="fc" id="L134">            postAmount = calcPostsNoShed(carportLength, carportWidth, postDistance);</span>
+        }
+        //If the shed is as wide as the carport:
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        else if (shedWidth == carportWidth)</span>
+        {
+<span class="fc" id="L139">            postAmount = calcPostsFullWidthShed(carportLength, carportWidth, shedLength, postDistance);</span>
+        }
+        //If the shed's width is shorter than the carport's width:
+        else
+        {
+<span class="fc" id="L144">            postAmount = calcPostsOddShed(carportLength, carportWidth, shedLength, shedWidth, postDistance);</span>
+        }
+<span class="fc" id="L146">        return postAmount;</span>
+    }
+    
+    /**
+     * Used by calcPosts(). 
+     * This method is only used in cases where the shed's width is the same 
+     * as the width of the carport. 
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
+    private int calcPostsFullWidthShed(int carportLength, int carportWidth, int shedLength, int postDistance)
+    {
+        /*SVG related*/
+<span class="fc" id="L164">        postPosSideOne.clear();</span>
+<span class="fc" id="L165">        postPosSideTwo.clear();</span>
+<span class="fc" id="L166">        postPosRear.clear();</span>
+        /*SVG related*/
+        
+        //The first posts are always places 800mm from the entrance-end of the carport
+<span class="fc" id="L170">        int length = carportLength - 800;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L173">        postPosSideOne.add(80);</span>
+<span class="fc" id="L174">        postPosSideTwo.add(80);</span>
+        /*SVG related*/
+        
+        //Posts
+<span class="fc" id="L178">        int postAmount = 0;</span>
+
+        /*-------------------------------*/
+        /*   Both sides of the carport   */
+        /*-------------------------------*/
+        //Counter used to count the amount of times a post should be placed 
+        //between the front post and the first shed post
+<span class="fc" id="L185">        int count = 0;</span>
+        //Adding post amount to the counter plus 1 (to include the front post)
+<span class="fc" id="L187">        count = ((length - shedLength) / postDistance) + 1;</span>
+        
+        /*SVG related*/
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">        if (count &gt; 0)</span>
+        {
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            for (int i = 1; i &lt; count; i++)</span>
+            {
+<span class="fc" id="L194">                postPosSideOne.add(80 + i * (postDistance/10));</span>
+<span class="fc" id="L195">                postPosSideTwo.add(80 + i * (postDistance/10));</span>
+            }
+        }
+        /*SVG related*/
+        
+        //If two posts are placed on the same spot, we remove one of them
+        //We remove two, since this counts for boths sides (because shed width == carport width)
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        if (carportLength - (800 + postDistance * (count - 1)) == shedLength)</span>
+        {
+<span class="fc" id="L204">            postAmount -= 2;</span>
+        }
+        //Adding 2 to count because: 
+        //1 for the first corner of the shed
+        //Another 1 for the second corner of the shed (which is also the corner of the carport)
+<span class="fc" id="L209">        count += 2;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L212">        postPosSideOne.add((carportLength / 10) - (shedLength / 10));</span>
+<span class="fc" id="L213">        postPosSideOne.add((carportLength / 10));</span>
+<span class="fc" id="L214">        postPosSideTwo.add((carportLength / 10) - (shedLength / 10));</span>
+<span class="fc" id="L215">        postPosSideTwo.add((carportLength / 10));</span>
+        /*SVG related*/
+        
+        //Adding count to the postAmount twice since the sides of the carport are equal to each other 
+        //because the shed has the same width as the carport
+<span class="fc" id="L220">        postAmount += count * 2;</span>
+        //If the shed is very long we need one or more extra posts
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if ((shedLength / postDistance) &gt; 0)</span>
+        {
+            //We add the amount twice since the sides of the carport are equal
+<span class="nc" id="L225">            postAmount += (shedLength / postDistance) * 2;</span>
+            
+            /*SVG related*/
+<span class="nc" id="L228">            int corner = carportLength - shedLength;</span>
+<span class="nc" id="L229">            int x = 0;</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">            for (int i = carportLength; i &gt; corner; i -= postDistance)</span>
+            {
+<span class="nc" id="L232">                ++x;</span>
+<span class="nc" id="L233">                postPosSideOne.add((carportLength / 10) - x * (postDistance / 10));</span>
+<span class="nc" id="L234">                postPosSideTwo.add((carportLength / 10) - x * (postDistance / 10));</span>
+            }
+            /*SVG related*/
+        }
+        
+        /*-----------------------------*/
+        /*   The rear of the carport   */
+        /*-----------------------------*/
+        //Calculating width. We don't have to think about extra posts for the shed 
+        //since the shed has the same width as the carport
+        //The corner posts have already been calculated
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        if ((carportWidth / postDistance) &gt; 0)</span>
+        {
+<span class="fc" id="L247">            int x = postAmount;</span>
+            
+<span class="fc" id="L249">            postAmount += (carportWidth / postDistance);</span>
+            
+<span class="fc" id="L251">            x = Math.abs(x - postAmount);</span>
+            /*SVG related*/
+<span class="fc bfc" id="L253" title="All 2 branches covered.">            for (int i = 1; i &lt;= x; i++)</span>
+            {
+<span class="fc" id="L255">                postPosRear.add(((carportWidth / 10) / (x + 1)) * i);</span>
+            }
+            /*SVG related*/
+        }
+<span class="fc" id="L259">        return postAmount;</span>
+    }
+    
+    /**
+     * Used by calcPosts(). 
+     * This method is only used in cases where the shed's width is shorter than 
+     * the width of the carport. 
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param shedLength int: Length of shed
+     * @param shedWidth int: Width of shed
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
+    private int calcPostsOddShed(int carportLength, int carportWidth, int shedLength, int shedWidth, int postDistance)
+    {
+        /*SVG related*/
+<span class="fc" id="L278">        postPosSideOne.clear();</span>
+<span class="fc" id="L279">        postPosSideTwo.clear();</span>
+<span class="fc" id="L280">        postPosRear.clear();</span>
+        /*SVG related*/
+        
+        //The first posts are always places 800mm from the entrance-end of the carport
+<span class="fc" id="L284">        int length = carportLength - 800;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L287">        postPosSideOne.add(80);</span>
+<span class="fc" id="L288">        postPosSideTwo.add(80);</span>
+        /*SVG related*/
+        
+        //Posts
+<span class="fc" id="L292">        int postAmount = 0;</span>
+        
+        /*--------------------------------*/
+        /*   Second side of the carport   */
+        /*--------------------------------*/
+        //Counter used to count the amount of times a post should be placed 
+        //between the front post and the first shed post
+<span class="fc" id="L299">        int count = 0;</span>
+        //Adding post amount to the counter plus 1 (to include the front post)
+<span class="fc" id="L301">        count = ((length - shedLength) / postDistance) + 1;</span>
+        
+        /*SVG related*/
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">        if (count &gt; 0)</span>
+        {
+<span class="fc bfc" id="L306" title="All 2 branches covered.">            for (int i = 1; i &lt; count; i++)</span>
+            {
+<span class="fc" id="L308">                postPosSideTwo.add(80 + i * (postDistance/10));</span>
+            }
+        }
+        /*SVG related*/
+        
+        //If two posts are placed on the same spot, we remove one of them
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (carportLength - (800 + postDistance * (count - 1)) == shedLength)</span>
+        {
+<span class="fc" id="L316">            postAmount -= 1;</span>
+        }
+        //Adding 2 to count: 
+        //1 for the first corner of the shed
+        //Another 1 for the second corner of the shed (which is also the corner of the carport)
+<span class="fc" id="L321">        count += 2;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L324">        postPosSideTwo.add((carportLength / 10) - (shedLength / 10));</span>
+<span class="fc" id="L325">        postPosSideTwo.add((carportLength / 10));</span>
+        /*SVG related*/
+        
+        //Adding count to the postAmount
+<span class="fc" id="L329">        postAmount += count;</span>
+        //If the shed is very long we need one or more extra posts
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">        if ((shedLength / postDistance) &gt; 0)</span>
+        {
+<span class="nc" id="L333">            postAmount += (shedLength / postDistance);</span>
+            
+<span class="nc bnc" id="L335" title="All 2 branches missed.">            if (shedLength % postDistance == 0)</span>
+            {
+<span class="nc" id="L337">                --postAmount;</span>
+            }
+            
+            /*SVG related*/
+<span class="nc" id="L341">            int y = shedLength / postDistance;</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">            for (int i = 1; i &lt;= y; i++)</span>
+            {
+<span class="nc" id="L344">                postPosSideTwo.add((Math.abs(shedLength - carportLength) / 10) + (i * (postDistance / 10)));</span>
+            }
+            /*SVG related*/
+        }
+        /*-------------------------------*/
+        /*   First side of the carport   */
+        /*-------------------------------*/
+        //Adding the amount of posts for the first side. The + 1 is the front post
+<span class="fc" id="L352">        postAmount += (length / postDistance) + 1;</span>
+        
+        /*SVG related*/
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if (length % postDistance == 0)</span>
+        {
+<span class="nc" id="L357">            int y = length / postDistance;</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">            for (int i = 1; i &lt;= y; i++)</span>
+            {
+<span class="nc" id="L360">                postPosSideOne.add(80 + i * (postDistance/10));</span>
+            }
+<span class="nc" id="L362">            postPosSideOne.add(carportLength / 10);</span>
+        }
+        /*SVG related*/
+        
+        //Adding an extra post if the previous division didn't go up
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">        if (length % postDistance &gt; 0)</span>
+        {
+<span class="fc" id="L369">            ++postAmount;</span>
+            
+            /*SVG related*/
+<span class="fc" id="L372">            int y = length / postDistance;</span>
+<span class="fc bfc" id="L373" title="All 2 branches covered.">            for (int i = 1; i &lt;= y; i++)</span>
+            {
+<span class="fc" id="L375">                postPosSideOne.add(80 + i * (postDistance/10));</span>
+            }
+<span class="fc" id="L377">            postPosSideOne.add(carportLength / 10);</span>
+            /*SVG related*/
+        }
+        /*-----------------------------*/
+        /*   The rear of the carport   */
+        /*-----------------------------*/
+        //Adding one for the corner of the shed
+<span class="fc" id="L384">        ++postAmount;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L387">        postPosRear.add(Math.abs((shedWidth / 10) - (carportWidth / 10)));</span>
+        /*SVG related*/
+        
+        //Adding extra posts for the part that the shed is covering if the shed is wide enough
+<span class="pc bpc" id="L391" title="1 of 2 branches missed.">        if (shedWidth / postDistance &gt; 0)</span>
+        {
+<span class="nc" id="L393">            int x = postAmount;</span>
+<span class="nc" id="L394">            int restWidth = carportWidth - shedWidth;</span>
+            
+<span class="nc" id="L396">            postAmount += (shedWidth / postDistance);</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">            if (shedWidth % postDistance == 0)</span>
+            {
+<span class="nc" id="L399">                --postAmount;</span>
+            }
+            
+<span class="nc" id="L402">            x = Math.abs(x - postAmount);</span>
+            
+            /*SVG related*/
+<span class="nc bnc" id="L405" title="All 2 branches missed.">            for (int i = 1; i &lt;= x; i++)</span>
+            {
+<span class="nc" id="L407">                postPosRear.add((restWidth/ 10) + ((shedWidth / 10) / (x + 1)) * i);</span>
+            }
+            /*SVG related*/
+        }
+<span class="fc" id="L411">        int restWidth = carportWidth - shedWidth;</span>
+        
+        //Adding extra posts for the part that the shed doesn't cover if needed
+<span class="fc bfc" id="L414" title="All 2 branches covered.">        if (restWidth / postDistance &gt; 0)</span>
+        {
+<span class="fc" id="L416">            int x = postAmount;</span>
+<span class="fc" id="L417">            postAmount += (restWidth / postDistance);</span>
+<span class="pc bpc" id="L418" title="1 of 2 branches missed.">            if (restWidth % postDistance == 0)</span>
+            {
+<span class="nc" id="L420">                --postAmount;</span>
+            }
+
+<span class="fc" id="L423">            x = Math.abs(x - postAmount);</span>
+            /*SVG related*/
+<span class="fc bfc" id="L425" title="All 2 branches covered.">            for (int i = 1; i &lt;= x; i++)</span>
+            {
+<span class="fc" id="L427">                postPosRear.add(((restWidth / 10) / (x + 1)) * i);</span>
+            }
+            /*SVG related*/
+        }
+        
+<span class="fc" id="L432">        return postAmount;</span>
+    }
+    
+    /**
+     * Used by calcPosts(). 
+     * This method is only used when the user has chosen a carport without a shed.
+     * This method calculates the amount of posts needed as well as the positions 
+     * of the posts which is used by another part of the program (SVGDrawingBase.java)
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param postDistance int: Maximum allowed distance between posts
+     * @return int: The amount of posts needed in the base construction
+     */
+    private int calcPostsNoShed(int carportLength, int carportWidth, int postDistance)
+    {
+        /*SVG related*/
+<span class="fc" id="L448">        postPosSideOne.clear();</span>
+<span class="fc" id="L449">        postPosSideTwo.clear();</span>
+<span class="fc" id="L450">        postPosRear.clear();</span>
+        /*SVG related*/
+        
+        //Amount of posts
+<span class="fc" id="L454">        int postAmount = 0;</span>
+        
+        /*SVG related*/
+<span class="fc" id="L457">        postPosSideOne.add(80);</span>
+<span class="fc" id="L458">        postPosSideTwo.add(80);</span>
+        /*SVG related*/
+        
+        //Calculating the amount of posts between the corner posts in the side. 
+        //+2 for the two corners. *2 since the sides are equal.
+<span class="fc" id="L463">        postAmount += (((carportLength - 800) / postDistance) + 2) * 2;</span>
+        //Calculating the amount of posts between the corner posts in the rear.
+        
+        /*SVG related*/
+<span class="fc" id="L467">        int length = carportLength - 800;</span>
+<span class="fc" id="L468">        int y = length / postDistance;</span>
+<span class="fc bfc" id="L469" title="All 2 branches covered.">        for (int i = 1; i &lt;= y; i++)</span>
+        {
+<span class="fc" id="L471">            postPosSideOne.add(80 + i * (postDistance / 10));</span>
+<span class="fc" id="L472">            postPosSideTwo.add(80 + i * (postDistance / 10));</span>
+        }
+<span class="fc" id="L474">        postPosSideOne.add(carportLength / 10);</span>
+<span class="fc" id="L475">        postPosSideTwo.add(carportLength / 10);</span>
+        /*SVG related*/
+
+<span class="fc" id="L478">        int x = postAmount;</span>
+        
+<span class="fc" id="L480">        postAmount += carportWidth / postDistance;</span>
+
+<span class="fc" id="L482">        x = Math.abs(x - postAmount);</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">        if (carportWidth % postDistance == 0)</span>
+        {
+<span class="fc" id="L485">            --x;</span>
+        }
+        /*SVG related*/
+<span class="pc bpc" id="L488" title="1 of 2 branches missed.">        for (int i = 1; i &lt;= x; i++)</span>
+        {
+<span class="nc" id="L490">            postPosRear.add(((carportWidth / 10) / (x + 1)) * i);</span>
+        }
+        /*SVG related*/
+
+        //If cWidth % postDistance == 0 then the algorithm adds a post for a corner
+        //where a post has already been places so we must remove that one extra post
+<span class="fc bfc" id="L496" title="All 2 branches covered.">        if (carportWidth % postDistance == 0)</span>
+        {
+<span class="fc" id="L498">            --postAmount;</span>
+        }
+<span class="fc" id="L500">        return postAmount;</span>
+    }
+    
+    /**
+     * Used by calcMaterials() to calculate the amount of Straps needed.
+     * This method calculates the amount of straps needed for the base construction.
+     * This method also counts the amount of times a strap has been split (this value 
+     * is used by calcBolts())
+     * @param carportLength int: Length of carport
+     * @param carportWidth int: Width of carport
+     * @param strap MaterialModel
+     * @return int: The amount of straps needed
+     */
+    protected int calcStraps(int carportLength, int carportWidth, MaterialModel strap)
+    {
+<span class="fc" id="L515">        separations = 0;</span>
+        //Amount of straps
+<span class="fc" id="L517">        int strapAmount = 0;</span>
+<span class="fc" id="L518">        boolean skipWidthCalc = false;</span>
+        //Calculating the amount of straps for the sides if the carport is shorter 
+        //than a strap
+<span class="fc bfc" id="L521" title="All 2 branches covered.">        if (carportLength &lt;= strap.getLength())</span>
+        {
+            //If one strap can cover the whole length of both sides of the carport 
+            //then we only need one strap for the sides
+<span class="fc bfc" id="L525" title="All 2 branches covered.">            if (carportLength * 2 &lt;= strap.getLength())</span>
+            {
+<span class="fc" id="L527">                ++strapAmount;</span>
+            }
+            //If not then we obviously need two
+            else
+            {
+<span class="fc" id="L532">                strapAmount += 2;</span>
+            }
+        }
+        else
+        {
+<span class="fc" id="L537">            strapAmount += 2;</span>
+<span class="fc" id="L538">            int restLength = carportLength - strap.getLength();</span>
+            while (true)
+            {
+<span class="pc bpc" id="L541" title="1 of 2 branches missed.">                if (restLength &lt; strap.getLength())</span>
+                {
+<span class="fc" id="L543">                    break;</span>
+                }
+<span class="nc" id="L545">                strapAmount += 2;</span>
+<span class="nc" id="L546">                restLength -= strap.getLength();</span>
+            }
+            //If one strap can cover the rest of the length in both sides:
+<span class="pc bpc" id="L549" title="1 of 2 branches missed.">            if (restLength * 2 &lt;= strap.getLength())</span>
+            {
+<span class="fc" id="L551">                ++separations;</span>
+<span class="fc" id="L552">                ++strapAmount;</span>
+                //If the excess part of the extra strap can cover the carport width 
+                //then we just skip the width calculation
+<span class="fc bfc" id="L555" title="All 2 branches covered.">                if (strap.getLength() - restLength * 2 &gt;= carportWidth)</span>
+                {
+<span class="fc" id="L557">                    skipWidthCalc = true;</span>
+<span class="fc" id="L558">                    ++separations;</span>
+                }
+            }
+            //If the rest of the length is longer than half of the length of one strap:
+            else
+            {
+<span class="nc" id="L564">                strapAmount += 2;</span>
+                //If the excess part of one extra strap can cover the carport width 
+                //then we just skip the width calculation
+<span class="nc bnc" id="L567" title="All 2 branches missed.">                if ((strap.getLength() - restLength) &gt;= carportWidth)</span>
+                {
+<span class="nc" id="L569">                    skipWidthCalc = true;</span>
+<span class="nc" id="L570">                    ++separations;</span>
+                    
+                }
+            }
+        }
+        /*   Calculating amount of straps for the rear of the carport */
+<span class="fc bfc" id="L576" title="All 2 branches covered.">        if (!skipWidthCalc)</span>
+        {
+            //Adding an extra strap for the rear of the carport
+<span class="fc" id="L579">            ++strapAmount;</span>
+
+            //If the width is longer than one strap we add extra straps using integer division
+<span class="pc bpc" id="L582" title="1 of 2 branches missed.">            if (carportWidth / strap.getLength() &gt; 0)</span>
+            {
+<span class="nc" id="L584">                strapAmount += carportWidth / strap.getLength();</span>
+                //Checking for remainders using modulus. If there is no remainder 
+                //we remove one strap
+<span class="nc bnc" id="L587" title="All 2 branches missed.">                if (carportWidth % strap.getLength() == 0)</span>
+                {
+<span class="nc" id="L589">                    --strapAmount;</span>
+                }
+            }
+        }
+        //If one strap is enough to cover the whole carport we set strapAmount to 1
+        //This if-statement is necessary for the calculation of the bolts
+<span class="fc bfc" id="L595" title="All 2 branches covered.">        if ((carportLength * 2 + carportWidth) &lt;= strap.getLength())</span>
+        {
+<span class="fc" id="L597">            strapAmount = 1;</span>
+<span class="fc" id="L598">            separations = 2;</span>
+        }
+<span class="fc" id="L600">        return strapAmount;</span>
+    }
+
+    /**
+     * Used by calcMaterials() to calculate the amount of Bolts needed.
+     * @param strapAmount int: Amount of straps needed for the base construction
+     * @return int: The amount of bolts needed
+     */
+    protected int calcBolts(int strapAmount)
+    {
+<span class="fc" id="L610">        int boltAmount = 0;</span>
+<span class="fc" id="L611">        boltAmount += strapAmount * 4;</span>
+<span class="fc" id="L612">        boltAmount += separations * 4;</span>
+<span class="fc" id="L613">        return boltAmount;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

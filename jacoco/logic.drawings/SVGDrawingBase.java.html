@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SVGDrawingBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.drawings</a> &gt; <span class="el_source">SVGDrawingBase.java</span></div><h1>SVGDrawingBase.java</h1><pre class="source lang-java linenums">package logic.drawings;
+
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import java.util.ArrayList;
+
+/**
+ *
+ * Draws the base of the carport, including the edge, poles (posts) and arrows
+ * with accompanying labels.
+ *
+ * @author
+ */
+public class SVGDrawingBase
+{
+
+<span class="nc" id="L17">    int carportLength = 0;</span>
+<span class="nc" id="L18">    int carportWidth = 0;</span>
+<span class="nc" id="L19">    ArrayList postsSideOne = new ArrayList();</span>
+<span class="nc" id="L20">    ArrayList postsSideTwo = new ArrayList();</span>
+<span class="nc" id="L21">    ArrayList postsRear = new ArrayList();</span>
+<span class="nc" id="L22">    private static int arrowHeadCounter = 500;</span>
+
+    /**
+     *
+     * @param order order in question
+     * @param bom Bill of Materials in question. Its fields are required for the drawing.
+     */
+    public SVGDrawingBase(OrderModel order, PartslistModel bom)
+<span class="nc" id="L30">    {</span>
+<span class="nc" id="L31">        carportLength = order.getLength() / 10; //from mm to cm.</span>
+<span class="nc" id="L32">        carportWidth = order.getWidth() / 10; //from mm to cm.</span>
+<span class="nc" id="L33">        postsSideOne = bom.getPostPosSideOne();</span>
+<span class="nc" id="L34">        postsSideTwo = bom.getPostPosSideTwo();</span>
+<span class="nc" id="L35">        postsRear = bom.getPostPosRear();</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Used to get a String containing the SVG elements representing the 
+     * straps for the base construction.
+     * @param order OrderModel 
+     * @return String - the SVG elements for the base constructions itself
+     */
+    public String getBaseDrawing(OrderModel order)
+    {
+<span class="nc" id="L46">        String SVG</span>
+                = //The strap / edge of the base carport construction:
+                &quot;&lt;rect &quot;
+                + &quot;width=\&quot;&quot; + carportLength + &quot;\&quot; height=\&quot;5\&quot; y=\&quot;2\&quot; &quot;
+                + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;2\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;\n&quot;
+                + &quot;&lt;rect &quot;
+                + &quot;y=\&quot;&quot; + carportWidth + &quot;\&quot; width=\&quot;&quot; + carportLength + &quot;\&quot; height=\&quot;5\&quot; &quot;
+                + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;2\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;\n&quot;
+                + &quot;&lt;rect &quot;
+                + &quot;x=\&quot;&quot; + carportLength + &quot;\&quot; width=\&quot;5\&quot; height=\&quot;&quot; + carportWidth + &quot;\&quot; &quot;
+                + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;2\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;&quot;
+                //The poles for the base carport construction:
+<span class="nc" id="L58">                + getPoles();</span>
+
+<span class="nc" id="L60">        return SVG;</span>
+    }
+
+    /**
+     * Used to get the SVG elements representing the poles in the base construction.
+     * This method uses the ArrayLists from the Partslist created by baseCalc.java
+     * @return String with SVG-elements related to building the carport base poles.
+     */
+    private String getPoles()
+    {
+<span class="nc" id="L70">        String SVG = &quot;&quot;;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (int i = 0; i &lt; postsSideOne.size(); i++)</span>
+        {
+<span class="nc" id="L73">            SVG += &quot;&lt;rect &quot;</span>
+<span class="nc" id="L74">                    + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; x=\&quot;&quot; + postsSideOne.get(i) + &quot;\&quot; y=\&quot;2\&quot; &quot;</span>
+                    + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;3\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;&quot;;
+        }
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (int i = 0; i &lt; postsSideTwo.size(); i++)</span>
+        {
+<span class="nc" id="L79">            SVG += &quot;&lt;rect &quot;</span>
+<span class="nc" id="L80">                    + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; x=\&quot;&quot; + postsSideTwo.get(i) + &quot;\&quot; y=\&quot;&quot; + carportWidth + &quot;\&quot; &quot;</span>
+                    + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;3\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;&quot;;
+        }
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (int i = 0; i &lt; postsRear.size(); i++)</span>
+        {
+<span class="nc" id="L85">            SVG += &quot;&lt;rect &quot;</span>
+<span class="nc" id="L86">                    + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; x=\&quot;&quot; + carportLength + &quot;\&quot; y=\&quot;&quot; + postsRear.get(i) + &quot;\&quot; &quot;</span>
+                    + &quot;stroke=\&quot;#000000\&quot; stroke-width=\&quot;3\&quot; fill=\&quot;#FFFFFF\&quot;/&gt;&quot;;
+        }
+<span class="nc" id="L89">        return SVG;</span>
+    }
+ 
+    /**
+     * Used to get an arrow showing the length of the carport.
+     * This methods needs an integer representing the incline of the roof. If the 
+     * roof has an incline above 0 then the SVG elements for the roof 
+     * will cover the arrow if the arrow isn't moved a bit away from the base SVG element
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the arrows for the carport length
+     */
+    public String getLengthArrow(int extraDistance)
+    {
+<span class="nc" id="L102">        int extraWidth = 0;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (extraDistance &gt; 0)</span>
+        {
+            /*The extra width represents the &quot;overhang&quot; of the roof.
+            * The extra width is applied to the arrow so the arrow won't get 
+            * covered by the &quot;roof overhang&quot;
+            */
+<span class="nc" id="L109">            extraWidth = 25;</span>
+        }
+<span class="nc" id="L111">        int beginX = 0;</span>
+<span class="nc" id="L112">        int beginY = carportWidth + 20 + extraWidth;</span>
+<span class="nc" id="L113">        int endX = carportLength;</span>
+<span class="nc" id="L114">        int endY = carportWidth + 20 + extraWidth;</span>
+<span class="nc" id="L115">        ++arrowHeadCounter;</span>
+        // The Arrow.
+<span class="nc" id="L117">        String SVG = &quot; &quot;</span>
+                + &quot;&lt;defs&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;beginArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;0\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,4 L8,0 L8,8 L0,4\&quot; style=\&quot;fill: #000000s;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;endArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;8\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,0 L8,4 L0,8 L0,0\&quot; style=\&quot;fill: #000000;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;&lt;/defs&gt;\n&quot;
+                + &quot;&lt;line x1=\&quot;&quot; + beginX + &quot;\&quot;  y1=\&quot;&quot; + beginY + &quot;\&quot; x2=\&quot;&quot; + endX + &quot;\&quot;   y2=\&quot;&quot; + endY + &quot;\&quot; \n&quot;
+                + &quot;	style=\&quot;stroke:#006600;\n&quot;
+                + &quot;	marker-start: url(#beginArrow&quot; + arrowHeadCounter + &quot;);\n&quot;
+                + &quot;   marker-end: url(#endArrow&quot; + arrowHeadCounter + &quot;);\&quot;/&gt;&quot;
+                + &quot; &quot;;
+
+<span class="nc" id="L138">        return SVG;</span>
+    }
+
+    /**
+     * Used to get an arrow showing the width of the carport.
+     * This method needs an integer representing the roof incline. If the roof 
+     * incline is above 0 degress then some extra length is applied to the arrow 
+     * so it shows the width of the roof instead of the width of the carport. 
+     * (Raised roof is always wider than the carport's base construction)
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the arrows for the carport width.
+     */
+    public String getWidthArrow(int extraDistance)
+    {
+<span class="nc" id="L152">        int extraWidth = 0;</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        if (extraDistance &gt; 0)</span>
+        {
+<span class="nc" id="L155">            extraWidth = 60;</span>
+        }
+<span class="nc" id="L157">        int beginX = carportLength + 20;</span>
+<span class="nc" id="L158">        int beginY = 0;</span>
+<span class="nc" id="L159">        int endX = carportLength + 20;</span>
+<span class="nc" id="L160">        int endY = carportWidth + extraWidth;</span>
+<span class="nc" id="L161">        ++arrowHeadCounter;</span>
+<span class="nc" id="L162">        String SVG = &quot; &quot;</span>
+                + &quot;&lt;defs&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;beginArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;0\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,4 L8,0 L8,8 L0,4\&quot; style=\&quot;fill: #000000s;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;endArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;8\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,0 L8,4 L0,8 L0,0\&quot; style=\&quot;fill: #000000;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;&lt;/defs&gt;\n&quot;
+                + &quot;&lt;line x1=\&quot;&quot; + beginX + &quot;\&quot;  y1=\&quot;&quot; + beginY + &quot;\&quot; x2=\&quot;&quot; + endX + &quot;\&quot;   y2=\&quot;&quot; + endY + &quot;\&quot; \n&quot;
+                + &quot;	style=\&quot;stroke:#006600;\n&quot;
+                + &quot;	marker-start: url(#beginArrow&quot; + arrowHeadCounter + &quot;);\n&quot;
+                + &quot;   marker-end: url(#endArrow&quot; + arrowHeadCounter + &quot;);\&quot;/&gt;&quot;
+                + &quot; &quot;;
+
+<span class="nc" id="L183">        return SVG;</span>
+    }
+
+    /**
+     * Used in combination with getWidthArrow().
+     * This method returns an SVG element that displays a label for the width-arrow.
+     * This method needs an integer representing the incline of the roof of the carport. 
+     * If the incline is above 0 then the label adds &quot;60&quot; to its own value.
+     * Raised roof is always 60cm wider than the base construction of the carport
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the label for the carport width
+     */
+    public String getWidthLabel(int extraDistance)
+    {
+<span class="nc" id="L197">        int extraWidth = 0;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (extraDistance &gt; 0)</span>
+        {
+<span class="nc" id="L200">            extraWidth = 60;</span>
+        }
+<span class="nc" id="L202">        int x = carportLength + 25;</span>
+<span class="nc" id="L203">        int y = carportWidth / 2;</span>
+<span class="nc" id="L204">        int distance = carportWidth + extraWidth;</span>
+<span class="nc" id="L205">        String SVG = &quot;&quot;;</span>
+        // The text
+<span class="nc" id="L207">        SVG += &quot; &lt;text x=\&quot;&quot; + x + &quot;\&quot; y=\&quot;&quot; + y + &quot;\&quot; fill=\&quot;black\&quot;\&quot;&gt;&quot; + distance + &quot;cm&quot; + &quot;&lt;/text&gt; &quot;;</span>
+
+<span class="nc" id="L209">        return SVG;</span>
+    }
+ 
+    /**
+     * Used in combination with getLengthArrow().
+     * This method returns an SVG element that displays a label for the length-arrow.
+     * This method needs an integer representing the incline of the roof of the carport.
+     * If the incline is above 0 then the label needs to be moved down slightly 
+     * so it doesn't get covered by the SVG elements for the roof.
+     * @param extraDistance int
+     * @return String with SVG-elements related to building the label for the carport length
+     */
+    public String getLengthLabel(int extraDistance)
+    {
+<span class="nc" id="L223">        int extraWidth = 0;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (extraDistance &gt; 0)</span>
+        {
+<span class="nc" id="L226">            extraWidth = 25;</span>
+        }
+<span class="nc" id="L228">        int x = carportLength / 2 - 20;</span>
+<span class="nc" id="L229">        int y = carportWidth + 40 + extraWidth;</span>
+<span class="nc" id="L230">        int distance = carportLength;</span>
+<span class="nc" id="L231">        String SVG = &quot;&quot;;</span>
+        // The text
+<span class="nc" id="L233">        SVG += &quot; &lt;text x=\&quot;&quot; + x + &quot;\&quot; y=\&quot;&quot; + y + &quot;\&quot; fill=\&quot;black\&quot;\&quot;&gt;&quot; + distance + &quot;cm&quot; + &quot;&lt;/text&gt; &quot;;</span>
+
+<span class="nc" id="L235">        return SVG;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

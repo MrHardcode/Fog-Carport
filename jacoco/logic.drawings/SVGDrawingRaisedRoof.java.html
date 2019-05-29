@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SVGDrawingRaisedRoof.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.drawings</a> &gt; <span class="el_source">SVGDrawingRaisedRoof.java</span></div><h1>SVGDrawingRaisedRoof.java</h1><pre class="source lang-java linenums">package logic.drawings;
+
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import logic.Calculations.RoofRaisedCalc;
+
+/**
+ * Creates the string with the svg for the raised roof.
+ * @author 
+ */
+<span class="nc" id="L13">public class SVGDrawingRaisedRoof {</span>
+
+    public String getRaisedRoofDrawing(OrderModel order) throws DataException, AlgorithmException {
+<span class="nc" id="L16">        RoofRaisedCalc calc = new RoofRaisedCalc();</span>
+<span class="nc" id="L17">        PartslistModel roofRaisedBOM = calc.getRoofRaisedMaterials(order);</span>
+
+<span class="nc" id="L19">        int svgExtraPadding = 100;</span>
+<span class="nc" id="L20">        int halfPadding = (svgExtraPadding / 2);</span>
+<span class="nc" id="L21">        int roofWidth = (order.getWidth() / 10) + 60; // + overhang</span>
+<span class="nc" id="L22">        int roofLength = order.getLength() / 10;</span>
+<span class="nc" id="L23">        int rafterCount = roofRaisedBOM.getRafterCount();</span>
+<span class="nc" id="L24">        int lathRowCount = roofRaisedBOM.getLathRowCount();</span>
+
+<span class="nc" id="L26">        double angleRad = Math.toRadians(order.getIncline());</span>
+<span class="nc" id="L27">        int topLathDist = (int) (Math.cos(angleRad) * 30);</span>
+<span class="nc" id="L28">        int bottomLathDist = (int) (Math.cos(angleRad) * 35);</span>
+
+<span class="nc" id="L30">        StringBuilder stb = new StringBuilder();</span>
+
+<span class="nc" id="L32">        String outerRoofBorder = &quot; &lt;rect x=\&quot;&quot; + halfPadding + &quot;\&quot; y=\&quot;&quot; + halfPadding + &quot;\&quot; width=\&quot;&quot; + roofLength + &quot;\&quot; height=\&quot;&quot; + roofWidth + &quot;\&quot; &quot;</span>
+                + &quot;style=\&quot;fill:none; stroke:black; stroke-width:1;\&quot; /&gt;\n&quot;;
+
+<span class="nc" id="L35">        stb.append(outerRoofBorder);</span>
+
+        //rafters
+<span class="nc" id="L38">        int rafterDist = roofLength / (rafterCount - 1);</span>
+<span class="nc" id="L39">        int rafterPlacement = halfPadding;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (int i = 0; i &lt; rafterCount; i++) {</span>
+<span class="nc" id="L41">            String rafter = &quot; &lt;rect x=\&quot;&quot; + rafterPlacement + &quot;\&quot; y=\&quot;&quot; + halfPadding + &quot;\&quot; width=\&quot;6\&quot; height=\&quot;&quot; + roofWidth + &quot;\&quot; &quot;</span>
+                    + &quot;style=\&quot;fill:gainsboro; stroke:black; stroke-width:1;\&quot; /&gt;\n&quot;;
+<span class="nc" id="L43">            rafterPlacement = rafterPlacement + rafterDist;</span>
+<span class="nc" id="L44">            stb.append(rafter);</span>
+        }
+        
+        // place 3 middle laths
+<span class="nc" id="L48">        int middlePlacement = halfPadding + (roofWidth / 2) - topLathDist;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (int i = 0; i &lt; 3; i++) {</span>
+<span class="nc" id="L50">            String lath = &quot; &lt;rect x=\&quot;&quot; + halfPadding + &quot;\&quot; y=\&quot;&quot; + middlePlacement + &quot;\&quot; width=\&quot;&quot; + roofLength + &quot;\&quot; height=\&quot;3\&quot; &quot;</span>
+                    + &quot;style=\&quot;fill:darkgrey; stroke:black; stroke-width:1;\&quot; /&gt;\n&quot;;
+<span class="nc" id="L52">            middlePlacement = middlePlacement + topLathDist;</span>
+<span class="nc" id="L53">            lathRowCount = lathRowCount - 1;</span>
+<span class="nc" id="L54">            stb.append(lath);</span>
+        }
+
+        // place 4 outer laths
+<span class="nc" id="L58">        int outerPlacement = halfPadding;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int i = 0; i &lt; 4; i++) {</span>
+<span class="nc" id="L60">            String lath = &quot; &lt;rect x=\&quot;&quot; + halfPadding + &quot;\&quot; y=\&quot;&quot; + outerPlacement + &quot;\&quot; width=\&quot;&quot; + roofLength + &quot;\&quot; height=\&quot;3\&quot; &quot;</span>
+                    + &quot;style=\&quot;fill:darkgrey ; stroke:black; stroke-width:1;\&quot; /&gt;\n&quot;;
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (i == 1) {</span>
+<span class="nc" id="L63">                outerPlacement = halfPadding + roofWidth - (2 * bottomLathDist);</span>
+            }
+<span class="nc" id="L65">            outerPlacement = outerPlacement + bottomLathDist;</span>
+<span class="nc" id="L66">            lathRowCount = lathRowCount - 1;</span>
+<span class="nc" id="L67">            stb.append(lath);</span>
+        }
+
+        // rest of laths
+<span class="nc" id="L71">        double remainderLathDistHalf = (roofWidth / 2) - topLathDist - bottomLathDist;</span>
+<span class="nc" id="L72">        double remianderDistEach = remainderLathDistHalf / ((lathRowCount / 2) + 1);</span>
+
+<span class="nc" id="L74">        double restLathPlacement = halfPadding + bottomLathDist;</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        for (int i = 0; i &lt; 2; i++) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            for (int j = 0; j &lt; (lathRowCount / 2); j++) {</span>
+<span class="nc" id="L78">                restLathPlacement = restLathPlacement + remianderDistEach;</span>
+<span class="nc" id="L79">                String lath = &quot; &lt;rect x=\&quot;&quot; + halfPadding + &quot;\&quot; y=\&quot;&quot; + restLathPlacement + &quot;\&quot; width=\&quot;&quot; + roofLength + &quot;\&quot; height=\&quot;3\&quot; &quot;</span>
+                        + &quot;style=\&quot;fill:white; stroke:black; stroke-width:1;\&quot; /&gt;\n&quot;;
+
+<span class="nc" id="L82">                stb.append(lath);</span>
+            }
+<span class="nc" id="L84">            restLathPlacement = topLathDist + (roofWidth / 2) + halfPadding;</span>
+        }
+
+<span class="nc" id="L87">        return stb.toString();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

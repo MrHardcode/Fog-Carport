@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderCarport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">OrderCarport.java</span></div><h1>OrderCarport.java</h1><pre class="source lang-java linenums">package presentation.commands;
+
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.CustomerModel;
+import data.models.OrderModel;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+import presentation.Validation;
+
+/**
+ * Command for creation of order and customer.
+ * @author
+ */
+<span class="nc" id="L15">public class OrderCarport extends Command</span>
+{
+
+    @Override
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException
+    {
+<span class="nc" id="L21">        Validation validation = new Validation();</span>
+<span class="nc" id="L22">        OrderModel order = new OrderModel();</span>
+<span class="nc" id="L23">        CustomerModel customer = (CustomerModel) request.getSession().getAttribute(&quot;customer&quot;);</span>
+<span class="nc" id="L24">        CustomerModel customer_one = new CustomerModel();</span>
+        String password;
+        String email;
+        String name;
+        int phonenumber;
+        
+        /* if customer is not null, that means customer is on session, which means customer is logged in, which means we can just get the ID from the CustomerModel on session */
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (customer != null)</span>
+        {
+            // CUSTOMER
+<span class="nc" id="L34">            order.setId_customer(customer.getId());</span>
+        }
+        /* Customer wants a log in, so we create a customer with passwords and registered as true. */
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        else if (request.getParameter(&quot;password&quot;) != null &amp;&amp; !request.getParameter(&quot;password&quot;).isEmpty() </span>
+<span class="nc bnc" id="L38" title="All 4 branches missed.">                &amp;&amp; request.getParameter(&quot;password-confirm&quot;) != null &amp;&amp; !request.getParameter(&quot;password-confirm&quot;).isEmpty())</span>
+        {
+<span class="nc" id="L40">            password = validation.validatePassword(request.getParameter(&quot;password&quot;), request.getParameter(&quot;password-confirm&quot;), &quot;Password&quot;);</span>
+<span class="nc" id="L41">            email = validation.validateString(request.getParameter(&quot;email&quot;), &quot;Email&quot;);</span>
+<span class="nc" id="L42">            name = validation.validateString(request.getParameter(&quot;name&quot;), &quot;Navn&quot;);</span>
+<span class="nc" id="L43">            phonenumber = validation.validateInteger(request.getParameter(&quot;phonenumber&quot;), &quot;Telefonnummer&quot;);</span>
+<span class="nc" id="L44">            customer_one.setEmail(email);</span>
+<span class="nc" id="L45">            customer_one.setName(name);</span>
+<span class="nc" id="L46">            customer_one.setPhone(phonenumber);</span>
+<span class="nc" id="L47">            customer_one.setPassword(password);</span>
+<span class="nc" id="L48">            customer_one.setRegistered(true);</span>
+        } 
+        /* User doesn't want or need a customer in database they can log in on, but we still need to create the customer in the database so we have the contact info */
+        else
+        {
+<span class="nc" id="L53">            email = validation.validateString(request.getParameter(&quot;email&quot;), &quot;Email&quot;);</span>
+<span class="nc" id="L54">            name = validation.validateString(request.getParameter(&quot;name&quot;), &quot;Navn&quot;);</span>
+<span class="nc" id="L55">            phonenumber = validation.validateInteger(request.getParameter(&quot;phonenumber&quot;), &quot;Telefonnummer&quot;);</span>
+<span class="nc" id="L56">            customer_one.setEmail(email);</span>
+<span class="nc" id="L57">            customer_one.setName(name);</span>
+<span class="nc" id="L58">            customer_one.setPhone(phonenumber);</span>
+<span class="nc" id="L59">            customer_one.setPassword(&quot;&quot;);</span>
+<span class="nc" id="L60">            customer_one.setRegistered(false);</span>
+        }
+
+        // CARPORT LENGTH
+<span class="nc" id="L64">        String carportlength = request.getParameter(&quot;length&quot;);</span>
+<span class="nc" id="L65">        int length = validation.validateInteger(carportlength, &quot;Length of carport&quot;);</span>
+<span class="nc" id="L66">        order.setLength(length);</span>
+
+        // CARPORT WIDTH
+<span class="nc" id="L69">        String carportwidth = request.getParameter(&quot;width&quot;);</span>
+<span class="nc" id="L70">        int width = validation.validateInteger(carportwidth, &quot;Width of carport&quot;);</span>
+<span class="nc" id="L71">        order.setWidth(width);</span>
+
+        // ROOF INCLINE
+<span class="nc" id="L74">        String roofincline = request.getParameter(&quot;incline&quot;);</span>
+<span class="nc" id="L75">        int roof_incline = validation.validateInteger(roofincline, &quot;Roof incline&quot;);</span>
+<span class="nc" id="L76">        order.setIncline(roof_incline);</span>
+
+        // ROOF TILES
+<span class="nc" id="L79">        String rooftiles = request.getParameter(&quot;roof_tiles_id&quot;);</span>
+<span class="nc" id="L80">        int roof_tiles_id = validation.validateInteger(rooftiles, &quot;Roof tiles&quot;);</span>
+<span class="nc" id="L81">        order.setRoof_tiles_id(roof_tiles_id);</span>
+
+        // SHED INFO
+<span class="nc" id="L84">        String shed = request.getParameter(&quot;shed&quot;);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (&quot;y&quot;.equals(shed))</span>
+        {
+            // Get shed info from Parameters.
+<span class="nc" id="L88">            int shed_length = validation.validateInteger(request.getParameter(&quot;shed-length&quot;), &quot;Shed length&quot;);</span>
+<span class="nc" id="L89">            int shed_width = validation.validateInteger(request.getParameter(&quot;shed-width&quot;), &quot;Shed width&quot;);</span>
+<span class="nc" id="L90">            int shed_floor_id = validation.validateInteger(request.getParameter(&quot;shed-floor-id&quot;), &quot;Shed floor type&quot;);</span>
+<span class="nc" id="L91">            int shed_wall_id = validation.validateInteger(request.getParameter(&quot;shed-wall-id&quot;), &quot;Shed wall type&quot;);</span>
+            // Set the shed info on Order.
+<span class="nc" id="L93">            order.setShed_length(shed_length);</span>
+<span class="nc" id="L94">            order.setShed_width(shed_width);</span>
+<span class="nc" id="L95">            order.setShed_floor_id(shed_floor_id);</span>
+<span class="nc" id="L96">            order.setShed_walls_id(shed_wall_id);</span>
+<span class="nc" id="L97">        } else</span>
+        {
+<span class="nc" id="L99">            order.setShed_length(0);</span>
+<span class="nc" id="L100">            order.setShed_width(0);</span>
+<span class="nc" id="L101">            order.setShed_floor_id(50);</span>
+<span class="nc" id="L102">            order.setShed_walls_id(10);</span>
+        }
+
+        // EMPLOYEE
+<span class="nc" id="L106">        order.setId_employee(1); // BAD TEMPORARY SOLUTION.</span>
+
+        // BUILD ADRESS
+<span class="nc" id="L109">        String adress = validation.validateString(request.getParameter(&quot;adress&quot;), &quot;Build adress&quot;);</span>
+<span class="nc" id="L110">        order.setBuild_adress(adress);</span>
+
+        // ZIPCODE
+<span class="nc" id="L113">        int zipcode = validation.validateInteger(request.getParameter(&quot;zip&quot;), &quot;Zip code&quot;);</span>
+<span class="nc" id="L114">        order.setBuild_zipcode(zipcode);</span>
+
+        // STATUS
+<span class="nc" id="L117">        order.setStatus(&quot;Awaiting&quot;);</span>
+
+        //If all of the above values are acceptable and there is no user in the session 
+        //we create the new customer and use the new customer's id to create the new order
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (customer == null)</span>
+        {
+<span class="nc" id="L123">            logic.createCustomer(customer_one);</span>
+<span class="nc" id="L124">            order.setId_customer(customer_one.getId());</span>
+        }
+        
+        // INPUT ORDER INTO DATABASE.
+<span class="nc" id="L128">        logic.createOrder(order);</span>
+
+        // SET MESSAGE TO USER THAT ORDER WAS SUCCESSFULL
+<span class="nc" id="L131">        request.setAttribute(&quot;message&quot;, &quot;Din ordre er afgivet.&quot;);</span>
+
+        // SEND USER BACK TO HOMEPAGE
+<span class="nc" id="L134">        return &quot;orderSuccess&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

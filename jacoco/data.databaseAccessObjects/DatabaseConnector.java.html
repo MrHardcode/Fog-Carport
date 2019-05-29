@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseConnector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.databaseAccessObjects</a> &gt; <span class="el_source">DatabaseConnector.java</span></div><h1>DatabaseConnector.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package data.databaseAccessObjects;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.sql.DataSource;
+
+/**
+ * Database connector that takes in the dataSource that is in use
+ * @author
+ */
+@Deprecated // We used to use this, but not anymore.
+public class DatabaseConnector implements AutoCloseable
+{
+
+    private DataSource dataSource;
+    private Connection connection;
+    private Statement statement;
+    private ResultSet resultSet;
+
+    public DatabaseConnector()
+<span class="nc" id="L27">    {</span>
+<span class="nc" id="L28">    }</span>
+    
+    public DatabaseConnector open() throws SQLException{
+<span class="nc bnc" id="L31" title="All 4 branches missed.">        if (connection == null || connection.isClosed())</span>
+        {
+<span class="nc" id="L33">            connection = dataSource.getConnection();</span>
+        }
+<span class="nc" id="L35">        return this;</span>
+    }
+
+    public void setDataSource(DataSource dataSource)
+    {
+<span class="nc" id="L40">        this.dataSource = dataSource;</span>
+<span class="nc" id="L41">    }</span>
+
+    @Deprecated
+    public Connection oldOpen() throws SQLException
+    {
+<span class="nc bnc" id="L46" title="All 4 branches missed.">        if (connection == null || connection.isClosed())</span>
+        {
+<span class="nc" id="L48">            connection = dataSource.getConnection();</span>
+        }
+
+<span class="nc" id="L51">        return connection;</span>
+    }
+
+    @Override
+    public void close() throws SQLException
+    {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (resultSet != null)</span>
+        {
+<span class="nc" id="L59">            resultSet.close();</span>
+        }
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (statement != null)</span>
+        {
+<span class="nc" id="L64">            statement.close();</span>
+        }
+
+<span class="nc bnc" id="L67" title="All 4 branches missed.">        if (connection != null &amp;&amp; !connection.isClosed())</span>
+        {
+<span class="nc" id="L69">            connection.close();</span>
+<span class="nc" id="L70">            connection = null;</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    public PreparedStatement preparedStatement(String sql) throws SQLException
+    {
+<span class="nc" id="L76">        return connection.prepareStatement(sql);</span>
+    }
+
+    public PreparedStatement preparedStatement(String sql, int indicator) throws SQLException
+    {
+<span class="nc" id="L81">        return connection.prepareStatement(sql, indicator);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

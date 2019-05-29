@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataFacadeImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">DataFacadeImpl.java</span></div><h1>DataFacadeImpl.java</h1><pre class="source lang-java linenums">package data;
+
+import com.zaxxer.hikari.HikariDataSource;
+import data.databaseAccessObjects.dataSources.HikariDS;
+import data.databaseAccessObjects.mappers.MaterialMapper;
+import data.databaseAccessObjects.mappers.OrderMapper;
+import data.databaseAccessObjects.mappers.UserMapper;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import java.util.List;
+
+/**
+ *
+ * @author
+ */
+<span class="fc" id="L21">public class DataFacadeImpl implements DataFacade</span>
+{
+
+<span class="fc" id="L24">    private static DataFacadeImpl instance = null;</span>
+<span class="fc" id="L25">    private static HikariDataSource dataSource = null;</span>
+
+    public synchronized static DataFacadeImpl getInstance()
+    {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (instance == null)</span>
+        {
+<span class="fc" id="L31">            instance = new DataFacadeImpl();</span>
+<span class="fc" id="L32">            dataSource = HikariDS.getDataSource(); // Change here if you want another DataSource from dataSources folder.</span>
+        }
+<span class="fc" id="L34">        return instance;</span>
+    }
+
+    @Override
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
+    {
+<span class="fc" id="L40">        MaterialMapper materialMapper = new MaterialMapper();</span>
+<span class="fc" id="L41">        materialMapper.setDataSource(dataSource);</span>
+<span class="fc" id="L42">        return materialMapper.getMaterial(id, helptext);</span>
+    }
+
+    @Override
+    public OrderModel getOrder(int id) throws DataException
+    {
+<span class="nc" id="L48">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L49">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L50">        return orderMapper.getOrder(id);</span>
+    }
+
+    @Override
+    public PartslistModel getBOM()
+    {
+<span class="nc" id="L56">        return new PartslistModel();</span>
+    }
+
+    @Override
+    public PartslistModel getOrderDetails(int id, String helptext) throws DataException
+    {
+<span class="nc" id="L62">        MaterialMapper materialMapper = new MaterialMapper();</span>
+<span class="nc" id="L63">        materialMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L64">        return materialMapper.getMaterials(id, helptext);</span>
+    }
+
+    @Override
+    public void createOrder(OrderModel order) throws DataException
+    {
+<span class="nc" id="L70">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L71">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L72">        orderMapper.createOrder(order);</span>
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    public List&lt;Integer&gt; getAllOrderIds() throws DataException
+    {
+<span class="nc" id="L78">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L79">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L80">        return orderMapper.getAllOrderIds();</span>
+    }
+
+    @Override
+    public EmployeeModel getEmployee(int id) throws UserException
+    {
+<span class="nc" id="L86">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L87">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L88">        return userMapper.getEmployee(id);</span>
+    }
+
+    @Override
+    public CustomerModel getCustomer(int id) throws DataException
+    {
+<span class="nc" id="L94">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L95">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L96">        return userMapper.getCustomer(id);</span>
+    }
+
+    @Override
+    public void createCustomer(CustomerModel customer) throws UserException
+    {
+<span class="nc" id="L102">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L103">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L104">        userMapper.createCustomer(customer);</span>
+<span class="nc" id="L105">    }</span>
+
+    @Override
+    public void createEmployee(EmployeeModel employee) throws UserException
+    {
+<span class="nc" id="L110">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L111">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L112">        userMapper.createEmployee(employee);</span>
+<span class="nc" id="L113">    }</span>
+
+    @Override
+    public CustomerModel login(String email, String password) throws UserException
+    {
+<span class="nc" id="L118">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L119">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L120">        return userMapper.login(email, password);</span>
+    }
+
+    @Override
+    public List&lt;Integer&gt; getOrderIds(int id) throws DataException
+    {
+<span class="nc" id="L126">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L127">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L128">        return orderMapper.getOrderIds(id);</span>
+    }
+
+    @Override
+    public void payOrder(int id, double price) throws DataException
+    {
+<span class="nc" id="L134">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L135">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L136">        orderMapper.payOrder(id, price);</span>
+<span class="nc" id="L137">    }</span>
+
+    @Override
+    public EmployeeModel empLogin(String email, String password) throws UserException {
+<span class="nc" id="L141">        UserMapper userMapper = new UserMapper();</span>
+<span class="nc" id="L142">        userMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L143">        return userMapper.empLogin(email, password);</span>
+    }
+
+    @Override
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+<span class="nc" id="L149">        OrderMapper orderMapper = new OrderMapper();</span>
+<span class="nc" id="L150">        orderMapper.setDataSource(dataSource);</span>
+<span class="nc" id="L151">        orderMapper.updateOrderPrice(id, price);</span>
+<span class="nc" id="L152">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

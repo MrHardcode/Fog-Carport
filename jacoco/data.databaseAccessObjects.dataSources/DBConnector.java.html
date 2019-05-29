@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DBConnector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.databaseAccessObjects.dataSources</a> &gt; <span class="el_source">DBConnector.java</span></div><h1>DBConnector.java</h1><pre class="source lang-java linenums">
+package data.databaseAccessObjects.dataSources;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+/**
+ * NOT CURRENTLY IN USE - THIS WAS THE FIRST CONNECTION USED IN THIS PROJECT
+ * AND IS THE FALLBACK SOLUTION. 
+ * @author 
+ */
+@Deprecated
+<span class="nc" id="L15">public class DBConnector</span>
+{
+
+    private static final String IP = &quot;207.154.233.238&quot;;
+    private static final String PORT = &quot;3306&quot;;
+    public static final String DATABASE = &quot;carportdb&quot;; 
+    private static final String USERNAME = &quot;admin&quot;; 
+    private static final String PASSWORD = &quot;1234&quot;; 
+
+    private static Connection singleton; 
+    
+    public static Connection connection() throws SQLException
+    {
+<span class="nc bnc" id="L28" title="All 4 branches missed.">        if (singleton == null || singleton.isClosed())</span>
+        {
+            try
+            {
+<span class="nc" id="L32">                Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;).newInstance();</span>
+
+<span class="nc" id="L34">                String url = &quot;jdbc:mysql://&quot; + IP + &quot;:&quot; + PORT + &quot;/&quot; + DATABASE;</span>
+
+<span class="nc" id="L36">                Properties props = new Properties();</span>
+<span class="nc" id="L37">                props.put(&quot;user&quot;, USERNAME);</span>
+<span class="nc" id="L38">                props.put(&quot;password&quot;, PASSWORD);</span>
+<span class="nc" id="L39">                props.put(&quot;allowMultiQueries&quot;, true);</span>
+<span class="nc" id="L40">                props.put(&quot;useUnicode&quot;, true);</span>
+<span class="nc" id="L41">                props.put(&quot;useJDBCCompliantTimezoneShift&quot;, true);</span>
+<span class="nc" id="L42">                props.put(&quot;useLegacyDatetimeCode&quot;, false);</span>
+<span class="nc" id="L43">                props.put(&quot;serverTimezone&quot;, &quot;CET&quot;);</span>
+<span class="nc" id="L44">                singleton = DriverManager.getConnection(url, props);</span>
+<span class="nc" id="L45">                System.out.println(&quot;Connection correctly established to the database: &quot; + DATABASE);</span>
+<span class="nc" id="L46">            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex)</span>
+            {
+                //ex.printStackTrace();
+<span class="nc" id="L49">                throw new SQLException(ex.getMessage());</span>
+<span class="nc" id="L50">            } </span>
+        }
+<span class="nc" id="L52">        return singleton;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

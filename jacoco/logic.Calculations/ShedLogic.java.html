@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShedLogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.Calculations</a> &gt; <span class="el_source">ShedLogic.java</span></div><h1>ShedLogic.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package logic.Calculations;
+
+import data.DataFacade;
+import data.DataFacadeImpl;
+import data.exceptions.DataException;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+
+/**
+ * Contains logic regarding the Bill of Materials for a shed in the carport.
+ * Adds materials needed to build a shed in the carport to the partslist.
+ *   
+ *   Going off of this with regards to assumptions.
+ *   https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
+ *   
+ *   Things to take into account: 
+ *   Width of the shed
+ *   Length of the shed
+ *   Type of wood used for the shed
+ *   Type of wood used for the floor (if they even want a floor)
+ * 
+ * @author
+ */
+public class ShedLogic
+{
+
+    /*
+    MATERIALS - edit here if you want new default materials.
+     */
+<span class="fc" id="L34">    private final int skruer70mm = 26; // 4,5x70mm. skruer (400 stk)</span>
+<span class="fc" id="L35">    private final int skruer50mm = 27; // 4,5x50mm Skruer (300 stk)</span>
+<span class="fc" id="L36">    private final int stalddørsgreb = 17; // Stalddørsgreb 50x75</span>
+<span class="fc" id="L37">    private final int taglægte = 12; // 38x73 mm. taglægte T1</span>
+<span class="fc" id="L38">    private final int thængsel = 18; // T-hængsel 390mm</span>
+<span class="fc" id="L39">    private final int vinkelbeslag = 19; // Vinkelbeslag</span>
+<span class="fc" id="L40">    private final int beslagsskruer = 21; // 5,0x40mm. Beslagskruer (250 stk)</span>
+<span class="fc" id="L41">    private final int reglar2400 = 6; // 45x95 Reglar ubh. 240cm</span>
+<span class="fc" id="L42">    private final int reglar3600 = 7; // 45x95 Reglar ubh. 360cm</span>
+<span class="fc" id="L43">    private final int postid = 4; // 97x97 mm. trykimp. Stolpe</span>
+
+    /* 
+    Other info
+    */
+<span class="fc" id="L48">    private final int postdistance = 3100; // Distance between posts.</span>
+<span class="fc" id="L49">    private final String helptext = &quot;shed&quot;; // indicator for what helptext to grab from database.</span>
+
+    public ShedLogic()
+<span class="fc" id="L52">    {</span>
+<span class="fc" id="L53">    }</span>
+    
+    /**
+     * Get a PartslistModel containing all materials needed to add a shed to the carport.
+     * This is the only public method in this class.
+     * @param order containing info about the shed and carport.
+     * @return PartslistModel
+     * @throws DataException 
+     */
+    public PartslistModel addShed(OrderModel order) throws DataException
+    {
+        // The partslist we're going to return.
+<span class="fc" id="L65">        PartslistModel bom = new PartslistModel();</span>
+
+        // Guard
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (order == null)</span>
+        {
+<span class="fc" id="L70">            throw new DataException(&quot;Ordren er tom.&quot;);</span>
+        }
+        // If the customer doesn't want a shed.
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (order.getShed_walls_id() == 0</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                || order.getShed_length() == 0</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                || order.getShed_width() == 0)</span>
+        {
+<span class="nc" id="L77">            return bom;</span>
+        }
+
+        // DataFacade, so we can use it's methods and get materials.
+<span class="nc" id="L81">        DataFacade db = DataFacadeImpl.getInstance();</span>
+
+        /* 
+        &quot;Standard&quot; was an old feature that is now deprecated. 
+        Used in the first sprint for the simple partslist. 
+         */
+//        boolean standard = false;
+//        if (standard == true)
+//        {
+//            simpleShed(bom);
+//        } else
+        // VARIABLES:
+<span class="nc" id="L93">        int width = order.getShed_width();</span>
+<span class="nc" id="L94">        int length = order.getShed_length();</span>
+
+        // The type of wood used for the walls on the shed. No quantity on it yet.
+<span class="nc" id="L97">        MaterialModel wood = db.getMaterial(order.getShed_walls_id(), helptext);</span>
+
+        // MATERIALS NEEDED NO MATTER WHAT FOR THE DOOR
+<span class="nc" id="L100">        addDoorMaterials(bom, db);</span>
+
+        // IF FLOOR IS CHOSEN:
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (order.getShed_floor_id() != 0)</span>
+        {
+            // Get the floor-info out of the Database.
+<span class="nc" id="L106">            MaterialModel floor = db.getMaterial(order.getShed_floor_id(), helptext);</span>
+            // ADD X AMOUNT OF FLOOR DEPENDING ON WIDTH AND LENGTH TO THE PARTSLIST.
+<span class="nc" id="L108">            addFloor(bom, floor, length, width, db);</span>
+        }
+
+        // AND THE REST OF THE MATERIALS.
+<span class="nc" id="L112">        addMaterials(bom, wood, length, width, db, order);</span>
+
+<span class="nc" id="L114">        return bom;</span>
+    }
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;MATERIALS FOR STANDARD SHED&quot;&gt;
+    /**
+     * Materials for the standard, simple shed. Made in first sprint. Maybe we
+     * won't use this in production.
+     *
+     * @param bom
+     */
+    @Deprecated
+    void simpleShed(PartslistModel bom)
+    {
+        // BELOW IS MATERIALS USED FOR THE SIMPLE ALGORITHM
+        // KEEP THIS FOR THE BUTTON NAMED &quot;Standard Redskabsrum&quot; AS SHOWN IN VIDEO
+        // So if you check the box called &quot;standard redskabsrum&quot; simply use this list of materials.
+        /* Screws and misc. */
+<span class="fc" id="L131">        MaterialModel stalddørsgreb = new MaterialModel(75, &quot;Stalddørsgreb&quot;, &quot;Stalddørsgreb 50x75&quot;, 1, 0, 0);</span>
+<span class="fc" id="L132">        stalddørsgreb.setHelptext(&quot;til dør i skur&quot;);</span>
+<span class="fc" id="L133">        stalddørsgreb.setQuantity(1);</span>
+<span class="fc" id="L134">        stalddørsgreb.setUnit(&quot;sæt&quot;);</span>
+<span class="fc" id="L135">        stalddørsgreb.setPrice(10);</span>
+<span class="fc" id="L136">        bom.addMaterial(stalddørsgreb);</span>
+
+<span class="fc" id="L138">        MaterialModel thængsel = new MaterialModel(390, &quot;T-hængsel&quot;, &quot;T-Hængsel 390 mm.&quot;, 1, 0, 0);</span>
+<span class="fc" id="L139">        thængsel.setHelptext(&quot;til dør i skur&quot;);</span>
+<span class="fc" id="L140">        thængsel.setQuantity(2);</span>
+<span class="fc" id="L141">        thængsel.setUnit(&quot;Stk.&quot;);</span>
+<span class="fc" id="L142">        thængsel.setPrice(10);</span>
+<span class="fc" id="L143">        bom.addMaterial(thængsel);</span>
+
+<span class="fc" id="L145">        MaterialModel skruer70 = new MaterialModel(70, &quot;Skruer70&quot;, &quot;4,5 x 70 mm. Skruer 200 stk.&quot;, 1, 0, 0);</span>
+<span class="fc" id="L146">        skruer70.setHelptext(&quot;til montering af yderste bræt ved beklædning&quot;);</span>
+<span class="fc" id="L147">        skruer70.setQuantity(3);</span>
+<span class="fc" id="L148">        skruer70.setUnit(&quot;Pk.&quot;);</span>
+<span class="fc" id="L149">        skruer70.setPrice(10);</span>
+<span class="fc" id="L150">        bom.addMaterial(skruer70);</span>
+
+<span class="fc" id="L152">        MaterialModel skruer50 = new MaterialModel(50, &quot;Skruer50&quot;, &quot;4,5 x 50 mm. Skruer 350 stk.&quot;, 1, 0, 0);</span>
+<span class="fc" id="L153">        skruer50.setHelptext(&quot;til montering af yderste bræt ved beklædning&quot;);</span>
+<span class="fc" id="L154">        skruer50.setQuantity(2);</span>
+<span class="fc" id="L155">        skruer50.setUnit(&quot;Pk.&quot;);</span>
+<span class="fc" id="L156">        skruer50.setPrice(10);</span>
+<span class="fc" id="L157">        bom.addMaterial(skruer50);</span>
+
+        /* Wood */
+<span class="fc" id="L160">        MaterialModel bræt210 = new MaterialModel(210, &quot;bræt&quot;, &quot;19x100 mm. trykimp. Bræt&quot;, 100, 2100, 19);</span>
+<span class="fc" id="L161">        bræt210.setHelptext(&quot;Beklædning af skur 1 på 2&quot;);</span>
+<span class="fc" id="L162">        bræt210.setQuantity(148);</span>
+<span class="fc" id="L163">        bræt210.setUnit(&quot;Stk.&quot;);</span>
+<span class="fc" id="L164">        bræt210.setPrice(100);</span>
+<span class="fc" id="L165">        bom.addMaterial(bræt210);</span>
+
+<span class="fc" id="L167">        MaterialModel løsholt360 = new MaterialModel(360, &quot;løsholt&quot;, &quot;45x95 Reglar ubh.&quot;, 95, 3600, 45);</span>
+<span class="fc" id="L168">        løsholt360.setHelptext(&quot;Løsholter i gavle af skur&quot;);</span>
+<span class="fc" id="L169">        løsholt360.setQuantity(6);</span>
+<span class="fc" id="L170">        løsholt360.setUnit(&quot;Stk.&quot;);</span>
+<span class="fc" id="L171">        løsholt360.setPrice(123);</span>
+<span class="fc" id="L172">        bom.addMaterial(løsholt360);</span>
+
+<span class="fc" id="L174">        MaterialModel løsholt240 = new MaterialModel(240, &quot;løsholt&quot;, &quot;45x95 Reglar ubh.&quot;, 95, 2400, 45);</span>
+<span class="fc" id="L175">        løsholt240.setHelptext(&quot;Løsholter i siderne af skur&quot;);</span>
+<span class="fc" id="L176">        løsholt240.setQuantity(4);</span>
+<span class="fc" id="L177">        løsholt240.setUnit(&quot;Stk.&quot;);</span>
+<span class="fc" id="L178">        løsholt240.setPrice(112);</span>
+<span class="fc" id="L179">        bom.addMaterial(løsholt240);</span>
+<span class="fc" id="L180">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;MATERIALS FOR THE FLOOR&quot;&gt;
+    /**
+     * Adds materials to the Partslist for the floor, if selected.
+     *
+     * @param floor MaterialModel
+     * @param length of the Shed.
+     * @param width of the Shed.
+     * @return PartslistModel
+     */
+    void addFloor(PartslistModel bom, MaterialModel floor, int length, int width, DataFacade db) throws DataException
+    {
+<span class="fc" id="L194">        int floorwidth = floor.getWidth(); // Width of the boards used for the floor</span>
+<span class="fc" id="L195">        int floorlength = floor.getLength(); // Length of the boards used for the floor</span>
+
+<span class="fc" id="L197">        int woodwidthamount = width / floorwidth; // Get amount of boards needed for width of shed</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (width % floorwidth &gt; 0)</span>
+        {
+<span class="fc" id="L200">            woodwidthamount++; // If we need an extra to get 100% coverage.</span>
+        }
+
+<span class="fc" id="L203">        int woodlengthamount = length / floorlength; // Get amount of boards needed for length of shed</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        if (length % floorlength &gt; 0)</span>
+        {
+<span class="fc" id="L206">            woodlengthamount++; // If we need an extra to get 100% coverage.</span>
+        }
+
+<span class="fc" id="L209">        int amountofwood = woodlengthamount * woodwidthamount; // Length * Width = amount of boards needed in total for shed floor.</span>
+<span class="fc" id="L210">        floor.setQuantity(amountofwood);</span>
+<span class="fc" id="L211">        bom.addMaterial(floor);</span>
+
+        // 4 screws per board #27 - 300 in a pack
+<span class="fc" id="L214">        int screwamount = amountofwood * 4;</span>
+<span class="fc" id="L215">        MaterialModel screws = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.</span>
+<span class="fc" id="L216">        addScrews(bom, screws, 300, screwamount);</span>
+<span class="fc" id="L217">    }</span>
+    // &lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;MATERIALS FOR THE DOOR&quot;&gt;
+    /**
+     * Adds always needed materials to the Partslist. Materials for the door,
+     * etc. 2 vandrette stivere 38x73 2 lag beklædningsbrædder skråstiver lægte
+     * dørgreb - stalddørsgreb - #17 material hængsler skruer til alt dette
+     *
+     * @param wood type of wood selected for the shed.
+     * @return PartslistModel
+     */
+    void addDoorMaterials(PartslistModel bom, DataFacade db) throws DataException
+    {
+<span class="fc" id="L231">        MaterialModel stalddørsgreb = db.getMaterial(this.stalddørsgreb, helptext);</span>
+<span class="fc" id="L232">        stalddørsgreb.setQuantity(1);</span>
+<span class="fc" id="L233">        bom.addMaterial(stalddørsgreb); // Stalddørsgreb for the door.</span>
+
+<span class="fc" id="L235">        MaterialModel laegte = db.getMaterial(taglægte, helptext); // 38x73mm taglægte.</span>
+<span class="fc" id="L236">        laegte.setQuantity(1);</span>
+<span class="fc" id="L237">        bom.addMaterial(laegte); // for the backside of the door.</span>
+
+<span class="fc" id="L239">        MaterialModel hængsel = db.getMaterial(thængsel, helptext);</span>
+<span class="fc" id="L240">        hængsel.setQuantity(2);</span>
+<span class="fc" id="L241">        bom.addMaterial(hængsel); // T-hængsel for the door.</span>
+<span class="fc" id="L242">    }</span>
+    //&lt;/editor-fold&gt;
+
+    /**
+     * Materials for the rest. 
+     * 12 boards per 30cm. 
+     * 9 screws per board. 
+     * 3x 4,5x50mm and 6x 4,5x70mm. 
+     * 1 reglar 20 cm above ground. 
+     * 1 reglar 110 cm above ground. 
+     * 1 reglar for every second post. 
+     * 1 extra reglar at the ends of the shed, because the top one on the sides are straps 
+     * install girders in angle brackets
+     * 4 bracket screws per bracket.
+     *
+     * @param bom PartslistModel
+     * @param wood MaterialModel. Wood used for the sheds walls.
+     * @param length of the shed
+     * @param width of the shed
+     */
+    void addMaterials(PartslistModel bom, MaterialModel wood, int length, int width, DataFacade db, OrderModel order) throws DataException
+    {
+        // pressure treated boards for the walls:
+<span class="nc" id="L265">        int amountofwood = (((length + width) * 2) / wood.getWidth()) + 1; // Two length sides and two width sides and one spare board.</span>
+<span class="nc" id="L266">        wood.setQuantity(amountofwood);</span>
+<span class="nc" id="L267">        bom.addMaterial(wood);</span>
+
+        // Adding screws for the walls.
+        // Amount of Skruer 4,5x50mm used for the boards for the wall.
+<span class="nc" id="L271">        int amountofscrews50 = 3 * amountofwood;</span>
+<span class="nc" id="L272">        MaterialModel skruer50 = db.getMaterial(this.skruer50mm, helptext); // 300 in one pack.</span>
+<span class="nc" id="L273">        addScrews(bom, skruer50, 300, amountofscrews50);</span>
+        // Amount of Skruer 4,5x70mm used for the boards for the wall.
+<span class="nc" id="L275">        int amountofscrews70 = 6 * amountofwood;</span>
+<span class="nc" id="L276">        MaterialModel skruer70 = db.getMaterial(this.skruer70mm, helptext); // 400 in one pack.</span>
+<span class="nc" id="L277">        addScrews(bom, skruer70, 400, amountofscrews70);</span>
+
+        // Adding additional posts if needed
+<span class="nc" id="L280">        posts(length, order, width, db, bom);</span>
+
+        // Adding reglar. One side needs 3, and on the other side you just mount the walls on the strap.
+<span class="nc" id="L283">        int vinkelbeslagamount = reglar(width, db, bom, 3);</span>
+<span class="nc" id="L284">        vinkelbeslagamount += reglar(length, db, bom, 2);</span>
+
+        // anglebrackets #19 2 per reglar
+<span class="nc" id="L287">        MaterialModel vinkelbeslag = db.getMaterial(this.vinkelbeslag, helptext);</span>
+<span class="nc" id="L288">        vinkelbeslag.setQuantity(vinkelbeslagamount);</span>
+<span class="nc" id="L289">        bom.addMaterial(vinkelbeslag);</span>
+
+        // bracket screws #21 4 per bracket
+<span class="nc" id="L292">        MaterialModel beslagsskruer = db.getMaterial(this.beslagsskruer, helptext);</span>
+<span class="nc" id="L293">        int screwamount = 4 * vinkelbeslagamount;</span>
+<span class="nc" id="L294">        addScrews(bom, beslagsskruer, 100, screwamount);</span>
+
+<span class="nc" id="L296">    }</span>
+
+    /**
+     * Calculate the amount of posts needed extra for the shed.
+     *
+     * @param length of the shed.
+     * @param order
+     * @param width of the shed.
+     * @param db
+     * @param bom
+     * @throws LoginException
+     */
+    void posts(int length, OrderModel order, int width, DataFacade db, PartslistModel bom) throws DataException
+    {
+<span class="fc" id="L310">        int postquantity = 0;</span>
+<span class="pc bpc" id="L311" title="3 of 4 branches missed.">        if (length == order.getLength() &amp;&amp; width == order.getWidth())</span>
+        {
+            // If the shed covers the entire carport, then add no additional posts.
+<span class="pc bpc" id="L314" title="6 of 8 branches missed.">        } else if ((width &lt; order.getWidth() &amp;&amp; length &gt; postdistance) || (length &lt; order.getLength() &amp;&amp; width &gt; postdistance)) // if carport is absurdly long and shed is aswell...</span>
+        {
+<span class="fc" id="L316">            postquantity++; //one for the corner</span>
+<span class="pc bpc" id="L317" title="1 of 2 branches missed.">            if (length &gt; postdistance) // We only need additional posts if the length is longer than the distance between two posts.</span>
+            {
+<span class="fc" id="L319">                int templength = length;</span>
+<span class="fc" id="L320">                postquantity--; //one removed for the one at the end.</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">                while (templength &gt; 0)</span>
+                {
+<span class="fc" id="L323">                    postquantity++; // Add post</span>
+<span class="fc" id="L324">                    templength -= postdistance; // Remove the distance.</span>
+                }
+            }
+
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">            if (width &gt; postdistance) // We only need additional posts if the width is longer than the distance between two posts.</span>
+            {
+<span class="fc" id="L330">                int tempwidth = width;</span>
+<span class="fc" id="L331">                postquantity--; //one removed for the one at the end.</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">                while (tempwidth &gt; 0)</span>
+                {
+<span class="fc" id="L334">                    postquantity++; // Add a post</span>
+<span class="fc" id="L335">                    tempwidth -= postdistance; // Remove the distance.</span>
+                }
+<span class="fc" id="L337">            }</span>
+        } else
+        {
+<span class="nc" id="L340">            postquantity++; // the one at the corner</span>
+        }
+<span class="fc" id="L342">        MaterialModel post = db.getMaterial(postid, helptext);</span>
+<span class="fc" id="L343">        post.setQuantity(postquantity);</span>
+<span class="fc" id="L344">        bom.addMaterial(post);</span>
+<span class="fc" id="L345">    }</span>
+
+    /**
+     * Calculate the amount of reglar needed.
+     *
+     * @param width of the side you're calculating.
+     * @param db
+     * @param bom
+     * @param side one side needs 2, another needs 3.
+     * @return amount of reglar for that side.
+     * @throws LoginException
+     */
+    int reglar(int width, DataFacade db, PartslistModel bom, int side) throws DataException
+    {
+        MaterialModel reglar;
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">        if (postdistance &lt; 2400 || width &lt; 2400)</span>
+        {
+<span class="nc" id="L362">            reglar = db.getMaterial(this.reglar2400, helptext); // 2400 reglar</span>
+        } else
+        {
+<span class="fc" id="L365">            reglar = db.getMaterial(this.reglar3600, helptext); // 3600 reglar</span>
+        }
+<span class="fc" id="L367">        int amountofreglar = side * (width / postdistance);</span>
+<span class="fc" id="L368">        int restreglar = width % postdistance;</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        if (restreglar &gt; 0) // If customer needs ekstra.</span>
+        {
+<span class="fc" id="L371">            amountofreglar = side + amountofreglar;</span>
+        }
+<span class="fc" id="L373">        reglar.setQuantity(amountofreglar);</span>
+<span class="fc" id="L374">        bom.addMaterial(reglar);</span>
+<span class="fc" id="L375">        return amountofreglar * 2; // used for angle brackets. Need 2 per reglar.</span>
+    }
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;CALCULATOR FOR THE SCREWS&quot;&gt;
+    /**
+     * Add screws to the partslist.
+     *
+     * @param bom
+     * @param screws type of screw
+     * @param packamount amount of screws in a pack.
+     * @param screwamount amount of screws needed in total.
+     */
+    void addScrews(PartslistModel bom, MaterialModel screws, int packamount, int screwamount)
+    {
+<span class="fc" id="L389">        int restskruer = screwamount % packamount;</span>
+<span class="fc" id="L390">        int amountofpacks = screwamount / packamount;</span>
+<span class="fc bfc" id="L391" title="All 2 branches covered.">        if (restskruer &gt; 0)</span>
+        {
+<span class="fc" id="L393">            amountofpacks++;</span>
+        }
+<span class="fc" id="L395">        screws.setQuantity(amountofpacks);</span>
+<span class="fc" id="L396">        bom.addMaterial(screws);</span>
+<span class="fc" id="L397">    }</span>
+    //&lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

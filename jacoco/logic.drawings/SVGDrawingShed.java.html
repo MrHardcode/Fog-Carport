@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SVGDrawingShed.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.drawings</a> &gt; <span class="el_source">SVGDrawingShed.java</span></div><h1>SVGDrawingShed.java</h1><pre class="source lang-java linenums">package logic.drawings;
+
+import data.models.OrderModel;
+
+/**
+ * Generates the shed drawing in form of a String of SVG elements.
+ *
+ * @author
+ */
+<span class="nc" id="L10">public class SVGDrawingShed</span>
+{
+
+<span class="nc" id="L13">    private final int postdistance = 310; // Default distance between two posts in the shed in cm.</span>
+<span class="nc" id="L14">    private static int arrowHeadCounter = 0;</span>
+
+    /**
+     * Get a SVG drawing of the shed.
+     *
+     * @param order order in question
+     * @return SVG drawing in string for html.
+     */
+    public String getShedDrawing(OrderModel order)
+    {
+        // Converting from mm to cm.
+<span class="nc" id="L25">        int carportWidth = order.getLength() / 10;</span>
+<span class="nc" id="L26">        int carportLength = order.getWidth() / 10;</span>
+<span class="nc" id="L27">        int shedWidth = order.getShed_length() / 10;</span>
+<span class="nc" id="L28">        int shedLength = order.getShed_width() / 10;</span>
+
+<span class="nc" id="L30">        String SVG</span>
+                = // Container that matches the entire carport in size.
+                &quot;&lt;svg &quot;
+                + &quot;width=\&quot;&quot; + (carportWidth) + &quot;\&quot; &quot;
+                + &quot;height=\&quot;&quot; + (carportLength) + &quot;\&quot;&gt;\n&quot;
+                + // The shed itself.
+                &quot; &lt;rect &quot;
+                + &quot;x=\&quot;&quot; + ((carportWidth) - (shedWidth)) + &quot;\&quot; \n&quot;
+                + &quot; y=\&quot;&quot; + ((carportLength) - (shedLength)) + &quot;\&quot; \n&quot;
+                + &quot; width=\&quot;&quot; + (shedWidth) + &quot;\&quot; \n&quot;
+                + &quot; height=\&quot;&quot; + (shedLength) + &quot;\&quot; \n&quot;
+                + &quot; style=\&quot;stroke:black;stroke-dasharray:10,5;stroke-width:3;fill-opacity:0.1;stroke-opacity:1\&quot; /&gt;\n&quot;;
+
+        // Posts from corner to the edge.
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (shedWidth != carportWidth)</span>
+        {
+            // Horizontal
+<span class="nc" id="L47">            SVG += getPole(order, 0);</span>
+        }
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (shedLength != carportLength)</span>
+        {
+            // Vertical
+<span class="nc" id="L52">            SVG += getPole(order, 90);</span>
+        }
+
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        if (shedLength != carportLength &amp;&amp; shedWidth != carportWidth)</span>
+        {
+            //Post at the corner
+<span class="nc" id="L58">            SVG += &quot;&lt;rect x=\&quot;&quot; + (((carportWidth) - (shedWidth))) + &quot;\&quot; \n&quot;</span>
+                    + &quot;y=\&quot;&quot; + ((carportLength) - (shedLength)) + &quot;\&quot; \n&quot;
+                    + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; \n&quot;
+                    + &quot;style=\&quot;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\&quot; /&gt;\n&quot;;
+        }
+        // Closing tag
+<span class="nc" id="L64">        SVG += &quot;        &lt;/svg&gt;&quot;;</span>
+
+<span class="nc" id="L66">        return SVG;</span>
+    }
+
+    /**
+     * Get a SVG pole drawn in the right spot, with labels and arrows.
+     *
+     * @param order
+     * @param angle 90 in angle if its the width. 0 if the length.
+     * @return SVG drawing string for html.
+     */
+    String getPole(OrderModel order, int angle)
+    {
+        // Converting from mm to cm.
+<span class="nc" id="L79">        int carportWidth = order.getLength() / 10;</span>
+<span class="nc" id="L80">        int carportLength = order.getWidth() / 10;</span>
+<span class="nc" id="L81">        int shedWidth = order.getShed_length() / 10;</span>
+<span class="nc" id="L82">        int shedLength = order.getShed_width() / 10;</span>
+<span class="nc" id="L83">        String SVG = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (angle == 0) // Horizontally</span>
+        { // Using example where shed is 640cm wide and postdistance is 310cm.
+<span class="nc" id="L87">            int postamount = shedWidth / postdistance; // 640/310 = 2 as int </span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            for (double i = 0; i &lt;= postamount; i += 1)</span>
+            {
+<span class="nc" id="L90">                double postplacement = ((1 + i) / (1 + postamount)); // (1+0)/(1+2) = 0.333333</span>
+<span class="nc" id="L91">                double tempint = (double) (shedWidth * postplacement); // 0.333333 * 640 = 213</span>
+<span class="nc" id="L92">                int postwidth = (int) tempint;</span>
+
+                // The Arrow. All the seemingly random numbers are simply to place the arrows and labels correctly. 
+                // Had to do a lot of adjusting to get it right. 
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                if (i == 0)</span>
+                {                   // beginX                     beginY                              endX                                     endY 
+<span class="nc" id="L98">                    SVG += getArrow(((carportWidth - shedWidth)), (carportLength - shedLength) - 15, ((carportWidth - shedWidth) + postwidth), (carportLength - shedLength) - 15);</span>
+<span class="nc" id="L99">                    SVG += getLabel((carportWidth - shedWidth) + (postwidth / 2) - 10, (carportLength - shedLength) - 20, postwidth);</span>
+                }
+
+                // The post
+<span class="nc" id="L103">                SVG += &quot; &lt;rect x=\&quot;&quot; + ((carportWidth - shedWidth) + postwidth) + &quot;\&quot; \n&quot; // Places posts 213cm instead of 310cm. Now they are spread even and nice.</span>
+                        + &quot;y=\&quot;&quot; + (carportLength - shedLength) + &quot;\&quot; \n&quot;
+                        + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; \n&quot;
+                        + &quot;style=\&quot;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\&quot; /&gt;\n &quot;;
+            }
+        }
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (angle == 90) // Vertically </span>
+        {
+<span class="nc" id="L112">            int postamount = shedLength / postdistance;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            for (double i = 0; i &lt;= postamount; i += 1)</span>
+            {
+<span class="nc" id="L115">                double postplacement = ((1 + i) / (1 + postamount));</span>
+<span class="nc" id="L116">                double tempint = (double) (shedLength * postplacement);</span>
+<span class="nc" id="L117">                int postlength = (int) tempint;</span>
+
+                // The Arrow.
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                if (i == 0)</span>
+                {                   // beginX                         beginY                          endX                              endY                                
+<span class="nc" id="L122">                    SVG += getArrow((carportWidth - shedWidth) - 15, ((carportLength - shedLength)), (carportWidth - shedWidth) - 15, ((carportLength - shedLength) + postlength));</span>
+<span class="nc" id="L123">                    SVG += getLabel((carportWidth - shedWidth) - 60, (carportLength - shedLength) + (postlength / 2), postlength);</span>
+                }
+
+<span class="nc" id="L126">                SVG += &quot; &lt;rect x=\&quot;&quot; + (carportWidth - shedWidth) + &quot;\&quot; \n&quot;</span>
+                        + &quot;y=\&quot;&quot; + ((carportLength - shedLength) + postlength) + &quot;\&quot; \n&quot;
+                        + &quot;width=\&quot;7\&quot; height=\&quot;7\&quot; \n&quot;
+                        + &quot;style=\&quot;stroke:black;stroke-width:3;fill-opacity:0;stroke-opacity:1\&quot; /&gt;\n &quot;;
+            }
+        }
+<span class="nc" id="L132">        return SVG;</span>
+    }
+
+    /**
+     * Get a SVG arrow, that shows the distance between two poles on the shed.
+     *
+     * @param beginX Start X coordinate.
+     * @param beginY Start Y coordinate.
+     * @param endX End X coordinate.
+     * @param endY End Y coordinate.
+     * @return SVG drawing string for html.
+     */
+    String getArrow(int beginX, int beginY, int endX, int endY)
+    {
+<span class="nc" id="L146">        ++arrowHeadCounter;</span>
+        // The Arrow.
+<span class="nc" id="L148">        String SVG = &quot; &quot;</span>
+                + &quot;&lt;defs&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;beginArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;0\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,4 L8,0 L8,8 L0,4\&quot; style=\&quot;fill: #000000s;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;    &lt;marker id=\&quot;endArrow&quot; + arrowHeadCounter + &quot;\&quot; \n&quot;
+                + &quot;    	markerWidth=\&quot;9\&quot; markerHeight=\&quot;9\&quot; \n&quot;
+                + &quot;    	refX=\&quot;8\&quot; refY=\&quot;4\&quot; \n&quot;
+                + &quot;    	orient=\&quot;auto\&quot;&gt;\n&quot;
+                + &quot;        &lt;path d=\&quot;M0,0 L8,4 L0,8 L0,0\&quot; style=\&quot;fill: #000000;\&quot; /&gt;\n&quot;
+                + &quot;    &lt;/marker&gt;\n&quot;
+                + &quot;&lt;/defs&gt;\n&quot;
+                + &quot;&lt;line x1=\&quot;&quot; + beginX + &quot;\&quot;  y1=\&quot;&quot; + beginY + &quot;\&quot; x2=\&quot;&quot; + endX + &quot;\&quot;   y2=\&quot;&quot; + endY + &quot;\&quot; \n&quot;
+                + &quot;	style=\&quot;stroke:#006600;\n&quot;
+                + &quot;	marker-start: url(#beginArrow&quot; + arrowHeadCounter + &quot;);\n&quot;
+                + &quot;   marker-end: url(#endArrow&quot; + arrowHeadCounter + &quot;);\&quot;/&gt;&quot;
+                + &quot; &quot;;
+
+<span class="nc" id="L169">        return SVG;</span>
+    }
+
+    /**
+     * Get a distance label for the arrow that marks the distance between two
+     * posts.
+     *
+     * @param x X position.
+     * @param y Y position.
+     * @param distance Distance between the two posts.
+     * @return SVG string.
+     */
+    String getLabel(int x, int y, int distance)
+    {
+<span class="nc" id="L183">        String SVG = &quot;&quot;;</span>
+        // The text
+<span class="nc" id="L185">        SVG += &quot; &lt;text x=\&quot;&quot; + x + &quot;\&quot; y=\&quot;&quot; + y + &quot;\&quot; fill=\&quot;black\&quot;\&quot;&gt;&quot; + distance + &quot;cm&quot; + &quot;&lt;/text&gt; &quot;;</span>
+
+<span class="nc" id="L187">        return SVG;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

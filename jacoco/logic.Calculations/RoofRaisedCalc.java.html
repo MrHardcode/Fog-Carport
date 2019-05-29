@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoofRaisedCalc.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic.Calculations</a> &gt; <span class="el_source">RoofRaisedCalc.java</span></div><h1>RoofRaisedCalc.java</h1><pre class="source lang-java linenums">package logic.Calculations;
+
+import data.DataFacade;
+import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
+/**
+ * This class handles materials needed for a raised roof on the carport. The
+ * exposed method returns a PartslistModel with the items, which are then
+ * appended to the 'master list' (&quot;bill of materials&quot;).
+ *
+ * @see PartslistModel
+ * @author
+ */
+public class RoofRaisedCalc {
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;INSTANCE FIELDS&quot;&gt;
+    DataFacade DAO;
+    int bracketCount;
+    int screwCount;
+    int rafterCount;
+    int lathRowCount;
+    int intersectionCount;
+    int tileCount;
+    int topTileCount;
+    int roofOverhang;
+    int claddingBoardsTotal;
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HARDCODED MATERIALS USED&quot;&gt;
+<span class="fc" id="L39">    final int screwPacks = 20; // 4,5x60mm. Skruer (200 stk)</span>
+<span class="fc" id="L40">    final int roofTileBrackets = 32; // B &amp; C tagstens binder/nakkekrog (kombi)</span>
+<span class="fc" id="L41">    final int roofTileBlack = 33; // B &amp; C Dobbelt Tagsten (Sort)</span>
+<span class="fc" id="L42">    final int roofTileGrey = 34; // B &amp; C Dobbelt Tagsten (Grå)</span>
+<span class="fc" id="L43">    final int roofTileOrange = 35; // Eternit Tagsten(Teglrød)</span>
+<span class="fc" id="L44">    final int roofTileRed = 36; // B &amp; C Dobbelt Tagsten (Rød)</span>
+<span class="fc" id="L45">    final int roofTileBlue = 37; // B &amp; C Dobbelt Tagsten (Blå)</span>
+<span class="fc" id="L46">    final int roofTileBlackBlue = 38; // B &amp; C Dobbelt Tagsten (Sortblå)</span>
+<span class="fc" id="L47">    final int roofTileSunlux = 39; // B &amp; C Dobbelt Tagsten (Sunlux)</span>
+<span class="fc" id="L48">    final int roofTopTileBlack = 40; // B &amp; C Rygsten (Sort)</span>
+<span class="fc" id="L49">    final int roofTopTileGrey = 41; // B &amp; C Rygsten Tagsten (Grå)</span>
+<span class="fc" id="L50">    final int roofTopTileOrange = 42; // Eternit Rygsten (Teglrød)</span>
+<span class="fc" id="L51">    final int roofTopTileRed = 43; // B &amp; C Rygsten (Rød)</span>
+<span class="fc" id="L52">    final int roofTopTileBlue = 44; // B &amp; C Rygsten (Blå)</span>
+<span class="fc" id="L53">    final int roofTopTileBlackBlue = 45; // B &amp; C Rygsten (Sortblå)</span>
+<span class="fc" id="L54">    final int roofTopTileSunlux = 46; // B &amp; C Rygsten (Sunlux)</span>
+<span class="fc" id="L55">    final int topLathBracket = 30;  // B &amp; C Toplægte holder</span>
+<span class="fc" id="L56">    final int rafterWood2400 = 6; // 45x95 Reglar ubh. 2400</span>
+<span class="fc" id="L57">    final int rafterWood3600 = 7; // 45x95 Reglar ubh. 3600</span>
+<span class="fc" id="L58">    final int fasciaWood4800 = 1; // 25x150mm trykimp. Bræt 4800</span>
+<span class="fc" id="L59">    final int fasciaWood5400 = 2; // 25x150mm. trykimp. Bræt 5400</span>
+<span class="fc" id="L60">    final int fasciaWood6000 = 3; // 25x150mm. trykimp. Bræt 6000</span>
+<span class="fc" id="L61">    final int lathWood5400 = 12; // 38x73 mm. taglægte T1 5400</span>
+<span class="fc" id="L62">    final int lathWood4200 = 13; // 38x73 mm. taglægte T1 4200</span>
+<span class="fc" id="L63">    final int claddingWood4800 = 8; // 19x100mm. trykimp. Bræt 4800</span>
+<span class="fc" id="L64">    final int claddingWood2400 = 9; // 19x100mm. trykimp. Bræt 2400</span>
+<span class="fc" id="L65">    final int claddingWood2100 = 10; // 19x100mm. trykimp. Bræt 2100</span>
+<span class="fc" id="L66">    final String helptext = &quot;roof&quot;; // Used to grab the right helptext from database.</span>
+    //&lt;/editor-fold&gt;
+
+    /**
+     * Constructor, instantiates all instance fields.
+     */
+<span class="fc" id="L72">    public RoofRaisedCalc() {</span>
+<span class="fc" id="L73">        DAO = DataFacadeImpl.getInstance();</span>
+<span class="fc" id="L74">        bracketCount = 0;</span>
+<span class="fc" id="L75">        screwCount = 0;</span>
+<span class="fc" id="L76">        rafterCount = 0;</span>
+<span class="fc" id="L77">        lathRowCount = 0;</span>
+<span class="fc" id="L78">        intersectionCount = 0;</span>
+<span class="fc" id="L79">        tileCount = 0;</span>
+<span class="fc" id="L80">        topTileCount = 0;</span>
+<span class="fc" id="L81">        roofOverhang = 600;</span>
+<span class="fc" id="L82">        claddingBoardsTotal = 0;</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * Exposed method of this class. Gathers PartslistModel's from protedted
+     * methods add's screws to the final PartslistModel and returns the final
+     * PartslistModel.
+     *
+     * @param order
+     * @return PartslistModel roofRaisedBOM
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    public PartslistModel getRoofRaisedMaterials(OrderModel order) throws DataException, AlgorithmException {
+<span class="fc bfc" id="L96" title="All 8 branches covered.">        if (order == null || order.getLength() &lt;= 0 || order.getWidth() &lt;= 0 || order.getIncline() &lt;= 0) {</span>
+<span class="fc" id="L97">            throw new AlgorithmException(&quot;Ordren er ikke udfyldt korrekt. Der bliver muligvis divideret med 0 eller der er indtastet felter med værdier på 0 eller mindre.&quot;);</span>
+        }
+<span class="fc" id="L99">        PartslistModel roofRaisedBOM = new PartslistModel();</span>
+
+<span class="fc" id="L101">        roofRaisedBOM.addPartslist(getRoofTiles(order));</span>
+<span class="fc" id="L102">        roofRaisedBOM.addPartslist(getRoofStructure(order));</span>
+<span class="fc" id="L103">        roofRaisedBOM.addPartslist(generateCladding(order));</span>
+<span class="fc" id="L104">        roofRaisedBOM.addPartslist(getScrews());</span>
+<span class="fc" id="L105">        updateFieldsinBOM(roofRaisedBOM);</span>
+
+<span class="fc" id="L107">        return roofRaisedBOM;</span>
+    }
+
+    /**
+     * Updates the fileds in the PartslistModel
+     *
+     * @param finalRoofBOM
+     */
+    protected void updateFieldsinBOM(PartslistModel finalRoofBOM) {
+<span class="fc" id="L116">        finalRoofBOM.setLathRowCount(lathRowCount);</span>
+<span class="fc" id="L117">        finalRoofBOM.setRafterCount(rafterCount);</span>
+<span class="fc" id="L118">        finalRoofBOM.setTileCount(tileCount);</span>
+<span class="fc" id="L119">        finalRoofBOM.setTopTileCount(topTileCount);</span>
+<span class="fc" id="L120">    }</span>
+
+    /**
+     * Calculates amount of screws needed for the entire roof, adds them to a
+     * Partslist and returns it.
+     *
+     * @return PartslistModel
+     * @throws DataException
+     */
+    protected PartslistModel getScrews() throws DataException, AlgorithmException {
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (screwCount &lt; 1) {</span>
+<span class="fc" id="L131">            throw new AlgorithmException(&quot;Skrueantal er mindre end 0&quot;);</span>
+        }
+<span class="fc" id="L133">        PartslistModel screwBOM = new PartslistModel();</span>
+<span class="fc" id="L134">        int screwsPrPack = 200;</span>
+<span class="fc" id="L135">        int totalScrewPacks = (int) Math.ceil((double) screwCount / (double) screwsPrPack);</span>
+<span class="fc" id="L136">        MaterialModel material = DAO.getMaterial(screwPacks, helptext);</span>
+
+<span class="fc" id="L138">        material.setQuantity(totalScrewPacks);</span>
+<span class="fc" id="L139">        screwBOM.addMaterial(material);</span>
+
+<span class="fc" id="L141">        return screwBOM;</span>
+    }
+
+    /**
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of rooftiles, toprooftiles and
+     * fasteners. The calculated materials are returned in a PartslistModel.
+     *
+     * Hardcoded material is one of a kind in the database.
+     *
+     * @param order
+     * @return PartslistModel
+     * @throws DataException
+     */
+    protected PartslistModel getRoofTiles(OrderModel order) throws DataException {
+<span class="fc" id="L156">        PartslistModel roofTilesBOM = new PartslistModel();</span>
+
+<span class="fc" id="L158">        int tileLength = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getLength();</span>
+<span class="fc" id="L159">        int tileWidth = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getWidth();</span>
+<span class="fc" id="L160">        int totalWidth = order.getWidth() + roofOverhang;</span>
+<span class="fc" id="L161">        double angleRad = Math.toRadians(order.getIncline());</span>
+<span class="fc" id="L162">        double adjacentCath = totalWidth * 0.5;</span>
+<span class="fc" id="L163">        double hypotenuse = (adjacentCath / Math.cos(angleRad));</span>
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;COMMENTS&quot;&gt;
+        /*
+        topLathDist is the distance from the rooftop to the highest lath, determinded
+        by FOG
+        
+        remaningRoofWidth is the roof width when the distance from the rooftop 
+        to the highest lath is removed. The hypotenuse is used since the roof 
+        has an incline in order to get the correct width. 
+        
+        the whileloop calculates the the amount of rows of rooftiles
+        
+        tileRowLength is the total length of all rooftiles
+         */
+        //&lt;/editor-fold&gt;
+<span class="fc" id="L178">        int topLathDist = 30;</span>
+<span class="fc" id="L179">        int tileRowCount = 0;</span>
+<span class="fc" id="L180">        int tileRowLength = 0;</span>
+<span class="fc" id="L181">        int remaningRoofWidth = (int) Math.ceil(hypotenuse) - (topLathDist);</span>
+
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        while (remaningRoofWidth &gt; 0) {</span>
+<span class="fc" id="L184">            tileRowCount = tileRowCount + 1;</span>
+<span class="fc" id="L185">            remaningRoofWidth = remaningRoofWidth - tileLength;</span>
+        }
+
+<span class="fc" id="L188">        tileRowLength = (order.getLength() * tileRowCount) * 2;</span>
+<span class="fc" id="L189">        tileCount = (int) Math.ceil((double) tileRowLength / (double) tileWidth);</span>
+<span class="fc" id="L190">        MaterialModel materialTiles = DAO.getMaterial(order.getRoof_tiles_id(), helptext);</span>
+
+<span class="fc" id="L192">        materialTiles.setQuantity(tileCount);</span>
+<span class="fc" id="L193">        roofTilesBOM.addMaterial(materialTiles);</span>
+
+<span class="fc" id="L195">        MaterialModel materialTopTiles = DAO.getMaterial(getTopRoofTileID(order), helptext);</span>
+
+<span class="fc" id="L197">        topTileCount = (int) Math.ceil((double) order.getLength() / (double) materialTopTiles.getLength());</span>
+
+<span class="fc" id="L199">        materialTopTiles.setQuantity(topTileCount);</span>
+<span class="fc" id="L200">        roofTilesBOM.addMaterial(materialTopTiles);</span>
+
+<span class="fc" id="L202">        MaterialModel materialBinders = DAO.getMaterial(roofTileBrackets, helptext);</span>
+<span class="fc" id="L203">        materialBinders.setQuantity(2);</span>
+<span class="fc" id="L204">        roofTilesBOM.addMaterial(materialBinders);</span>
+
+<span class="fc" id="L206">        return roofTilesBOM;</span>
+    }
+
+    /**
+     * Takes in the order provided by getRoofTiles() method and returns an int
+     * representing the id in the database for the corresponding rooftoptiles.
+     *
+     * When/if the order in the database is changed to take this into account,
+     * this method can be removed.
+     *
+     * @param order
+     * @return int roofTopID
+     * @throws DataException
+     */
+    protected int getTopRoofTileID(OrderModel order) throws DataException {
+        int roofTopID;
+<span class="fc" id="L222">        int normalTileID = DAO.getMaterial(order.getRoof_tiles_id(), helptext).getID();</span>
+<span class="pc bpc" id="L223" title="4 of 8 branches missed.">        switch (normalTileID) {</span>
+            case roofTileBlack:
+<span class="fc" id="L225">                roofTopID = roofTopTileBlack;</span>
+<span class="fc" id="L226">                break;</span>
+            case roofTileGrey:
+<span class="nc" id="L228">                roofTopID = roofTopTileGrey;</span>
+<span class="nc" id="L229">                break;</span>
+            case roofTileOrange:
+<span class="fc" id="L231">                roofTopID = roofTopTileOrange;</span>
+<span class="fc" id="L232">                break;</span>
+            case roofTileRed:
+<span class="nc" id="L234">                roofTopID = roofTopTileRed;</span>
+<span class="nc" id="L235">                break;</span>
+            case roofTileBlue:
+<span class="nc" id="L237">                roofTopID = roofTopTileBlue;</span>
+<span class="nc" id="L238">                break;</span>
+            case roofTileBlackBlue:
+<span class="fc" id="L240">                roofTopID = roofTopTileBlackBlue;</span>
+<span class="fc" id="L241">                break;</span>
+            case roofTileSunlux:
+<span class="fc" id="L243">                roofTopID = roofTopTileSunlux;</span>
+<span class="fc" id="L244">                break;</span>
+            default:
+<span class="nc" id="L246">                roofTopID = roofTopTileBlack;</span>
+                break;
+        }
+<span class="fc" id="L249">        return roofTopID;</span>
+    }
+
+    /**
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of rafters, laths, fasciaborads and
+     * fasteners. The calculated materials are returned in a PartslistModel.
+     * Class field rafterCount is updated.
+     *
+     * @param order
+     * @return PartslistModel
+     * @throws DataException
+     */
+    protected PartslistModel getRoofStructure(OrderModel order) throws DataException, AlgorithmException {
+<span class="fc" id="L263">        PartslistModel roofStructureBOM = new PartslistModel();</span>
+<span class="fc" id="L264">        rafterCount = 2;</span>
+<span class="fc" id="L265">        int totalWidth = order.getWidth() + roofOverhang;</span>
+<span class="fc" id="L266">        int rafterWidth = 45;</span>
+<span class="fc" id="L267">        int rafterSpace = 900;</span>
+<span class="fc" id="L268">        int remainderLength = order.getLength() - (2 * rafterWidth);</span>
+
+<span class="fc" id="L270">        rafterCount = rafterCount + (int) Math.ceil((double) remainderLength / (double) (rafterSpace + rafterWidth));</span>
+
+<span class="fc" id="L272">        MaterialModel material = DAO.getMaterial(topLathBracket, helptext);</span>
+
+<span class="fc bfc" id="L274" title="All 2 branches covered.">        for (int i = 0; i &lt; rafterCount; i++) {</span>
+<span class="fc" id="L275">            addPartslistWithMaterialsQuantity(generateRafter(totalWidth, order.getIncline()), roofStructureBOM);</span>
+        }
+
+<span class="fc" id="L278">        material.setQuantity(rafterCount);</span>
+<span class="fc" id="L279">        roofStructureBOM.addMaterial(material);</span>
+<span class="fc" id="L280">        addPartslistWithMaterialsQuantity(generateLaths(order.getLength(), totalWidth, order.getIncline()), roofStructureBOM);</span>
+<span class="fc" id="L281">        addPartslistWithMaterialsQuantity(generatefasciaBoards(totalWidth, order.getIncline(), order.getLength()), roofStructureBOM);</span>
+<span class="fc" id="L282">        return roofStructureBOM;</span>
+    }
+
+    /**
+     * This method takes in an ArrayList of materials and a length, sorts the
+     * list and then calculates the amount of the longest material needed to
+     * cover the given length. The calculated materials are added to the
+     * PartslistModel, which is then returned.
+     *
+     * The metod was supposed to be able to switch to use the shorter materials
+     * in the given list when the remaining length is shorter than the longest
+     * material, but that feature has not yet been implemented.
+     *
+     * @param materials
+     * @param length
+     * @return PartslistModel
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected PartslistModel getMaterialsFromlength(ArrayList&lt;MaterialModel&gt; materials, int length) throws AlgorithmException {
+<span class="fc bfc" id="L301" title="All 4 branches covered.">        if (materials.size() &lt; 1 || materials.get(0).getLength() &lt; 1) {</span>
+<span class="fc" id="L302">            throw new AlgorithmException(&quot;Materialelisten indeholder ingen materialer eller indeholder materialer uden længde.&quot;);</span>
+        }
+
+<span class="fc" id="L305">        PartslistModel calcParts = new PartslistModel();</span>
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;SORT COMMENT&quot;&gt;
+        /*
+        The materials list is sorted so that the longest material is at index 0. 
+        The calculation below depends on this list being sorted in a descending 
+        order.  
+         */
+        //&lt;/editor-fold&gt;
+<span class="fc" id="L313">        Collections.sort(materials, new Comparator&lt;MaterialModel&gt;() {</span>
+            @Override
+            public int compare(MaterialModel o1, MaterialModel o2) {
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                if (o1.getLength() &lt; o2.getLength()) {</span>
+<span class="fc" id="L317">                    return 1;</span>
+<span class="pc bpc" id="L318" title="1 of 2 branches missed.">                } else if (o1.getLength() &gt; o2.getLength()) {</span>
+<span class="fc" id="L319">                    return -1;</span>
+                }
+<span class="nc" id="L321">                return 0;</span>
+            }
+        });
+
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;MAP COMMENT&quot;&gt;
+        /*
+        The quantityPrMaterial map holds all the materials with an Integer representing
+        the quantity for the given material. All quantityrepresentations is set 
+        to 0 at the beginning. 
+         */
+        //&lt;/editor-fold&gt;
+<span class="fc" id="L332">        HashMap&lt;MaterialModel, Integer&gt; quantityPrMaterial = new HashMap();</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">        for (MaterialModel material : materials) {</span>
+<span class="fc" id="L334">            quantityPrMaterial.put(material, 0);</span>
+<span class="fc" id="L335">        }</span>
+
+<span class="fc" id="L337">        int restLength = length;</span>
+<span class="fc" id="L338">        double ratioBest = -1;</span>
+<span class="fc" id="L339">        MaterialModel bestMaterial = null;</span>
+
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;RATIO COMMENT&quot;&gt;
+        /*
+        The ratioBest is an integer representing how close to 1 the division 
+        restLength/material.getLength is. If this division equals 1, then 
+        the length of the material is the same as the restLength, meaning 1
+        material is enough to cover the length. 
+        If the numer is greater than 1 it means that theres is more restLength 
+        than 1 material can cover. 
+        If the number is less than 1 the restLength is shorter than the material
+        length. 
+        In the loop the ratioCurrent is calculated for the given material. 
+        
+        The ratioBest is the ratio of the best material for a given length.
+        
+         */
+        //&lt;/editor-fold&gt;
+<span class="fc bfc" id="L357" title="All 2 branches covered.">        while (restLength &gt; 0) {</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">            for (MaterialModel material : materials) {</span>
+<span class="fc" id="L359">                double ratioCurrent = (double) restLength / (double) material.getLength();</span>
+
+                //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;IF-ELSE COMMENT&quot;&gt;
+                /*
+                The ratioBest starts at -1 for each iteration of this inner loop
+                and when it's -1 we assume that the given material is the best
+                material for the length, so bestMaterial is set to this and the
+                ratioBest is set to the ratioCurrent for this material. 
+                
+                When the ratioBest is not -1 we assume that there already is a
+                material in bestMaterial i.e. we assume that we are not looking 
+                at the first material in the list. 
+                
+                Now we have to find out if the material in materialBest is really 
+                the best or if the current material is better. This is done in the
+                two else if's (one checks for ratios over 1 and the other checks 
+                for ratios under 1).
+                
+                RatioBest is always overwitten with the ratio thats closest
+                to 1 - then we check if ratioBest is the same as ratioCurrent. If
+                that's true we know that ratioCurrent was closer to 1 than ratioBest
+                and we set the current material to be the bestMaterial. 
+                
+                In the case where ratioBest is bigger than 1 and ratioCurrent is 
+                less than 1 the best material will be the one already stored in 
+                bestMaterial as this will cover the remaining length. 
+                
+                The case where ratioBest is less than 1 and ratioCurrent is 
+                bigger than 1 will never occur because the list is sorted by 
+                material.getLength descending. 
+                 */
+                //&lt;/editor-fold&gt;
+<span class="fc bfc" id="L391" title="All 2 branches covered.">                if (ratioBest == -1) {</span>
+<span class="fc" id="L392">                    ratioBest = ratioCurrent;</span>
+<span class="fc" id="L393">                    bestMaterial = material;</span>
+<span class="pc bpc" id="L394" title="1 of 4 branches missed.">                } else if (ratioBest &gt;= 1 &amp;&amp; ratioCurrent &gt;= 1) {</span>
+<span class="fc" id="L395">                    ratioBest = Math.min(ratioBest, ratioCurrent);</span>
+<span class="pc bpc" id="L396" title="1 of 2 branches missed.">                    if (ratioBest == ratioCurrent) {</span>
+<span class="nc" id="L397">                        bestMaterial = material;</span>
+                    }
+<span class="pc bpc" id="L399" title="1 of 4 branches missed.">                } else if (ratioBest &lt; 1 &amp;&amp; ratioCurrent &lt; 1) {</span>
+<span class="fc" id="L400">                    ratioBest = Math.max(ratioBest, ratioCurrent);</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">                    if (ratioBest == ratioCurrent) {</span>
+<span class="fc" id="L402">                        bestMaterial = material;</span>
+                    }
+                }
+<span class="fc" id="L405">            }</span>
+            //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;MATERIAL QUANTITY COMMENT&quot;&gt;
+            /*
+            After the inner loop the best material for the given length have been
+            found. Now we need to find out how many of the materials we need and 
+            remember that for later. 
+            
+            If the ratioBest is 1 or bigger, we need the amount of material equal 
+            to the floored version of that number. We don't care about the remainder, 
+            as there might be a better material for the remainder.
+            If the ratioBest is less than 1, we know that all the materials are longer 
+            than the given length. So we only need one of the best materials for
+            this length so we ceil the ratioBest (that always returns 1 in this case). 
+            
+            If the bestMaterial for the given length already have been chosen as 
+            the best material before (and thereby have a quantity bigger than 0) 
+            we don't want to overwrite that - so we set exsistingAmount to what
+            was stored in the map for that material.
+            Then the bestMaterial is added back to the map with the updated quantity.
+            
+            The length of all the bestMaterial is subtrackted from the restLength
+            and the ratioBest is reset to -1.
+            */
+            //&lt;/editor-fold&gt;
+<span class="fc" id="L429">            int materialAmount = 0;</span>
+<span class="fc bfc" id="L430" title="All 2 branches covered.">            if (ratioBest &gt;= 1) {</span>
+<span class="fc" id="L431">                materialAmount = (int) Math.floor(ratioBest);</span>
+            }
+<span class="fc bfc" id="L433" title="All 2 branches covered.">            if (ratioBest &lt; 1) {</span>
+<span class="fc" id="L434">                materialAmount = (int) Math.ceil(ratioBest);</span>
+            }
+<span class="fc" id="L436">            int exsistingAmount = quantityPrMaterial.get(bestMaterial);</span>
+<span class="fc" id="L437">            quantityPrMaterial.put(bestMaterial, exsistingAmount + materialAmount);</span>
+<span class="fc" id="L438">            restLength = restLength - (bestMaterial.getLength() * materialAmount);</span>
+<span class="fc" id="L439">            ratioBest = -1;</span>
+<span class="fc" id="L440">        }</span>
+        
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;PARTSLIST COMMENT&quot;&gt;
+            /*
+            When the while-loop is done we know we have found the best materials
+            for the original length at the start of this method. 
+        
+            Now the materials with their qunatities just have to be added to the
+            partslist. To do that we look at the map and add all materials that 
+            have a value greater than 0.
+            */
+            //&lt;/editor-fold&gt;
+
+<span class="fc bfc" id="L453" title="All 2 branches covered.">        for (MaterialModel material : materials) {</span>
+<span class="fc" id="L454">            int quantity = quantityPrMaterial.get(material);</span>
+<span class="fc bfc" id="L455" title="All 2 branches covered.">            if (quantity &gt; 0) {</span>
+<span class="fc" id="L456">                material.setQuantity(quantityPrMaterial.get(material));</span>
+<span class="fc" id="L457">                calcParts.addMaterial(material);</span>
+            }
+<span class="fc" id="L459">        }</span>
+<span class="fc" id="L460">        return calcParts;</span>
+    }
+
+    /**
+     * This method is used when several partslists containing the same materials
+     * are added together, to ensure the quantity is updated correctly and only
+     * one MaterialModel is added pr. material.
+     *
+     * It takes in the partslist calculated by the other methods and the
+     * partslist the calling method wants to return.
+     *
+     * @param calcBOM
+     * @param returnBOM
+     */
+    protected void addPartslistWithMaterialsQuantity(PartslistModel calcBOM, PartslistModel returnBOM) {
+<span class="fc" id="L475">        ArrayList&lt;MaterialModel&gt; calcList = calcBOM.getBillOfMaterials();</span>
+<span class="fc" id="L476">        ArrayList&lt;MaterialModel&gt; returnList = returnBOM.getBillOfMaterials();</span>
+
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;PARAMETERS COMMENT&quot;&gt;
+            /*
+            calcBOM is the partslist we wnat to add to returnBOM.
+            */
+            //&lt;/editor-fold&gt;
+<span class="fc bfc" id="L483" title="All 2 branches covered.">        for (int i = 0; i &lt; calcList.size(); i++) {</span>
+<span class="fc bfc" id="L484" title="All 2 branches covered.">            if (returnList.isEmpty()) {</span>
+<span class="fc" id="L485">                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));</span>
+<span class="fc" id="L486">                continue;</span>
+            }
+            
+            //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;METHOD COMMENT&quot;&gt;
+            /*
+            If the returnList is empty we add a copy of the first material in the
+            calsList.
+            
+            quantityAdded is used to see if we have added a quantity fram the calcList
+            to the returnList (this only happens if the same material is found in
+            both lists). 
+            If the material in calcList exsists in the returnList, then the qunatity
+            in the returnList and the totalPrice in the returnBOM are updated. 
+            
+            If the material in calcList does not exist in the returnList, a copy of the material
+            is added to the returnList.
+            
+            */
+            //&lt;/editor-fold&gt;
+            
+<span class="fc" id="L506">            boolean quantityAdded = false;</span>
+<span class="fc bfc" id="L507" title="All 2 branches covered.">            for (int j = 0; j &lt; returnList.size(); j++) {</span>
+
+<span class="fc bfc" id="L509" title="All 2 branches covered.">                if (calcList.get(i).getID() == returnList.get(j).getID()) {</span>
+<span class="fc" id="L510">                    int qunatity = returnList.get(j).getQuantity() + calcList.get(i).getQuantity();</span>
+<span class="fc" id="L511">                    returnList.get(j).setQuantity(qunatity);</span>
+<span class="fc" id="L512">                    returnBOM.setTotalprice((calcList.get(i).getQuantity() * (int) Math.ceil(returnList.get(j).getPrice())) + returnBOM.getTotalprice());</span>
+<span class="fc" id="L513">                    quantityAdded = true;</span>
+                }
+            }
+<span class="fc bfc" id="L516" title="All 2 branches covered.">            if (quantityAdded == false) {</span>
+<span class="fc" id="L517">                returnBOM.addMaterial(new MaterialModel(calcList.get(i)));</span>
+            } else {
+<span class="fc" id="L519">                quantityAdded = false;</span>
+            }
+        }
+<span class="fc" id="L522">    }</span>
+
+    /**
+     *
+     * Calculates the length of the different parts of a single rafter and calls
+     * getMaterialsFromlength() with the length and the ArrayList of
+     * raftermaterials. Class fields screwCount and bracketCount is updated.
+     *
+     * The hardcoded materials are the only materials used for rafters as of
+     * now.
+     *
+     * @param totalWidth
+     * @param incline
+     * @return PartslistModel
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected PartslistModel generateRafter(int totalWidth, int incline) throws DataException, AlgorithmException {
+<span class="fc" id="L540">        PartslistModel rafterBOM = new PartslistModel();</span>
+
+<span class="fc" id="L542">        double angleRad = Math.toRadians(incline);</span>
+<span class="fc" id="L543">        double adjacentCath = totalWidth * 0.5;</span>
+<span class="fc" id="L544">        double hypotenuse = (adjacentCath / Math.cos(angleRad));</span>
+<span class="fc" id="L545">        double oppositeCath = (Math.sin(angleRad) * hypotenuse);</span>
+
+<span class="fc" id="L547">        ArrayList&lt;MaterialModel&gt; materials = new ArrayList();</span>
+<span class="fc" id="L548">        materials.add(DAO.getMaterial(rafterWood2400, helptext));</span>
+<span class="fc" id="L549">        materials.add(DAO.getMaterial(rafterWood3600, helptext));</span>
+
+<span class="fc" id="L551">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalWidth), rafterBOM);</span>
+<span class="fc" id="L552">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), rafterBOM);</span>
+<span class="fc" id="L553">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), rafterBOM);</span>
+<span class="fc" id="L554">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(oppositeCath)), rafterBOM);</span>
+
+<span class="fc" id="L556">        bracketCount = bracketCount + 6;</span>
+<span class="fc" id="L557">        screwCount = screwCount + (4 * 6);</span>
+
+<span class="fc" id="L559">        return rafterBOM;</span>
+    }
+
+    /**
+     * Calculates the length of the different parts of the fascia boards and
+     * getMaterialsFromlength() with the length and the ArrayList of
+     * fasciamaterials. Class fields screwCount and bracketCount is updated.
+     *
+     * The hardcoded materials are the only materials used for rafters as of
+     * now.
+     *
+     * @param orderLength
+     * @param totalWidth
+     * @param incline
+     * @return PartslistModel
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected PartslistModel generatefasciaBoards(int totalWidth, int incline, int orderLength) throws DataException, AlgorithmException {
+<span class="fc" id="L578">        PartslistModel fasciaBOM = new PartslistModel();</span>
+
+<span class="fc" id="L580">        double angleRad = Math.toRadians(incline);</span>
+<span class="fc" id="L581">        double adjacentCath = totalWidth * 0.5;</span>
+<span class="fc" id="L582">        double hypotenuse = (adjacentCath / Math.cos(angleRad));</span>
+
+<span class="fc" id="L584">        ArrayList&lt;MaterialModel&gt; materials = new ArrayList();</span>
+<span class="fc" id="L585">        materials.add(DAO.getMaterial(fasciaWood4800, helptext));</span>
+<span class="fc" id="L586">        materials.add(DAO.getMaterial(fasciaWood5400, helptext));</span>
+<span class="fc" id="L587">        materials.add(DAO.getMaterial(fasciaWood6000, helptext));</span>
+
+<span class="fc" id="L589">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);</span>
+<span class="fc" id="L590">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(hypotenuse)), fasciaBOM);</span>
+<span class="fc" id="L591">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(orderLength)), fasciaBOM);</span>
+<span class="fc" id="L592">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, (int) Math.ceil(orderLength)), fasciaBOM);</span>
+
+<span class="fc" id="L594">        return fasciaBOM;</span>
+    }
+
+    /**
+     * Calculates the length of the different parts of all the laths and calls
+     * getMaterialsFromlength() with the length and the ArrayList of
+     * lathmaterials. Class fields screwCount, intersectionCount, lathRowCount
+     * and rafterCount is updated.
+     *
+     * The hardcoded materials are the only materials used for laths as of now.
+     *
+     * @param orderLength
+     * @param totalWidth
+     * @param incline
+     * @return PartslistModel
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected PartslistModel generateLaths(int orderLength, int totalWidth, int incline) throws DataException, AlgorithmException {
+<span class="fc" id="L613">        PartslistModel lathsBOM = new PartslistModel();</span>
+<span class="fc" id="L614">        double angleRad = Math.toRadians(incline);</span>
+<span class="fc" id="L615">        double adjacentCath = totalWidth * 0.5;</span>
+<span class="fc" id="L616">        double hypotenuse = (adjacentCath / Math.cos(angleRad));</span>
+
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;LATHROWCOUNT COMMENT&quot;&gt;
+            /*
+            There is always atleast 3 rows of laths pr. roof side ( two outer laths
+            and the one closets to the top.
+            */
+            //&lt;/editor-fold&gt;
+<span class="fc" id="L624">        lathRowCount = 3;</span>
+<span class="fc" id="L625">        int outerLathDist = 350;</span>
+<span class="fc" id="L626">        int upperLathDist = 30;</span>
+<span class="fc" id="L627">        int minimumLathDist = 307;</span>
+
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;LATH COMMENT&quot;&gt;
+            /*
+            roofSideWidth is the width from the top of the outer laths to the most
+            upper lath. 
+        
+            totalLathsLength is the length of all laths needed. So both sides of
+            the roof plus the toprow lath. The lathRowCount is updated likewise.
+            */
+            //&lt;/editor-fold&gt;
+<span class="fc" id="L638">        int roofSideWidth = (int) Math.ceil(hypotenuse) - (outerLathDist + upperLathDist);</span>
+<span class="fc" id="L639">        lathRowCount = lathRowCount + (int) Math.floor((double) roofSideWidth / (double) minimumLathDist);</span>
+<span class="fc" id="L640">        int totalLathsLength = ((orderLength * lathRowCount) * 2) + orderLength;</span>
+
+<span class="fc" id="L642">        lathRowCount = (lathRowCount * 2) + 1;</span>
+
+<span class="fc" id="L644">        intersectionCount = lathRowCount * rafterCount;</span>
+<span class="fc" id="L645">        screwCount = screwCount + (intersectionCount * 2);</span>
+
+<span class="fc" id="L647">        ArrayList&lt;MaterialModel&gt; materials = new ArrayList();</span>
+<span class="fc" id="L648">        materials.add(DAO.getMaterial(lathWood5400, helptext));</span>
+<span class="fc" id="L649">        materials.add(DAO.getMaterial(lathWood4200, helptext));</span>
+
+<span class="fc" id="L651">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalLathsLength), lathsBOM);</span>
+
+<span class="fc" id="L653">        return lathsBOM;</span>
+    }
+
+    /**
+     * Takes in the order provided by the exposed method and gathers the order
+     * info needed to calculate the amount of cladding and then calls
+     * getCladdingMaterialCount(). The calculated materials are returned in a
+     * PartslistModel.
+     *
+     * Class fields screwCount is updated.
+     *
+     * @param order
+     * @return PartslistModel
+     * @throws DataException
+     * @throws data.exceptions.AlgorithmException
+     */
+    protected PartslistModel generateCladding(OrderModel order) throws DataException, AlgorithmException {
+
+<span class="fc" id="L671">        PartslistModel claddingBOM = new PartslistModel();</span>
+<span class="fc" id="L672">        int totalWidth = order.getWidth() + roofOverhang;</span>
+<span class="fc" id="L673">        int totalCladdingLengthFront = (getCladdingMaterialCount(totalWidth, order.getIncline(), 0) + getCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;</span>
+<span class="fc" id="L674">        int totalCladdingLengthBack = (getCladdingMaterialCount(totalWidth, order.getIncline(), 0) + getCladdingMaterialCount(totalWidth, order.getIncline(), 8)) * 2;</span>
+<span class="fc" id="L675">        int totalCladdingLengh = totalCladdingLengthFront + totalCladdingLengthBack;</span>
+<span class="fc" id="L676">        claddingBoardsTotal = claddingBoardsTotal * 4;</span>
+
+<span class="fc" id="L678">        ArrayList&lt;MaterialModel&gt; materials = new ArrayList();</span>
+<span class="fc" id="L679">        materials.add(DAO.getMaterial(claddingWood4800, helptext));</span>
+<span class="fc" id="L680">        materials.add(DAO.getMaterial(claddingWood2400, helptext));</span>
+<span class="fc" id="L681">        materials.add(DAO.getMaterial(claddingWood2100, helptext));</span>
+<span class="fc" id="L682">        addPartslistWithMaterialsQuantity(getMaterialsFromlength(materials, totalCladdingLengh), claddingBOM);</span>
+
+<span class="fc" id="L684">        screwCount = screwCount + (claddingBoardsTotal * 4);</span>
+<span class="fc" id="L685">        return claddingBOM;</span>
+    }
+
+    /**
+     * This method calculates the amount of claddingmaterial needed for a given
+     * carport and returns it.
+     *
+     * The method uses basic trigonometry to calculate the height for each board
+     * and checks if the lengt of the board is less than the length of the given
+     * material.
+     *
+     * The amount is increased when the height of the board is greater than the
+     * remaining length of the material.
+     *
+     *
+     * @param totalWidth
+     * @param incline
+     * @param offset
+     * @return int amountMaterial
+     * @throws DataException
+     */
+    protected int getCladdingMaterialCount(int totalWidth, int incline, int offset) throws DataException {
+<span class="fc" id="L707">        int materialWidth = 100;</span>
+<span class="fc" id="L708">        int spaceWidth = 60;</span>
+<span class="fc" id="L709">        int cladWidth = offset;</span>
+<span class="fc" id="L710">        double angleRad = Math.toRadians(incline);</span>
+<span class="fc" id="L711">        double startAdjacentCath = totalWidth * 0.5;</span>
+<span class="fc" id="L712">        int totalCladdingLengthPrSidePrOffset = 0;</span>
+
+<span class="fc bfc" id="L714" title="All 2 branches covered.">        for (int i = cladWidth; i &lt; startAdjacentCath; i = cladWidth) {</span>
+<span class="fc" id="L715">            cladWidth = cladWidth + materialWidth;</span>
+
+<span class="fc" id="L717">            double hypotenuse = (cladWidth / Math.cos(angleRad));</span>
+<span class="fc" id="L718">            double oppositeCath = (Math.sin(angleRad) * hypotenuse);</span>
+<span class="fc" id="L719">            totalCladdingLengthPrSidePrOffset = totalCladdingLengthPrSidePrOffset + (int) Math.ceil(oppositeCath);</span>
+
+<span class="fc" id="L721">            cladWidth = cladWidth + spaceWidth;</span>
+<span class="fc" id="L722">            claddingBoardsTotal++;</span>
+        }
+<span class="fc" id="L724">        return totalCladdingLengthPrSidePrOffset;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

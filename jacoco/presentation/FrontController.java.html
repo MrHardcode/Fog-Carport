@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrontController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation</a> &gt; <span class="el_source">FrontController.java</span></div><h1>FrontController.java</h1><pre class="source lang-java linenums">package presentation;
+
+import presentation.commands.Command;
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import logic.LogicFacade;
+import logic.LogicFacadeImpl;
+
+/**
+ *
+ * @author
+ */
+@WebServlet(name = &quot;FrontController&quot;, urlPatterns =
+{
+    &quot;/FrontController&quot;
+})
+<span class="nc" id="L27">public class FrontController extends HttpServlet</span>
+{
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
+
+<span class="nc" id="L38">    private LogicFacade logic = LogicFacadeImpl.getInstance();</span>
+    private static final long serialVersionUID = 1L;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        try
+        {
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (request.getAttribute(&quot;target&quot;) == null)</span>
+            {
+            
+            } else
+            {
+<span class="nc" id="L52">                validateSession(request);</span>
+            }
+            
+<span class="nc" id="L55">            Command action = Command.from(request);</span>
+<span class="nc" id="L56">            String target = action.execute(request, logic);</span>
+<span class="nc" id="L57">            request.setAttribute(&quot;target&quot;, target);</span>
+<span class="nc" id="L58">            request.getRequestDispatcher(&quot;index.jsp&quot;).forward(request, response);</span>
+
+        }
+<span class="nc" id="L61">        catch (UserException e)</span>
+        {
+<span class="nc" id="L63">            request.setAttribute(&quot;target&quot;, &quot;login&quot;); //send user to login </span>
+<span class="nc" id="L64">            String message = e.getMessage();</span>
+
+<span class="nc" id="L66">            request.setAttribute(&quot;message&quot;, message); //re-send message to target</span>
+<span class="nc" id="L67">            request.getRequestDispatcher(&quot;index.jsp&quot;).forward(request, response);</span>
+        }
+<span class="nc" id="L69">        catch (DataException | AlgorithmException ex)</span>
+        {
+<span class="nc" id="L71">            request.setAttribute(&quot;target&quot;, &quot;errorMessage&quot;); //send user to error page</span>
+<span class="nc" id="L72">            String message = ex.getMessage();</span>
+<span class="nc" id="L73">            request.setAttribute(&quot;errormessage&quot;, message); //set message as errormessage (to be properly displayed) on target</span>
+<span class="nc" id="L74">            request.getRequestDispatcher(&quot;index.jsp&quot;).forward(request, response);</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+
+    /*
+    Session lasts for 30 minutes by default. (You may change this in the session-timeout tag of web.xml.)
+    If the customer is anywhere else but the create user or login page, and isn't logged in and tries to perform an action, 
+    then they will get logged out. 
+    Or if they've been inactive for 30 minutes. (Session refreshes the 30 minutes window for each action you perfom.)
+    
+     */
+    private void validateSession(HttpServletRequest request) throws UserException, ServletException, IOException
+    {
+        // GET SESSION.
+<span class="nc" id="L88">        HttpSession session = request.getSession();</span>
+        // GET CUSTOMER OBJECT.
+<span class="nc" id="L90">        CustomerModel customer = (CustomerModel) session.getAttribute(&quot;customer&quot;);</span>
+<span class="nc" id="L91">        EmployeeModel employee = (EmployeeModel) session.getAttribute(&quot;employee&quot;);</span>
+        // IF USER IS ON VIEW ORDERS OR VIEW PARTSLIST OR VIEW DRAWINGS AND NOT LOGGED IN
+<span class="nc" id="L93">        String command = request.getParameter(&quot;command&quot;);</span>
+<span class="nc" id="L94">        String link = request.getParameter(&quot;link&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (customer == null &amp;&amp; employee == null</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">                &amp;&amp; !&quot;login&quot;.equals(command) &amp;&amp; !&quot;login&quot;.equals(link)</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">                &amp;&amp; !&quot;createUser&quot;.equals(command) &amp;&amp; !&quot;createUser&quot;.equals(link)</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">                &amp;&amp; !&quot;homepage&quot;.equals(command) &amp;&amp; !&quot;homepage&quot;.equals(link)</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">                &amp;&amp; !&quot;makeCarport&quot;.equals(command) &amp;&amp; !&quot;makeCarportForm&quot;.equals(command))</span>
+        {
+            // INVALIDATE THE FAULTY SESSION.
+<span class="nc" id="L102">            session.invalidate();</span>
+            // FORWARD USER.
+<span class="nc" id="L104">            throw new UserException(&quot;Du er ikke logget ind&quot;);</span>
+        }
+<span class="nc" id="L106">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+<span class="nc" id="L121">        processRequest(request, response);</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+<span class="nc" id="L136">        processRequest(request, response);</span>
+<span class="nc" id="L137">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo()
+    {
+<span class="nc" id="L147">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MakeCarportForm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">MakeCarportForm.java</span></div><h1>MakeCarportForm.java</h1><pre class="source lang-java linenums">package presentation.commands;
+
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.PartslistModel;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+
+/**
+ *
+ * @author 
+ */
+<span class="nc" id="L13">public class MakeCarportForm extends Command</span>
+{
+
+    @Override
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException
+    {
+        /* Initializing required variables */
+
+        //flat roof materials
+<span class="nc" id="L22">        final int plasticTileID = 29; //plastmo ecolite (blåtonet)</span>
+        //final int feltTileID = 47; //not implemented
+
+        //raised roof materials
+<span class="nc" id="L26">        final int tileOptionOneID = 33; //B &amp; C Dobbelt Tagsten (Sort)</span>
+<span class="nc" id="L27">        final int tileOptionTwoID = 34; //B &amp; C Dobbelt Tagsten (Grå)</span>
+<span class="nc" id="L28">        final int tileOptionThreeID = 35; //Eternit Tagsten(Teglrød)</span>
+<span class="nc" id="L29">        final int tileOptionFourID = 36; //B &amp; C Dobbelt Tagsten (Rød)</span>
+<span class="nc" id="L30">        final int tileOptionFiveID = 37; //B &amp; C Dobbelt Tagsten (Blå)</span>
+<span class="nc" id="L31">        final int tileOptionSixID = 38; //B &amp; C Dobbelt Tagsten (Sortblå)</span>
+<span class="nc" id="L32">        final int tileOptionSevenID = 39; //B &amp; C Dobbelt Tagsten (Sunlux)</span>
+
+        //shed floor materials
+<span class="nc" id="L35">        final int floorOptionOneID = 51; //30x250x4800mm alm. planke (Eg) (expensive)</span>
+<span class="nc" id="L36">        final int floorOptionTwoID = 53; //25x200x3200mm alm. Bræt (less expensive)</span>
+
+        //shed wall materials
+<span class="nc" id="L39">        final int wallOptionOneID = 56; //25x200x5400mm trykimp. Bræt</span>
+
+        /* Initializing PartsListModels */
+<span class="nc" id="L42">        PartslistModel flatRoofParts = new PartslistModel();</span>
+<span class="nc" id="L43">        PartslistModel raisedRoofParts = new PartslistModel();</span>
+<span class="nc" id="L44">        PartslistModel shedFloorParts = new PartslistModel();</span>
+<span class="nc" id="L45">        PartslistModel shedWallParts = new PartslistModel();</span>
+
+        /* Load materials needed from DB and add to their respective partslist */
+        //flat roof
+<span class="nc" id="L49">        flatRoofParts.addMaterial(logic.getMaterial(plasticTileID, &quot;roof&quot;));</span>
+
+        //raised roof
+<span class="nc" id="L52">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionOneID, &quot;roof&quot;));</span>
+<span class="nc" id="L53">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionTwoID, &quot;roof&quot;));</span>
+<span class="nc" id="L54">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionThreeID, &quot;roof&quot;));</span>
+<span class="nc" id="L55">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFourID, &quot;roof&quot;));</span>
+<span class="nc" id="L56">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionFiveID, &quot;roof&quot;));</span>
+<span class="nc" id="L57">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSixID, &quot;roof&quot;));</span>
+<span class="nc" id="L58">        raisedRoofParts.addMaterial(logic.getMaterial(tileOptionSevenID, &quot;roof&quot;));</span>
+        //shed floor 
+<span class="nc" id="L60">        shedFloorParts.addMaterial(logic.getMaterial(floorOptionOneID, &quot;shed&quot;));</span>
+<span class="nc" id="L61">        shedFloorParts.addMaterial(logic.getMaterial(floorOptionTwoID, &quot;shed&quot;));</span>
+
+        //shed wall
+<span class="nc" id="L64">        shedWallParts.addMaterial(logic.getMaterial(wallOptionOneID, &quot;shed&quot;));</span>
+
+        //Modifying the names of the shed materials
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (int i = 0; i &lt; shedFloorParts.getBillOfMaterials().size(); i++)</span>
+        {
+<span class="nc" id="L69">            String des = shedFloorParts.getBillOfMaterials().get(i).getDescription();</span>
+<span class="nc" id="L70">            String name = des.substring(des.indexOf(&quot;(&quot;) + 1, des.indexOf(&quot;)&quot;));</span>
+<span class="nc" id="L71">            shedFloorParts.getBillOfMaterials().get(i).setName(name);</span>
+        }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        for (int i = 0; i &lt; shedWallParts.getBillOfMaterials().size(); i++)</span>
+        {
+<span class="nc" id="L75">            String des = shedWallParts.getBillOfMaterials().get(i).getDescription();</span>
+<span class="nc" id="L76">            String name = des.substring(des.indexOf(&quot;(&quot;) + 1, des.indexOf(&quot;)&quot;));</span>
+<span class="nc" id="L77">            shedWallParts.getBillOfMaterials().get(i).setName(name);</span>
+        }
+        
+        /* Set partslistmodels on their respective request attributes */
+<span class="nc" id="L81">        request.setAttribute(&quot;flatRoofParts&quot;, flatRoofParts.getBillOfMaterials());</span>
+<span class="nc" id="L82">        request.setAttribute(&quot;raisedRoofParts&quot;, raisedRoofParts.getBillOfMaterials());</span>
+<span class="nc" id="L83">        request.setAttribute(&quot;shedFloorParts&quot;, shedFloorParts.getBillOfMaterials());</span>
+<span class="nc" id="L84">        request.setAttribute(&quot;shedWallParts&quot;, shedWallParts.getBillOfMaterials());</span>
+
+        /* return */
+<span class="nc" id="L87">        return &quot;homepage&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

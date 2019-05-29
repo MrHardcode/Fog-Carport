@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ViewAllOrders.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">ViewAllOrders.java</span></div><h1>ViewAllOrders.java</h1><pre class="source lang-java linenums">/*
+ * 
+ */
+package presentation.commands;
+
+import data.exceptions.DataException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+
+/**
+ *
+ *
+ * @author
+ */
+<span class="nc" id="L18">public class ViewAllOrders extends Command</span>
+{
+
+    @Override
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException
+    {
+        // Pull Customer out of Session.
+<span class="nc" id="L25">        CustomerModel customer = (CustomerModel) request.getSession().getAttribute(&quot;customer&quot;);</span>
+<span class="nc" id="L26">        EmployeeModel employee = (EmployeeModel) request.getSession().getAttribute(&quot;employee&quot;);</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (customer != null) {</span>
+            // Get all the ids of the customers orders from the database.
+<span class="nc" id="L29">            List&lt;Integer&gt; ids = logic.getOrderIds(customer.getId());</span>
+            // Message to User if they have no orders.
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            if (ids.isEmpty())</span>
+            {
+<span class="nc" id="L33">                request.setAttribute(&quot;message&quot;, &quot;Ingen ordrer fundet. Når du engang har bestilt, vil din ordre vises her.&quot;);</span>
+            }
+            // Put them on the request so they can be shown to the Customer.
+<span class="nc" id="L36">            request.setAttribute(&quot;ids&quot;, ids);</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        else if(employee != null){</span>
+<span class="nc" id="L39">            List&lt;Integer&gt; allOrders = logic.getAllOrderIds();</span>
+<span class="nc" id="L40">            request.setAttribute(&quot;ids&quot;, allOrders);</span>
+        }
+        
+
+        // Send Customer to the page where they can view and select any of their orders.
+<span class="nc" id="L45">        return &quot;allOrders&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

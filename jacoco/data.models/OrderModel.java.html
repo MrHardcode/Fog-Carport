@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.models</a> &gt; <span class="el_source">OrderModel.java</span></div><h1>OrderModel.java</h1><pre class="source lang-java linenums">package data.models;
+
+/**
+ *
+ * @author
+ */ 
+public class OrderModel
+{
+
+    /*
+    Fields
+     */
+    private int height;
+    private int length;
+    private int width;
+    private int id;
+    private int id_customer;
+    private int id_employee;
+    private String build_adress;
+    private int build_zipcode;
+    private int incline;
+    private String status;
+    private int roof_tiles_id;
+    private int shed_width;
+    private int shed_length;
+    private int shed_walls_id;
+    private int shed_floor_id;
+    private double price;
+
+    public OrderModel()
+<span class="fc" id="L31">    {</span>
+<span class="fc" id="L32">    }</span>
+
+    public OrderModel(int height, int length, int width)
+<span class="fc" id="L35">    {</span>
+<span class="fc" id="L36">        this.length = length;</span>
+<span class="fc" id="L37">        this.width = width;</span>
+<span class="fc" id="L38">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Getters and Setters&quot;&gt;
+    /**
+     * Get the value of shed_floor_id
+     *
+     * @return the value of shed_floor_id
+     */
+    public int getShed_floor_id()
+    {
+<span class="fc" id="L48">        return shed_floor_id;</span>
+    }
+
+    /**
+     * Set the value of shed_floor_id
+     *
+     * @param shed_floor_id new value of shed_floor_id
+     */
+    public void setShed_floor_id(int shed_floor_id)
+    {
+<span class="fc" id="L58">        this.shed_floor_id = shed_floor_id;</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * Get the value of shed_walls_id
+     *
+     * @return the value of shed_walls_id
+     */
+    public int getShed_walls_id()
+    {
+<span class="fc" id="L68">        return shed_walls_id;</span>
+    }
+
+    /**
+     * Set the value of shed_walls_id
+     *
+     * @param shed_walls_id new value of shed_walls_id
+     */
+    public void setShed_walls_id(int shed_walls_id)
+    {
+<span class="fc" id="L78">        this.shed_walls_id = shed_walls_id;</span>
+<span class="fc" id="L79">    }</span>
+
+    /**
+     * Get the value of shed_length
+     *
+     * @return the value of shed_length
+     */
+    public int getShed_length()
+    {
+<span class="fc" id="L88">        return shed_length;</span>
+    }
+
+    /**
+     * Set the value of shed_length
+     *
+     * @param shed_length new value of shed_length
+     */
+    public void setShed_length(int shed_length)
+    {
+<span class="fc" id="L98">        this.shed_length = shed_length;</span>
+<span class="fc" id="L99">    }</span>
+
+    /**
+     * Get the value of shed_width
+     *
+     * @return the value of shed_width
+     */
+    public int getShed_width()
+    {
+<span class="fc" id="L108">        return shed_width;</span>
+    }
+
+    /**
+     * Set the value of shed_width
+     *
+     * @param shed_width new value of shed_width
+     */
+    public void setShed_width(int shed_width)
+    {
+<span class="fc" id="L118">        this.shed_width = shed_width;</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * Get the value of roof_tiles_id
+     *
+     * @return the value of roof_tiles_id
+     */
+    public int getRoof_tiles_id()
+    {
+<span class="fc" id="L128">        return roof_tiles_id;</span>
+    }
+
+    /**
+     * Set the value of roof_tiles_id
+     *
+     * @param roof_tiles_id new value of roof_tiles_id
+     */
+    public void setRoof_tiles_id(int roof_tiles_id)
+    {
+<span class="fc" id="L138">        this.roof_tiles_id = roof_tiles_id;</span>
+<span class="fc" id="L139">    }</span>
+
+    /**
+     * Get the value of height
+     *
+     * @return the value of height
+     */
+    public int getHeight()
+    {
+<span class="nc" id="L148">        return height;</span>
+    }
+
+    /**
+     * Set the value of height
+     *
+     * @param height new value of height
+     */
+    public void setHeight(int height)
+    {
+<span class="fc" id="L158">        this.height = height;</span>
+<span class="fc" id="L159">    }</span>
+
+    /**
+     * Get the value of status
+     *
+     * @return the value of status
+     */
+    public String getStatus()
+    {
+<span class="fc" id="L168">        return status;</span>
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @param status new value of status
+     */
+    public void setStatus(String status)
+    {
+<span class="fc" id="L178">        this.status = status;</span>
+<span class="fc" id="L179">    }</span>
+
+    /**
+     * Get the value of length
+     *
+     * @return the value of length
+     */
+    public int getLength()
+    {
+<span class="fc" id="L188">        return length;</span>
+    }
+
+    /**
+     * Set the value of length
+     *
+     * @param length new value of length
+     */
+    public void setLength(int length)
+    {
+<span class="fc" id="L198">        this.length = length;</span>
+<span class="fc" id="L199">    }</span>
+
+    /**
+     * Get the value of width
+     *
+     * @return the value of width
+     */
+    public int getWidth()
+    {
+<span class="fc" id="L208">        return width;</span>
+    }
+
+    /**
+     * Set the value of width
+     *
+     * @param width new value of width
+     */
+    public void setWidth(int width)
+    {
+<span class="fc" id="L218">        this.width = width;</span>
+<span class="fc" id="L219">    }</span>
+
+    /**
+     * Get the value of id
+     *
+     * @return the value of id
+     */
+    public int getId()
+    {
+<span class="fc" id="L228">        return id;</span>
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param id new value of id
+     */
+    public void setId(int id)
+    {
+<span class="fc" id="L238">        this.id = id;</span>
+<span class="fc" id="L239">    }</span>
+
+    /**
+     * Get the value of incline
+     *
+     * @return the value of incline
+     */
+    public int getIncline()
+    {
+<span class="fc" id="L248">        return incline;</span>
+    }
+
+    /**
+     * Set the value of incline
+     *
+     * @param incline new value of incline
+     */
+    public void setIncline(int incline)
+    {
+<span class="fc" id="L258">        this.incline = incline;</span>
+<span class="fc" id="L259">    }</span>
+
+    /**
+     * Get the value of build_zipcode
+     *
+     * @return the value of build_zipcode
+     */
+    public int getBuild_zipcode()
+    {
+<span class="fc" id="L268">        return build_zipcode;</span>
+    }
+
+    /**
+     * Set the value of build_zipcode
+     *
+     * @param build_zipcode new value of build_zipcode
+     */
+    public void setBuild_zipcode(int build_zipcode)
+    {
+<span class="fc" id="L278">        this.build_zipcode = build_zipcode;</span>
+<span class="fc" id="L279">    }</span>
+
+    /**
+     * Get the value of build_adress
+     *
+     * @return the value of build_adress
+     */
+    public String getBuild_adress()
+    {
+<span class="fc" id="L288">        return build_adress;</span>
+    }
+
+    /**
+     * Set the value of build_adress
+     *
+     * @param build_adress new value of build_adress
+     */
+    public void setBuild_adress(String build_adress)
+    {
+<span class="fc" id="L298">        this.build_adress = build_adress;</span>
+<span class="fc" id="L299">    }</span>
+
+    /**
+     * Get the value of id_employee
+     *
+     * @return the value of id_employee
+     */
+    public int getId_employee()
+    {
+<span class="fc" id="L308">        return id_employee;</span>
+    }
+
+    /**
+     * Set the value of id_employee
+     *
+     * @param id_employee new value of id_employee
+     */
+    public void setId_employee(int id_employee)
+    {
+<span class="fc" id="L318">        this.id_employee = id_employee;</span>
+<span class="fc" id="L319">    }</span>
+
+    /**
+     * Get the value of id_customer
+     *
+     * @return the value of id_customer
+     */
+    public int getId_customer()
+    {
+<span class="fc" id="L328">        return id_customer;</span>
+    }
+
+    /**
+     * Set the value of id_customer
+     *
+     * @param id_customer new value of id_customer
+     */
+    public void setId_customer(int id_customer)
+    {
+<span class="fc" id="L338">        this.id_customer = id_customer;</span>
+<span class="fc" id="L339">    }</span>
+
+    /**
+     * Get the value of price
+     *
+     * @return the value of price
+     */
+    public double getPrice()
+    {
+<span class="nc" id="L348">        return price;</span>
+    }
+
+    /**
+     * Set the value of price
+     *
+     * @param price new value of price
+     */
+    public void setPrice(double price)
+    {
+<span class="fc" id="L358">        this.price = price;</span>
+<span class="fc" id="L359">    }</span>
+
+    // &lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

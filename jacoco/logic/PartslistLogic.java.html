@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PartslistLogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic</a> &gt; <span class="el_source">PartslistLogic.java</span></div><h1>PartslistLogic.java</h1><pre class="source lang-java linenums">package logic;
+
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+
+/**
+ * THIS IS NOT IN PRODUCTION OR DEVELOPMENT. THIS CLASS WAS USED
+ * TO CALCULATE A SIMPLE CARPORT IN THE BEGINNING OF THIS PROJECT. 
+ * 
+ * Calculates the partslist. Maybe some of this should be in seperate classes?
+ * Like, divide shed, roof and bottom into 3 classes once we reach the advanced
+ * algorithm.
+ */
+@Deprecated
+<span class="nc" id="L18">class PartslistLogic</span>
+{
+
+<span class="nc" id="L21">    private static PartslistLogic instance = null;</span>
+
+    public synchronized static PartslistLogic getInstance()
+    {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (instance == null)</span>
+        {
+<span class="nc" id="L27">            instance = new PartslistLogic();</span>
+        }
+<span class="nc" id="L29">        return instance;</span>
+    }
+    
+    PartslistModel getBOM() throws UserException, DataException {
+<span class="nc" id="L33">        PartslistModel bom = new PartslistModel();</span>
+        
+//        OrderModel order = OrderMapper.getInstance().getOrder(2);
+        
+        
+        
+        
+<span class="nc" id="L40">        return bom;</span>
+    }
+    /*
+    https://datsoftlyngby.github.io/dat2sem2019Spring/Modul4/Fog/CAR01_HR.pdf
+    Malte used this link as a springboard for the simple bill of materials.
+    
+    Beklædning - 16x100 - Trykimprægneret
+    Vindskede - 25x150 - Trykimprægneret
+    Lægte - 38x73 - T1
+    Stern - 25x150 - Trykimprægneret
+    Tag - Tagsten - Beton - 20gr.
+    Spær - 45x95 - Reglar
+    Rem - 45 x 195 - Spærtræ
+    Stolpe - 100x100 - Trykimprægneret
+     */
+    PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws UserException
+    {
+<span class="nc" id="L57">        boolean hasShed = false;</span>
+<span class="nc" id="L58">        int _height = 0;</span>
+<span class="nc" id="L59">        int _length = 0;</span>
+<span class="nc" id="L60">        int _width = 0;</span>
+        // If any of the inputs are null or empty, then throw an error.
+<span class="nc bnc" id="L62" title="All 12 branches missed.">        if (height == null || length == null || width == null || height.isEmpty() || length.isEmpty() || width.isEmpty())</span>
+        {
+            // Should maybe be something like a ShopException. 
+<span class="nc" id="L65">            throw new UserException(&quot;Input felterne må ikke være tomme.&quot;);</span>
+        }
+        else // If inputs are okay, we change string to int.
+        {
+<span class="nc" id="L69">            _height = Integer.parseInt(height);</span>
+<span class="nc" id="L70">            _length = Integer.parseInt(length);</span>
+<span class="nc" id="L71">            _width = Integer.parseInt(width);</span>
+            // Change the CM input from Customer to MM.
+<span class="nc" id="L73">            _height = _height * 10;</span>
+<span class="nc" id="L74">            _length = _length * 10;</span>
+<span class="nc" id="L75">            _width = _width * 10;</span>
+        }
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (&quot;y&quot;.equals(shed)) // The name of checkbox is shed, the value is &quot;y&quot; if selected. </span>
+        // If the checkbox wasn't selected, then shed == null.
+        // So we can check for null by doing it like this.
+        // If you do shed.equals(&quot;y&quot;) then it throws a nullpointerexception.
+            // delete this
+        {
+<span class="nc" id="L83">            hasShed = true;</span>
+        }
+        // If input is out of bounds, then throw an error. 
+<span class="nc bnc" id="L86" title="All 12 branches missed.">        if (_height &lt; 2000 || _height &gt; 3000 || _length &lt; 2400 || _length &gt; 7200 || _width &lt; 2400 || _width &gt; 7200)</span>
+        {
+            // Should maybe be something like a ShopException.
+<span class="nc" id="L89">            throw new UserException(&quot;Input felterne skal være indenfor kravene&quot;);</span>
+        }
+        else // Else create the partslist
+        {
+<span class="nc" id="L93">            PartslistModel bom = new PartslistModel();</span>
+<span class="nc" id="L94">            OrderModel order = new OrderModel(_height, _length, _width);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (hasShed == true) // If they want a shed then add it to the partslist.</span>
+            {
+<span class="nc" id="L97">                addShed(order, bom);</span>
+            }
+<span class="nc" id="L99">            addRoof(order, bom);</span>
+<span class="nc" id="L100">            addBase(order, bom);</span>
+<span class="nc" id="L101">            return bom;</span>
+        }
+    }
+
+    /*
+    Add shed materials to bill of materials.
+    Task #26. Malte.
+    MaterialModel(int ID, String name, String description, int height, int length, int width)
+    int quantity;
+    private String helptext;
+     */
+    private void addShed(OrderModel order, PartslistModel bom)
+    {
+        /* Screws and misc. */
+<span class="nc" id="L115">        MaterialModel stalddørsgreb = new MaterialModel(75, &quot;Stalddørsgreb&quot;, &quot;Stalddørsgreb 50x75&quot;, 1, 0, 0);</span>
+<span class="nc" id="L116">        stalddørsgreb.setHelptext(&quot;til dør i skur&quot;);</span>
+<span class="nc" id="L117">        stalddørsgreb.setQuantity(1);</span>
+<span class="nc" id="L118">        stalddørsgreb.setUnit(&quot;sæt&quot;);</span>
+<span class="nc" id="L119">        stalddørsgreb.setPrice(10);</span>
+<span class="nc" id="L120">        bom.addMaterial(stalddørsgreb);</span>
+
+<span class="nc" id="L122">        MaterialModel thængsel = new MaterialModel(390, &quot;T-hængsel&quot;, &quot;T-Hængsel 390 mm.&quot;, 1, 0, 0);</span>
+<span class="nc" id="L123">        thængsel.setHelptext(&quot;til dør i skur&quot;);</span>
+<span class="nc" id="L124">        thængsel.setQuantity(2);</span>
+<span class="nc" id="L125">        thængsel.setUnit(&quot;Stk.&quot;);</span>
+<span class="nc" id="L126">        thængsel.setPrice(10);</span>
+<span class="nc" id="L127">        bom.addMaterial(thængsel);</span>
+
+<span class="nc" id="L129">        MaterialModel skruer70 = new MaterialModel(70, &quot;Skruer70&quot;, &quot;4,5 x 70 mm. Skruer 200 stk.&quot;, 1, 0, 0);</span>
+<span class="nc" id="L130">        skruer70.setHelptext(&quot;til montering af yderste bræt ved beklædning&quot;);</span>
+<span class="nc" id="L131">        skruer70.setQuantity(3);</span>
+<span class="nc" id="L132">        skruer70.setUnit(&quot;Pk.&quot;);</span>
+<span class="nc" id="L133">        skruer70.setPrice(10);</span>
+<span class="nc" id="L134">        bom.addMaterial(skruer70);</span>
+
+<span class="nc" id="L136">        MaterialModel skruer50 = new MaterialModel(50, &quot;Skruer50&quot;, &quot;4,5 x 50 mm. Skruer 350 stk.&quot;, 1, 0, 0);</span>
+<span class="nc" id="L137">        skruer50.setHelptext(&quot;til montering af yderste bræt ved beklædning&quot;);</span>
+<span class="nc" id="L138">        skruer50.setQuantity(2);</span>
+<span class="nc" id="L139">        skruer50.setUnit(&quot;Pk.&quot;);</span>
+<span class="nc" id="L140">        skruer50.setPrice(10);</span>
+<span class="nc" id="L141">        bom.addMaterial(skruer50);</span>
+
+        /* Wood */
+<span class="nc" id="L144">        MaterialModel bræt210 = new MaterialModel(210, &quot;bræt&quot;, &quot;19x100 mm. trykimp. Bræt&quot;, 100, 2100, 19);</span>
+<span class="nc" id="L145">        bræt210.setHelptext(&quot;Beklædning af skur 1 på 2&quot;);</span>
+<span class="nc" id="L146">        bræt210.setQuantity(148);</span>
+<span class="nc" id="L147">        bræt210.setUnit(&quot;Stk.&quot;);</span>
+<span class="nc" id="L148">        bræt210.setPrice(100);</span>
+<span class="nc" id="L149">        bom.addMaterial(bræt210);</span>
+
+<span class="nc" id="L151">        MaterialModel løsholt360 = new MaterialModel(360, &quot;løsholt&quot;, &quot;45x95 Reglar ubh.&quot;, 95, 3600, 45);</span>
+<span class="nc" id="L152">        løsholt360.setHelptext(&quot;Løsholter i gavle af skur&quot;);</span>
+<span class="nc" id="L153">        løsholt360.setQuantity(6);</span>
+<span class="nc" id="L154">        løsholt360.setUnit(&quot;Stk.&quot;);</span>
+<span class="nc" id="L155">        løsholt360.setPrice(123);</span>
+<span class="nc" id="L156">        bom.addMaterial(løsholt360);</span>
+
+<span class="nc" id="L158">        MaterialModel løsholt240 = new MaterialModel(240, &quot;løsholt&quot;, &quot;45x95 Reglar ubh.&quot;, 95, 2400, 45);</span>
+<span class="nc" id="L159">        løsholt240.setHelptext(&quot;Løsholter i siderne af skur&quot;);</span>
+<span class="nc" id="L160">        løsholt240.setQuantity(4);</span>
+<span class="nc" id="L161">        løsholt240.setUnit(&quot;Stk.&quot;);</span>
+<span class="nc" id="L162">        løsholt240.setPrice(112);</span>
+<span class="nc" id="L163">        bom.addMaterial(løsholt240);</span>
+<span class="nc" id="L164">    }</span>
+
+    /*
+    Add roof materials to the partslist.
+    Task #28. Asger.
+     */
+    private void addRoof(OrderModel order, PartslistModel bom)
+    {
+<span class="nc" id="L172">        calculateRoofParts(order, bom);</span>
+<span class="nc" id="L173">    }</span>
+
+    /**
+     * Used to calculate the amount of materials needed for the roof of a given carport.
+     * @param order
+     * @param bom 
+     */
+    private void calculateRoofParts(OrderModel order, PartslistModel bom)
+    {
+        //Screws, miscellaneous
+<span class="nc" id="L183">        MaterialModel trussScrews = new MaterialModel(620, &quot;skrue&quot;, &quot;4,5 x 40mm.&quot;, 0, 0, 0);</span>
+<span class="nc" id="L184">        trussScrews.setHelptext(&quot;Skruer til montering af spær på rem&quot;);</span>
+<span class="nc" id="L185">        trussScrews.setUnit(&quot;stk.&quot;);</span>
+        
+<span class="nc" id="L187">        MaterialModel trussBolts = new MaterialModel(623, &quot;bolt&quot;, &quot;4,5 x 65mm.&quot;, 0, 0, 0);</span>
+<span class="nc" id="L188">        trussBolts.setHelptext(&quot;Bolt til montering af spær på rem&quot;);</span>
+<span class="nc" id="L189">        trussBolts.setUnit(&quot;stk.&quot;);</span>
+        
+<span class="nc" id="L191">        MaterialModel roofScrews = new MaterialModel(621, &quot;skrue&quot;, &quot;4,5 x 35mm.&quot;, 0, 0, 0);</span>
+<span class="nc" id="L192">        roofScrews.setHelptext(&quot;Skruer til montering af tagplast på spær&quot;);</span>
+<span class="nc" id="L193">        roofScrews.setUnit(&quot;stk.&quot;);</span>
+        
+<span class="nc" id="L195">        MaterialModel roofScrewRings = new MaterialModel(622, &quot;tætningsring&quot;, &quot;Gummiring 2,2 cm diameter&quot;, 0, 0, 0);</span>
+<span class="nc" id="L196">        roofScrewRings.setHelptext(&quot;Gummiring til tætning omkring tagskure&quot;);</span>
+<span class="nc" id="L197">        roofScrewRings.setUnit(&quot;stk.&quot;);</span>
+        
+<span class="nc" id="L199">        MaterialModel fittings = new MaterialModel(600, &quot;spærbeslag&quot;, &quot;Beslag m. hul til 6 skruer&quot;, 10, 10, 6);</span>
+<span class="nc" id="L200">        fittings.setHelptext(&quot;Beslag til montering af spær på rem&quot;);</span>
+<span class="nc" id="L201">        fittings.setUnit(&quot;stk.&quot;);</span>
+        
+<span class="nc" id="L203">        MaterialModel fittingConnectors = new MaterialModel(601, &quot;spærbeslag - forlænger&quot;, &quot;Beslag m. hul til 6 skruer&quot;, 25, 0, 7);</span>
+<span class="nc" id="L204">        fittingConnectors.setHelptext(&quot;Beslag til samling af spær hvis taget er længere end en enkelt spær&quot;);</span>
+<span class="nc" id="L205">        fittingConnectors.setUnit(&quot;stk.&quot;);</span>
+        
+        //Wood
+<span class="nc" id="L208">        MaterialModel trusses = new MaterialModel(680, &quot;spærtræ ubh.&quot;, &quot;45x195mm. spær&quot;, 45, 3000, 195);</span>
+<span class="nc" id="L209">        trusses.setHelptext(&quot;spær, monteres på remmen&quot;);</span>
+<span class="nc" id="L210">        trusses.setUnit(&quot;stk.&quot;);</span>
+        
+        //Roof
+<span class="nc" id="L213">        MaterialModel plasticPanels = new MaterialModel(690, &quot;plastic tagplade&quot;, &quot;Standard plasttag&quot;, 5, 1000, 800);</span>
+<span class="nc" id="L214">        plasticPanels.setHelptext(&quot;Monteres m. 4 skruer + ringe&quot;);</span>
+<span class="nc" id="L215">        plasticPanels.setUnit(&quot;stk.&quot;);</span>
+        
+        /*
+        Rules
+        
+        1 truss pr 800mm (80 cm) width
+        1 truss pr 5000mm (500 cm) length
+        If the carport is longer than 5m (5000mm): +2 fitting connectors pr. main truss,
+        +12 truss screws
+        2 fittings pr truss end (combined trusses for larger carports havde fitting connectors instead)
+        3 truss screws pr. truss end (if truss end is in contact with the edge of the roof)
+        3 truss bolts pr. truss end (if truss end is in contact with the edge of the roof)
+        1 roof panel pr 1m (1000mm) (matches the trusses in width)
+        6 roof-screw and 6 roof-screw ring pr. roof panel
+        */
+        
+        /*Calculate quantities*/
+        //Trusses
+<span class="nc" id="L233">        int mainTrussAmount = calcMainTrusses(order);</span>
+<span class="nc" id="L234">        int restTrussAmount = -1;</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (order.getLength() &gt; trusses.getLength())</span>
+        {
+<span class="nc" id="L237">            restTrussAmount = calcRest(order, mainTrussAmount, trusses);</span>
+        }
+<span class="nc" id="L239">        int finalTrussAmount = mainTrussAmount;</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        if (restTrussAmount != -1)</span>
+        {
+<span class="nc" id="L242">            finalTrussAmount += restTrussAmount;</span>
+        }
+        
+        //Roof plastic panels
+<span class="nc" id="L246">        int mainRoofPanelAmount = calcRoofPanels(order);</span>
+<span class="nc" id="L247">        int restRoofPanelAmount = -1;</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (order.getLength() &gt; plasticPanels.getLength())</span>
+        {
+<span class="nc" id="L250">            restRoofPanelAmount = calcRest(order, mainTrussAmount, plasticPanels);</span>
+        }
+<span class="nc" id="L252">        int finalRoofPanelAmount = mainRoofPanelAmount;</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (restRoofPanelAmount != -1)</span>
+        {
+<span class="nc" id="L255">            finalRoofPanelAmount += restRoofPanelAmount;</span>
+        }
+        
+        //Screws and bolts for the trusses
+<span class="nc" id="L259">        int trussScrewAmount = calcTrussScrews(mainTrussAmount);</span>
+<span class="nc" id="L260">        int trussBoltAmount = calcTrussScrews(mainTrussAmount);</span>
+        
+        //Screws and rings for the roof panels
+<span class="nc" id="L263">        int roofScrewAmount = calcRoofScrews(finalRoofPanelAmount);</span>
+<span class="nc" id="L264">        int roofScrewRingAmount = calcRoofScrews(finalRoofPanelAmount);</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        if (restRoofPanelAmount != -1)</span>
+        {
+            //Adding some extra screws for the roof panels
+<span class="nc" id="L268">            roofScrewAmount += 2;</span>
+<span class="nc" id="L269">            roofScrewRingAmount += 2;</span>
+        }
+        
+        //Fittings for the trusses
+<span class="nc" id="L273">        int fittingAmount = calcFittings(mainTrussAmount);</span>
+<span class="nc" id="L274">        int fittingConnectorAmount = 0;</span>
+        //If the roof is longer than the standard truss length, we need extra fittings to connect to trusses
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        if (order.getLength() &gt; trusses.getLength())</span>
+        {
+<span class="nc" id="L278">            fittingConnectorAmount = calcFittingConnectors(order.getLength(), mainTrussAmount, trusses);</span>
+<span class="nc" id="L279">            trussScrewAmount += 6 * fittingConnectorAmount;</span>
+        }
+        
+        /*Update quantities*/
+<span class="nc" id="L283">        trusses.setQuantity(finalTrussAmount);</span>
+<span class="nc" id="L284">        plasticPanels.setQuantity(finalRoofPanelAmount);</span>
+<span class="nc" id="L285">        trussScrews.setQuantity(trussScrewAmount);</span>
+<span class="nc" id="L286">        trussBolts.setQuantity(trussBoltAmount);</span>
+<span class="nc" id="L287">        roofScrews.setQuantity(roofScrewAmount);</span>
+<span class="nc" id="L288">        roofScrewRings.setQuantity(roofScrewRingAmount);</span>
+<span class="nc" id="L289">        fittings.setQuantity(fittingAmount);</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        if (fittingConnectorAmount &gt; 0)</span>
+        {
+<span class="nc" id="L292">            fittingConnectors.setQuantity(fittingConnectorAmount);</span>
+        }
+        
+        /*Update prices based on calculated quantities*/
+<span class="nc" id="L296">        trusses.setPrice(finalTrussAmount * 95); // 95DKK pr truss</span>
+<span class="nc" id="L297">        plasticPanels.setPrice(finalRoofPanelAmount * 21); // 21DKK pr plastic roof panel</span>
+<span class="nc" id="L298">        trussScrews.setPrice(trussScrewAmount); // 1DKK pr truss screw</span>
+<span class="nc" id="L299">        trussBolts.setPrice(trussBoltAmount * 2); // 2DKK pr truss bolt</span>
+<span class="nc" id="L300">        roofScrews.setPrice(roofScrewAmount); // 1DKK pr roof screw</span>
+<span class="nc" id="L301">        roofScrewRings.setPrice(roofScrewRingAmount); // 1DKK pr roof screw ring</span>
+<span class="nc" id="L302">        fittings.setPrice(fittingAmount * 7); // 7DKK pr fitting</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">        if (fittingConnectorAmount &gt; 0)</span>
+        {
+<span class="nc" id="L305">            fittingConnectors.setPrice(fittingConnectorAmount * 7); // 7DKK pr fitting connector</span>
+        }
+        
+        /*Add materials to the BOM*/
+<span class="nc" id="L309">        bom.addMaterial(trusses);</span>
+<span class="nc" id="L310">        bom.addMaterial(plasticPanels);</span>
+<span class="nc" id="L311">        bom.addMaterial(trussScrews);</span>
+<span class="nc" id="L312">        bom.addMaterial(trussBolts);</span>
+<span class="nc" id="L313">        bom.addMaterial(roofScrews);</span>
+<span class="nc" id="L314">        bom.addMaterial(roofScrewRings);</span>
+<span class="nc" id="L315">        bom.addMaterial(fittings);</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (fittingConnectorAmount &gt; 0)</span>
+        {
+<span class="nc" id="L318">            bom.addMaterial(fittingConnectors);</span>
+        }
+<span class="nc" id="L320">    }</span>
+    
+    /**
+     * Used to calculate the amount of main trusses needed to support the roof of the carport.
+     * This method is always used which means that if the carport is shorter than 5000mm 
+     * you still get one truss pr every 800mm of width in your carport
+     * @param order
+     * @return int - amount of main trusses
+     */
+    private int calcMainTrusses(OrderModel order)
+    {
+<span class="nc" id="L331">        int width = order.getWidth();</span>
+<span class="nc" id="L332">        int trusses = width / 800; //One truss pr 80cm</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">        if (width % 800 &gt; 0)</span>
+        {
+<span class="nc" id="L335">            ++trusses;</span>
+        }
+<span class="nc" id="L337">        return trusses;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of extra items needed for the roof of the carport.
+     * @param order
+     * @param mainTrussAmount
+     * @return int - amount of extra trusses
+     */
+    private int calcRest(OrderModel order, int mainTrussAmount, MaterialModel item)
+    {
+<span class="nc" id="L348">        int itemLength = item.getLength();</span>
+<span class="nc" id="L349">        int restLength = order.getLength() - itemLength; //Length left after the first set of items (e.g. trusses)</span>
+        
+<span class="nc" id="L351">        int extraItem = 0;</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">        if (restLength &gt; itemLength)</span>
+        {
+<span class="nc" id="L354">            extraItem += (restLength / itemLength) * mainTrussAmount;</span>
+        }
+        //Calculating the rest of the length where a truss would extend beyond the carport's total length
+<span class="nc" id="L357">        restLength = order.getLength() % itemLength; </span>
+        //If there is any extra length left, we calculate the amount of extra items for this length
+<span class="nc bnc" id="L359" title="All 2 branches missed.">        if (restLength &gt; 0)</span>
+        {
+<span class="nc" id="L361">            extraItem += calcAbsoluteRest(restLength, mainTrussAmount, itemLength);</span>
+        }
+<span class="nc" id="L363">        return extraItem;</span>
+    }
+    
+    private int calcAbsoluteRest(int restLength, int mainTrussAmount, int itemLength)
+    {
+<span class="nc" id="L368">        int extraItems = 0;</span>
+        //If the restLength is greater than half of the item's length, we give the customer 
+        //an extra item (e.g. an extra truss) pr. main truss in the roof construction
+<span class="nc bnc" id="L371" title="All 2 branches missed.">        if (restLength &gt; itemLength / 2)</span>
+        {
+<span class="nc" id="L373">            extraItems = mainTrussAmount;</span>
+        } 
+        else
+        {
+<span class="nc" id="L377">            int remainingTrusses = mainTrussAmount;</span>
+<span class="nc" id="L378">            int count = 0;</span>
+            //Counting the amount of times a single item can be cut up to cover the full 
+            //remaining length in the roof
+<span class="nc" id="L381">            count = itemLength / restLength;</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">            while (remainingTrusses &gt; 0)</span>
+            {
+<span class="nc" id="L384">                remainingTrusses -= count;</span>
+<span class="nc" id="L385">                ++extraItems;</span>
+            }
+        }
+<span class="nc" id="L388">        return extraItems;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of roof panels in the first row of the roof.
+     * If the customer somehow manages to order a carport that is shorter than 1000mm 
+     * they will still recieve one roof panel pr. 80cm width
+     * @param order
+     * @return amount
+     */
+    private int calcRoofPanels(OrderModel order)
+    {
+<span class="nc" id="L400">        int width = order.getWidth();</span>
+<span class="nc" id="L401">        int panels = width / 800; //One roof panel pr 80cm</span>
+<span class="nc" id="L402">        return panels;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of screws used to fasten the trusses on the strap.
+     * @param mainTrussAmount
+     * @return amount
+     */
+    private int calcTrussScrews(int mainTrussAmount)
+    {
+    //3 screws pr. truss (if truss has contact with the edge (hence the * 2 since there are two ends))
+<span class="nc" id="L413">        int screws = mainTrussAmount * 3 * 2;</span>
+<span class="nc" id="L414">        return screws;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of screws needed to fasten the plastic roof panels to the trusses.
+     * This method is also used for the calculation of the roof screw rings, since the screws and rings 
+     * are used in pairs
+     * @param finalRoofPanelAmount
+     * @return amount
+     */
+    private int calcRoofScrews(int finalRoofPanelAmount)
+    {
+        //6 screws pr roof panel
+<span class="nc" id="L427">        int screws = finalRoofPanelAmount * 6;</span>
+<span class="nc" id="L428">        return screws;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of fittings needed to fasten the trusses on the strap.
+     * @param mainTrussAmount
+     * @return amount
+     */
+    private int calcFittings(int mainTrussAmount)
+    {
+        //2 fittings pr. truss end. The trusses have ends on both sides of the roof, hence * 4
+<span class="nc" id="L439">        int fittings = mainTrussAmount * 4;</span>
+<span class="nc" id="L440">        return fittings;</span>
+    }
+    
+    /**
+     * Used to calculate the amount of fitting connectors needed to combine the trusses in the roof.
+     * @param length
+     * @param mainTrussAmount
+     * @param trusses
+     * @return amount
+     */
+    private int calcFittingConnectors(int length, int mainTrussAmount, MaterialModel trusses)
+    {
+<span class="nc" id="L452">        int connections = length / trusses.getLength();</span>
+<span class="nc" id="L453">        int fittingConnectors = connections * mainTrussAmount * 2; //2 fitting connectors pr connection</span>
+<span class="nc" id="L454">        return fittingConnectors;</span>
+    }
+    
+    
+    /**
+     * Calculates the parts needed to build the base-part of the carport
+     *
+     * Add base parts to full list of parts Task #31: Runi.
+     *
+     * @param order order dimensions for the carport base
+     * @param bom the bill of materials of which to add the parts
+     */
+    void addBase(OrderModel order, PartslistModel bom)
+    {
+        /* Screws, miscellaneous*/
+<span class="nc" id="L469">        MaterialModel strapScrews = new MaterialModel(999, &quot;std. skrue&quot;, &quot;4,5 x 60mm.&quot;, 0, 0, 0);</span>
+<span class="nc" id="L470">        strapScrews.setHelptext(&quot;Skruer til montering af rem og stolpe&quot;);</span>
+<span class="nc" id="L471">        strapScrews.setUnit(&quot;stk.&quot;);</span>
+
+<span class="nc" id="L473">        MaterialModel strapBolts = new MaterialModel(998, &quot;bræddebolt&quot;, &quot;10 x 120mm.&quot;, 0, 0, 0);</span>
+<span class="nc" id="L474">        strapBolts.setHelptext(&quot;Bolte til montering af rem og stolpe&quot;);</span>
+<span class="nc" id="L475">        strapBolts.setUnit(&quot;stk.&quot;);</span>
+
+        /*Wood*/
+<span class="nc" id="L478">        MaterialModel post = new MaterialModel(997, &quot;Stolpe&quot;, &quot;97x97mm trykimp.&quot;, 97, 3000, 97);</span>
+<span class="nc" id="L479">        post.setHelptext(&quot;nedgraves 90cm i jord&quot;);</span>
+<span class="nc" id="L480">        post.setUnit(&quot;stk.&quot;);</span>
+
+<span class="nc" id="L482">        MaterialModel strap = new MaterialModel(996, &quot;spærtræ ubh.&quot;, &quot;45x195mm.&quot;, 195, 6000, 45);</span>
+<span class="nc" id="L483">        strap.setHelptext(&quot;remme, monteres på stolpe&quot;);</span>
+<span class="nc" id="L484">        strap.setUnit(&quot;stk.&quot;);</span>
+
+        /*Walkthrough
+        
+        Same rules apply to all orders: 
+        
+        1 post per 1000mm (100cm/1m) (length)
+        1 strap per side of the carport (4x) AND per 6000cm (600cm/6m) 
+        4 screws per strap
+        2 bolts per strap
+        
+            EXAMPLE for generating a full carport base:
+        
+            Carport height of 2100mm.
+            Carport length of 3200mm.
+            Carport width of 2200mm.
+        
+            RULE: Normally we calculate too many posts, as ONE corner post accounts for TWO posts. Therefore, for every corner post we remove one post from the 
+        
+                postAmountLength = (length/1000) = (3200/1000) = 3,2 = 3 posts. //amount of posts per one(!) carport length
+        
+                postAmountWidth = (width/1000) = (2200/1000) = 2,2 = 2 posts. //amount of posts per one(!) carport width
+                
+                    totalPostAmount = ((postAmountLength*2)+postAmountWidth) = ((3*2)+2) = 8 posts. //there are two lengths, one width.
+        
+                        Due to the above rule we have to remove TWO posts, as there are two corner posts.
+                    totalPostAmount = totalPostAmount - 2; // = 6 posts
+        
+                strapAmount = (length/6000) = 0,53 = 0 straps.
+                        However, we will always use Math.ceil to round up for the customer to adjust and apply themselves. Please refer to the calculateStraps() method.
+                        If we have 0.5 we round up to 1.
+                        If we have 1.5 we round up to 2. (to take into account the extra length needed)
+                    totalStrapAmount = (strapAmount*4) = (1*4) = 4 straps. //carport has 4 sides.
+        
+        
+                screwAmount = (totalStrapAmount*4) = (4*4) = 16.
+                boltAmount = (totalStrapAmount*2) = (4*2) = 8.
+            
+         */
+ /* Calculate quantities */
+<span class="nc" id="L524">        int postAmount = calculatePosts(order);</span>
+<span class="nc" id="L525">        int strapAmount = calculateStraps(order);</span>
+<span class="nc" id="L526">        int screwAmount = calculateScrews(strapAmount);</span>
+<span class="nc" id="L527">        int boltAmount = calculateBolts(strapAmount);</span>
+
+        /* Update quantities */
+<span class="nc" id="L530">        post.setQuantity(postAmount);</span>
+<span class="nc" id="L531">        strap.setQuantity(strapAmount);</span>
+<span class="nc" id="L532">        strapScrews.setQuantity(screwAmount);</span>
+<span class="nc" id="L533">        strapBolts.setQuantity(boltAmount);</span>
+
+        /* Update prices based on quantities */
+<span class="nc" id="L536">        strapScrews.setPrice(1 * strapScrews.getQuantity()); //1 screw is 1 DKK</span>
+<span class="nc" id="L537">        strapBolts.setPrice(5 * strapBolts.getQuantity()); //1 bolt is 5 DKK</span>
+<span class="nc" id="L538">        post.setPrice(175 * post.getQuantity()); //1 post is 175 DKK</span>
+<span class="nc" id="L539">        strap.setPrice(95 * strap.getQuantity()); // 1 strap is 95 DKK</span>
+
+        /* Add materials to master list */
+<span class="nc" id="L542">        bom.addMaterial(post);</span>
+<span class="nc" id="L543">        bom.addMaterial(strap);</span>
+<span class="nc" id="L544">        bom.addMaterial(strapScrews);</span>
+<span class="nc" id="L545">        bom.addMaterial(strapBolts);</span>
+
+<span class="nc" id="L547">    }</span>
+
+    /**
+     * Calculates amount of posts (&quot;stolper&quot;) required for the carport.
+     *
+     * @param order order in question
+     * @return amount of posts
+     */
+    private int calculatePosts(OrderModel order)
+    {
+<span class="nc" id="L557">        int length = order.getLength();</span>
+<span class="nc" id="L558">        int width = order.getWidth();</span>
+
+<span class="nc" id="L560">        int postAmountLength = (length / 1000); //amount of posts for one length. one post per meter. </span>
+
+<span class="nc" id="L562">        int postAmountWidth = (width / 1000); //amount of posts for one width. one post per meter.</span>
+
+<span class="nc" id="L564">        int totalPostAmount</span>
+                = ((postAmountLength * 2) + postAmountWidth); //there are two lengths, one width. (Because the last width needs to be open for car access)
+
+        //we have to remove TWO posts, as there are two corner posts.
+<span class="nc" id="L568">        totalPostAmount -= 2; // = 6 posts</span>
+
+<span class="nc" id="L570">        return totalPostAmount;</span>
+    }
+
+    /**
+     * Calculates amount of straps (&quot;remme&quot;) required for the carport.
+     *
+     * @param order order in question
+     * @return amount of straps
+     */
+    private int calculateStraps(OrderModel order)
+    {
+<span class="nc" id="L581">        int length = order.getLength();</span>
+<span class="nc" id="L582">        double strapAmount = ((double) length / 6000); //amount of straps. One strap needed per 600cm/6m of length.</span>
+<span class="nc" id="L583">        int strapAmountRoundedUp = (int) Math.ceil(strapAmount); //We round up the strap amount so that the full strap length is covered. (customer must customize this themselves)</span>
+<span class="nc" id="L584">        int totalStrapAmount = (strapAmountRoundedUp * 4); //Total amount of straps calculated for all posts, for the whole carport. There are 4 sides of which all need straps.</span>
+<span class="nc" id="L585">        return totalStrapAmount;</span>
+    }
+
+    /**
+     * Calculates amount of screws required for the carport.
+     *
+     * @param strapAmount carport amount of straps. (screws are dependant on
+     * straps)
+     * @return amount of screws
+     */
+    private int calculateScrews(int strapAmount)
+    {
+<span class="nc" id="L597">        int screwAmount = (strapAmount * 4); //always 4 screws per strap.</span>
+<span class="nc" id="L598">        return screwAmount;</span>
+    }
+
+    /**
+     * Calculates amount of bolts required for the carport.
+     *
+     * @param strapAmount carport amount of straps. (bolts are dependant on
+     * straps)
+     * @return amount of bolts
+     */
+    private int calculateBolts(int strapAmount)
+    {
+<span class="nc" id="L610">        int boltAmount = (strapAmount * 2); //always 2 screws per strap</span>
+<span class="nc" id="L611">        return boltAmount;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

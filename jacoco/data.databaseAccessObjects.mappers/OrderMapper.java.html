@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.databaseAccessObjects.mappers</a> &gt; <span class="el_source">OrderMapper.java</span></div><h1>OrderMapper.java</h1><pre class="source lang-java linenums">package data.databaseAccessObjects.mappers;
+
+import data.exceptions.DataException;
+import data.models.OrderModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.sql.DataSource;
+
+/**
+ *
+ * @author
+ */
+<span class="fc" id="L18">public class OrderMapper</span>
+{
+
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
+
+    public void setDataSource(DataSource ds)
+    {
+//        dbc.setDataSource(ds); Old way we did it.
+<span class="fc" id="L27">        this.ds = ds;</span>
+<span class="fc" id="L28">    }</span>
+
+    // &lt;editor-fold desc=&quot;Get an Order&quot;&gt;
+    /**
+     * Get an Order.
+     *
+     * @param id of the Order.
+     * @return OrderModel
+     * @throws DataException
+     */
+    public OrderModel getOrder(int id) throws DataException
+    {
+
+<span class="fc" id="L41">        String SQL = &quot;SELECT * FROM `carportdb`.`orders`&quot;</span>
+                + &quot; WHERE `orders`.`id_order` = ?&quot;;
+
+<span class="fc" id="L44">        try (Connection connection = ds.getConnection();</span>
+<span class="fc" id="L45">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+
+<span class="fc" id="L48">            ps.setInt(1, id);</span>
+<span class="fc" id="L49">            ResultSet rs = ps.executeQuery();</span>
+
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (rs.next())</span>
+            {
+<span class="fc" id="L53">                OrderModel order = new OrderModel();</span>
+<span class="fc" id="L54">                order.setId(id); // id_order</span>
+<span class="fc" id="L55">                order.setStatus(rs.getString(&quot;status&quot;));</span>
+<span class="fc" id="L56">                order.setWidth(rs.getInt(&quot;width&quot;));</span>
+<span class="fc" id="L57">                order.setLength(rs.getInt(&quot;length&quot;));</span>
+<span class="fc" id="L58">                order.setIncline(rs.getInt(&quot;incline&quot;));</span>
+<span class="fc" id="L59">                order.setRoof_tiles_id(rs.getInt(&quot;roof_tiles_id&quot;));</span>
+<span class="fc" id="L60">                order.setBuild_adress(rs.getString(&quot;build_adress&quot;));</span>
+<span class="fc" id="L61">                order.setBuild_zipcode(rs.getInt(&quot;build_zipcode&quot;));</span>
+<span class="fc" id="L62">                order.setId_customer(rs.getInt(&quot;customer_id&quot;));</span>
+<span class="fc" id="L63">                order.setId_employee(rs.getInt(&quot;employee_id&quot;));</span>
+<span class="fc" id="L64">                order.setShed_floor_id(rs.getInt(&quot;shed_floor_id&quot;));</span>
+<span class="fc" id="L65">                order.setShed_walls_id(rs.getInt(&quot;shed_walls_id&quot;));</span>
+<span class="fc" id="L66">                order.setShed_length(rs.getInt(&quot;shed_length&quot;));</span>
+<span class="fc" id="L67">                order.setShed_width(rs.getInt(&quot;shed_width&quot;));</span>
+<span class="fc" id="L68">                order.setPrice(rs.getDouble(&quot;price&quot;));</span>
+
+<span class="fc" id="L70">                return order;</span>
+            } else
+            {
+<span class="nc" id="L73">                throw new DataException(&quot;Kunne ikke skaffe info om ordren med id: &quot; + id + &quot; fra databasen.&quot;);</span>
+            }
+
+<span class="nc" id="L76">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L78">            throw new DataException(&quot;Kunne ikke skaffe info om ordren med id: &quot; + id + &quot; fra databasen.&quot;);</span>
+        }
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Create an Order&quot;&gt;
+    /**
+     * Create an order. Inputs an order into the Database.
+     *
+     * @param order you want to input into the SQL database.
+     * @throws DataException
+     */
+    public void createOrder(OrderModel order) throws DataException
+    {
+        // SQL STATEMENT
+<span class="fc" id="L93">        String SQL = &quot;INSERT INTO `carportdb`.`orders` &quot;</span>
+                + &quot; (`build_adress`, `build_zipcode`, `status`, `width`, `length`, &quot;
+                + &quot;`incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, &quot;
+                + &quot;`shed_floor_id`, `customer_id`, `employee_id`)&quot;
+                + &quot; VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;;
+
+<span class="fc" id="L99">        try (Connection connection = ds.getConnection();</span>
+<span class="fc" id="L100">                PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS))</span>
+        {
+
+<span class="fc" id="L103">            ps.setString(1, order.getBuild_adress());</span>
+<span class="fc" id="L104">            ps.setInt(2, order.getBuild_zipcode());</span>
+<span class="fc" id="L105">            ps.setString(3, order.getStatus());</span>
+<span class="fc" id="L106">            ps.setInt(4, order.getWidth());</span>
+<span class="fc" id="L107">            ps.setInt(5, order.getLength());</span>
+<span class="fc" id="L108">            ps.setInt(6, order.getIncline());</span>
+<span class="fc" id="L109">            ps.setInt(7, order.getRoof_tiles_id());</span>
+<span class="fc" id="L110">            ps.setInt(8, order.getShed_width());</span>
+<span class="fc" id="L111">            ps.setInt(9, order.getShed_length());</span>
+<span class="fc" id="L112">            ps.setInt(10, order.getShed_walls_id());</span>
+<span class="fc" id="L113">            ps.setInt(11, order.getShed_floor_id());</span>
+<span class="fc" id="L114">            ps.setInt(12, order.getId_customer());</span>
+<span class="fc" id="L115">            ps.setInt(13, order.getId_employee());</span>
+<span class="fc" id="L116">            ps.executeUpdate();</span>
+<span class="fc" id="L117">            ResultSet resultSet = ps.getGeneratedKeys();</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            if (resultSet.next())</span>
+            {
+<span class="fc" id="L120">                int id = resultSet.getInt(1);</span>
+<span class="fc" id="L121">                order.setId(id);</span>
+            }
+<span class="nc" id="L123">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L125">            throw new DataException(&quot;Kunne ikke oprette ordren i databasen.&quot;);</span>
+<span class="fc" id="L126">        }</span>
+<span class="fc" id="L127">    }</span>
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Get all order ids&quot;&gt;
+    /**
+     * Get all order ids. Used by the .jsp that shows a list of all orders to
+     * the salesman.
+     *
+     * @return
+     * @throws DataException
+     */
+    public List&lt;Integer&gt; getAllOrderIds() throws DataException
+    {
+<span class="nc" id="L140">        String SQL = &quot;SELECT `orders`.`id_order` FROM `carportdb`.`orders`;&quot;;</span>
+
+<span class="nc" id="L142">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L143">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+<span class="nc" id="L145">            List&lt;Integer&gt; ids = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L146">            ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L149">                Integer id = rs.getInt(&quot;id_order&quot;);</span>
+<span class="nc" id="L150">                ids.add(id);</span>
+<span class="nc" id="L151">            }</span>
+<span class="nc" id="L152">            return ids;</span>
+<span class="nc" id="L153">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L155">            throw new DataException(&quot;Kunne ikke skaffe alle ordrerne.&quot;);</span>
+        }
+
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Get all order ids for one customer&quot;&gt;
+    /**
+     * Get all Order ids from one Customer.
+     *
+     * @param id
+     * @return
+     * @throws DataException
+     */
+    public List&lt;Integer&gt; getOrderIds(int id) throws DataException
+    {
+<span class="nc" id="L171">        String SQL = &quot;SELECT id_order FROM carportdb.orders WHERE customer_id = ?;&quot;;</span>
+
+<span class="nc" id="L173">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L174">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+
+<span class="nc" id="L177">            List&lt;Integer&gt; ids = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L178">            ps.setInt(1, id);</span>
+<span class="nc" id="L179">            ResultSet rs = ps.executeQuery();</span>
+
+<span class="nc bnc" id="L181" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L183">                Integer tempid = rs.getInt(&quot;id_order&quot;);</span>
+<span class="nc" id="L184">                ids.add(tempid);</span>
+<span class="nc" id="L185">            }</span>
+<span class="nc" id="L186">            return ids;</span>
+<span class="nc" id="L187">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L189">            throw new DataException(&quot;Kunne ikke skaffe ordrerne for dig fra databasen.&quot;);</span>
+        }
+
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Pay an order. Update &quot;status&quot;&quot;&gt;
+    public void payOrder(int id, double price) throws DataException
+    {
+<span class="nc" id="L198">        String SQL = &quot;UPDATE `carportdb`.`orders` SET `status` = 'Finalized', `price` = ? WHERE (`id_order` = ?);&quot;;</span>
+<span class="nc" id="L199">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L200">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+<span class="nc" id="L202">            ps.setDouble(1, price);</span>
+<span class="nc" id="L203">            ps.setInt(2, id);</span>
+<span class="nc" id="L204">            ps.executeUpdate();</span>
+
+<span class="nc" id="L206">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L208">            throw new DataException(&quot;Kunne ikke betale ordren.&quot;);</span>
+<span class="nc" id="L209">        }</span>
+
+<span class="nc" id="L211">    }</span>
+    //&lt;/editor-fold&gt;
+    
+    // &lt;editor-fold desc=&quot;Update order price.&quot;&gt;
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+<span class="nc" id="L217">        String SQL = &quot;UPDATE `carportdb`.`orders` SET `price` = ? WHERE (`id_order` = ?);&quot;;</span>
+<span class="nc" id="L218">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L219">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+<span class="nc" id="L221">            ps.setDouble(1, price);</span>
+<span class="nc" id="L222">            ps.setInt(2, id);</span>
+<span class="nc" id="L223">            ps.executeUpdate();</span>
+
+<span class="nc" id="L225">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L227">            throw new DataException(&quot;Kunne ikke opdatere ordren.&quot;);</span>
+<span class="nc" id="L228">        }</span>
+
+<span class="nc" id="L230">    }</span>
+    //&lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

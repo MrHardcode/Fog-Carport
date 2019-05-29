@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ViewSVG.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">ViewSVG.java</span></div><h1>ViewSVG.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package presentation.commands;
+
+
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+import presentation.Validation;
+
+/**
+ * Sends user from viewOrder.jsp to viewSVG.jsp.
+ * @author
+ */
+<span class="nc" id="L20">public class ViewSVG extends Command</span>
+{
+
+
+    @Override
+
+    public String execute(HttpServletRequest request, LogicFacade logic) throws UserException, DataException, AlgorithmException
+
+    {
+<span class="nc" id="L29">        Validation validate = new Validation();</span>
+<span class="nc" id="L30">        int orderID = validate.validateInteger(request.getParameter(&quot;orderid&quot;), &quot;Order ID&quot;);</span>
+<span class="nc" id="L31">        OrderModel order = logic.getOrder(orderID);</span>
+<span class="nc" id="L32">        PartslistModel bom = logic.getPartslistModel(order);</span>
+        
+<span class="nc" id="L34">        String svgbase = logic.getSVGbase(bom, order);</span>
+<span class="nc" id="L35">        request.setAttribute(&quot;svgbase&quot;, svgbase);</span>
+        
+<span class="nc" id="L37">        String svgbaseArrowLength = logic.getSVGbaseArrowLength(bom, order, 0);</span>
+<span class="nc" id="L38">        String svgbaseArrowLengthExtra = logic.getSVGbaseArrowLength(bom, order, order.getIncline());</span>
+<span class="nc" id="L39">        String svgbaseArrowWidth = logic.getSVGbaseArrowWidth(bom, order, 0);</span>
+<span class="nc" id="L40">        String svgbaseArrowWidthExtra = logic.getSVGbaseArrowWidth(bom, order, order.getIncline());</span>
+<span class="nc" id="L41">        String svgbaseLabelWidth = logic.getSVGbaseLabelWidth(bom, order, 0);</span>
+<span class="nc" id="L42">        String svgbaseLabelWidthExtra = logic.getSVGbaseLabelWidth(bom, order, order.getIncline());</span>
+<span class="nc" id="L43">        String svgbaseLabelLength = logic.getSVGbaseLabelLength(bom, order, 0);</span>
+<span class="nc" id="L44">        String svgbaseLabelLengthExtra = logic.getSVGbaseLabelLength(bom, order, order.getIncline());</span>
+        
+<span class="nc" id="L46">        request.setAttribute(&quot;svgbaseArrowWidth&quot;, svgbaseArrowWidth);</span>
+<span class="nc" id="L47">        request.setAttribute(&quot;svgbaseArrowWidthExtra&quot;, svgbaseArrowWidthExtra);</span>
+<span class="nc" id="L48">        request.setAttribute(&quot;svgbaseArrowLengthExtra&quot;, svgbaseArrowLengthExtra);</span>
+<span class="nc" id="L49">        request.setAttribute(&quot;svgbaseArrowLength&quot;, svgbaseArrowLength);</span>
+<span class="nc" id="L50">        request.setAttribute(&quot;svgbaseLabelWidth&quot;, svgbaseLabelWidth);</span>
+<span class="nc" id="L51">        request.setAttribute(&quot;svgbaseLabelWidthExtra&quot;, svgbaseLabelWidthExtra);</span>
+<span class="nc" id="L52">        request.setAttribute(&quot;svgbaseLabelLength&quot;, svgbaseLabelLength);</span>
+<span class="nc" id="L53">        request.setAttribute(&quot;svgbaseLabelLengthExtra&quot;, svgbaseLabelLengthExtra);</span>
+<span class="nc" id="L54">        request.setAttribute(&quot;incline&quot;, order.getIncline());</span>
+        
+<span class="nc" id="L56">        String svgroof = logic.getSVGroof(order);</span>
+<span class="nc" id="L57">        request.setAttribute(&quot;svgroof&quot;, svgroof);</span>
+        
+<span class="nc" id="L59">        request.setAttribute(&quot;ID&quot;, orderID);</span>
+<span class="nc" id="L60">        return &quot;viewSVG&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

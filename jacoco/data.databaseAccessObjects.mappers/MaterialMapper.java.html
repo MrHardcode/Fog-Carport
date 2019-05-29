@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaterialMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.databaseAccessObjects.mappers</a> &gt; <span class="el_source">MaterialMapper.java</span></div><h1>MaterialMapper.java</h1><pre class="source lang-java linenums">package data.databaseAccessObjects.mappers;
+
+import data.exceptions.DataException;
+import data.models.MaterialModel;
+import data.models.PartslistModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.sql.DataSource;
+
+/**
+ *
+ * @author
+ */
+<span class="fc" id="L16">public class MaterialMapper</span>
+{
+
+//    private DatabaseConnector dbc = new DatabaseConnector(); Old way we did it.
+    private DataSource ds;
+
+    public void setDataSource(DataSource ds)
+    {
+//        dbc.setDataSource(ds); Old way we did it.
+<span class="fc" id="L25">        this.ds = ds;</span>
+<span class="fc" id="L26">    }</span>
+
+    // &lt;editor-fold desc=&quot;Get Category of a Material&quot;&gt;
+    /**
+     * Get Category.
+     *
+     * @param id of the category.
+     * @return name of the category.
+     * @throws DataException
+     */
+    public String getCategory(int id) throws DataException
+    {
+<span class="nc" id="L38">        String SQL = &quot;SELECT `category`.`category_name`\n&quot;</span>
+                + &quot;FROM `carportdb`.`category`\n&quot;
+                + &quot;WHERE `category`.`id_category` = ?;&quot;;
+
+<span class="nc" id="L42">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L43">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+
+<span class="nc" id="L46">            String category = &quot;&quot;;</span>
+<span class="nc" id="L47">            ps.setInt(1, id);</span>
+<span class="nc" id="L48">            ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L51">                category = rs.getString(&quot;category_name&quot;);</span>
+            }
+<span class="nc" id="L53">            return category;</span>
+<span class="nc" id="L54">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L56">            throw new DataException(&quot;Kunne ikke skaffe materialet med id: &quot;+id+&quot;'s kategori fra databasen.&quot;);</span>
+        }
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Get a Material&quot;&gt;
+    /**
+     * Get a Material based on id and helptext. 
+     *
+     * @param id of the Material.
+     * @param helptext
+     * @return MaterialModel
+     * @throws DataException
+     */
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
+    {
+<span class="fc" id="L72">        MaterialModel material = new MaterialModel();</span>
+<span class="fc" id="L73">        String SQL = &quot;&quot;;</span>
+<span class="pc bpc" id="L74" title="1 of 6 branches missed.">        if (helptext.equals(&quot;base&quot;) || helptext.equals(&quot;roof&quot;) || helptext.equals(&quot;shed&quot;)) //this is to avoid SQL injection. ps.setString does not work with non-parameter fields.</span>
+        {
+<span class="fc" id="L76">            SQL = &quot;SELECT `description`, height, width, length, cost_price, unit, category_name, helptext_&quot; + helptext + &quot; \n&quot;</span>
+                    + &quot;FROM materials \n&quot;
+                    + &quot;INNER JOIN `category` \n&quot;
+                    + &quot;ON `materials`.`id_category` = `category`.`id_category` \n&quot;
+                    + &quot;WHERE `materials`.`id_material` = ?;&quot;;
+        }
+        else
+        {
+<span class="nc" id="L84">            throw new DataException(&quot;Forkert input for helptext&quot;);</span>
+        }
+
+<span class="fc" id="L87">        try (Connection connection = ds.getConnection();</span>
+<span class="fc" id="L88">                PreparedStatement ps = connection.prepareStatement(SQL);)</span>
+        {
+<span class="fc" id="L90">            material.setID(id);</span>
+<span class="fc" id="L91">            ps.setInt(1, id);</span>
+<span class="fc" id="L92">            ResultSet rs = ps.executeQuery();</span>
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            while (rs.next())</span>
+            {
+<span class="fc" id="L96">                String description = rs.getString(&quot;description&quot;);</span>
+<span class="fc" id="L97">                material.setDescription(description);</span>
+
+<span class="fc" id="L99">                int height = rs.getInt(&quot;height&quot;);</span>
+<span class="fc" id="L100">                material.setHeight(height);</span>
+
+<span class="fc" id="L102">                int width = rs.getInt(&quot;width&quot;);</span>
+<span class="fc" id="L103">                material.setWidth(width);</span>
+
+<span class="fc" id="L105">                int length = rs.getInt(&quot;length&quot;);</span>
+<span class="fc" id="L106">                material.setLength(length);</span>
+
+<span class="fc" id="L108">                double price = rs.getDouble(&quot;cost_price&quot;);</span>
+<span class="fc" id="L109">                material.setPrice(price);</span>
+
+<span class="fc" id="L111">                String unit = rs.getString(&quot;unit&quot;);</span>
+<span class="fc" id="L112">                material.setUnit(unit);</span>
+
+<span class="fc" id="L114">                String categoryname = rs.getString(&quot;category_name&quot;);</span>
+<span class="fc" id="L115">                material.setCategory(categoryname);</span>
+
+<span class="fc" id="L117">                String help_text = rs.getString(&quot;helptext_&quot; + helptext);</span>
+<span class="fc" id="L118">                material.setHelptext(help_text);</span>
+<span class="fc" id="L119">            }</span>
+<span class="nc" id="L120">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L122">            throw new DataException(&quot;Kunne ikke skaffe materialet med id: &quot;+id+&quot; fra databasen.&quot;); </span>
+<span class="fc" id="L123">        }</span>
+
+<span class="fc" id="L125">        return material;</span>
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Get Order Details Category&quot;&gt;
+    /**
+     * Get Order Details Category.
+     *
+     * @param id of the category.
+     * @return name of the category.
+     * @throws DataException
+     */
+    public String getOrderDetailsCategory(int id) throws DataException
+    {
+<span class="nc" id="L139">        String SQL = &quot;SELECT `order_details_category`.`details_category_name`\n&quot;</span>
+                + &quot;FROM `carportdb`.`order_details_category`\n&quot;
+                + &quot;WHERE `order_details_category`.`id_order_details_category` = ?;&quot;;
+<span class="nc" id="L142">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L143">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+
+<span class="nc" id="L146">            String category = &quot;&quot;;</span>
+<span class="nc" id="L147">            ps.setInt(1, id);</span>
+<span class="nc" id="L148">            ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L151">                category = rs.getString(&quot;details_category_name&quot;);</span>
+            }
+<span class="nc" id="L153">            return category;</span>
+<span class="nc" id="L154">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L156">            throw new DataException(&quot;Kunne ikke skaffe ordren med id: &quot;+id+&quot;'s kategori fra databasen.&quot;);</span>
+        }
+    }
+    // &lt;/editor-fold&gt;
+
+    // &lt;editor-fold desc=&quot;Get all Materials for an Order Details&quot;&gt;
+    /**
+     * Get a List of Materials based on the id and helptext.
+     *
+     * @param id of the Order Details.
+     * @param helptext
+     * @return List of MaterialModel.
+     * @throws DataException
+     */
+    public PartslistModel getMaterials(int id, String helptext) throws DataException
+    {
+<span class="nc bnc" id="L172" title="All 6 branches missed.">        if (!helptext.equals(&quot;base&quot;) || !helptext.equals(&quot;roof&quot;) || !helptext.equals(&quot;shed&quot;))</span>
+        {
+<span class="nc" id="L174">            throw new DataException(&quot;Forkert input for helptext&quot;);</span>
+        }
+<span class="nc" id="L176">        PartslistModel materials = new PartslistModel();</span>
+<span class="nc" id="L177">        String SQL = &quot;SELECT `order_details`.`id_material`\n&quot;</span>
+                + &quot;FROM `carportdb`.`order_details`\n&quot;
+                + &quot;WHERE `order_details`.`id_order_details` = ?;&quot;;
+
+<span class="nc" id="L181">        try (Connection connection = ds.getConnection();</span>
+<span class="nc" id="L182">                PreparedStatement ps = connection.prepareStatement(SQL))</span>
+        {
+<span class="nc" id="L184">            ps.setInt(1, id);</span>
+<span class="nc" id="L185">            ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L188">                MaterialModel material = getMaterial(rs.getInt(&quot;id_material&quot;), helptext);</span>
+<span class="nc" id="L189">                materials.addMaterial(material);</span>
+<span class="nc" id="L190">            }</span>
+<span class="nc" id="L191">        } catch (SQLException ex)</span>
+        {
+<span class="nc" id="L193">            throw new DataException(&quot;Kunne ikke skaffe materialerne med order id: &quot;+id+&quot; fra databasen.&quot;);</span>
+<span class="nc" id="L194">        }</span>
+<span class="nc" id="L195">        return materials;</span>
+    }
+    // &lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PartslistModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.models</a> &gt; <span class="el_source">PartslistModel.java</span></div><h1>PartslistModel.java</h1><pre class="source lang-java linenums">
+package data.models;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+/**
+ *
+ * @author 
+ */
+public class PartslistModel
+{
+
+    private ArrayList&lt;MaterialModel&gt; billOfMaterials;
+<span class="fc" id="L15">    private int totalprice = 0;</span>
+    
+<span class="fc" id="L17">    int rafterCount = 0;</span>
+<span class="fc" id="L18">    int lathRowCount = 0;</span>
+<span class="fc" id="L19">    int tileCount = 0;</span>
+<span class="fc" id="L20">    int topTileCount = 0;</span>
+<span class="fc" id="L21">    private ArrayList postPosSideOne = new ArrayList();</span>
+<span class="fc" id="L22">    private ArrayList postPosSideTwo = new ArrayList();</span>
+<span class="fc" id="L23">    private ArrayList postPosRear = new ArrayList();</span>
+
+    public PartslistModel()
+<span class="fc" id="L26">    {</span>
+<span class="fc" id="L27">        billOfMaterials = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">    }</span>
+
+    public ArrayList&lt;MaterialModel&gt; getBillOfMaterials()
+    {
+<span class="fc" id="L32">        return billOfMaterials;</span>
+    }
+
+    public void addMaterial(MaterialModel material)
+    {
+<span class="fc" id="L37">        this.getBillOfMaterials().add(material);</span>
+<span class="fc" id="L38">        this.totalprice = totalprice + ((int) Math.ceil(material.getPrice()) * material.getQuantity());</span>
+<span class="fc" id="L39">    }</span>
+
+    public void addPartslist(PartslistModel partslist)
+    {
+        /*Updating SVG stuff*/
+<span class="fc" id="L44">        rafterCount = partslist.getRafterCount();</span>
+<span class="fc" id="L45">        lathRowCount = partslist.getLathRowCount();</span>
+<span class="fc" id="L46">        tileCount = partslist.getTileCount();</span>
+<span class="fc" id="L47">        topTileCount = partslist.getTopTileCount();</span>
+<span class="fc" id="L48">        postPosSideOne = partslist.getPostPosSideOne();</span>
+<span class="fc" id="L49">        postPosSideTwo = partslist.getPostPosSideTwo();</span>
+<span class="fc" id="L50">        postPosRear = partslist.getPostPosRear();</span>
+        /*Updating materials*/
+<span class="fc" id="L52">        billOfMaterials.addAll(partslist.getBillOfMaterials());</span>
+<span class="fc" id="L53">        this.totalprice += partslist.getTotalprice();</span>
+<span class="fc" id="L54">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Getters and setters.&quot;&gt;
+    public int getTotalprice()
+    {
+<span class="fc" id="L59">        return totalprice;</span>
+    }
+
+    public void setTotalprice(int totalprice)
+    {
+<span class="fc" id="L64">        this.totalprice = totalprice;</span>
+<span class="fc" id="L65">    }</span>
+
+    public int getRafterCount() {
+<span class="fc" id="L68">        return rafterCount;</span>
+    }
+
+    public void setRafterCount(int rafterCount) {
+<span class="fc" id="L72">        this.rafterCount = rafterCount;</span>
+<span class="fc" id="L73">    }</span>
+
+    public int getLathRowCount() {
+<span class="fc" id="L76">        return lathRowCount;</span>
+    }
+
+    public void setLathRowCount(int lathRowCount) {
+<span class="fc" id="L80">        this.lathRowCount = lathRowCount;</span>
+<span class="fc" id="L81">    }</span>
+
+    public int getTileCount() {
+<span class="fc" id="L84">        return tileCount;</span>
+    }
+
+    public void setTileCount(int tileCount) {
+<span class="fc" id="L88">        this.tileCount = tileCount;</span>
+<span class="fc" id="L89">    }</span>
+
+    public int getTopTileCount() {
+<span class="fc" id="L92">        return topTileCount;</span>
+    }
+
+    public void setTopTileCount(int topTileCount) {
+<span class="fc" id="L96">        this.topTileCount = topTileCount;</span>
+<span class="fc" id="L97">    }</span>
+
+    public ArrayList getPostPosSideOne()
+    {
+<span class="fc" id="L101">        return postPosSideOne;</span>
+    }
+
+    public void setPostPosSideOne(ArrayList postPosSideOne)
+    {
+<span class="fc" id="L106">        this.postPosSideOne = postPosSideOne;</span>
+<span class="fc" id="L107">    }</span>
+
+    public ArrayList getPostPosSideTwo()
+    {
+<span class="fc" id="L111">        return postPosSideTwo;</span>
+    }
+
+    public void setPostPosSideTwo(ArrayList postPosSideTwo)
+    {
+<span class="fc" id="L116">        this.postPosSideTwo = postPosSideTwo;</span>
+<span class="fc" id="L117">    }</span>
+
+    public ArrayList getPostPosRear()
+    {
+<span class="fc" id="L121">        return postPosRear;</span>
+    }
+
+    public void setPostPosRear(ArrayList postPosRear)
+    {
+<span class="fc" id="L126">        this.postPosRear = postPosRear;</span>
+<span class="fc" id="L127">    }</span>
+    // &lt;/editor-fold&gt;
+    
+    @Override
+    public int hashCode()
+    {
+<span class="nc" id="L133">        int hash = 7;</span>
+<span class="nc" id="L134">        hash = 79 * hash + Objects.hashCode(this.billOfMaterials);</span>
+<span class="nc" id="L135">        hash = 79 * hash + this.totalprice;</span>
+<span class="nc" id="L136">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        if (this == obj)</span>
+        {
+<span class="nc" id="L144">            return true;</span>
+        }
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (obj == null)</span>
+        {
+<span class="nc" id="L148">            return false;</span>
+        }
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if (getClass() != obj.getClass())</span>
+        {
+<span class="nc" id="L152">            return false;</span>
+        }
+<span class="fc" id="L154">        final PartslistModel other = (PartslistModel) obj;</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        if (this.totalprice != other.totalprice)</span>
+        {
+<span class="nc" id="L157">            return false;</span>
+        }
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (!Objects.equals(this.billOfMaterials, other.billOfMaterials))</span>
+        {
+<span class="nc" id="L161">            return false;</span>
+        }
+<span class="fc" id="L163">        return true;</span>
+    }
+
+    @Override
+    public String toString()
+    {
+<span class="nc" id="L169">        return &quot;PartslistModel{&quot; + &quot;billOfMaterials=&quot; + billOfMaterials + &quot;, totalprice=&quot; + totalprice + &quot;, rafterCount=&quot; + rafterCount + &quot;, lathRowCount=&quot; + lathRowCount + &quot;, tileCount=&quot; + tileCount + &quot;, topTileCount=&quot; + topTileCount + &quot;, postPosSideOne=&quot; + postPosSideOne + &quot;, postPosSideTwo=&quot; + postPosSideTwo + &quot;, postPosRear=&quot; + postPosRear + '}';</span>
+    }
+    
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

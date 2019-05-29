@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Validation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation</a> &gt; <span class="el_source">Validation.java</span></div><h1>Validation.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package presentation;
+
+import data.exceptions.UserException;
+
+/**
+ *
+ * @author
+ */
+<span class="nc" id="L12">public class Validation</span>
+{
+
+    /**
+     * Validate an Integer input from user. 
+     * 
+     * Checks if the integer input is null, empty and actually an integer.
+     * To be used by command implementation classes. 
+     * @param validate String input from user, that is supposed to be an integer afterwards.
+     * @param name of the thing you want to validate.
+     * @return int
+     * @throws UserException 
+     */
+    public int validateInteger(String validate, String name) throws UserException
+    {
+<span class="nc bnc" id="L27" title="All 4 branches missed.">        if (validate == null || validate.isEmpty())</span>
+        {
+<span class="nc" id="L29">            throw new UserException(name + &quot; må ikke være tom.&quot;);</span>
+        } else
+        {
+            try
+            {
+<span class="nc" id="L34">                int length = Integer.parseInt(validate);</span>
+<span class="nc" id="L35">                return length;</span>
+<span class="nc" id="L36">            } catch (NumberFormatException ex)</span>
+            {
+<span class="nc" id="L38">                throw new UserException(name + &quot; skal være et heltal.&quot;);</span>
+            }
+        }
+    }
+    
+    /**
+     * Validate a Double input from user. 
+     * 
+     * Checks if the double input is null, empty and actually a double.
+     * To be used by command implementation classes. 
+     * @param validate String input from user, that is supposed to be a double afterwards.
+     * @param name of the thing you want to validate.
+     * @return double
+     * @throws UserException 
+     */
+    public double validateDouble(String validate, String name) throws UserException
+    {
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        if (validate == null || validate.isEmpty())</span>
+        {
+<span class="nc" id="L57">            throw new UserException(name + &quot; må ikke være tom.&quot;);</span>
+        } else
+        {
+            try
+            {
+<span class="nc" id="L62">                double length = Double.parseDouble(validate);</span>
+<span class="nc" id="L63">                return length;</span>
+<span class="nc" id="L64">            } catch (NumberFormatException ex)</span>
+            {
+<span class="nc" id="L66">                throw new UserException(name + &quot; er indtastet forkert.&quot;);</span>
+            }
+        }
+    }
+    
+    
+
+    /**
+     * Validate a String input from user.
+     * 
+     * Checks if the String is null or empty.
+     * To be used by command implementation classes.
+     * @param validate String input you want to validate.
+     * @param name you want to show user if their input is null or empty.
+     * @return Input string, if it is valid.
+     * @throws UserException 
+     */
+    public String validateString(String validate, String name) throws UserException
+    {
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        if (validate == null || validate.isEmpty())</span>
+        {
+<span class="nc" id="L87">            throw new UserException(name + &quot; må ikke være tom.&quot;);</span>
+        } else
+        {
+<span class="nc" id="L90">            return validate;</span>
+        }
+    }
+    
+    /**
+     * Validate two Strings (passwords) from user.
+     * 
+     * Checks if strings are null or empty.
+     * Checks if the two given passwords match.
+     * To be used by command implementation classes.
+     * @param password String representing the first password input
+     * @param password2 String representing the second password input
+     * @param name Name of the element that is being validated
+     * @return Input password if it is valid
+     * @throws UserException 
+     */
+    public String validatePassword(String password, String password2, String name) throws UserException
+    {
+<span class="nc bnc" id="L108" title="All 8 branches missed.">        if (password == null || password.isEmpty() || password2 == null || password2.isEmpty())</span>
+        {
+<span class="nc" id="L110">            throw new UserException(name + &quot; må ikke være tom.&quot;);</span>
+        }
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (!password.equals(password2))</span>
+        {
+<span class="nc" id="L114">            throw new UserException(&quot;De to passwords stemte ikke overens.&quot;);</span>
+        }
+<span class="nc" id="L116">        return password;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

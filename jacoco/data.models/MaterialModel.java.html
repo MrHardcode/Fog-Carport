@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaterialModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.models</a> &gt; <span class="el_source">MaterialModel.java</span></div><h1>MaterialModel.java</h1><pre class="source lang-java linenums">package data.models;
+
+import java.util.Objects;
+
+/**
+ * Model of the material data
+ * @author 
+ */
+public class MaterialModel
+{
+
+    private int ID;
+    private String name;
+    private String description;
+    private String helptext; 
+    private int length;
+    private int width;
+    private int height;
+    private int quantity; 
+    private double price;  
+    private String unit; 
+    private String category;
+
+<span class="fc" id="L24">    public MaterialModel(){</span>
+<span class="fc" id="L25">    }</span>
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;CONSTRUCTOR: ID, name, description, height, length, width&quot;&gt;
+    /**
+     * Constructor for a material to be used in construction of the carport.
+     *
+     * @param ID Item ID
+     * @param name Item name
+     * @param description Item description
+     * @param height Item height
+     * @param length Item length
+     * @param width Item width
+     */
+<span class="fc" id="L38">    public MaterialModel(int ID, String name, String description, int height, int length, int width){</span>
+<span class="fc" id="L39">        this.ID = ID;</span>
+<span class="fc" id="L40">        this.name = name;</span>
+<span class="fc" id="L41">        this.description = description;</span>
+<span class="fc" id="L42">        this.height = height;</span>
+<span class="fc" id="L43">        this.length = length;</span>
+<span class="fc" id="L44">        this.width = width;</span>
+<span class="fc" id="L45">    }</span>
+    //&lt;/editor-fold&gt;
+    
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;CONSTRUCTOR: ID, description, height, width, length, price, unit, category&quot;&gt;
+    /**
+     * Updated constructor to fit database model.
+     *
+     * use setters for: helptext, quantity
+     *
+     * @param ID
+     * @param description
+     * @param length
+     * @param width
+     * @param height
+     * @param price
+     * @param unit
+     * @param category
+     */
+<span class="nc" id="L63">    public MaterialModel(int ID, String description, int height, int width, int length, double price, String unit, String category){</span>
+<span class="nc" id="L64">        this.ID = ID;</span>
+<span class="nc" id="L65">        this.description = description;</span>
+<span class="nc" id="L66">        this.height = height;</span>
+<span class="nc" id="L67">        this.width = width;</span>
+<span class="nc" id="L68">        this.length = length;</span>
+<span class="nc" id="L69">        this.price = price;</span>
+<span class="nc" id="L70">        this.unit = unit;</span>
+<span class="nc" id="L71">        this.category = category;</span>
+<span class="nc" id="L72">    }</span>
+     //&lt;/editor-fold&gt;
+    
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;CONSTRUCTOR: MaterialModel&quot;&gt;
+    /**
+     * Used in raisedRoofCalculator to make a copy of the MaterialModel
+     * @param model
+     */
+<span class="fc" id="L80">    public MaterialModel(MaterialModel model){</span>
+<span class="fc" id="L81">        ID = model.ID;</span>
+<span class="fc" id="L82">        name = model.name;</span>
+<span class="fc" id="L83">        description = model.description;</span>
+<span class="fc" id="L84">        helptext = model.helptext; </span>
+<span class="fc" id="L85">        length = model.length;</span>
+<span class="fc" id="L86">        width = model.width;</span>
+<span class="fc" id="L87">        height = model.height;</span>
+<span class="fc" id="L88">        quantity = model.quantity; </span>
+<span class="fc" id="L89">        price = model.price; </span>
+<span class="fc" id="L90">        unit = model.unit; </span>
+<span class="fc" id="L91">        category = model.category;</span>
+<span class="fc" id="L92">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getCategory&quot;&gt;
+    /**
+     * Get the value of category
+     *
+     * @return the value of category
+     */
+    public String getCategory()
+    {
+<span class="nc" id="L103">        return category;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setCategory&quot;&gt;
+    /**
+     * Set the value of category
+     *
+     * @param category new value of category
+     */
+    public void setCategory(String category)
+    {
+<span class="fc" id="L115">        this.category = category;</span>
+<span class="fc" id="L116">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getID&quot;&gt;
+    public int getID()
+    {
+<span class="fc" id="L122">        return ID;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setID&quot;&gt;
+    public void setID(int ID)
+    {
+<span class="fc" id="L129">        this.ID = ID;</span>
+<span class="fc" id="L130">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getName&quot;&gt;
+    public String getName()
+    {
+<span class="nc" id="L136">        return name;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setName&quot;&gt;
+    public void setName(String name)
+    {
+<span class="nc" id="L143">        this.name = name;</span>
+<span class="nc" id="L144">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getDescription&quot;&gt;
+    public String getDescription()
+    {
+<span class="nc" id="L150">        return description;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setDescription&quot;&gt;
+    public void setDescription(String description)
+    {
+<span class="fc" id="L157">        this.description = description;</span>
+<span class="fc" id="L158">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getPrice&quot;&gt;
+    /**
+     * Get the value of price
+     *
+     * @return the value of price
+     */
+    public double getPrice()
+    {
+<span class="fc" id="L169">        return price;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setPrice&quot;&gt;
+    /**
+     * Set the value of price
+     *
+     * @param price new value of price
+     */
+    public void setPrice(double price)
+    {
+<span class="fc" id="L181">        this.price = price;</span>
+<span class="fc" id="L182">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getHelptext&quot;&gt;
+    /**
+     * Get the value of helptext
+     *
+     * @return the value of helptext
+     */
+    public String getHelptext()
+    {
+<span class="nc" id="L193">        return helptext;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getUnit&quot;&gt;
+    /**
+     * Get the value of unit
+     *
+     * @return the value of unit
+     */
+    public String getUnit()
+    {
+<span class="nc" id="L205">        return unit;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setUnit&quot;&gt;
+    /**
+     * Set the value of unit
+     *
+     * @param unit new value of unit
+     */
+    public void setUnit(String unit)
+    {
+<span class="fc" id="L217">        this.unit = unit;</span>
+<span class="fc" id="L218">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setHelptext&quot;&gt;
+    /**
+     * Set the value of helptext
+     *
+     * @param helptext new value of helptext
+     */
+    public void setHelptext(String helptext)
+    {
+<span class="fc" id="L229">        this.helptext = helptext;</span>
+<span class="fc" id="L230">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getQuantity&quot;&gt;
+    /**
+     * Get the value of quantity
+     *
+     * @return the value of quantity
+     */
+    public int getQuantity()
+    {
+<span class="fc" id="L241">        return quantity;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setQuantity&quot;&gt;
+    /**
+     * Set the value of quantity
+     *
+     * @param quantity new value of quantity
+     */
+    public void setQuantity(int quantity)
+    {
+<span class="fc" id="L253">        this.quantity = quantity;</span>
+<span class="fc" id="L254">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getHeight&quot;&gt;
+    /**
+     * Get the value of height
+     *
+     * @return the value of height
+     */
+    public int getHeight()
+    {
+<span class="nc" id="L265">        return height;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setHeight&quot;&gt;
+    /**
+     * Set the value of height
+     *
+     * @param height new value of height
+     */
+    public void setHeight(int height)
+    {
+<span class="fc" id="L277">        this.height = height;</span>
+<span class="fc" id="L278">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getWidth&quot;&gt;
+    /**
+     * Get the value of width
+     *
+     * @return the value of width
+     */
+    public int getWidth()
+    {
+<span class="fc" id="L289">        return width;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setWidth&quot;&gt;
+    /**
+     * Set the value of width
+     *
+     * @param width new value of width
+     */
+    public void setWidth(int width)
+    {
+<span class="fc" id="L301">        this.width = width;</span>
+<span class="fc" id="L302">    }</span>
+    //&lt;/editor-fold&gt;
+    
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getLength&quot;&gt;
+    /**
+     * Get the value of length
+     *
+     * @return the value of length
+     */
+    public int getLength()
+    {
+<span class="fc" id="L313">        return length;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setLength&quot;&gt;
+    /**
+     * Set the value of length
+     *
+     * @param length new value of length
+     */
+    public void setLength(int length)
+    {
+<span class="fc" id="L325">        this.length = length;</span>
+<span class="fc" id="L326">    }</span>
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;toString&quot;&gt;
+    @Override
+    public String toString()
+    {
+<span class="fc" id="L333">        return &quot;MaterialModel{&quot; + &quot;ID=&quot; + ID + &quot;, name=&quot; + name + &quot;, description=&quot; + description + &quot;, helptext=&quot; + helptext + &quot;, length=&quot; + length + &quot;, width=&quot; + width + &quot;, height=&quot; + height + &quot;, quantity=&quot; + quantity + &quot;, price=&quot; + price + &quot;, unit=&quot; + unit + '}';</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;hashCode&quot;&gt;
+    @Override
+    public int hashCode()
+    {
+<span class="fc" id="L341">        int hash = 5;</span>
+<span class="fc" id="L342">        hash = 41 * hash + this.ID;</span>
+<span class="fc" id="L343">        hash = 41 * hash + Objects.hashCode(this.name);</span>
+<span class="fc" id="L344">        hash = 41 * hash + Objects.hashCode(this.description);</span>
+<span class="fc" id="L345">        hash = 41 * hash + Objects.hashCode(this.helptext);</span>
+<span class="fc" id="L346">        hash = 41 * hash + this.length;</span>
+<span class="fc" id="L347">        hash = 41 * hash + this.width;</span>
+<span class="fc" id="L348">        hash = 41 * hash + this.height;</span>
+<span class="fc" id="L349">        hash = 41 * hash + this.quantity;</span>
+<span class="fc" id="L350">        hash = 41 * hash + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) &gt;&gt;&gt; 32));</span>
+<span class="fc" id="L351">        hash = 41 * hash + Objects.hashCode(this.unit);</span>
+<span class="fc" id="L352">        return hash;</span>
+    }
+    // &lt;/editor-fold&gt;
+    
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;equals&quot;&gt;
+    @Override
+    public boolean equals(Object obj)
+    {
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        if (this == obj)</span>
+        {
+<span class="fc" id="L362">            return true;</span>
+        }
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">        if (obj == null)</span>
+        {
+<span class="nc" id="L366">            return false;</span>
+        }
+<span class="pc bpc" id="L368" title="1 of 2 branches missed.">        if (getClass() != obj.getClass())</span>
+        {
+<span class="nc" id="L370">            return false;</span>
+        }
+<span class="fc" id="L372">        final MaterialModel other = (MaterialModel) obj;</span>
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">        if (this.ID != other.ID)</span>
+        {
+<span class="nc" id="L375">            return false;</span>
+        }
+<span class="pc bpc" id="L377" title="1 of 2 branches missed.">        if (this.length != other.length)</span>
+        {
+<span class="nc" id="L379">            return false;</span>
+        }
+<span class="pc bpc" id="L381" title="1 of 2 branches missed.">        if (this.width != other.width)</span>
+        {
+<span class="nc" id="L383">            return false;</span>
+        }
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">        if (this.height != other.height)</span>
+        {
+<span class="nc" id="L387">            return false;</span>
+        }
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">        if (this.quantity != other.quantity)</span>
+        {
+<span class="nc" id="L391">            return false;</span>
+        }
+<span class="pc bpc" id="L393" title="1 of 2 branches missed.">        if (this.price != other.price)</span>
+        {
+<span class="nc" id="L395">            return false;</span>
+        }
+<span class="pc bpc" id="L397" title="1 of 2 branches missed.">        if (!Objects.equals(this.name, other.name))</span>
+        {
+<span class="nc" id="L399">            return false;</span>
+        }
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">        if (!Objects.equals(this.description, other.description))</span>
+        {
+<span class="nc" id="L403">            return false;</span>
+        }
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">        if (!Objects.equals(this.helptext, other.helptext))</span>
+        {
+<span class="nc" id="L407">            return false;</span>
+        }
+<span class="pc bpc" id="L409" title="1 of 2 branches missed.">        if (!Objects.equals(this.unit, other.unit))</span>
+        {
+<span class="nc" id="L411">            return false;</span>
+        }
+<span class="fc" id="L413">        return true;</span>
+    }
+    // &lt;/editor-fold&gt;
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

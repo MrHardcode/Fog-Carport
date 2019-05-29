@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayOrder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">PayOrder.java</span></div><h1>PayOrder.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package presentation.commands;
+
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+import presentation.Validation;
+
+/**
+ * Pay for a single order and view the same order after payment
+ *
+ * @author
+ */
+<span class="nc" id="L20">public class PayOrder extends Command</span>
+{
+
+    @Override
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException 
+    {
+
+<span class="nc" id="L27">        Validation validation = new Validation();</span>
+<span class="nc" id="L28">        int id = validation.validateInteger(request.getParameter(&quot;orderid&quot;), &quot;Order id&quot;);</span>
+<span class="nc" id="L29">        double price = validation.validateDouble(request.getParameter(&quot;price&quot;), &quot;Order pris&quot;);</span>
+        
+        // Pay for order with given id and set price in db.
+<span class="nc" id="L32">        logic.payOrder(id, price);</span>
+        
+        //Making the viewOrder-page ready again after the payment update:
+        
+        // Get an order by id from database.
+<span class="nc" id="L37">        OrderModel order = logic.getOrder(id);</span>
+<span class="nc" id="L38">        PartslistModel partslist = logic.getPartslistModel(order);</span>
+        
+        // Place values used by viewOrder on request.
+<span class="nc" id="L41">        request.setAttribute(&quot;order&quot;, order);</span>
+<span class="nc" id="L42">        request.setAttribute(&quot;tile&quot;, logic.getMaterial(order.getRoof_tiles_id(), &quot;roof&quot;).getDescription());</span>
+<span class="nc" id="L43">        request.setAttribute(&quot;shedwalls&quot;, logic.getMaterial(order.getShed_walls_id(), &quot;shed&quot;).getDescription());</span>
+<span class="nc" id="L44">        request.setAttribute(&quot;shedfloor&quot;, logic.getMaterial(order.getShed_floor_id(), &quot;shed&quot;).getDescription());</span>
+<span class="nc" id="L45">        request.setAttribute(&quot;customer&quot;, logic.getCustomer(order.getId_customer()));</span>
+<span class="nc" id="L46">        request.setAttribute(&quot;employee&quot;, logic.getEmployee(order.getId_employee()));</span>
+        
+<span class="nc" id="L48">        request.setAttribute(&quot;suggestedprice&quot;, logic.getSuggestedRetailPrice(partslist));</span>
+<span class="nc" id="L49">        request.setAttribute(&quot;costprice&quot;, partslist.getTotalprice());</span>
+<span class="nc" id="L50">        request.setAttribute(&quot;price&quot;, price);</span>
+
+<span class="nc" id="L52">        return &quot;viewOrder&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

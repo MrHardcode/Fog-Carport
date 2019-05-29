@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ViewOrder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">ViewOrder.java</span></div><h1>ViewOrder.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package presentation.commands;
+
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.CustomerModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+import presentation.Validation;
+
+/**
+ * View a single order.
+ *
+ * @author
+ */
+<span class="nc" id="L21">public class ViewOrder extends Command</span>
+{
+
+    @Override
+
+    public String execute(HttpServletRequest request, LogicFacade logic) throws DataException, UserException, AlgorithmException
+    {
+
+<span class="nc" id="L29">        Validation validation = new Validation();</span>
+<span class="nc" id="L30">        int id = validation.validateInteger(request.getParameter(&quot;orderid&quot;), &quot;Order id&quot;);</span>
+        
+        // Get an order by id from database
+<span class="nc" id="L33">        OrderModel order = logic.getOrder(id);</span>
+        
+        // Comparing session's userID with the order's userID if the logged in user is a customer
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (request.getSession().getAttribute(&quot;customer&quot;) != null)</span>
+        {
+<span class="nc" id="L38">            int userID1 = order.getId_customer();</span>
+<span class="nc" id="L39">            CustomerModel user = (CustomerModel)request.getSession().getAttribute(&quot;customer&quot;);</span>
+<span class="nc" id="L40">            int userID2 = user.getId();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (userID1 != userID2)</span>
+            {
+<span class="nc" id="L43">                throw new UserException(&quot;Du har ikke tilladelse til at se denne ordre&quot;);</span>
+            }
+        }
+        
+        // Creating partslist
+<span class="nc" id="L48">        PartslistModel partslist = logic.getPartslistModel(order);</span>
+<span class="nc" id="L49">        double suggestedPrice = (double) logic.getSuggestedRetailPrice(partslist);</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (request.getParameterMap().containsKey(&quot;finalPrice&quot;)) //if finalPrice was set by an Employee during this request</span>
+        {
+            //(finalPrice is the new price offer from the salesman)
+<span class="nc" id="L54">            int finalPrice = validation.validateInteger(request.getParameter(&quot;finalPrice&quot;), &quot;Pris felt&quot;);</span>
+<span class="nc" id="L55">            logic.updateOrderPrice(id, finalPrice);</span>
+<span class="nc" id="L56">            order.setPrice(finalPrice);</span>
+        }
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (order.getStatus().equals(&quot;Finalized&quot;)) //if order is already done, ignore all else</span>
+        {
+        }
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        else if (order.getPrice() == -1) //else if there was NOT set a new offer &amp;&amp; order price is still set to -1</span>
+        {
+            //-1 is the default price value in database
+<span class="nc" id="L65">            logic.updateOrderPrice(id, suggestedPrice); //set suggested as default price</span>
+<span class="nc" id="L66">            order.setPrice(suggestedPrice);</span>
+        }
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        else if (order.getPrice() != suggestedPrice)</span>
+        {
+            //show special price offer
+<span class="nc" id="L71">            request.setAttribute(&quot;priceOffer&quot;, order.getPrice());</span>
+        }
+
+        // Place values used by viewOrder on request.
+<span class="nc" id="L75">        request.setAttribute(&quot;order&quot;, order);</span>
+<span class="nc" id="L76">        request.setAttribute(&quot;tile&quot;, logic.getMaterial(order.getRoof_tiles_id(), &quot;roof&quot;).getDescription());</span>
+<span class="nc" id="L77">        request.setAttribute(&quot;shedwalls&quot;, logic.getMaterial(order.getShed_walls_id(), &quot;shed&quot;).getDescription());</span>
+<span class="nc" id="L78">        request.setAttribute(&quot;shedfloor&quot;, logic.getMaterial(order.getShed_floor_id(), &quot;shed&quot;).getDescription());</span>
+<span class="nc" id="L79">        request.setAttribute(&quot;customer&quot;, logic.getCustomer(order.getId_customer()));</span>
+<span class="nc" id="L80">        request.setAttribute(&quot;employee&quot;, logic.getEmployee(order.getId_employee()));</span>
+
+<span class="nc" id="L82">        request.setAttribute(&quot;suggestedprice&quot;, suggestedPrice);</span>
+<span class="nc" id="L83">        request.setAttribute(&quot;costprice&quot;, partslist.getTotalprice());</span>
+
+<span class="nc" id="L85">        return &quot;viewOrder&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

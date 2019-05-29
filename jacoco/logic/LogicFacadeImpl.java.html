@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogicFacadeImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">logic</a> &gt; <span class="el_source">LogicFacadeImpl.java</span></div><h1>LogicFacadeImpl.java</h1><pre class="source lang-java linenums">package logic;
+
+import data.DataFacadeImpl;
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import data.models.CustomerModel;
+import data.models.EmployeeModel;
+import data.models.MaterialModel;
+import data.models.OrderModel;
+import data.models.PartslistModel;
+import java.util.List;
+import logic.Calculations.BaseCalc;
+import logic.Calculations.RoofFlatCalc;
+import logic.Calculations.RoofRaisedCalc;
+import logic.Calculations.ShedLogic;
+import logic.drawings.SVGDrawingBase;
+import logic.drawings.SVGDrawingFlatRoof;
+import logic.drawings.SVGDrawingRaisedRoof;
+import logic.drawings.SVGDrawingShed;
+import logic.Calculations.PriceCalculator;
+
+<span class="nc" id="L23">public class LogicFacadeImpl implements LogicFacade</span>
+{
+
+<span class="nc" id="L26">    private static LogicFacadeImpl instance = null;</span>
+
+    public synchronized static LogicFacadeImpl getInstance()
+    {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (instance == null)</span>
+        {
+<span class="nc" id="L32">            instance = new LogicFacadeImpl();</span>
+        }
+<span class="nc" id="L34">        return instance;</span>
+    }
+
+    @Override
+    public List&lt;Integer&gt; getAllOrderIds() throws DataException
+    {
+<span class="nc" id="L40">        return DataFacadeImpl.getInstance().getAllOrderIds();</span>
+    }
+
+    @Override
+    public OrderModel getOrder(int id) throws DataException
+    {
+<span class="nc" id="L46">        return DataFacadeImpl.getInstance().getOrder(id);</span>
+    }
+
+    @Override
+    public MaterialModel getMaterial(int id, String helptext) throws DataException
+    {
+<span class="nc" id="L52">        return DataFacadeImpl.getInstance().getMaterial(id, helptext);</span>
+    }
+
+    @Override
+    public CustomerModel getCustomer(int id) throws DataException
+    {
+<span class="nc" id="L58">        return DataFacadeImpl.getInstance().getCustomer(id);</span>
+    }
+
+    @Override
+    public EmployeeModel getEmployee(int id) throws UserException
+    {
+<span class="nc" id="L64">        return DataFacadeImpl.getInstance().getEmployee(id);</span>
+    }
+
+    @Override
+    public void createCustomer(CustomerModel customer) throws UserException
+    {
+<span class="nc" id="L70">        DataFacadeImpl.getInstance().createCustomer(customer);</span>
+<span class="nc" id="L71">    }</span>
+
+    @Override
+    public void createEmployee(EmployeeModel employee) throws UserException
+    {
+<span class="nc" id="L76">        DataFacadeImpl.getInstance().createEmployee(employee);</span>
+<span class="nc" id="L77">    }</span>
+
+    @Override
+    public void createOrder(OrderModel order) throws DataException
+    {
+<span class="nc" id="L82">        DataFacadeImpl.getInstance().createOrder(order);</span>
+<span class="nc" id="L83">    }</span>
+
+    // Mother methods that calls all the partslist calculator logic and returns a partslistmodel.
+    @Override
+    public PartslistModel getPartslistModel(OrderModel order) throws DataException, AlgorithmException
+    {
+<span class="nc" id="L89">        PartslistModel partslistmodel = new PartslistModel();</span>
+        // Add Shed
+<span class="nc bnc" id="L91" title="All 4 branches missed.">        if (order.getShed_width() != 0 &amp;&amp; order.getShed_length() != 0)</span>
+        {
+<span class="nc" id="L93">            ShedLogic shed = new ShedLogic();</span>
+<span class="nc" id="L94">            partslistmodel.addPartslist(shed.addShed(order));</span>
+        }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (order.getIncline() == 0)</span>
+        {
+            // Add flat roof
+<span class="nc" id="L99">            RoofFlatCalc flatroof = new RoofFlatCalc();</span>
+<span class="nc" id="L100">            partslistmodel.addPartslist(flatroof.calculateFlatRoofStructure(order));</span>
+<span class="nc" id="L101">        }</span>
+        else
+        {
+            // Add raised roof
+<span class="nc" id="L105">            RoofRaisedCalc raisedroof = new RoofRaisedCalc();</span>
+<span class="nc" id="L106">            partslistmodel.addPartslist(raisedroof.getRoofRaisedMaterials(order));</span>
+        }
+        // Add base
+<span class="nc" id="L109">        BaseCalc basecalc = new BaseCalc();</span>
+<span class="nc" id="L110">        partslistmodel.addPartslist(basecalc.addBase(order));</span>
+
+<span class="nc" id="L112">        return partslistmodel;</span>
+    }
+
+    // Mother method that calls the main parts of partslist SVG drawings for shed and base.
+    @Override
+    public String getSVGbase(PartslistModel bom, OrderModel order)
+    {
+        // BEGINNING
+<span class="nc" id="L120">        String SVG = &quot;&quot;;</span>
+
+        // #1 NESTED SVG FOR SOME PADDING: 
+<span class="nc" id="L123">        SVG += &quot; &lt;svg x=\&quot;100\&quot; y=\&quot;100\&quot;&gt; &quot;;</span>
+
+        // SHED ALSO HAS ITS OWN NESTING WITHIN. NOW SHED IS RELATIVE TO NEST #1
+<span class="nc bnc" id="L126" title="All 6 branches missed.">        if (order.getShed_width() != 0 &amp;&amp; order.getShed_length() != 0 &amp;&amp; order.getShed_walls_id() != 0)</span>
+        {
+<span class="nc" id="L128">            SVGDrawingShed shed = new SVGDrawingShed();</span>
+<span class="nc" id="L129">            SVG += shed.getShedDrawing(order);</span>
+        }
+        // ADD BASE DRAWING
+<span class="nc" id="L132">        SVGDrawingBase base = new SVGDrawingBase(order, bom);</span>
+<span class="nc" id="L133">        SVG += base.getBaseDrawing(order);</span>
+
+        // #1 NESTING END 
+<span class="nc" id="L136">        SVG += &quot; &lt;/svg&gt; &quot;;</span>
+
+        // END
+<span class="nc" id="L139">        SVG += &quot;&quot;;</span>
+
+<span class="nc" id="L141">        return SVG;</span>
+    }
+
+    @Override
+    public String getSVGbaseArrowLength(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+<span class="nc" id="L147">        SVGDrawingBase base = new SVGDrawingBase(order, bom);</span>
+<span class="nc" id="L148">        String SVG = &quot;&quot;;</span>
+<span class="nc" id="L149">        SVG += base.getLengthArrow(extraDistance);</span>
+<span class="nc" id="L150">        return SVG;</span>
+    }
+
+    @Override
+    public String getSVGbaseArrowWidth(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+<span class="nc" id="L156">        SVGDrawingBase base = new SVGDrawingBase(order, bom);</span>
+<span class="nc" id="L157">        String SVG = &quot;&quot;;</span>
+<span class="nc" id="L158">        SVG += base.getWidthArrow(extraDistance);</span>
+<span class="nc" id="L159">        return SVG;</span>
+    }
+
+    @Override
+    public String getSVGbaseLabelWidth(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+<span class="nc" id="L165">        SVGDrawingBase base = new SVGDrawingBase(order, bom);</span>
+<span class="nc" id="L166">        String SVG = &quot;&quot;;</span>
+<span class="nc" id="L167">        SVG += base.getWidthLabel(extraDistance);</span>
+<span class="nc" id="L168">        return SVG;</span>
+    }
+
+    @Override
+    public String getSVGbaseLabelLength(PartslistModel bom, OrderModel order, int extraDistance)
+    {
+<span class="nc" id="L174">        SVGDrawingBase base = new SVGDrawingBase(order, bom);</span>
+<span class="nc" id="L175">        String SVG = &quot;&quot;;</span>
+<span class="nc" id="L176">        SVG += base.getLengthLabel(extraDistance);</span>
+<span class="nc" id="L177">        return SVG;</span>
+    }
+
+    // Mother method that calls all the partslist SVG drawings for shed and base.
+    @Override
+    public String getSVGroof(OrderModel order) throws DataException, AlgorithmException
+    {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (order.getIncline() == 0)</span>
+        {
+<span class="nc" id="L186">            SVGDrawingFlatRoof roof = new SVGDrawingFlatRoof();</span>
+<span class="nc" id="L187">            return roof.getFlatRoofDrawing(order);</span>
+        }
+        else
+        {
+<span class="nc" id="L191">            SVGDrawingRaisedRoof roof = new SVGDrawingRaisedRoof();</span>
+<span class="nc" id="L192">            return roof.getRaisedRoofDrawing(order);</span>
+        }
+    }
+
+    @Override
+    public CustomerModel login(String email, String password) throws UserException
+    {
+<span class="nc" id="L199">        return DataFacadeImpl.getInstance().login(email, password);</span>
+    }
+
+    @Override
+    public List&lt;Integer&gt; getOrderIds(int id) throws DataException
+    {
+<span class="nc" id="L205">        return DataFacadeImpl.getInstance().getOrderIds(id);</span>
+    }
+
+    @Override
+    public void payOrder(int id, double price) throws DataException
+    {
+<span class="nc" id="L211">        DataFacadeImpl.getInstance().payOrder(id, price);</span>
+<span class="nc" id="L212">    }</span>
+
+    @Override
+    public EmployeeModel empLogin(String name, String password) throws UserException
+    {
+<span class="nc" id="L217">        return DataFacadeImpl.getInstance().empLogin(name, password);</span>
+    }
+
+    @Override
+    public int getSuggestedRetailPrice(PartslistModel partsList) {
+<span class="nc" id="L222">        PriceCalculator pricecalc = new PriceCalculator();</span>
+<span class="nc" id="L223">        return pricecalc.getSuggestedRetailPrice(partsList);</span>
+    }
+
+    @Override
+    public void updateOrderPrice(int id, double price) throws DataException
+    {
+<span class="nc" id="L229">        DataFacadeImpl.getInstance().updateOrderPrice(id, price);</span>
+<span class="nc" id="L230">    }</span>
+    
+    /*
+    THIS IS DEPRECATED AND NOT IN PRODUCTION OR DEVELOPMENT. THIS CLASS WAS USED
+    TO CALCULATE A SIMPLE CARPORT IN THE BEGINNING OF THIS PROJECT.
+    
+    Returns a simple partslist.
+    Only takes into account height, width, length, and whether or not you want a shed.
+     */
+    @Deprecated
+    public PartslistModel getSimpleBOM(String height, String length, String width, String shed) throws UserException
+    {
+<span class="nc" id="L242">        return PartslistLogic.getInstance().getSimpleBOM(height, length, width, shed);</span>
+    }
+    
+    @Deprecated
+    public PartslistModel getBOM() throws UserException, DataException 
+    {
+<span class="nc" id="L248">        return PartslistLogic.getInstance().getBOM();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

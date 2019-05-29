@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Command.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">presentation.commands</a> &gt; <span class="el_source">Command.java</span></div><h1>Command.java</h1><pre class="source lang-java linenums">package presentation.commands;
+
+import data.exceptions.AlgorithmException;
+import data.exceptions.DataException;
+import data.exceptions.UserException;
+import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
+import logic.LogicFacade;
+
+
+<span class="nc" id="L11">public abstract class Command</span>
+{
+
+    private static HashMap&lt;String, Command&gt; commands;
+
+    /**
+     * This is the command from which all other CMD's are called.
+     *
+     * @param request the Http request
+     * @param response the Http response
+     */
+    private static void initCommands()
+    {
+<span class="nc" id="L24">        commands = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L25">        commands.put(&quot;allOrders&quot;, new ViewAllOrders()); //  View all orders.</span>
+<span class="nc" id="L26">        commands.put(&quot;viewOrder&quot;, new ViewOrder()); // view a single order.</span>
+<span class="nc" id="L27">        commands.put(&quot;link&quot;, new Link()); // link internally.</span>
+<span class="nc" id="L28">        commands.put(&quot;viewPartslist&quot;, new ViewPartslist()); // Show the partslist to the Customer based on their order.</span>
+<span class="nc" id="L29">        commands.put(&quot;viewSVG&quot;, new ViewSVG()); // Show the SVG drawings of the carport.</span>
+<span class="nc" id="L30">        commands.put(&quot;makeCarport&quot;, new OrderCarport()); // Place a new Order into the Database.</span>
+<span class="nc" id="L31">        commands.put(&quot;login&quot;, new Login()); // From login.jsp. Log the Customer in.</span>
+<span class="nc" id="L32">        commands.put(&quot;createUser&quot;, new CreateUser()); // Make a new Customer</span>
+<span class="nc" id="L33">        commands.put(&quot;makeCarportForm&quot;, new MakeCarportForm()); //Form for creating a new carport order.</span>
+<span class="nc" id="L34">        commands.put(&quot;logOut&quot;, new LogOut()); // Log out customer, clear session, return to homepage.</span>
+<span class="nc" id="L35">        commands.put(&quot;payOrder&quot;, new PayOrder()); //Pay for a single order (change status to finalized)</span>
+
+<span class="nc" id="L37">    }</span>
+
+    public static Command from(HttpServletRequest request)
+    {
+<span class="nc" id="L41">        String commandName = request.getParameter(&quot;command&quot;);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (commands == null)</span>
+        {
+<span class="nc" id="L44">            initCommands();</span>
+        }
+<span class="nc" id="L46">        return commands.getOrDefault(commandName, new MakeCarportForm());</span>
+    }
+
+    public abstract String execute(HttpServletRequest request, LogicFacade logic)
+            throws UserException, DataException, AlgorithmException;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

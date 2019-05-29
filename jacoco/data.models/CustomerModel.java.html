@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FogCarport</a> &gt; <a href="index.source.html" class="el_package">data.models</a> &gt; <span class="el_source">CustomerModel.java</span></div><h1>CustomerModel.java</h1><pre class="source lang-java linenums">/*
+ *  
+ */
+package data.models;
+
+/**
+ * Model of the customer data
+ * @author
+ */
+public class CustomerModel
+{
+
+    private int id;
+    private String name;
+    private int phone;
+    private String email;
+    private String adress;
+    private int zip;
+    private String password;
+    private boolean registered;
+    
+    public CustomerModel()
+<span class="fc" id="L23">    {</span>
+<span class="fc" id="L24">    }</span>
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;isRegistered&quot;&gt;
+    /**
+     * Get the value of registered
+     *
+     * @return the value of registered
+     */
+    public boolean isRegistered()
+    {
+<span class="fc" id="L34">        return registered;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setRegistered&quot;&gt;
+    /**
+     * Set the value of registered
+     *
+     * @param registered new value of registered
+     */
+    public void setRegistered(boolean registered)
+    {
+<span class="fc" id="L46">        this.registered = registered;</span>
+<span class="fc" id="L47">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getPassword&quot;&gt;
+    /**
+     * Get the value of password
+     *
+     * @return the value of password
+     */
+    public String getPassword()
+    {
+<span class="fc" id="L58">        return password;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setPassword&quot;&gt;
+    /**
+     * Set the value of password
+     *
+     * @param password new value of password
+     */
+    public void setPassword(String password)
+    {
+<span class="fc" id="L70">        this.password = password;</span>
+<span class="fc" id="L71">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getZip&quot;&gt;
+    /**
+     * Get the value of zip
+     *
+     * @return the value of zip
+     */
+    public int getZip()
+    {
+<span class="nc" id="L82">        return zip;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setZip&quot;&gt;
+    /**
+     * Set the value of zip
+     *
+     * @param zip new value of zip
+     */
+    public void setZip(int zip)
+    {
+<span class="nc" id="L94">        this.zip = zip;</span>
+<span class="nc" id="L95">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getAdress&quot;&gt;
+    /**
+     * Get the value of adress
+     *
+     * @return the value of adress
+     */
+    public String getAdress()
+    {
+<span class="nc" id="L106">        return adress;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setAdress&quot;&gt;
+    /**
+     * Set the value of adress
+     *
+     * @param adress new value of adress
+     */
+    public void setAdress(String adress)
+    {
+<span class="nc" id="L118">        this.adress = adress;</span>
+<span class="nc" id="L119">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getEmail&quot;&gt;
+    /**
+     * Get the value of email
+     *
+     * @return the value of email
+     */
+    public String getEmail()
+    {
+<span class="fc" id="L130">        return email;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setEmail&quot;&gt;
+    /**
+     * Set the value of email
+     *
+     * @param email new value of email
+     */
+    public void setEmail(String email)
+    {
+<span class="fc" id="L142">        this.email = email;</span>
+<span class="fc" id="L143">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getPhone&quot;&gt;
+    /**
+     * Get the value of phone
+     *
+     * @return the value of phone
+     */
+    public int getPhone()
+    {
+<span class="fc" id="L154">        return phone;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setPhone&quot;&gt;
+    /**
+     * Set the value of phone
+     *
+     * @param phone new value of phone
+     */
+    public void setPhone(int phone)
+    {
+<span class="fc" id="L166">        this.phone = phone;</span>
+<span class="fc" id="L167">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getName&quot;&gt;
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName()
+    {
+<span class="fc" id="L178">        return name;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setName&quot;&gt;
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name)
+    {
+<span class="fc" id="L190">        this.name = name;</span>
+<span class="fc" id="L191">    }</span>
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;getId&quot;&gt;
+    /**
+     * Get the value of id
+     *
+     * @return the value of id
+     */
+    public int getId()
+    {
+<span class="fc" id="L202">        return id;</span>
+    }
+    //&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;setId&quot;&gt;
+    /**
+     * Set the value of id
+     *
+     * @param id new value of id
+     */
+    public void setId(int id)
+    {
+<span class="fc" id="L214">        this.id = id;</span>
+<span class="fc" id="L215">    }</span>
+    //&lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
