@@ -21,7 +21,8 @@ The system currently allows a salesman to handle orders based on customer wishes
 + [Project backlog (SCRUM)](https://tree.taiga.io/project/maltemagnussen-fog/)  
 
 ### Results
-+ [JavaDocs](https://hrbjarup.github.io/Fog-Carport/)
++ [JavaDocs](https://hrbjarup.github.io/Fog-Carport/docs)
++ [Jacoco](https://hrbjarup.github.io/Fog-Carport/jacoco)
 + [Deployment](http:/www.bjarup.com)
 + ~~[Report]()~~
 
