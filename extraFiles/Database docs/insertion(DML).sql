@@ -183,15 +183,15 @@ INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `wi
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
 ('Nørgaardsvej 30', '2800', 'Awaiting', '3000', '4000', '0', '29', '10', '51', '4', '6');
 
-/* Flat roof Finalized (No shed) */
+/* Flat roof Awaiting (No shed) */
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 31', '2800', 'Finalized', '7000', '6000', '0', '29', '10', '50', '1', '6');
+('Nørgaardsvej 31', '2800', 'Awaiting', '7000', '6000', '0', '29', '10', '50', '1', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 31', '2800', 'Finalized', '6000', '5000', '0', '29', '10', '51', '2', '6');
+('Nørgaardsvej 31', '2800', 'Awaiting', '6000', '5000', '0', '29', '10', '51', '2', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 31', '2800', 'Finalized', '5000', '4000', '0', '29', '10', '50', '3', '6');
+('Nørgaardsvej 31', '2800', 'Awaiting', '5000', '4000', '0', '29', '10', '50', '3', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 31', '2800', 'Finalized', '4000', '3000', '0', '29', '10', '51', '4', '6');
+('Nørgaardsvej 31', '2800', 'Awaiting', '4000', '3000', '0', '29', '10', '51', '4', '6');
 
 
 /*Raised Roof Awaiting (No shed) */
@@ -204,15 +204,15 @@ INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `wi
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
 ('Nørgaardsvej 32', '2800', 'Awaiting', '4500', '3500', '20', '36', '56', '51', '4', '6');
 
-/*Raised Roof Finalized (No shed) */
+/*Raised Roof Awaiting (No shed) */
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 33', '2800', 'Finalized', '3100', '7200', '25', '33', '56', '50', '1', '6');
+('Nørgaardsvej 33', '2800', 'Awaiting', '3100', '7200', '25', '33', '56', '50', '1', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 33', '2800', 'Finalized', '3100', '7200', '30', '34', '56', '51', '2', '6');
+('Nørgaardsvej 33', '2800', 'Awaiting', '3100', '7200', '30', '34', '56', '51', '2', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 33', '2800', 'Finalized', '3100', '7200', '35', '35', '56', '50', '3', '6');
+('Nørgaardsvej 33', '2800', 'Awaiting', '3100', '7200', '35', '35', '56', '50', '3', '6');
 INSERT INTO `carportdb`.`orders` (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 33', '2800', 'Finalized', '3100', '7200', '40', '36', '56', '51', '4', '6');
+('Nørgaardsvej 33', '2800', 'Awaiting', '3100', '7200', '40', '36', '56', '51', '4', '6');
 
 /* Randomized orders with shed */
 
@@ -222,13 +222,13 @@ INSERT INTO `carportdb`.`orders`
 ('Nørgaardsvej 100', '2800', 'Awaiting', '6000', '7000', '0', '29', '7000', '6000', '56', '50', '1', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 100', '2800', 'Finalized', '5000', '6000', '0', '29', '2200', '3500', '56', '51', '2', '6');
+('Nørgaardsvej 100', '2800', 'Awaiting', '5000', '6000', '0', '29', '2200', '3500', '56', '51', '2', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
 ('Nørgaardsvej 100', '2800', 'Awaiting', '6000', '5000', '0', '29', '6000', '5000', '10', '50', '3', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 100', '2800', 'Finalized', '3525', '4672', '0', '29', '2400', '2400', '10', '51', '4', '6');
+('Nørgaardsvej 100', '2800', 'Awaiting', '3525', '4672', '0', '29', '2400', '2400', '10', '51', '4', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
 ('Nørgaardsvej 100', '2800', 'Awaiting', '4000', '6100', '0', '29', '3200', '5900', '10', '50', '1', '6');
@@ -242,13 +242,13 @@ INSERT INTO `carportdb`.`orders`
 ('Nørgaardsvej 200', '2800', 'Awaiting', '5000', '6000', '10', '34', '2200', '3500', '56', '51', '2', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 200', '2800', 'Finalized', '6000', '5000', '25', '35', '6000', '5000', '10', '50', '3', '6');
+('Nørgaardsvej 200', '2800', 'Awaiting', '6000', '5000', '25', '35', '6000', '5000', '10', '50', '3', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
 ('Nørgaardsvej 200', '2800', 'Awaiting', '3525', '4672', '35', '36', '2400', '2400', '10', '51', '4', '6');
 INSERT INTO `carportdb`.`orders` 
 (`build_adress`, `build_zipcode`, `status`, `width`, `length`, `incline`, `roof_tiles_id`, `shed_width`, `shed_length`, `shed_walls_id`, `shed_floor_id`, `customer_id`, `employee_id`) VALUES 
-('Nørgaardsvej 200', '2800', 'Finalized', '4000', '6100', '45', '37', '3200', '5900', '10', '50', '4', '6');
+('Nørgaardsvej 200', '2800', 'Awaiting', '4000', '6100', '45', '37', '3200', '5900', '10', '50', '4', '6');
 
 
 /*
