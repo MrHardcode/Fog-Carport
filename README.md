@@ -27,7 +27,7 @@ The system currently allows a salesman to handle orders based on customer wishes
 
 ### Access  
 
-We've created a few users for you to test the application with:  
+We've created a few users for you to test the application with. If you prefer you can create your own Customer, but Salesmen can't be created from outside the Database as of now:  
   
 | E-mail | Password | Role |
 |:------------:|:--------:|:--------:|
